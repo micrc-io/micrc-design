@@ -1,0 +1,4 @@
+.eslintrc.js
+/storybook-static/
+/public/
+/stories/
