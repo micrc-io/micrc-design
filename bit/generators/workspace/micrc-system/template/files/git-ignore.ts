@@ -1,6 +1,7 @@
-# Bit
+export function gitIgnore() {
+  return `# Bit
 .bit
-/public/bit
+public
 
 # Logs
 logs
@@ -105,11 +106,5 @@ dist
 .tern-port
 
 .history
-
-.DS_Store
-
-# IDEA
-.idea
-
-# Storybook
-/storybook-static/
+`;
+}
