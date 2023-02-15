@@ -27,6 +27,7 @@ export const decorators = [
         '828': 1.81 / 2,
       },
     });
+    // todo 需要判断组件类型，使用不同的国际化provider，这里写死为web的
     return <ConfigProvider locale={zhCN}><Story /></ConfigProvider>
   },
 ];

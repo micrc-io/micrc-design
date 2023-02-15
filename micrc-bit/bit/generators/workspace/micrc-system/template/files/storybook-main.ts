@@ -1,4 +1,6 @@
-
+/**
+ * .storybook/main.js
+ */
 import { WorkspaceContext } from '@teambit/generator';
 
 import validate from '../_validate';
@@ -95,7 +97,7 @@ const babel_taro_h5_plugin = [
 // noinspection JSUnresolvedFunction,NpmUsedModulesInstalled
 const webpack_scss_rules = [
   {
-    test: /\.(scss|sass)$/,
+    test: /\\.(scss|sass)$/,
     exclude: /(taro-ui|@taroify)/,
     sideEffects: true,
     use: [
@@ -122,7 +124,7 @@ const webpack_scss_rules = [
 // noinspection JSUnresolvedFunction,NpmUsedModulesInstalled
 const webpack_taro_h5_rules = [
   {
-    test: /(?<!\.module)\.(scss|sass)$/,
+    test: /(?<!\\.module)\\.(scss|sass)$/,
     include: /(taro-ui|@taroify)/,
     sideEffects: true,
     use: [

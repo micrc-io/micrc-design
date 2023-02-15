@@ -1,7 +1,9 @@
-
+/**
+ * template
+ */
 import { WorkspaceContext, WorkspaceTemplate } from '@teambit/generator';
 
-import validate from './_validate'
+import validate from './_validate';
 
 import { workspaceConfig } from './files/workspace-config';
 import { readme } from './files/readme-file';
