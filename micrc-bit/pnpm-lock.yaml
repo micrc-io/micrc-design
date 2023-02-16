@@ -175,6 +175,9 @@ importers:
       '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.18
       '@types/testing-library__jest-dom': registry.npmmirror.com/@types/testing-library__jest-dom/5.9.5
 
+  bit/_examples/test-ui:
+    specifiers: {}
+
   bit/compilations/micrc-app:
     specifiers: {}
 
@@ -3688,7 +3691,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': registry.npmmirror.com/@types/istanbul-lib-coverage/2.0.4
       '@types/istanbul-reports': registry.npmmirror.com/@types/istanbul-reports/3.0.1
-      '@types/node': registry.npmmirror.com/@types/node/12.20.4
+      '@types/node': registry.npmmirror.com/@types/node/16.18.12
       '@types/yargs': registry.npmmirror.com/@types/yargs/15.0.15
       chalk: registry.npmmirror.com/chalk/4.1.2
 
@@ -3700,7 +3703,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': registry.npmmirror.com/@types/istanbul-lib-coverage/2.0.4
       '@types/istanbul-reports': registry.npmmirror.com/@types/istanbul-reports/3.0.1
-      '@types/node': registry.npmmirror.com/@types/node/12.20.4
+      '@types/node': registry.npmmirror.com/@types/node/16.18.12
       '@types/yargs': registry.npmmirror.com/@types/yargs/16.0.5
       chalk: registry.npmmirror.com/chalk/4.1.2
     dev: false
@@ -6374,12 +6377,12 @@ packages:
     resolution: {integrity: sha512-xRCgeE0Q4pT5UZ189TJ3SpYuX/QGl6QIAOAIeDSbAVAd2gX1NxSZup4jNVK7cxIeP8KDSbJgcckun495isP1jQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-12.20.4.tgz}
     name: '@types/node'
     version: 12.20.4
+    dev: true
 
   registry.npmmirror.com/@types/node/16.18.12:
     resolution: {integrity: sha512-vzLe5NaNMjIE3mcddFVGlAXN1LEWueUsMsOJWaT6wWMJGyljHAWHznqfnKUQWGzu7TLPrGvWdNAsvQYW+C0xtw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-16.18.12.tgz}
     name: '@types/node'
     version: 16.18.12
-    dev: false
 
   registry.npmmirror.com/@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz}

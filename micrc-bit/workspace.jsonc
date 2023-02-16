@@ -3,18 +3,7 @@
   "teambit.workspace/workspace": {
     "name": "workspace-micrc-bit",
     "icon": "https://static.bit.dev/bit-logo.svg",
-    /**
-     * default directory to place a component during `bit import` and `bit create`.
-     * the following placeholders are available:
-     * name - component name includes namespace, e.g. 'ui/button'.
-     * scopeId - full scope-id includes the owner, e.g. 'teambit.compilation'.
-     * scope - scope name only, e.g. 'compilation'.
-     * owner - owner name in bit.dev, e.g. 'teambit'.
-     **/
     "defaultDirectory": "{scope}/{name}",
-    /**
-     * default scope for all components in workspace.
-     **/
     "defaultScope": "micrc.bit"
   },
   "teambit.dependencies/dependency-resolver": {
@@ -103,20 +92,51 @@
     }
   },
 
+  "micrc.bit/compilations/micrc-web": {},
+  "micrc.bit/compilations/micrc-mini": {},
+  "micrc.bit/compilations/micrc-app": {},
+
   "teambit.generator/generator": {
-    "aspects": ["micrc.bit/generators/component/micrc-web"]
+    "aspects": [
+      "micrc.bit/generators/component/micrc-web",
+      "micrc.bit/generators/component/micrc-mini",
+      "micrc.bit/generators/component/micrc-app",
+    ]
   },
   "micrc.bit/generators/component/micrc-web": {},
+  "micrc.bit/generators/component/micrc-mini": {},
+  "micrc.bit/generators/component/micrc-app": {},
 
   "teambit.workspace/variants": {
-    /**
-     * "*" is a special rule which applied on all components in the workspace.
-     **/
-    "*": {
-      /**
-       * uncomment to apply the chosen environment on all components.
-       **/
-      // "teambit.react/react": { }
+    "{compilations/**}": {
+      "teambit.harmony/aspect": {}
+    },
+    "{generators/**}": {
+      "teambit.harmony/aspect": {}
+    },
+    "{envs/**}": {
+      "teambit.envs/env": {}
+    },
+    "{runtimes/**}": {
+      "teambit.react/react": {}
+    },
+    "{_examples/web/components/**}": {
+      "micrc.bit/envs/micrc-web": {}
+    },
+    "{_examples/web/modules/**}": {
+      "micrc.bit/envs/micrc-web": {}
+    },
+    "{_examples/mini/components/**}": {
+      "micrc.bit/envs/micrc-mini": {}
+    },
+    "{_examples/mini/modules/**}": {
+      "micrc.bit/envs/micrc-mini": {}
+    },
+    "{_examples/app/components/**}": {
+      "micrc.bit/envs/micrc-app": {}
+    },
+    "{_examples/app/modules/**}": {
+      "micrc.bit/envs/micrc-app": {}
     }
   }
 }

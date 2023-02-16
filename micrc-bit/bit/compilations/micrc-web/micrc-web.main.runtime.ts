@@ -7,10 +7,9 @@ import {
 } from './commands';
 
 export class MicrcWebMain {
-
   static slots = [];
 
-  static dependencies = [];
+  static dependencies = [CLIAspect];
 
   static runtime = MainRuntime;
 
