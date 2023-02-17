@@ -47,6 +47,7 @@
         "events": "3.3.0",
         "express": "4.17.2",
         "fast-json-patch": "3.1.1",
+        "handlebars": "4.7.7",
         "https-browserify": "1.0.0",
         "json-schema-deref-sync": "0.14.0",
         "lodash.merge": "4.6.2",
@@ -91,22 +92,19 @@
       }
     }
   },
-
   "micrc.bit/compilations/micrc-web": {},
   "micrc.bit/compilations/micrc-mini": {},
   "micrc.bit/compilations/micrc-app": {},
-
   "teambit.generator/generator": {
     "aspects": [
       "micrc.bit/generators/component/micrc-web",
       "micrc.bit/generators/component/micrc-mini",
-      "micrc.bit/generators/component/micrc-app",
+      "micrc.bit/generators/component/micrc-app"
     ]
   },
   "micrc.bit/generators/component/micrc-web": {},
   "micrc.bit/generators/component/micrc-mini": {},
   "micrc.bit/generators/component/micrc-app": {},
-
   "teambit.workspace/variants": {
     "{compilations/**}": {
       "teambit.harmony/aspect": {}
