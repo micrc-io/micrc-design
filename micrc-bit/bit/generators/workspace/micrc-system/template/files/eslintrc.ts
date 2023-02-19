@@ -8,6 +8,9 @@ module.exports = {
   },
   rules: {
     "react/jsx-props-no-spreading": "off",
+    'object-curly-newline': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'react/jsx-curly-newline': 'off',
   },
 }
 `;

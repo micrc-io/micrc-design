@@ -1,73 +1,148 @@
 /**
- * action lib.
- * update state, invoke api, validate, integrate
+ * action lib
+ * global, module, states, props
  */
-import pick from 'lodash.pick';
-import omit from 'lodash.omit';
 import patcher from './json-patch';
+import { invoke, update, validate } from './operation';
 
-/**
- * 更新状态
- *
- * @param state 原状态
- * @param input 待更新的值
- * @param patch json patch对象/数组
- */
-export const update = (state: any, input: any, patch: any) => {
-  if (input) {
-    // eslint-disable-next-line no-param-reassign
-    (patch[0] || patch).value = input;
+export enum StoreScope {
+  global, module, states, props,
+}
+
+export enum PatchOperationType {
+  add,
+  replace,
+  remove,
+  perform,
+  verify,
+}
+
+export type PatchOperation = {
+  op: string,
+  path: string,
+  value?: any,
+};
+
+const getValueByPointer = (
+  pointer: string, globalStore: any, moduleStore: any, stateStore: any, propStore: any,
+) => {
+  const [scope, path] = pointer.split('://');
+  if (!scope || !path) {
+    throw Error('value is path must format of [scope]://[json pointer]');
   }
-  const jsonpatch: any[] = Array.isArray(patch) ? patch : [patch];
-  patcher(state).patches(jsonpatch);
+  if (scope === StoreScope[StoreScope.global]) {
+    return patcher(globalStore.getState()).path(path);
+  }
+  if (scope === StoreScope[StoreScope.module]) {
+    return patcher(moduleStore.getState()).path(path);
+  }
+  if (scope === StoreScope[StoreScope.states]) {
+    return patcher(stateStore).path(path);
+  }
+  if (scope === StoreScope[StoreScope.props]) {
+    return patcher(propStore).path(path);
+  }
+  throw Error('unexpected scope. "global, module, states, props" allowed');
 };
 
-/**
- * 执行api调用
- *
- * @param state 存放api的store
- * @param patch 扩展的json-patch: {op: 'invoke', path: 'api路径'}
- */
-export const invoke = async (state: any, patch: any) => {
-  await patcher(state).path(patch.path.replace('/', '/_apis/'))();
+const handleValue = (
+  action: PatchOperation,
+  globalStore: any, moduleStore: any, stateStore: any, propStore: any,
+  inputs: any, inputPath: string,
+) => {
+  const { value } = action;
+  // 存在输入参数，优先取值
+  if (inputPath) {
+    return patcher(inputs).path(inputPath);
+  }
+  // 没有输入参数，那么检查action中的value是否是个pointer. states@xxx:///xxx
+  if (typeof value === 'string' && value.includes('://')) {
+    return getValueByPointer(value, globalStore, moduleStore, stateStore, propStore);
+  }
+  return value;
 };
 
-/**
- * 执行参数校验
- *
- * @param state api参数所在store
- * @param input 待修改的参数值
- * @param patch 扩展的json-patch: {op: 'validate', path: 'api路径', value: 'param属性'}
- */
-export const validate = (state: any, input: any, patch: any) => {
-  // eslint-disable-next-line no-underscore-dangle,@typescript-eslint/naming-convention
-  const _patcher = patcher(state);
-  let param = _patcher.path(`${patch.path}/param`); // 用于手动更新param状态
-  let errors = _patcher.path(`${patch.path}/invalid/err`); // 用于合并json.value指定的校验结果
-  // 如果存在参数input，那么认为状态修改和校验一起进行，这时的state还没有被更新，需要手动同步
-  // 同时，value值必须存在且为input的相对于param的path
-  if (input) {
-    if (!patch.value) {
-      throw new Error('value must be exists if validate with change in action');
+export const globalAction = (
+  action: PatchOperation, path: string, globalStore: any, inputs: any, inputPath: string,
+) => {
+  globalStore((state: any) => () => {
+    const input = handleValue(action, globalStore, null, null, null, inputs, inputPath);
+    const newAction: PatchOperation = {
+      ...action,
+      path,
+    };
+    switch (action.op) {
+      case PatchOperationType[PatchOperationType.add]:
+      case PatchOperationType[PatchOperationType.replace]:
+      case PatchOperationType[PatchOperationType.remove]:
+        update(state, input, newAction);
+        break;
+      default:
+        throw Error('un-excepted operation for store of global. "add, replace, remove" allowed');
     }
-    param = _patcher.apply(
-      param,
-      [{ op: 'replace', path: `/${patch.value}`, value: input }],
-    );
+  })();
+};
+
+export const moduleAction = async (
+  action: PatchOperation, path: string, moduleStore: any, inputs: any, inputPath: string,
+) => {
+  await moduleStore((state: any) => async () => {
+    const input = handleValue(action, moduleStore, null, null, null, inputs, inputPath);
+    const newAction: PatchOperation = {
+      ...action,
+      path,
+    };
+    switch (action.op) {
+      case PatchOperationType[PatchOperationType.perform]:
+        await invoke(state, newAction);
+        break;
+      case PatchOperationType[PatchOperationType.verify]:
+        validate(state, input, newAction);
+        break;
+      case PatchOperationType[PatchOperationType.add]:
+      case PatchOperationType[PatchOperationType.replace]:
+      case PatchOperationType[PatchOperationType.remove]:
+        update(state, input, newAction);
+        break;
+      default:
+        throw Error('un-excepted operation for store of module. "add, replace, remove, perform, verify" allowed');
+    }
+  })();
+};
+
+export const statesAction = (
+  action: PatchOperation, path: string,
+  states: Record<string, any>, stateName: string, stateStore: any,
+  inputs: any, inputPath: string,
+) => {
+  if (!Object.keys(states).includes(stateName)) {
+    throw Error('un-excepted state named: "subScope"');
   }
-  const [valid, newErrors] = _patcher.path(
-    patch.path.replace('/', '/_validators/'),
-  )(param);
-  if (valid) {
-    return;
+  const [state, setState] = states[stateName];
+  const value = handleValue(action, null, null, stateStore, null, inputs, inputPath);
+  const newAction: PatchOperation = {
+    ...action,
+    path,
+    value,
+  };
+  switch (action.op) {
+    case PatchOperationType[PatchOperationType.add]:
+    case PatchOperationType[PatchOperationType.replace]:
+    case PatchOperationType[PatchOperationType.remove]:
+      setState(patcher().apply(state, [newAction]));
+      break;
+    default:
+      throw Error('un-excepted operation for store of states. "add, replace, remove" allowed');
   }
-  // 是否指定验证的属性，如果指定，则仅修改指定属性的错误
-  if (patch.value) {
-    // note: 不清理错误对象，保留上次校验产生的其他属性的错误信息
-    // 清除指定属性原校验结果，获取指定属性新校验结果，合并创建完整错误信息
-    errors = Object.assign(omit(errors, [patch.value]), pick(newErrors, [patch.value]));
-  } else {
-    errors = newErrors;
+};
+
+export const propsAction = async (
+  action: PatchOperation, path: string, props: any, inputs: any, inputPath: string,
+) => {
+  if (action.op !== PatchOperationType[PatchOperationType.perform]) {
+    throw Error('un-excepted operation for store of states. "perform" allowed');
   }
-  _patcher.patches([{ op: 'replace', path: `${patch.path}/invalid/err`, value: errors }]);
+  const func = patcher(props).path(path);
+  const value = handleValue(action, null, null, null, props, inputs, inputPath);
+  await func(value);
 };

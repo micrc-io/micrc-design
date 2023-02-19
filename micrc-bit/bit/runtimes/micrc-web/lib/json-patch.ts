@@ -1,6 +1,6 @@
 import { applyPatch, getValueByPointer } from 'fast-json-patch';
 
-export default (state: any) => ({
+export default (state?: any) => ({
   path: (json: string) => getValueByPointer(state, json),
   patches: (json: any[]) => {
     state.set((_state: any) => {

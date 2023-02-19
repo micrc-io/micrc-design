@@ -1,2 +1,1 @@
-
-export { bind, action } from './micrc-web';
+export { useComponentStore, useModuleStore } from './micrc-web';
