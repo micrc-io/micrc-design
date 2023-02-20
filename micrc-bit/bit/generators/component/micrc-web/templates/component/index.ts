@@ -21,7 +21,7 @@ export const componentTemplate: ComponentTemplate = {
       require.resolve('@micrc/bit.generators.component.micrc-web'),
       '../../../../',
     );
-    const metaFile = `${context.componentId.toStringWithoutVersion().replaceAll('/', '-')}.json`;
+    const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '-')}.json`;
     const metaFilePath = path.resolve(nodeModulesPath, SCHEMA_PATH, metaFile);
     const data: ComponentContextData = parse(
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
