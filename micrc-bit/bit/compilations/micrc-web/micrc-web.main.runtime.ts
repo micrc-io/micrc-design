@@ -1,9 +1,11 @@
-
+/**
+ * micrc命令注册
+ */
 import { MainRuntime, CLIAspect, CLIMain } from '@teambit/cli';
 import { MicrcWebAspect } from './micrc-web.aspect';
 
 import {
-  MicrcSyncCmd, MicrcGenCmd, MicrcRunningCmd, MicrcLocalRunningCmd,
+  ConfigureCmd, GenerateCmd,
 } from './commands';
 
 export class MicrcWebMain {
@@ -16,10 +18,8 @@ export class MicrcWebMain {
   static async provider([cli]: [CLIMain]) {
     cli.registerGroup('micrc', 'Micrc configure');
     cli.register(
-      new MicrcSyncCmd(),
-      new MicrcGenCmd(),
-      new MicrcRunningCmd(),
-      new MicrcLocalRunningCmd(),
+      new ConfigureCmd(),
+      new GenerateCmd(),
     );
     return new MicrcWebMain();
   }

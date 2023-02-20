@@ -1,4 +1,2 @@
-export { MicrcSyncCmd } from './MicrcSyncCommand';
-export { MicrcGenCmd } from './MicrcGenCommand';
-export { MicrcRunningCmd } from './MicrcRunningCommand';
-export { MicrcLocalRunningCmd } from './MicrcLocalRunningCommand';
+export { GenerateCmd } from './GenerateCommand';
+export { ConfigureCmd } from './ConfigureCommand';
