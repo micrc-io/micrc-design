@@ -21,145 +21,103 @@ type Assembly = {
   props: Record<string, string | { _val: any } | Record<string, Assembly>>,
 };
 
+// 元数据定义
+type ComponentMeta = {
+  comment: Array<string>,
+  types?: {
+    definitions?: Record<string, TypeDefinition>,
+    imports?: Record<string, { default: boolean, packages: string }>
+  },
+  props: Record<string, string>,
+  innerState?: Record<string, any>,
+  components: Record<string, { default: boolean, packages: string }>,
+  assembly: Record<string, Assembly>,
+};
+
 export type ComponentContextData = {
+  context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息
   comment: Array<string>, // 组件注释
+  reactImports: Record<string, ImportContent>, // react库导入
   typeDefinitions?: Record<string, TypeDefinition>, // 类型定义，以定义的类型名为key
   typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
   props: Record<string, string>, // 组件props类型定义
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
   innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
   assembly: Record<string, Assembly>, // 组件装配结构，以导入的组件名为key
-  context: ComponentContext // 组件上下文，包括id，scope，namespace，name信息
 };
 
-export const parse = (meta: any, context: ComponentContext): ComponentContextData => {
-  // todo 解析meta得到下面几个数据
-  const comment = ['组件', '注释'];
-  const typeDefinitions = {
-    DataType: {
-      interface: true,
-      props: {
-        key: 'string',
-        name: 'string',
-        age: 'number',
-        address: 'string',
-        tags: 'string[]',
-      },
-    },
-  };
-  const typeImports = {
+const reactImports = (meta: ComponentMeta): Record<string, ImportContent> => {
+  const retVal: Record<string, ImportContent> = {
     react: {
-      default: 'React', // 默认增加这个
-      types: ['ReactNode', 'useState'], // 检查innerState，如果存在，需要追加useState
-    },
-    'antd/es/table': {
-      default: null,
-      types: ['ColumnsType'],
-    },
-  };
-  const props = {
-    children: 'ReactNode',
-    columns: 'ColumnsType<DataType>',
-    data: 'Array<DataType>',
-    onSelect: '(input: any)=> void',
-    onChange: '(input: any)=> void',
-  };
-  const componentImports = {
-    'antd/lib/space': {
-      default: 'Space',
+      default: 'React',
       types: [],
     },
-    'antd/lib/pagination': {
-      default: 'Pagination',
-      types: [],
-    },
-    antd: {
-      default: null,
-      types: ['Table as AntTable', 'Tag', 'Button', 'Card', 'Modal', 'Input'],
-    },
   };
-  const innerState = {
-    show: false,
-    message: {
-      value: 'initial value',
-    },
-    columns: [],
-  };
-  const assembly = {
-    Button: {
-      children: '修改State',
-      props: {
-        onClick: '() => action([{op: \'replace\', path: \'states@show:///\', value: true}])()',
-        type: 'dashed',
-      },
-    },
-    AntTable: {
-      children: null,
-      props: {
-        columns: 'bind(\'states@columns:///\')',
-        dataSource: 'bind(\'props:///data\')',
-      },
-    },
-    Pagination: {
-      children: null,
-      props: {
-        defaultCurrent: {
-          _val: 1,
-        },
-        total: {
-          _val: 50,
-        },
-      },
-    },
-    Modal: {
-      children: {
-        Card: {
-          children: {
-            Input: {
-              children: null,
-              props: {},
-            },
-            Button: {
-              children: '{bind(\'states@message:///value\')}',
-              props: {
-                type: 'primary',
-              },
-            },
-          },
-          props: {
-            title: 'example card',
-            style: {
-              _val: { width: 300 },
-            },
-            extra: {
-              Button: {
-                children: 'More',
-                props: {
-                  type: 'link',
-                },
-              },
-            },
-          },
-        },
-      },
-      props: {
-        title: '用这个modal模拟原子组件"条件渲染"',
-        visible: 'bind(\'states@show:///\')',
-        onOk: '() => action([{op: \'replace\', path: \'states@show:///\', value: false}])()',
-        onCancel: '() => action([{op: \'replace\', path: \'states@show:///\', value: false}])()',
-      },
-    },
-  };
+  // 根据inner state定义，确定是否导入useState
+  if (meta.innerState && Object.keys(meta.innerState).length > 0) {
+    retVal.react.types.push('useState');
+  }
+  // 将类型导入中的react类型的导入，放入react的imports中
+  if (meta.types && meta.types.imports) {
+    const { types: { imports } } = meta;
+    Object.keys(imports).forEach((name) => {
+      if (imports[name].packages === 'react') {
+        retVal.react.types.push(name);
+      }
+    });
+  }
+  return retVal;
+};
 
+const handleImports = (
+  name: string, pkg: { default: boolean, packages: string }, retVal: Record<string, ImportContent>,
+) => {
+  // react包在reactImports中已经处理过了，这里的类型导入需要排除
+  if (pkg.packages !== 'react') {
+    const item = retVal[pkg.packages];
+    // 在同一个包里，导入两个不同的default，是有问题的
+    if (item && item.default && pkg.default && item.default !== name) {
+      throw Error(`package: ${pkg.packages} has too many default import. just one allowed`);
+    }
+    if (!item) {
+      // eslint-disable-next-line no-param-reassign
+      retVal[pkg.packages] = {
+        default: pkg.default ? name : null,
+        types: pkg.default ? [] : [name],
+      };
+    } else if (pkg.default) {
+      item.default = name;
+    } else {
+      item.types.push(name);
+    }
+  }
+};
+
+const typeOrComponentImports = (
+  meta: ComponentMeta, type: string,
+): Record<string, ImportContent> => {
+  const retVal: Record<string, ImportContent> = {};
+  // eslint-disable-next-line no-nested-ternary
+  let imports = type === 'types' ? meta.types.imports : {};
+  imports = type === 'components' ? meta.components : imports;
+  Object.keys(imports).forEach((name) => {
+    const pkg = imports[name];
+    handleImports(name, pkg, retVal);
+  });
+  return retVal;
+};
+
+export const parse = (meta: ComponentMeta, context: ComponentContext): ComponentContextData => {
   const data: ComponentContextData = {
     context,
-    comment,
-    typeDefinitions,
-    typeImports,
-    props,
-    componentImports,
-    innerState,
-    assembly,
+    comment: meta.comment,
+    reactImports: reactImports(meta),
+    typeDefinitions: meta.types.definitions || {},
+    typeImports: typeOrComponentImports(meta, 'types'),
+    props: meta.props,
+    componentImports: typeOrComponentImports(meta, 'components'),
+    innerState: meta.innerState || {},
+    assembly: meta.assembly,
   };
   return data;
 };

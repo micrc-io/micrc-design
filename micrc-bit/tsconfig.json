@@ -2,7 +2,10 @@
   "extends": "./node_modules/@teambit/react/typescript/tsconfig.json",
   "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "noEmit": true
+    "noEmit": true,
+    "lib": [
+      "ES2021.String"
+    ]
   },
   "exclude": [
   ]

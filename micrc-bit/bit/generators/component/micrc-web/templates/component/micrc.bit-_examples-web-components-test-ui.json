@@ -1,0 +1,136 @@
+{
+  "comment": ["组件", "注释"],
+  "types": {
+    "definitions": {
+      "DataType": {
+        "interface": true,
+        "props": {
+          "key": "string",
+          "name": "string",
+          "age": "number",
+          "address": "string",
+          "tags": "string[]"
+        }
+      }
+    },
+    "imports": {
+      "ReactNode": {
+        "default": false,
+        "packages": "react"
+      },
+      "ColumnsType": {
+        "default": false,
+        "packages": "antd/es/table"
+      }
+    }
+  },
+  "props": {
+    "children": " ReactNode",
+    "columns": "ColumnsType<DataType>",
+    "data": "DataType[]",
+    "onSelect": "(record, selected, selectedRows, nativeEvent)=> void",
+    "onChange": "(page, pageSize)=> void"
+  },
+  "components": {
+    "Table as AntTable": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Button": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Card": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Input": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Modal": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Pagination": {
+      "default": true,
+      "packages": "antd/lib/pagination"
+    }
+  },
+  "innerState": {
+    "show": {
+      "value": false
+    },
+    "message": {
+      "value": "initial value"
+    },
+    "columns": {
+      "value": []
+    }
+  },
+  "assembly": {
+    "Button": {
+      "children": "修改State",
+      "props": {
+        "onClick": "() => action([{op: 'replace', path: 'states@show:///value', value: true}])()",
+        "type": "dashed"
+      }
+    },
+    "AntTable": {
+      "children": null,
+      "props": {
+        "columns": "bind('states@columns:///value')",
+        "dataSource": "bind('props:///data')"
+      }
+    },
+    "Pagination": {
+      "children": null,
+      "props": {
+        "defaultCurrent": {
+          "_val": 1
+        },
+        "total": {
+          "_val": 50
+        }
+      }
+    },
+    "Modal": {
+      "children": {
+        "Card": {
+          "children": {
+            "Input": {
+              "children": null,
+              "props": {}
+            },
+            "Button": {
+              "children": "{bind('states@message:///value')}",
+              "props": {
+                "type": "primary"
+              }
+            }
+          },
+          "props": {
+            "title": "example card",
+            "style": {
+              "_val": { "width": 300 }
+            },
+            "extra": {
+              "Button": {
+                "children": "More",
+                "props": {
+                  "type": "link"
+                }
+              }
+            }
+          }
+        }
+      },
+      "props": {
+        "title": "用这个modal模拟原子组件\"条件渲染\"",
+        "visible": "bind('states@show:///value')",
+        "onOk": "() => action([{op: 'replace', path: 'states@show:///value', value: false}])()",
+        "onCancel": "() => action([{op: 'replace', path: 'states@show:///value', value: false}])()"
+      }
+    }
+  }
+}

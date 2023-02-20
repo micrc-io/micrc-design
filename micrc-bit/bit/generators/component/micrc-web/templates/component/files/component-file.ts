@@ -6,24 +6,36 @@ import prettier from 'prettier';
 import { ComponentContextData } from '../_parse';
 
 const tmpl = `{{#each comment}}// {{this}}\n{{/each}}
-{{!-- 导入类型 --}}
-{{#each typeImports}}
+{{!-- 导入react --}}
+{{#each reactImports}}
 {{#if this.types}}
-{{#if this.default}}
 import {{this.default}}, {
   {{#each this.types}}
   {{this}},
   {{/each}}
 } from '{{@key}}';
 {{else}}
-import {
+import {{this.default}} from '{{@key}}';
+{{/if}}
+{{/each}}
+{{!-- 导入类型 --}}
+{{#each typeImports}}
+{{#if this.types}}
+{{#if this.default}}
+import type {{this.default}}, type {
+  {{#each this.types}}
+  {{this}},
+  {{/each}}
+} from '{{@key}}';
+{{else}}
+import type {
   {{#each this.types}}
   {{this}},
   {{/each}}
 } from '{{@key}}';
 {{/if}}
 {{else}}
-import {{this.default}} from '{{@key}}';
+import type {{this.default}} from '{{@key}}';
 {{/if}}
 {{/each}}
 
