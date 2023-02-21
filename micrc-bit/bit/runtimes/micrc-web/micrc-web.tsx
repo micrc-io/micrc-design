@@ -89,21 +89,46 @@ export const useComponentStore = (stores: LocalStore) => {
     // eslint-disable-next-line prefer-destructuring
     stateStore[it] = states[it][0];
   });
+  const execStatesAction = (
+    fullScope: string, action: PatchOperation, path: string,
+    inputs: Record<string, any>, inputPath: string,
+  ) => {
+    const [scope, stateName] = fullScope.split('@');
+    if (!scope || !stateName) {
+      throw Error('states scope of action path must format of "[states@stateName]://[json pointer]');
+    }
+    if (scope === StoreScope[StoreScope.states]) {
+      statesAction(
+        action, path, states,
+        stateName, stateStore,
+        inputs,
+        inputPath,
+      );
+    } else {
+      throw Error('un-excepted scope. "props, states" allowed');
+    }
+  };
   return {
     bind: (bindingPath: string) => {
-      const [scope, path] = bindingPath.split('://');
-      if (!scope || !path) {
-        throw Error('path of binding must format of [states|props]://[json pointer]');
+      const [fullScope, path] = bindingPath.split('://');
+      if (!fullScope || !path) {
+        throw Error('path of binding must format of [states@stateName|props]://[json pointer]');
+      }
+      if (fullScope === StoreScope[StoreScope.props]) {
+        return patcher(props).path(path);
+      }
+      const [scope, stateName] = fullScope.split('@');
+      if (!scope || !stateName) {
+        throw Error('state scope of binding path must format of [states@stateName]://[json pointer]');
       }
       if (scope === StoreScope[StoreScope.states]) {
-        return patcher(stateStore).path(path);
-      }
-      if (scope === StoreScope[StoreScope.props]) {
-        return patcher(props).path(path);
+        return patcher(stateStore).path(`/${stateName}${path}`);
       }
       throw Error('unexpected scope. "states, props" allowed');
     },
-    action: (actions: Array<PatchOperation>) => async (inputs?: any, paths?: Array<string>) => {
+    action: (actions: Array<PatchOperation>) => async (
+      inputs?: Record<string, any>, paths?: Array<string>,
+    ) => {
       // 仅能对state进行修改，以及执行props中传入的函数
       for (let idx = 0; idx < actions.length; idx += 1) {
         const action = actions[idx];
@@ -112,15 +137,11 @@ export const useComponentStore = (stores: LocalStore) => {
         if (fullScope === StoreScope[StoreScope.props]) {
           await propsAction(action, path, props, inputs, paths[idx]);
         } else { // 当执行范围为states，可以有add, replace, remove操作，表示更新state状态
-          if (!fullScope.includes('@')) {
-            throw Error('states scope must format of "states@stateName"');
-          }
-          const [scope, subScope] = fullScope.split('@');
-          if (scope === StoreScope[StoreScope.states]) {
-            statesAction(action, path, states, subScope, stateStore, inputs, paths[idx]);
-          } else {
-            throw Error('un-excepted scope. "props, states" allowed');
-          }
+          execStatesAction(
+            fullScope, action, path,
+            inputs || {}, // 当没有输入参数时，默认为空对象
+            paths && paths.length === actions.length ? paths[idx] : '', // input取值json pointer数组存在，且与actions数量一致
+          );
         }
       }
     },

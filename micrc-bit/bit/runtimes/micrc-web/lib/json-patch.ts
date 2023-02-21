@@ -15,5 +15,9 @@ export default (state?: any) => ({
       return newDoc;
     });
   },
-  apply: (doc: any, json: any[]) => applyPatch(doc, json, false).newDocument,
+  apply: (doc: any, json: any[]) => {
+    const newDoc = applyPatch(doc, json, false).newDocument;
+    // 必须返回一个新的对象实例，否则组件不刷新
+    return { ...newDoc };
+  },
 });
