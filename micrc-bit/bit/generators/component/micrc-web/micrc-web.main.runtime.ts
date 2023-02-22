@@ -6,6 +6,7 @@ import { GeneratorMain, GeneratorAspect, ComponentContext } from '@teambit/gener
 import { MicrcWebAspect } from './micrc-web.aspect';
 
 import { componentTemplate } from './templates/component';
+import { moduleTemplate } from './templates/module';
 
 export class MicrcWebMain {
   static slots = [];
@@ -15,7 +16,9 @@ export class MicrcWebMain {
   static runtime = MainRuntime;
 
   static async provider([generator]: [GeneratorMain]) {
-    generator.registerComponentTemplate([componentTemplate,
+    generator.registerComponentTemplate([
+      componentTemplate,
+      moduleTemplate,
       {
         name: 'micrc-web',
         description: 'react component for web of pc based antd component lib',
