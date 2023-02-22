@@ -43,6 +43,7 @@ importers:
       babel-loader: 8.2.5
       babel-plugin-transform-taroapi: 3.4.12
       buffer: 6.0.3
+      chalk: 4.1.2
       copy-webpack-plugin: 9.1.0
       core-js: '>=3.0.0 <4.0.0'
       css-loader: 6.7.1
@@ -63,6 +64,7 @@ importers:
       lodash.merge: 4.6.2
       lodash.omit: 4.5.0
       lodash.pick: 4.4.0
+      loglevel: 1.8.1
       msw: 0.47.4
       omit-deep-lodash: 1.1.7
       openapi-client-axios: 5.1.2
@@ -125,6 +127,7 @@ importers:
       babel-loader: registry.npmmirror.com/babel-loader/8.2.5_2cad51bbe9c2876396f118aa6395be78
       babel-plugin-transform-taroapi: registry.npmmirror.com/babel-plugin-transform-taroapi/3.4.12
       buffer: registry.npmmirror.com/buffer/6.0.3
+      chalk: registry.npmmirror.com/chalk/4.1.2
       copy-webpack-plugin: registry.npmmirror.com/copy-webpack-plugin/9.1.0_webpack@5.73.0
       core-js: registry.npmmirror.com/core-js/3.28.0
       css-loader: registry.npmmirror.com/css-loader/6.7.1_webpack@5.73.0
@@ -145,6 +148,7 @@ importers:
       lodash.merge: registry.npmmirror.com/lodash.merge/4.6.2
       lodash.omit: registry.npmmirror.com/lodash.omit/4.5.0
       lodash.pick: registry.npmmirror.com/lodash.pick/4.4.0
+      loglevel: registry.npmmirror.com/loglevel/1.8.1
       msw: registry.npmmirror.com/msw/0.47.4_encoding@0.1.13+typescript@4.7.4
       omit-deep-lodash: registry.npmmirror.com/omit-deep-lodash/1.1.7
       openapi-client-axios: registry.npmmirror.com/openapi-client-axios/5.1.2_axios@0.27.2
@@ -11593,7 +11597,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: registry.npmmirror.com/ansi-escapes/4.3.2
-      chalk: registry.npmmirror.com/chalk/4.1.1
+      chalk: registry.npmmirror.com/chalk/4.1.2
       cli-cursor: registry.npmmirror.com/cli-cursor/3.1.0
       cli-width: registry.npmmirror.com/cli-width/3.0.0
       external-editor: registry.npmmirror.com/external-editor/3.1.0
@@ -13117,6 +13121,13 @@ packages:
       ansi-fragments: registry.npmmirror.com/ansi-fragments/0.2.1
       dayjs: registry.npmmirror.com/dayjs/1.11.7
       yargs: registry.npmmirror.com/yargs/15.4.1
+    dev: false
+
+  registry.npmmirror.com/loglevel/1.8.1:
+    resolution: {integrity: sha512-tCRIJM51SHjAayKwC+QAg8hT8vg6z7GSgLJKGvzuPb1Wc+hLzqtuVLxp6/HzSPOozuK+8ErAhy7U/sVzw8Dgfg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/loglevel/-/loglevel-1.8.1.tgz}
+    name: loglevel
+    version: 1.8.1
+    engines: {node: '>= 0.6.0'}
     dev: false
 
   registry.npmmirror.com/longest-streak/2.0.4:

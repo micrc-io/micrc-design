@@ -8,6 +8,10 @@
 import fs from 'fs';
 import { execSync } from 'child_process';
 import { Command, CommandOptions } from '@teambit/cli';
+import chalk from 'chalk';
+import log from 'loglevel';
+
+log.setLevel('INFO');
 
 export class ConfigureCmd implements Command {
   name = 'micrc:conf';
@@ -25,6 +29,8 @@ export class ConfigureCmd implements Command {
   options = [] as CommandOptions;
 
   async report(): Promise<string> {
+    log.info();
+    log.info(chalk.yellow('test'));
     // 执行bit compile && bit compile && bit link && bit status命令并输出结果
     // 使用git命令获取当前仓库地址，获取fetch的地址
     // 使用git浅克隆仓库的schema分支，放在本地node_modules/.cache/micrc-schema中
