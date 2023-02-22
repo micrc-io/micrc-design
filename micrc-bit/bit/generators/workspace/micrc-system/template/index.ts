@@ -76,14 +76,23 @@ export const workspaceTemplate: WorkspaceTemplate = {
         relativePath: 'package.json',
         content: packageJson(),
       }, {
-        relativePath: `${scope}/base-ui/web/readme.md`,
-        content: '# web component\n',
+        relativePath: `${scope}/bases/web/readme.md`,
+        content: '# web base components\n',
       }, {
-        relativePath: `${scope}/base-ui/mini/readme.md`,
-        content: '# mini component\n',
+        relativePath: `${scope}/bases/mini/readme.md`,
+        content: '# mini base components\n',
       }, {
-        relativePath: `${scope}/base-ui/app/readme.md`,
-        content: '# app component\n',
+        relativePath: `${scope}/bases/app/readme.md`,
+        content: '# app base components\n',
+      }, {
+        relativePath: `${scope}/atoms/web/readme.md`,
+        content: '# web atom components\n',
+      }, {
+        relativePath: `${scope}/atoms/mini/readme.md`,
+        content: '# mini atom components\n',
+      }, {
+        relativePath: `${scope}/atoms/app/readme.md`,
+        content: '# app atom components\n',
       }, {
         relativePath: `${scope}/_apps/web/readme.md`,
         content: '# web clientend base on nextjs\n',
