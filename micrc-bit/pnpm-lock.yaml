@@ -4955,10 +4955,10 @@ packages:
       '@types/node': registry.npmmirror.com/@types/node/16.18.12
     dev: false
 
-  registry.npmmirror.com/@types/glob/8.0.1:
-    resolution: {integrity: sha512-8bVUjXZvJacUFkJXHdyZ9iH1Eaj5V7I8c4NdH5sQJsdXkqT4CA5Dhb4yb4VE/3asyx4L9ayZr1NIhTsWHczmMw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/glob/-/glob-8.0.1.tgz}
+  registry.npmmirror.com/@types/glob/8.1.0:
+    resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/glob/-/glob-8.1.0.tgz}
     name: '@types/glob'
-    version: 8.0.1
+    version: 8.1.0
     dependencies:
       '@types/minimatch': registry.npmmirror.com/@types/minimatch/5.1.2
       '@types/node': registry.npmmirror.com/@types/node/16.18.12
@@ -7291,7 +7291,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: registry.npmmirror.com/caniuse-lite/1.0.30001457
-      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.305
+      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.307
       node-releases: registry.npmmirror.com/node-releases/2.0.10
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db/1.0.10_browserslist@4.21.5
     dev: false
@@ -9056,10 +9056,10 @@ packages:
     version: 1.1.1
     dev: false
 
-  registry.npmmirror.com/electron-to-chromium/1.4.305:
-    resolution: {integrity: sha512-WETy6tG0CT5gm1O+xCbyapWNsCcmIvrn4NHViIGYo2AT8FV2qUCXdaB+WqYxSv/vS5mFqhBYnfZAAkVArjBmUg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.305.tgz}
+  registry.npmmirror.com/electron-to-chromium/1.4.307:
+    resolution: {integrity: sha512-n54V0t4LyHM2oQiAOmD3qC2peB+orUktXORSnWxqtv3uEMSoUcsq+hoMpU08VEJCNbfgBtzy169P0TcrLuq53A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.307.tgz}
     name: electron-to-chromium
-    version: 1.4.305
+    version: 1.4.307
     dev: false
 
   registry.npmmirror.com/elliptic/6.5.4:
@@ -10822,7 +10822,7 @@ packages:
     peerDependencies:
       glob: '*'
     dependencies:
-      '@types/glob': registry.npmmirror.com/@types/glob/8.0.1
+      '@types/glob': registry.npmmirror.com/@types/glob/8.1.0
       glob: registry.npmmirror.com/glob/7.2.3
     dev: false
 

@@ -1,10 +1,9 @@
 /**
  * index.ts
  */
-import { ComponentContext } from '@teambit/generator';
+import type { ClientendContextData } from '../_parser';
 
-export function indexFile(context: ComponentContext) {
-  return `// 必须这样写注释
-export { ${context.namePascalCase} } from './${context.name}';
+export function indexFile(data: ClientendContextData) {
+  return `export { ${data.context.namePascalCase} } from './app.react-app';
 `;
 }

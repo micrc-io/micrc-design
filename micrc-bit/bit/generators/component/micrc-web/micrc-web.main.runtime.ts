@@ -7,6 +7,7 @@ import { MicrcWebAspect } from './micrc-web.aspect';
 
 import { componentTemplate } from './templates/component';
 import { moduleTemplate } from './templates/module';
+import { clientendTemplate } from './templates/clientend';
 
 export class MicrcWebMain {
   static slots = [];
@@ -19,6 +20,7 @@ export class MicrcWebMain {
     generator.registerComponentTemplate([
       componentTemplate,
       moduleTemplate,
+      clientendTemplate,
       {
         name: 'micrc-web',
         description: 'react component for web of pc based antd component lib',

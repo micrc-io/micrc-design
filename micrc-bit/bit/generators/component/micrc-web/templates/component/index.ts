@@ -10,6 +10,10 @@ import { parse } from './_parse';
 
 import { indexFile } from './files/index-file';
 import { componentFile } from './files/component-file';
+import { docFile } from './files/doc-file';
+import { testFile } from './files/test-file';
+import { storiesFile } from './files/stories-file';
+import { compositionFile } from './files/composition-file';
 
 const SCHEMA_PATH = '.cache/micrc/schema/components';
 
@@ -42,7 +46,27 @@ export const componentTemplate: ComponentTemplate = {
       // scss file
       {
         relativePath: `${context.name}.module.scss`,
-        content: '',
+        content: `// ${context.name} scss\n`,
+      },
+      // docs file
+      {
+        relativePath: `${context.name}.docs.mdx`,
+        content: docFile(data),
+      },
+      // test file
+      {
+        relativePath: `${context.name}.spec.tsx`,
+        content: testFile(data),
+      },
+      // stories file
+      {
+        relativePath: `${context.name}.stories.tsx`,
+        content: storiesFile(data),
+      },
+      // composition file
+      {
+        relativePath: `${context.name}.composition.tsx`,
+        content: compositionFile(data),
       },
     ];
   },
