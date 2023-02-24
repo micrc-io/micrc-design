@@ -1,6 +1,9 @@
 /**
  * micrc web clientend template, base on nextjs
  */
+import path from 'path';
+import fs from 'fs';
+
 import { ComponentTemplate, ComponentContext } from '@teambit/generator';
 
 import type { ClientendContextData } from './_parser';
@@ -16,46 +19,22 @@ import { appEntryFile } from './files/app/entry-file';
 import { apiProxyFile } from './files/app/api/api-proxy-file';
 import { apiFiles } from './files/app/api/api-files';
 
-const meta = {
-  intro: {
-    version: '0.0.1',
-  },
-  pages: {
-    '/uri': {
-      modules: {
-        DemoModule2: {
-          package: '@micrc/demo-domain-design.modules.DemoModule2',
-          version: '0.0.1',
-        },
-        DemoModule1: {
-          package: '@micrc/demo-domain-design.modules.DemoModule1',
-          version: '0.0.2',
-        },
-      },
-      components: {
-        DemoComponent1: {
-          package: '@micrc/demo-system-design.bases.DemoComponent1',
-          version: '0.0.3',
-        },
-        DemoComponent2: {
-          package: '@micrc/demo-system-design.bases.DemoComponent2',
-          version: '0.0.4',
-        },
-      },
-      assembly: {
-        layout: 'DemoComponent1',
-        props: {},
-      },
-    },
-  },
-};
+const SCHEMA_PATH = '.cache/micrc/schema/clientends';
 
 export const clientendTemplate: ComponentTemplate = {
   name: 'micrc-web-clientend',
   description: '',
   generateFiles: (context: ComponentContext) => {
-    const data: ClientendContextData = parse(meta, context);
-    // throw Error('terminal');
+    const nodeModulesPath = path.resolve(
+      require.resolve('@micrc/bit.generators.component.micrc-web'),
+      '../../../../',
+    );
+    const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '-')}.json`;
+    const metaFilePath = path.resolve(nodeModulesPath, SCHEMA_PATH, metaFile);
+    const data: ClientendContextData = parse(
+      JSON.parse(fs.readFileSync(metaFilePath).toString()),
+      context,
+    );
     return [
       // index file
       {
@@ -91,7 +70,7 @@ export const clientendTemplate: ComponentTemplate = {
       // app pages/api/[...slug].ts file
       {
         relativePath: 'app/pages/api/[...slug].ts',
-        content: apiProxyFile(data),
+        content: apiProxyFile(),
       },
       // app api files
       {

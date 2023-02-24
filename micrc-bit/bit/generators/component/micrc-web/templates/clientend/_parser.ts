@@ -14,14 +14,14 @@ type ClientendIntro = {
   appId: string,
 };
 
-// type ClientendEntry = {
-//   moduleImports: Record<string, string>,
-//   componentImports: Record<string, string>,
-//   layouts: {
-//     layout: string,
-//     props: Record<string, string | { _val: any } | Record<string, Assembly>>
-//   },
-// };
+type ClientendEntry = {
+  moduleImports: Record<string, string>,
+  componentImports: Record<string, string>,
+  layouts: Record<string, {
+    uris: Array<string>,
+    props: Record<string, string | { _val: any } | Record<string, Assembly>>
+  }>,
+};
 
 type Assembly = {
   layout: string,
@@ -35,7 +35,7 @@ type ClientendMeta = {
     modules: Record<string, { package: string, version: string }>,
     components: Record<string, { package: string, version: string }>,
     layouts: Record<string, {
-      pages: Array<string>,
+      uris: Array<string>,
       props: Record<string, string | { _val: any } | Record<string, Assembly>>,
     }>,
   },
@@ -50,6 +50,7 @@ type ClientendMeta = {
 export type ClientendContextData = {
   context: ComponentContext,
   intro: ClientendIntro, // 自省数据
+  entry: ClientendEntry, // app入口
   pages: Record<string, {
     moduleImports: Record<string, string>,
     componentImports: Record<string, string>,
@@ -70,24 +71,47 @@ const handleSourceDir = (context: ComponentContext) => {
   return sourceDir;
 };
 
+const handleEntry = (meta: ClientendMeta) => {
+  const entryDependencies = {};
+  const entry: ClientendEntry = {
+    moduleImports: {},
+    componentImports: {},
+    layouts: meta.entry.layouts,
+  };
+  Object.keys(meta.entry.modules).forEach((name) => {
+    const module = meta.entry.modules[name];
+    entryDependencies[module.package] = module.version;
+    entry.moduleImports[name] = module.package;
+  });
+  Object.keys(meta.entry.components).forEach((name) => {
+    const component = meta.entry.components[name];
+    entryDependencies[component.package] = component.version;
+    entry.componentImports[name] = component.package;
+  });
+  return {
+    entryDependencies,
+    entry,
+  };
+};
+
 const handlePages = (meta: ClientendMeta) => {
-  const dependencies = {};
+  const pageDependencies = {};
   const pages = {};
   Object.keys(meta.pages).forEach((uri) => {
     pages[uri] = { assembly: meta.pages[uri].assembly };
     const { modules } = meta.pages[uri];
     Object.keys(modules).forEach((name) => {
-      dependencies[modules[name].package] = modules[name].version;
+      pageDependencies[modules[name].package] = modules[name].version;
       pages[uri].moduleImports[name] = modules[name].package;
     });
     const { components } = meta.pages[uri];
     Object.keys(components).forEach((name) => {
-      dependencies[components[name].package] = components[name].version;
+      pageDependencies[components[name].package] = components[name].version;
       pages[uri].componentImports[name] = components[name].package;
     });
   });
   return {
-    dependencies,
+    pageDependencies,
     pages,
   };
 };
@@ -100,12 +124,14 @@ export const parse = (meta: ClientendMeta, context: ComponentContext): Clientend
     accountPackageReg: `/^(.+?[\\\\/]node_modules)[\\\\/]((?!@${context.componentId.scope.split('.')[0]})).*[\\\\/]*/`,
     appId: `@${context.componentId.scope.replace('.', '/')}.${context.componentId.fullName.replace(/\//g, '.')}`,
   };
-  const { dependencies, pages } = handlePages(meta);
+  const { entryDependencies, entry } = handleEntry(meta);
+  const { pageDependencies, pages } = handlePages(meta);
   const data: ClientendContextData = {
     context,
     intro,
+    entry,
     pages,
-    dependencies,
+    dependencies: { ...entryDependencies, ...pageDependencies },
   };
   return data;
 };

@@ -49,8 +49,10 @@ const tmpl = `{
 `;
 
 export function appPackageFile(data: ClientendContextData) {
-  const json = HandleBars.compile(tmpl)(data);
-  return prettier.format(json, {
-    parser: 'json',
-  });
+  return prettier.format(
+    HandleBars.compile(tmpl)(data),
+    {
+      parser: 'json',
+    },
+  );
 }

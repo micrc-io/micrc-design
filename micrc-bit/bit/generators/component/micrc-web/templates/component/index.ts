@@ -3,6 +3,7 @@
  */
 import path from 'path';
 import fs from 'fs';
+
 import { ComponentTemplate, ComponentContext } from '@teambit/generator';
 
 import type { ComponentContextData } from './_parse';
