@@ -31,29 +31,71 @@ const layouts: Record<string, { uris: Array<string>, layout: ReactNode }> = {
 
 const Wrapper = (props: JSX.IntrinsicAttributes) => {
   const router = useRouter();
-  const wrapper = Object.keys(layouts).filter((layout) => {
+  let Layout;
+  Object.keys(layouts).forEach((layout) => {
     if (layouts[layout].uris.includes(router.pathname)) {
-      return layouts[layout].layout;
+      Layout = layouts[layout].layout;
     }
   });
-  if (wrapper.length !== 1) {
-    throw Error(\`Current uri of page: \${router.pathname} has no layout. Check clientend and pages configuration.\`);
-  }
-  // @ts-ignore
-  return <wrapper {...props} />;
+  return (
+    // @ts-ignore
+    <Layout
+      {{{propsAssembler props}}}
+      {...props}
+    />
+  );
 };
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <MDXProvider components={{ wrapper: Wrapper }}>
       {/* @ts-ignore */}
-      <Component {...pageProps} />
+      <Component {...pageProps} router={useRouter()} />
     </MDXProvider>
   );
 }
 `;
 
+const propsAssembler = (props: object): string => {
+  let retVal = '';
+  Object.keys(props).forEach((name) => {
+    const prop = props[name];
+    const strProp = typeof prop === 'string' && !prop.startsWith('bind') && !/\(.*\) => action/.test(prop);
+    const propStr = strProp ? `'${prop}'` : '';
+    // eslint-disable-next-line no-underscore-dangle
+    const objProp = typeof prop === 'object' && prop._val;
+    // eslint-disable-next-line no-underscore-dangle
+    const propObj = objProp ? `{${JSON.stringify(prop._val)}}` : '';
+    const exprProp = typeof prop === 'string' && (prop.startsWith('bind') || /\(.*\) => action/.test(prop));
+    const propExpr = exprProp ? `{${prop}}` : '';
+    const compProp = typeof prop === 'object' && !objProp;
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    const propComp = compProp ? `{${assembler(prop)}}` : '';
+    retVal += ` ${name}=${propStr}${propObj}${propExpr}${propComp}`;
+  });
+  return retVal;
+};
+
+const assembler = (components: object): string => {
+  let retVal = '';
+  Object.keys(components).forEach((name) => {
+    const comp = components[name];
+    const nullChildren: boolean = !comp.children;
+    const textChildren: boolean = comp.children && typeof comp.children === 'string';
+    const nestedChildren: boolean = comp.children && typeof comp.children === 'object';
+    const endTag = `</${name}>`;
+    retVal += `<${name}`
+            + `${propsAssembler(comp.props)}`
+            + `${nullChildren ? '\n/>' : '\n>'}`
+            + `${textChildren ? comp.children : ''}`
+            + `${nestedChildren ? assembler(comp.children) : ''}`
+            + `${nullChildren ? '' : endTag}`;
+  });
+  return retVal;
+};
+
 export function appEntryFile(data: ClientendContextData) {
+  HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
   return prettier.format(
     HandleBars.compile(tmpl)(data.entry),
     {
