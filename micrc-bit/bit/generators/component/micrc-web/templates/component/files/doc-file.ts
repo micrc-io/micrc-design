@@ -4,8 +4,7 @@
 import { ComponentContextData } from '../_parse';
 
 export function docFile(data: ComponentContextData) {
-  return `
----
+  return `---
 description: A demo of web component generating
 label: []
 ---

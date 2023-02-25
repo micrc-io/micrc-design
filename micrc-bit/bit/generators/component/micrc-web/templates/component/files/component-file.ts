@@ -3,6 +3,7 @@
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
+
 import { ComponentContextData } from '../_parse';
 
 const tmpl = `{{#each comment}}// {{this}}\n{{/each}}

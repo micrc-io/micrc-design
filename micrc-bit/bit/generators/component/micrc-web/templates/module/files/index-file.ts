@@ -1,11 +1,11 @@
 /**
  * index.ts
  */
-import { ComponentContext } from '@teambit/generator';
+import { ModuleContextData } from '../_parse';
 
-export function indexFile(context: ComponentContext) {
+export function indexFile(data: ModuleContextData) {
   return `// 必须这样写注释
-export { ${context.namePascalCase} } from './${context.name}';
-export type { ${context.namePascalCase}Props } from './${context.name}';
+export { ${data.context.namePascalCase} } from './${data.context.name}';
+export type { ${data.context.namePascalCase}Props } from './${data.context.name}';
 `;
 }

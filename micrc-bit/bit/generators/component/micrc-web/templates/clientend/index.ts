@@ -19,18 +19,22 @@ import { appEntryFile } from './files/app/entry-file';
 import { apiProxyFile } from './files/app/api/api-proxy-file';
 import { apiFiles } from './files/app/api/api-files';
 
-const SCHEMA_PATH = '.cache/micrc/schema/clientends';
+const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
 
 export const clientendTemplate: ComponentTemplate = {
   name: 'micrc-web-clientend',
   description: '',
   generateFiles: (context: ComponentContext) => {
+    const contextName = context.componentId.scope.split('.')[1];
+    const typeName = 'clientends';
     const nodeModulesPath = path.resolve(
       require.resolve('@micrc/bit.generators.component.micrc-web'),
       '../../../../',
     );
     const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '-')}.json`;
-    const metaFilePath = path.resolve(nodeModulesPath, SCHEMA_PATH, metaFile);
+    const metaFilePath = path.resolve(
+      nodeModulesPath, ...SCHEMA_PATH, contextName, typeName, metaFile,
+    );
     const data: ClientendContextData = parse(
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
       context,

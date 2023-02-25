@@ -16,18 +16,22 @@ import { testFile } from './files/test-file';
 import { storiesFile } from './files/stories-file';
 import { compositionFile } from './files/composition-file';
 
-const SCHEMA_PATH = '.cache/micrc/schema/components';
+const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
 
 export const componentTemplate: ComponentTemplate = {
   name: 'micrc-web-component',
   description: 'test for micrc web',
   generateFiles: (context: ComponentContext) => {
+    const contextName = context.componentId.scope.split('.')[1];
+    const typeName = 'components';
     const nodeModulesPath = path.resolve(
       require.resolve('@micrc/bit.generators.component.micrc-web'),
       '../../../../',
     );
     const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '-')}.json`;
-    const metaFilePath = path.resolve(nodeModulesPath, SCHEMA_PATH, metaFile);
+    const metaFilePath = path.resolve(
+      nodeModulesPath, ...SCHEMA_PATH, contextName, typeName, metaFile,
+    );
     const data: ComponentContextData = parse(
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
       context,
