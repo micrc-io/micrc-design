@@ -21,6 +21,13 @@ type Assembly = {
   props: Record<string, string | { _val: any } | Record<string, Assembly>>,
 };
 
+type ComponentDoc = {
+  title: string, // 标题, 文档头部显示的内容
+  label: Array<string>, // label, 组件label, 用于组件搜索
+  examples: Record<string, string>, // 以stories的名字为key, 描述这个story样例的内容为值
+  prototype: string, // 原型(高保真)的链接(原型工具提供, 可以直接浏览器打开, 嵌入到文档的iframe中)
+};
+
 // 元数据定义
 type ComponentMeta = {
   comment: Array<string>,
@@ -32,6 +39,8 @@ type ComponentMeta = {
   innerState?: Record<string, any>,
   components: Record<string, { default: boolean, packages: string }>,
   assembly: Record<string, Assembly>,
+  stories: Record<string, Record<string, any | Record<string, Assembly>>>,
+  doc: ComponentDoc,
 };
 
 export type ComponentContextData = {
@@ -44,6 +53,9 @@ export type ComponentContextData = {
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
   innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
   assembly: Record<string, Assembly>, // 组件装配结构，以导入的组件名为key
+  // 以story名称为key，值为一组props，每组是一个props组合
+  stories: Record<string, Record<string, any | Record<string, Assembly>>>,
+  doc: ComponentDoc, // 组件文档
 };
 
 const reactImports = (meta: ComponentMeta): Record<string, ImportContent> => {
@@ -118,6 +130,8 @@ export const parse = (meta: ComponentMeta, context: ComponentContext): Component
     componentImports: typeOrComponentImports(meta, 'components'),
     innerState: meta.innerState || {},
     assembly: meta.assembly,
+    stories: meta.stories,
+    doc: meta.doc,
   };
   return data;
 };

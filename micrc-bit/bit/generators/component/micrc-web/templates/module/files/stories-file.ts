@@ -1,35 +1,40 @@
 /**
- * stories file
+ * stories.ts
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
 
-import { ComponentContextData } from '../_parse';
+import { ModuleContextData } from '../_parse';
 
 const tmpl = `// {{context.name}} stories
 import React from 'react';
 
+import { initGlobalStore } from '@micrc/bit.runtimes.micrc-web';
+
 import type { {{context.namePascalCase}}Props } from './{{context.name}}';
 import { {{context.namePascalCase}} } from './{{context.name}}';
+
+import I18n from './meta/i18n.json';
+import Integration from './meta/integration.json';
 
 export default {
   component: {{context.namePascalCase}},
   title: '{{context.componentId}}',
 };
 
-const Template = (props: {{context.namePascalCase}}Props) => (<{{context.namePascalCase}} {...props} />);
-
-{{#each stories}}
-export const {{@key}} = Template.bind({});
-{{@key}}.args = {
-  {{#each this}}
-  {{@key}}: {{{this}}},
-  {{/each}}
+const Template = (props: {{context.namePascalCase}}Props) => {
+  initGlobalStore(null, I18n, null, Integration.init);
+  return (<{{context.namePascalCase}} {...props} />);
 };
-{{/each}}
+
+export const Default = Template.bind({});
+Default.args = {
+  integration: Integration.simulation,
+  router: null,
+};
 `;
 
-export function storiesFile(data: ComponentContextData) {
+export function storiesFile(data: ModuleContextData) {
   return prettier.format(
     HandleBars.compile(tmpl)(data),
     {

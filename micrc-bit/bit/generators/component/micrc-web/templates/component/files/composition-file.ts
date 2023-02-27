@@ -1,14 +1,34 @@
 /**
- * test file
+ * composition file
  */
+import HandleBars from 'handlebars';
+import prettier from 'prettier';
+
 import { ComponentContextData } from '../_parse';
 
-export function compositionFile(data: ComponentContextData) {
-  return `// ${data.context.name} composition
+const tmpl = `// {{context.name}} composition
 import React from 'react';
 
-import { Default } from './${data.context.name}.stories';
+import {
+  {{#each stories}}
+  {{@key}},
+  {{/each}}
+} from './{{context.name}}.stories';
 
-export const DefaultView = () => <Default {...Default.args} />;
+{{#each stories}}
+export const {{@key}} = () => <{{@key}} {...{{@key}}.args} />;
+{{/each}}
 `;
+
+export function compositionFile(data: ComponentContextData) {
+  return prettier.format(
+    HandleBars.compile(tmpl)(data),
+    {
+      parser: 'typescript',
+      semi: true,
+      singleQuote: true,
+      bracketSameLine: false,
+      singleAttributePerLine: true,
+    },
+  );
 }

@@ -10,6 +10,9 @@ import type { ModuleContextData } from './_parse';
 import { parse } from './_parse';
 
 import { indexFile } from './files/index-file';
+import { storiesFile } from './files/stories-file';
+import { i18nMetaFile } from './files/meta/i18n-meta-file';
+import { integrationMetaFile } from './files/meta/integration-meta-file';
 
 const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
 
@@ -37,6 +40,21 @@ export const moduleTemplate: ComponentTemplate = {
         relativePath: 'index.ts',
         isMain: true,
         content: indexFile(data),
+      },
+      // stories file
+      {
+        relativePath: `${context.name}.stories.tsx`,
+        content: storiesFile(data),
+      },
+      // i18n meta file
+      {
+        relativePath: 'meta/i18n.json',
+        content: i18nMetaFile(data),
+      },
+      // integration meta file
+      {
+        relativePath: 'meta/integration.json',
+        content: integrationMetaFile(data),
       },
     ];
   },

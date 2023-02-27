@@ -1,22 +1,46 @@
 /**
  * doc file
  */
+import HandleBars from 'handlebars';
+import prettier from 'prettier';
+
 import { ComponentContextData } from '../_parse';
 
-export function docFile(data: ComponentContextData) {
-  return `---
-description: A demo of web component generating
-label: []
+const tmpl = `---
+description: {{doc.title}}
+label: {{doc.label}}
 ---
 
 import 'antd/dist/antd.less';
-import { ${data.context.namePascalCase} } from './${data.context.name}';
 
-A demo of web component generating.
+import {
+  {{#each doc.examples}}
+  {{@key}}
+  {{/each}}
+} from './{{context.name}}.composition';
+
+{{doc.prototype}}
+
+
+{{#each doc.examples}}
+{{this}}
 
 ### Component usage
 \`\`\`js
-<${data.context.namePascalCase} />
+<{{@key}} />
 \`\`\`
+{{/each}}
 `;
+
+export function docFile(data: ComponentContextData) {
+  return prettier.format(
+    HandleBars.compile(tmpl)(data),
+    {
+      parser: 'typescript',
+      semi: true,
+      singleQuote: true,
+      bracketSameLine: false,
+      singleAttributePerLine: true,
+    },
+  );
 }
