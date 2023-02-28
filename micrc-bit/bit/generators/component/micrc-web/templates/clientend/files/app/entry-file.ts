@@ -1,17 +1,9 @@
-/*
- * @Author: wuwanping
- * @Date: 2023-02-28 11:06:32
- * @LastEditTime: 2023-02-28 15:44:03
- * @LastEditors: wuwanping
- * @Description: 
- * @FilePath: /micrc-bit/bit/generators/component/micrc-web/templates/clientend/files/app/entry-file.ts
- */
 /**
  * pages/_app.ts
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
-import { propsAssembler, assembler } from '../../../assembler';
+import { propsAssembler } from '../../../assembler';
 
 import type { ClientendContextData } from '../../_parser';
 

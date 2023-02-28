@@ -98,8 +98,8 @@ export const clientendTemplate: ComponentTemplate = {
       },
       // app page files
       {
-        // relativePath: 'app/pages/readme',
-        // content: appPageFiles(data),
+        relativePath: 'app/pages/readme',
+        content: appPageFiles(data),
       },
     ];
   },

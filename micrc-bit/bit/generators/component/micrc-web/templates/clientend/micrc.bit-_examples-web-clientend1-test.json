@@ -1,0 +1,155 @@
+{
+  "intro": {
+    "version": "0.0.1"
+  },
+  "entry": {
+    "modules": {
+      "MainMenu": {
+        "package": "@micrc/bit._examples.web.modules.main-menu",
+        "version": "0.0.1"
+      },
+      "SubMenu": {
+        "package": "@micrc/bit._examples.web.modules.sub-menu",
+        "version": "0.0.1"
+      },
+      "Languages": {
+        "package": "@micrc/bit._examples.web.modules.languages",
+        "version": "0.0.1"
+      },
+      "SystemAccount": {
+        "package": "@micrc/bit._examples.web.modules.system-account",
+        "version": "0.0.1"
+      },
+      "ProductLogo": {
+        "package": "@micrc/bit._examples.web.modules.product-logo",
+        "version": "0.0.1"
+      }
+    },
+    "components": {
+      "AuthcGenericLayout": {
+        "package": "@micrc/bit._examples.web.components.authc-generic-layout",
+        "version": "0.0.1"
+      },
+      "AdminGenericLayout": {
+        "package": "@micrc/bit._examples.web.components.admin-generic-layout",
+        "version": "0.0.1"
+      }
+    },
+    "layouts": {
+      "AuthcGenericLayout": {
+        "uris": ["/authc"],
+        "props": {
+          "logo": {
+            "ProductLogo": {
+              "children": null,
+              "props": {}
+            }
+          },
+          "toolbar": [
+            {
+              "Languages": {
+                "children": null,
+                "props": {}
+              }
+            }
+          ]
+        }
+      },
+      "AdminGenericLayout": {
+        "uris": ["/", "/order-summery"],
+        "props": {
+          "header": {
+            "MainMenu": {
+              "children": null,
+              "props": {}
+            }
+          },
+          "sideBar": {
+            "SubMenu": {
+              "children": null,
+              "props": {}
+            }
+          },
+          "logo": {
+            "ProductLogo": {
+              "children": null,
+              "props": {}
+            }
+          },
+          "toolbar": [
+            {
+              "SystemAccount": {
+                "children": null,
+                "props": {}
+              }
+            },
+            {
+              "Languages": {
+                "children": null,
+                "props": {}
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "pages": {
+    "/authc": {
+      "comment": ["认证页面", "包含一个登陆模块"],
+      "modules": {
+        "Authc": {
+          "package": "@micrc/bit._examples.web.modules.authc",
+          "version": "0.0.1"
+        }
+      },
+      "components": {
+        "Blank": {
+          "package": "@micrc/bit._examples.web.components.blank",
+          "version": "1.0.0"
+        }
+      },
+      "assembly": {
+        "layout": "Blank",
+        "props": {
+          "content": {
+            "Authc": {
+              "children": null,
+              "props": {}
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "comment": [
+        "首页",
+        "暂时包含一个产品介绍模块, 也可以放一个控制台",
+        "首页限定为必须展示独立页面, 不要做重定向到其他页面, 容易混淆"
+      ],
+      "modules": {
+        "ProductWelcome": {
+          "package": "@micrc/bit._examples.web.modules.product-welcome",
+          "version": "0.0.1"
+        }
+      },
+      "components": {
+        "Blank": {
+          "package": "@micrc/bit._examples.web.components.blank",
+          "version": "1.0.0"
+        }
+      },
+      "assembly": {
+        "layout": "Blank",
+        "props": {
+          "content": {
+            "ProductWelcome": {
+              "children": null,
+              "props": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
