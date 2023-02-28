@@ -1,8 +1,17 @@
+/*
+ * @Author: wuwanping
+ * @Date: 2023-02-28 11:06:32
+ * @LastEditTime: 2023-02-28 15:44:03
+ * @LastEditors: wuwanping
+ * @Description: 
+ * @FilePath: /micrc-bit/bit/generators/component/micrc-web/templates/clientend/files/app/entry-file.ts
+ */
 /**
  * pages/_app.ts
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
+import { propsAssembler, assembler } from '../../../assembler';
 
 import type { ClientendContextData } from '../../_parser';
 
@@ -25,7 +34,7 @@ import '../styles/globals.css';
 
 const layouts: Record<string, { uris: Array<string>, layout: ReactNode }> = {
   {{#each layouts}}
-  {{@key}}: { uris: {{this.uris}}, layout: {{@key}} }
+  {{@key}}: { uris: "uris", layout: {{@key}} },
   {{/each}}
 };
 
@@ -40,7 +49,7 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   return (
     // @ts-ignore
     <Layout
-      {{{propsAssembler props}}}
+      {{{propsAssembler layouts.props}}}
       {...props}
     />
   );
@@ -48,51 +57,13 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <MDXProvider components={{ wrapper: Wrapper }}>
+    <MDXProvider components=\\{{ wrapper: Wrapper }}>
       {/* @ts-ignore */}
       <Component {...pageProps} router={useRouter()} />
     </MDXProvider>
   );
 }
 `;
-
-const propsAssembler = (props: object): string => {
-  let retVal = '';
-  Object.keys(props).forEach((name) => {
-    const prop = props[name];
-    const strProp = typeof prop === 'string' && !prop.startsWith('bind') && !/\(.*\) => action/.test(prop);
-    const propStr = strProp ? `'${prop}'` : '';
-    // eslint-disable-next-line no-underscore-dangle
-    const objProp = typeof prop === 'object' && prop._val;
-    // eslint-disable-next-line no-underscore-dangle
-    const propObj = objProp ? `{${JSON.stringify(prop._val)}}` : '';
-    const exprProp = typeof prop === 'string' && (prop.startsWith('bind') || /\(.*\) => action/.test(prop));
-    const propExpr = exprProp ? `{${prop}}` : '';
-    const compProp = typeof prop === 'object' && !objProp;
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    const propComp = compProp ? `{${assembler(prop)}}` : '';
-    retVal += ` ${name}=${propStr}${propObj}${propExpr}${propComp}`;
-  });
-  return retVal;
-};
-
-const assembler = (components: object): string => {
-  let retVal = '';
-  Object.keys(components).forEach((name) => {
-    const comp = components[name];
-    const nullChildren: boolean = !comp.children;
-    const textChildren: boolean = comp.children && typeof comp.children === 'string';
-    const nestedChildren: boolean = comp.children && typeof comp.children === 'object';
-    const endTag = `</${name}>`;
-    retVal += `<${name}`
-            + `${propsAssembler(comp.props)}`
-            + `${nullChildren ? '\n/>' : '\n>'}`
-            + `${textChildren ? comp.children : ''}`
-            + `${nestedChildren ? assembler(comp.children) : ''}`
-            + `${nullChildren ? '' : endTag}`;
-  });
-  return retVal;
-};
 
 export function appEntryFile(data: ClientendContextData) {
   HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));

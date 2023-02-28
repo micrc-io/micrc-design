@@ -6,16 +6,16 @@ import path from 'path';
 
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
-
+import { propsAssembler, assembler } from '../../../assembler';
 import type { ClientendContextData } from '../../_parser';
 
-const tmpl = `{{#each comment}}// {{this}}\n{{/each}}
+const tmpl = `
 {{#each componentImports}}
+    import { {{@key }} } from '{{this}}'
 {{/each}}
-
 {{#each moduleImports}}
+import { {{@key }} } from '{{this}}'
 {{/each}}
-
 {{#with assembly}}
 <{{layout}}
   {{{propsAssembler props}}}
@@ -23,54 +23,21 @@ const tmpl = `{{#each comment}}// {{this}}\n{{/each}}
 {{/with}}
 `;
 
-const propsAssembler = (props: object): string => {
-  let retVal = '';
-  Object.keys(props).forEach((name) => {
-    const prop = props[name];
-    const strProp = typeof prop === 'string' && !prop.startsWith('bind') && !/\(.*\) => action/.test(prop);
-    const propStr = strProp ? `'${prop}'` : '';
-    // eslint-disable-next-line no-underscore-dangle
-    const objProp = typeof prop === 'object' && prop._val;
-    // eslint-disable-next-line no-underscore-dangle
-    const propObj = objProp ? `{${JSON.stringify(prop._val)}}` : '';
-    const exprProp = typeof prop === 'string' && (prop.startsWith('bind') || /\(.*\) => action/.test(prop));
-    const propExpr = exprProp ? `{${prop}}` : '';
-    const compProp = typeof prop === 'object' && !objProp;
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    const propComp = compProp ? `{${assembler(prop)}}` : '';
-    retVal += ` ${name}=${propStr}${propObj}${propExpr}${propComp}`;
-  });
-  return retVal;
-};
-
-const assembler = (components: object): string => {
-  let retVal = '';
-  Object.keys(components).forEach((name) => {
-    const comp = components[name];
-    const nullChildren: boolean = !comp.children;
-    const textChildren: boolean = comp.children && typeof comp.children === 'string';
-    const nestedChildren: boolean = comp.children && typeof comp.children === 'object';
-    const endTag = `</${name}>`;
-    retVal += `<${name}`
-            + `${propsAssembler(comp.props)}`
-            + `${nullChildren ? '\n/>' : '\n>'}`
-            + `${textChildren ? comp.children : ''}`
-            + `${nestedChildren ? assembler(comp.children) : ''}`
-            + `${nullChildren ? '' : endTag}`;
-  });
-  return retVal;
-};
-
 export function appPageFiles(data: ClientendContextData) {
   HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
   // 创建页面目录
   const pageBasePath = path.resolve(data.intro.sourceDir, 'app', 'pages');
+  console.log("=====",fs.existsSync(pageBasePath),"0000",pageBasePath)///_examples/web/clientend9/test/app/pages
+
   if (!fs.existsSync(pageBasePath)) {
+    // eslint-disable-next-line @typescript-eslint/semi
     fs.mkdirSync(pageBasePath, { recursive: true });
   }
+  // _examples/web/clientend1/test/app/pages/pagestest/index.mdx
   // 循环写入每一个页面文件mdx
   Object.keys(data.pages).forEach((uri) => {
     fs.writeFileSync(
+      // _examples/web/clientend9/test/app/pages/pagestest/index.mdx,
       path.resolve(pageBasePath, uri === '/' ? '' : uri, 'index.mdx'),
       prettier.format(
         HandleBars.compile(tmpl)(data.pages[uri]),

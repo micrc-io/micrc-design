@@ -10,8 +10,12 @@ import type { ModuleContextData } from './_parse';
 import { parse } from './_parse';
 
 import { indexFile } from './files/index-file';
+import { componentFile } from './files/component-file';
 import { storiesFile } from './files/stories-file';
+import { testFile } from './files/test-file';
+import { docFile } from './files/docs-file';
 import { i18nMetaFile } from './files/meta/i18n-meta-file';
+import { compositionFile } from './files/composition-file';
 import { integrationMetaFile } from './files/meta/integration-meta-file';
 
 const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
@@ -41,6 +45,16 @@ export const moduleTemplate: ComponentTemplate = {
         isMain: true,
         content: indexFile(data),
       },
+      // component file
+      {
+        relativePath: `${context.name}.tsx`,
+        content: componentFile(data),
+      },
+      // scss file
+      {
+        relativePath: `${context.name}.module.scss`,
+        content: '',
+      },
       // stories file
       {
         relativePath: `${context.name}.stories.tsx`,
@@ -51,11 +65,26 @@ export const moduleTemplate: ComponentTemplate = {
         relativePath: 'meta/i18n.json',
         content: i18nMetaFile(data),
       },
+      // composition.tsx file
+      {
+        relativePath: `${context.name}.composition.tsx`,
+        content: compositionFile(data),
+      },
+      // spec.tsx
+      {
+        relativePath: `${context.name}.spec.tsx`,
+        content: testFile(data),
+      },
       // integration meta file
       {
         relativePath: 'meta/integration.json',
         content: integrationMetaFile(data),
       },
+      // {
+      //   relativePath: `${context.name}.docs.mdx`,
+      //   isMain: true,
+      //   content: docFile(data),
+      // },
     ];
   },
 };

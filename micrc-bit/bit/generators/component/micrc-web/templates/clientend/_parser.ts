@@ -98,7 +98,11 @@ const handlePages = (meta: ClientendMeta) => {
   const pageDependencies = {};
   const pages = {};
   Object.keys(meta.pages).forEach((uri) => {
-    pages[uri] = { assembly: meta.pages[uri].assembly };
+    pages[uri] = {
+      moduleImports: {},
+      componentImports: {},
+      assembly: meta.pages[uri].assembly
+    };
     const { modules } = meta.pages[uri];
     Object.keys(modules).forEach((name) => {
       pageDependencies[modules[name].package] = modules[name].version;
