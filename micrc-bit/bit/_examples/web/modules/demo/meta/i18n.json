@@ -1,0 +1,7 @@
+{
+  "btn.submit": {
+    "key": "btn.submit",
+    "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
+    "defaults": { "zh": "提交", "en": "Submit" }
+  }
+}

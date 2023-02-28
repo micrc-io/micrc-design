@@ -1,3 +1,11 @@
+/*
+ * @Author: wuwanping
+ * @Date: 2023-02-28 11:06:32
+ * @LastEditTime: 2023-02-28 16:22:02
+ * @LastEditors: wuwanping
+ * @Description: 
+ * @FilePath: /micrc-bit/bit/generators/component/micrc-web/templates/component/index.ts
+ */
 /**
  * micrc web component template
  */

@@ -14,18 +14,29 @@ type ClientendIntro = {
   appId: string,
 };
 
+type Assembly = {
+  children: string | Record<string, Assembly>,
+  props: Record<string, PropType>,
+};
+
+type PageAssembly = {
+  layout: string,
+  props: Record<string, PropType>,
+};
+
+type PropType = string
+| { _val: any }
+| Record<string, Assembly>
+| Array<Record<string, Assembly>>
+| Record<string, Record<string, Assembly>>;
+
 type ClientendEntry = {
   moduleImports: Record<string, string>,
   componentImports: Record<string, string>,
   layouts: Record<string, {
     uris: Array<string>,
-    props: Record<string, string | { _val: any } | Record<string, Assembly>>
+    props: Record<string, PropType>
   }>,
-};
-
-type Assembly = {
-  layout: string,
-  props: Record<string, string | { _val: any } | Record<string, Assembly>>,
 };
 
 // 元数据定义
@@ -36,14 +47,14 @@ type ClientendMeta = {
     components: Record<string, { package: string, version: string }>,
     layouts: Record<string, {
       uris: Array<string>,
-      props: Record<string, string | { _val: any } | Record<string, Assembly>>,
+      props: Record<string, PropType>,
     }>,
   },
   pages: Record<string, {
     comment: Array<string>,
     modules: Record<string, { package: string, version: string }>,
     components: Record<string, { package: string, version: string }>,
-    assembly: Assembly,
+    assembly: PageAssembly,
   }>,
 };
 
@@ -54,7 +65,7 @@ export type ClientendContextData = {
   pages: Record<string, {
     moduleImports: Record<string, string>,
     componentImports: Record<string, string>,
-    assembly: Assembly,
+    assembly: PageAssembly,
   }>, // 页面数据，以uri为key，值包括模块、组件导入信息和装配信息
   dependencies?: Record<string, string>, // 端口附加的依赖，包括模块依赖，组件依赖，key为包名，value为版本
 };
@@ -98,7 +109,11 @@ const handlePages = (meta: ClientendMeta) => {
   const pageDependencies = {};
   const pages = {};
   Object.keys(meta.pages).forEach((uri) => {
-    pages[uri] = { assembly: meta.pages[uri].assembly };
+    pages[uri] = {
+      moduleImports: {},
+      componentImports: {},
+      assembly: meta.pages[uri].assembly,
+    };
     const { modules } = meta.pages[uri];
     Object.keys(modules).forEach((name) => {
       pageDependencies[modules[name].package] = modules[name].version;

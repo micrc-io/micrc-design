@@ -9,6 +9,48 @@
  */
 
 {
+    "_examples/web/atoms/demo": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/atoms/demo"
+    },
+    "_examples/web/atoms/layout": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/atoms/layout"
+    },
+    "_examples/web/components/card-test": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/components/card-test"
+    },
+    "_examples/web/components/input-test": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/components/input-test"
+    },
+    "_examples/web/components/list": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/components/list"
+    },
+    "_examples/web/modules/demo": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/modules/demo"
+    },
+    "_examples/web/modules/ui": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/modules/ui"
+    },
     "compilations/micrc-app": {
         "scope": "micrc.bit",
         "version": "0.0.1",

@@ -3,6 +3,12 @@
  */
 import { ComponentContext } from '@teambit/generator';
 
+// 类型定义
+type TypeDefinition = {
+  interface: boolean, // 是否接口，如果是定义为interface，否则定义为type
+  props: Record<string, string>, // 类型属性
+};
+
 // 类型导入
 type ImportContent = {
   default: string, // 默认导入
@@ -75,6 +81,7 @@ type ModuleMeta = {
   i18n: I18nPointerMeta,
   comment: Array<string>,
   types?: {
+    definitions?: Record<string, TypeDefinition>,
     imports?: Record<string, { default: boolean, packages: string }>
   },
   innerState?: Record<string, any>,
@@ -85,6 +92,7 @@ type ModuleMeta = {
 
 export type ModuleContextData = {
   i18n: I18nPointerMeta, // 国际化点位
+  typeDefinitions?: Record<string, TypeDefinition>, // 类型定义，以定义的类型名为key
   context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息
   comment: Array<string>, // 组件注释
   reactImports: Record<string, ImportContent>, // react库导入
@@ -197,6 +205,7 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     i18n: meta.i18n,
     comment: meta.comment,
     reactImports: reactImports(meta),
+    typeDefinitions: meta.types.definitions || {},
     typeImports: typeOrComponentImports(meta, 'types'),
     componentImports: typeOrComponentImports(meta, 'components'),
     innerState: meta.innerState || {},

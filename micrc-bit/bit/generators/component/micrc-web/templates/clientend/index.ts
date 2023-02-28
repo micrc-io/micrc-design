@@ -18,6 +18,8 @@ import { appPageFiles } from './files/app/page-files';
 import { appEntryFile } from './files/app/entry-file';
 import { apiProxyFile } from './files/app/api/api-proxy-file';
 import { apiFiles } from './files/app/api/api-files';
+// eslint-disable-next-line import/extensions
+import { indexMdxFile } from './files/app/index-mdx-file';
 
 const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
 
@@ -39,6 +41,11 @@ export const clientendTemplate: ComponentTemplate = {
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
       context,
     );
+    let pagesName = '';
+    Object.keys(data.pages).forEach((name) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      pagesName = name;
+    });
     return [
       // index file
       {
@@ -80,6 +87,14 @@ export const clientendTemplate: ComponentTemplate = {
       {
         relativePath: 'app/pages/readme',
         content: apiFiles(data),
+      },
+      {
+        relativePath: 'app/pages/index.mdx',
+        content: indexMdxFile(),
+      },
+      {
+        relativePath: `app/pages/${pagesName}/index.mdx`,
+        content: indexMdxFile(),
       },
       // app page files
       {

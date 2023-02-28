@@ -127,6 +127,12 @@
     "{_examples/web/modules/**}": {
       "micrc.bit/envs/micrc-web": {}
     },
+    "{_examples/web/atoms/**}": {
+      "micrc.bit/envs/micrc-web": {}
+    },
+    "{_examples/web/clientend/**}": {
+      "micrc.bit/envs/micrc-web": {}
+    },
     "{_examples/mini/components/**}": {
       "micrc.bit/envs/micrc-mini": {}
     },
