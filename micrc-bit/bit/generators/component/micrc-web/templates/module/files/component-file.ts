@@ -1,11 +1,12 @@
-
 /**
  * index.ts
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
+
+import { propsAssembler, jsonObject } from '../../assembler';
+
 import { ModuleContextData } from '../_parse';
-import { propsAssembler,assembler, jsonObject } from '../../assembler';
 
 const tmpl = `{{#each comment}}// {{this}}\n{{/each}}
 {{!-- 导入react --}}
@@ -20,6 +21,7 @@ import {{this.default}}, {
 import {{this.default}} from '{{@key}}';
 {{/if}}
 {{/each}}
+
 {{!-- 导入类型 --}}
 {{#each typeImports}}
 {{#if this.types}}
@@ -42,7 +44,6 @@ import type {{this.default}} from '{{@key}}';
 {{/each}}
 
 {{!-- 导入使用的组件 --}}
-
 {{#each componentImports}}
 {{#if this.types}}
 {{#if this.default}}
@@ -65,7 +66,7 @@ import {{this.default}} from '{{@key}}';
 
 {{!-- 导入运行时工具 --}}
 import { useModuleStore as useStore } from '@micrc/bit.runtimes.micrc-web';
-import { useGlobalStore as global  } from '@micrc/bit.runtimes.micrc-web/store/global';
+import { useGlobalStore as global  } from '@micrc/bit.runtimes.micrc-web';
 
 
 {{!-- 导入样式文件 --}}
@@ -95,12 +96,14 @@ type {{@key}} = {
 {{/if}}
 
 {{/each}}
+
 {{!-- 定义组件本体 --}}
 export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Props) {
   {{!-- 定义内部状态 --}}
   {{#each innerState}}
   const {{@key}} = useState({{{json this}}});
   {{/each}}
+
   {{!-- 定义binding和action --}}
   const { bind, action } = useStore({
     global,
@@ -113,7 +116,7 @@ export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Prop
   });
 
   return( {{#with assembly}}
-      <{{name}}
+      <{{layout}}
       {{{propsAssembler  props}}}
       />
     {{/with}})
@@ -123,12 +126,15 @@ export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Prop
 export function componentFile(data: ModuleContextData) {
   HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
   HandleBars.registerHelper('json', (context) => jsonObject(context));
-  const code = HandleBars.compile(tmpl)(data);
-  return prettier.format(code, {
-    parser: 'typescript',
-    semi: true,
-    singleQuote: true,
-    bracketSameLine: false,
-    singleAttributePerLine: true,
-  });
+
+  return prettier.format(
+    HandleBars.compile(tmpl)(data),
+    {
+      parser: 'typescript',
+      semi: true,
+      singleQuote: true,
+      bracketSameLine: false,
+      singleAttributePerLine: true,
+    },
+  );
 }

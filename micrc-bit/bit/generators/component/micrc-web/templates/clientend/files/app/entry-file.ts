@@ -3,7 +3,8 @@
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
-import { propsAssembler } from '../../../assembler';
+
+import { propsAssembler, jsonObject } from '../../../assembler';
 
 import type { ClientendContextData } from '../../_parser';
 
@@ -26,30 +27,28 @@ import '../styles/globals.css';
 
 const layouts: Record<string, { uris: Array<string>, layout: ReactNode }> = {
   {{#each layouts}}
-  {{@key}}: { uris: "uris", layout: {{@key}} },
+  {{@key}}: { uris: {{{json this.uris}}}, layout: <{{@key}} {{{propsAssembler this.props}}} /> },
   {{/each}}
 };
 
 const Wrapper = (props: JSX.IntrinsicAttributes) => {
   const router = useRouter();
-  let Layout;
+  let Layout = null;
   Object.keys(layouts).forEach((layout) => {
     if (layouts[layout].uris.includes(router.pathname)) {
       Layout = layouts[layout].layout;
     }
   });
-  return (
-    // @ts-ignore
-    <Layout
-      {{{propsAssembler layouts.props}}}
-      {...props}
-    />
-  );
+  if (!Layout) {
+    throw Error(\`unhandled clientends layout for page: \${router.pathname}\`);
+  }
+  return React.cloneElement(Layout, { ...props });
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  const components = { wrapper: Wrapper };
   return (
-    <MDXProvider components=\\{{ wrapper: Wrapper }}>
+    <MDXProvider components={ components }>
       {/* @ts-ignore */}
       <Component {...pageProps} router={useRouter()} />
     </MDXProvider>
@@ -59,6 +58,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
 export function appEntryFile(data: ClientendContextData) {
   HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
+  HandleBars.registerHelper('json', (context) => jsonObject(context));
+
   return prettier.format(
     HandleBars.compile(tmpl)(data.entry),
     {

@@ -119,6 +119,11 @@ const typeOrComponentImports = (
   return retVal;
 };
 
+const handleStories = (meta: ComponentMeta) => ({
+  ...meta.stories,
+  Default: {},
+});
+
 export const parse = (meta: ComponentMeta, context: ComponentContext): ComponentContextData => {
   const data: ComponentContextData = {
     context,
@@ -130,7 +135,7 @@ export const parse = (meta: ComponentMeta, context: ComponentContext): Component
     componentImports: typeOrComponentImports(meta, 'components'),
     innerState: meta.innerState || {},
     assembly: meta.assembly,
-    stories: meta.stories,
+    stories: handleStories(meta),
     doc: meta.doc,
   };
   return data;

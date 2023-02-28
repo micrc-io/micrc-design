@@ -80,13 +80,17 @@
             {
               "SystemAccount": {
                 "children": null,
-                "props": {}
+                "props": {
+                  "key": "0"
+                }
               }
             },
             {
               "Languages": {
                 "children": null,
-                "props": {}
+                "props": {
+                  "key": "1"
+                }
               }
             }
           ]

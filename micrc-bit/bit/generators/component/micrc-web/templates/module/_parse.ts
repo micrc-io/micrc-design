@@ -17,9 +17,19 @@ type ImportContent = {
 
 // 装配结构
 type Assembly = {
-  name: string,
-  props?: Record<string, string | { _val: any } | Record<string, Assembly>>,
+  children: string | Record<string, Assembly>,
+  props: Record<string, PropType>,
 };
+
+type ModuleAssembly = {
+  layout: string,
+  props: Record<string, PropType>,
+};
+
+type PropType = string
+| { _val: any }
+| Record<string, Assembly>
+| Array<Record<string, Assembly>>;
 
 // 国际化点位
 type I18nPointerMeta = {
@@ -86,7 +96,7 @@ type ModuleMeta = {
   },
   innerState?: Record<string, any>,
   components: Record<string, { default: boolean, packages: string }>,
-  assembly: Assembly,
+  assembly: ModuleAssembly,
   integration: IntegrationMeta,
 };
 
@@ -99,7 +109,7 @@ export type ModuleContextData = {
   typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
   innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
-  assembly: Assembly, // 组件装配结构，以导入的组件名为key
+  assembly: ModuleAssembly, // 组件装配结构，以导入的组件名为key
   integration: IntegrationDataContext, // 行为集成
 };
 

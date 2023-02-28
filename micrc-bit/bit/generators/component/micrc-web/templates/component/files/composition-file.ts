@@ -16,7 +16,7 @@ import {
 } from './{{context.name}}.stories';
 
 {{#each stories}}
-export const {{@key}} = () => <{{@key}} {...{{@key}}.args} />;
+export const {{@key}}Story = () => <{{@key}} {...{{@key}}.args} />;
 {{/each}}
 `;
 

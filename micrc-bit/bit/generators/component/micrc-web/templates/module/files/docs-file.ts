@@ -32,7 +32,7 @@ export function docFile(data: ModuleContextData) {
   return prettier.format(
     HandleBars.compile(tmpl)(data),
     {
-      parser: 'typescript',
+      parser: 'mdx',
       semi: true,
       singleQuote: true,
       bracketSameLine: false,

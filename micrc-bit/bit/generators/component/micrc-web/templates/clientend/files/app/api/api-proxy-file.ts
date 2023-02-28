@@ -5,8 +5,6 @@
 const tmpl = `// api proxy.
 // note: 这里仅处理请求代理转发, 不必负责启动msw, 各状态组件mock会自行处理
 // note: 各组件处理mock是为了组件自包含, 端口不必强行了解协议等不必要的知识
-// note: 这里仅处理i18n语言包的获取, 因为需要在入口初始化global, 没办法使用模块自身的mock
-// todo 处理i8n语言包获取
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ClientRequest, IncomingMessage } from 'http';
 import { Request, Response } from "http-proxy-middleware/dist/types";

@@ -1,3 +1,7 @@
+/**
+ * 模版helper, 递归装配, 对象json字符串
+ */
+
 export const propsAssembler = (props: object): string => {
   let retVal = '';
   Object.keys(props).forEach((name) => {
@@ -10,10 +14,20 @@ export const propsAssembler = (props: object): string => {
     const propObj = objProp ? `{${JSON.stringify(prop._val)}}` : '';
     const exprProp = typeof prop === 'string' && (prop.startsWith('bind') || /\(.*\) => action/.test(prop));
     const propExpr = exprProp ? `{${prop}}` : '';
-    const compProp = typeof prop === 'object' && !objProp;
+    const compProp = typeof prop === 'object' && !objProp && !Array.isArray(prop);
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    const propComp = compProp ? `{${assembler(prop)}}` : '';
-    retVal += ` ${name}=${propStr}${propObj}${propExpr}${propComp}`;
+    const propComp = compProp ? `{<>${assembler(prop)}</>}` : '';
+    const arrayProp = Array.isArray(prop);
+    let propCompArray = '';
+    if (arrayProp) {
+      propCompArray += '{[';
+      prop.forEach((comp) => {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        propCompArray += `<>${assembler(comp)}</>,`;
+      });
+      propCompArray += ']}';
+    }
+    retVal += ` ${name}=${propStr}${propObj}${propExpr}${propComp}${propCompArray}`;
   });
   return retVal;
 };
@@ -35,10 +49,10 @@ export const assembler = (components: object): string => {
   });
   return retVal;
 };
+
 export const jsonObject = (obj: any): string => {
   if (typeof obj === 'string') {
     return obj;
   }
   return JSON.stringify(obj);
-// eslint-disable-next-line eol-last
 };

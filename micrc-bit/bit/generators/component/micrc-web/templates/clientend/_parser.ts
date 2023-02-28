@@ -27,8 +27,7 @@ type PageAssembly = {
 type PropType = string
 | { _val: any }
 | Record<string, Assembly>
-| Array<Record<string, Assembly>>
-| Record<string, Record<string, Assembly>>;
+| Array<Record<string, Assembly>>;
 
 type ClientendEntry = {
   moduleImports: Record<string, string>,

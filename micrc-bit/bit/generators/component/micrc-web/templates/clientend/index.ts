@@ -18,8 +18,18 @@ import { appPageFiles } from './files/app/page-files';
 import { appEntryFile } from './files/app/entry-file';
 import { apiProxyFile } from './files/app/api/api-proxy-file';
 import { apiFiles } from './files/app/api/api-files';
-// eslint-disable-next-line import/extensions
-import { indexMdxFile } from './files/app/index-mdx-file';
+import { appMSWFile } from './files/app/public/mock-file';
+import { appGlobalCssFile } from './files/app/styles/globals-css-file';
+import { appAntdLessFile } from './files/app/styles/antd-themes/default-less-file';
+import { appBabelFile } from './files/app/babel-file';
+import { appEslintignoreFile } from './files/app/eslintignore-file';
+import { appEslintFile } from './files/app/eslintrc-file';
+import { appGitignoreFile } from './files/app/gitignore-file';
+import { appNextEnvFile } from './files/app/next-env-file';
+import { appTsConfigFile } from './files/app/ts-config-file';
+import { appEnvFile } from './files/app/env-file';
+import { appEnvDevFile } from './files/app/env-dev-file';
+import { appEnvProdFile } from './files/app/env-prod-file';
 
 const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
 
@@ -41,11 +51,6 @@ export const clientendTemplate: ComponentTemplate = {
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
       context,
     );
-    let pagesName = '';
-    Object.keys(data.pages).forEach((name) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      pagesName = name;
-    });
     return [
       // index file
       {
@@ -73,9 +78,54 @@ export const clientendTemplate: ComponentTemplate = {
         relativePath: 'app/next.config.js',
         content: appConfigFile(data),
       },
+      // app .babelrc file
+      {
+        relativePath: 'app/.babelrc',
+        content: appBabelFile(),
+      },
+      // app .eslintignore file
+      {
+        relativePath: 'app/.eslintignore',
+        content: appEslintignoreFile(),
+      },
+      // app .eslintrc.json file
+      {
+        relativePath: 'app/.eslintrc.json',
+        content: appEslintFile(),
+      },
+      // app .gitignore file
+      {
+        relativePath: 'app/.gitignore',
+        content: appGitignoreFile(),
+      },
+      // app next-env.d.ts file
+      {
+        relativePath: 'app/next-env.d.ts',
+        content: appNextEnvFile(),
+      },
+      // app tsconfig.json file
+      {
+        relativePath: 'app/tsconfig.json',
+        content: appTsConfigFile(),
+      },
+      // app .env file
+      {
+        relativePath: 'app/.env',
+        content: appEnvFile(),
+      },
+      // app .env.development file
+      {
+        relativePath: 'app/.env.development',
+        content: appEnvDevFile(),
+      },
+      // app .env.production file
+      {
+        relativePath: 'app/.env.production',
+        content: appEnvProdFile(),
+      },
       // app pages/_app.ts file
       {
-        relativePath: 'app/pages/_app.ts',
+        relativePath: 'app/pages/_app.tsx',
         content: appEntryFile(data),
       },
       // app pages/api/[...slug].ts file
@@ -88,18 +138,25 @@ export const clientendTemplate: ComponentTemplate = {
         relativePath: 'app/pages/readme',
         content: apiFiles(data),
       },
-      {
-        relativePath: 'app/pages/index.mdx',
-        content: indexMdxFile(),
-      },
-      {
-        relativePath: `app/pages/${pagesName}/index.mdx`,
-        content: indexMdxFile(),
-      },
       // app page files
       {
         relativePath: 'app/pages/readme',
         content: appPageFiles(data),
+      },
+      // app public/mockServiceWorker.js
+      {
+        relativePath: 'app/public/mockServiceWorker.js',
+        content: appMSWFile(),
+      },
+      // app styles/globals.css
+      {
+        relativePath: 'app/styles/globals.css',
+        content: appGlobalCssFile(),
+      },
+      // app styles/antd-themes/default.less
+      {
+        relativePath: 'app/styles/antd-themes/default.less',
+        content: appAntdLessFile(),
       },
     ];
   },
