@@ -18,8 +18,13 @@ type ImportContent = {
 // 装配结构
 type Assembly = {
   children?: Record<string, Assembly> | string,
-  props: Record<string, string | { _val: any } | Record<string, Assembly>>,
+  props: Record<string, PropType>,
 };
+
+type PropType = string
+| { _val: any }
+| Record<string, Assembly>
+| Array<Record<string, Assembly>>;
 
 type ComponentDoc = {
   title: string, // 标题, 文档头部显示的内容
@@ -36,11 +41,11 @@ type ComponentMeta = {
     imports?: Record<string, { default: boolean, packages: string }>
   },
   props: Record<string, string>,
+  stories: Record<string, Record<string, any | Record<string, Assembly>>>,
+  doc: ComponentDoc,
   innerState?: Record<string, any>,
   components: Record<string, { default: boolean, packages: string }>,
   assembly: Record<string, Assembly>,
-  stories: Record<string, Record<string, any | Record<string, Assembly>>>,
-  doc: ComponentDoc,
 };
 
 export type ComponentContextData = {
@@ -50,12 +55,12 @@ export type ComponentContextData = {
   typeDefinitions?: Record<string, TypeDefinition>, // 类型定义，以定义的类型名为key
   typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
   props: Record<string, string>, // 组件props类型定义
+  stories: Record<string, Record<string, any | Record<string, Assembly>>>,
+  doc: ComponentDoc, // 组件文档
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
   innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
   assembly: Record<string, Assembly>, // 组件装配结构，以导入的组件名为key
   // 以story名称为key，值为一组props，每组是一个props组合
-  stories: Record<string, Record<string, any | Record<string, Assembly>>>,
-  doc: ComponentDoc, // 组件文档
 };
 
 const reactImports = (meta: ComponentMeta): Record<string, ImportContent> => {

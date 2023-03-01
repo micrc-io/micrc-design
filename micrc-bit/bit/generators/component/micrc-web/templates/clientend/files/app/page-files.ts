@@ -7,7 +7,7 @@ import path from 'path';
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
 
-import { propsAssembler } from '../../../assembler';
+import { propsAssembler } from '../../../../lib/assembler';
 import type { ClientendContextData } from '../../_parser';
 
 const tmpl = `

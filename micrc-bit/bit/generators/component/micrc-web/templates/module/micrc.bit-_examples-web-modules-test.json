@@ -10,41 +10,21 @@
     }
   },
   "comment": ["模块", "注释"],
-  "types": {
-    "definitions": {
-      "DataType": {
-        "interface": true,
-        "props": {
-          "key": "string",
-          "name": "string",
-          "age": "number",
-          "address": "string",
-          "tags": "string[]"
-        }
-      }
-    },
-    "imports": {
-      "ReactNode": {
-        "default": false,
-        "packages": "react"
-      },
-      "ColumnsType": {
-        "default": false,
-        "packages": "antd/es/table"
-      }
-    }
+  "doc": {
+    "title": "demo module",
+    "labels": [],
+    "desc": "demo module description",
+    "prototype": "https://xxx/xxx/x"
   },
-  "props": {
-    "children": "ReactNode",
-    "columns": "ColumnsType<DataType>",
-    "data": " DataType[]",
-    "onSelect": "(record, selected, selectedRows, nativeEvent) => void",
-    "onChange": "(page, pageSize) => void",
-    "formList": "Array<{label: string, placeholder: string}>",
-    "onFinish": "(values: any) => {}",
-    "onFinishFailed": "(errorInfo: any) => {}"
+  "types": {
+    "definitions": {},
+    "imports": {}
   },
   "components": {
+    "IntegrationSimulator": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.integration-simulator"
+    },
     "LayoutTest": {
       "version": "0.0.1",
       "packages": "@micrc/bit._examples.web.components.layout-test"
@@ -62,6 +42,11 @@
       "packages": "@micrc/bit._examples.web.components.card-test"
     }
   },
+  "store": {
+    "name": "DemoStore",
+    "package": "@micrc/bit._examples.web.states.demo-store",
+    "version": "0.0.1"
+  },
   "innerState": {
     "show": {
       "value": false
@@ -70,7 +55,7 @@
       "value": false
     },
     "message": {
-      "value": "okok"
+      "value": "ok"
     },
     "columns": {
       "value": []
@@ -78,17 +63,27 @@
     "formList": {
       "value": []
     },
-    "titie": {
+    "title": {
       "value": "搜索"
     }
   },
   "assembly": {
-    "name": "LayoutTest",
+    "layout": "LayoutTest",
     "props": {
       "input": {
         "InputTest": {
           "children": null,
-          "props": {}
+          "props": {
+            "onChange": {
+              "_params": ["e"],
+              "_actions": [
+                {
+                  "action": "action({op: 'replace', path: 'states@message:///value', value: null})",
+                  "inputPath": "/target/value"
+                }
+              ]
+            }
+          }
         }
       },
       "table": {

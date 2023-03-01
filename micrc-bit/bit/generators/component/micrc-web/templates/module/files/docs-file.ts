@@ -9,23 +9,16 @@ label: {{doc.label}}
 
 import 'antd/dist/antd.less';
 
-import {
-    {{#each doc.examples}}
-        {{@key}}
-    {{/each}}
-} from './{{context.name}}.composition';
+import { Default } from './{{context.name}}.composition';
 
 {{doc.prototype}}
 
-
-{{#each doc.examples}}
-{{this}}
+{{{doc.desc}}}
 
 ### Component usage
 \`\`\`js
-<{{@key}} />
+<Default {...Default.args} />
 \`\`\`
-{{/each}}
 `;
 
 export function docFile(data: ModuleContextData) {

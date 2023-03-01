@@ -38,6 +38,7 @@ export function storiesFile(data: ComponentContextData) {
       singleQuote: true,
       bracketSameLine: false,
       singleAttributePerLine: true,
+      trailingComma: 'all',
     },
   );
 }

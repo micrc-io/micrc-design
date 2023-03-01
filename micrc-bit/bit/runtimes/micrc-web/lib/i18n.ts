@@ -5,7 +5,15 @@ import { useGlobalStore } from '../store/global';
 
 import patcher from './json-patch';
 
-export const keyPath = (state: any, router: any, id: string, bindingPath: string) => `/i18n/${state.locale}/${router.pathname}/${id}/${bindingPath.replace('i18n://', '')}`;
+export const keyPath = (state: any, router: any, id: string, bindingPath: string) => {
+  if (!router) {
+    return `/i18n/${state.locale}${bindingPath.replace('i18n://', '')}`;
+  }
+  if (!id) {
+    throw Error('module id must exists.');
+  }
+  return `/i18n/${state.locale}/${router.pathname}/${id}/${bindingPath.replace('i18n://', '')}`;
+};
 
 export const replaceKey = (obj: any) => {
   if (typeof obj === 'string') {

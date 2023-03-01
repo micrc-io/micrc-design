@@ -3,8 +3,9 @@
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
+
 import { AtomContextData } from '../_parse';
-import { propsAssembler, assembler, jsonObject } from '../../assembler';
+import { propsAssembler, jsonObject } from '../../../lib/assembler';
 
 const tmpl = `{{#each comment}}// {{this}}\n{{/each}}
 {{!-- 导入react --}}
@@ -57,12 +58,16 @@ export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Prop
 export function componentFile(data: AtomContextData) {
   HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
   HandleBars.registerHelper('json', (context) => jsonObject(context));
-  const code = HandleBars.compile(tmpl)(data);
-  return prettier.format(code, {
-    parser: 'typescript',
-    semi: true,
-    singleQuote: true,
-    bracketSameLine: false,
-    singleAttributePerLine: true,
-  });
+
+  return prettier.format(
+    HandleBars.compile(tmpl)(data),
+    {
+      parser: 'typescript',
+      semi: true,
+      singleQuote: true,
+      bracketSameLine: false,
+      singleAttributePerLine: true,
+      trailingComma: 'all',
+    },
+  );
 }

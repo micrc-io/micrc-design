@@ -1,7 +1,11 @@
-
+/**
+ * composition.ts
+ */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
+
 import { AtomContextData } from '../_parse';
+
 const tmpl = `// {{context.name}} composition
 import React from 'react';
 
@@ -25,6 +29,7 @@ export function compositionFile(data: AtomContextData) {
       singleQuote: true,
       bracketSameLine: false,
       singleAttributePerLine: true,
+      trailingComma: 'all',
     },
   );
 }

@@ -29,7 +29,8 @@ type ModuleAssembly = {
 type PropType = string
 | { _val: any }
 | Record<string, Assembly>
-| Array<Record<string, Assembly>>;
+| Array<Record<string, Assembly>>
+| { _params: Array<string>, _actions: Array<{ action: string, inputPath: string }> };
 
 // 国际化点位
 type I18nPointerMeta = {
@@ -86,6 +87,13 @@ type IntegrationDataContext = {
   },
 };
 
+type ModuleDoc = {
+  title: string, // 标题, 文档头部显示的内容
+  label: Array<string>, // 模块label, 用于模块搜索
+  desc: string, // 模块详细描述
+  prototype: string, // 原型(高保真)的链接(原型工具提供, 可以直接浏览器打开, 嵌入到文档的iframe中)
+};
+
 // 元数据定义
 type ModuleMeta = {
   i18n: I18nPointerMeta,
@@ -95,9 +103,11 @@ type ModuleMeta = {
     imports?: Record<string, { default: boolean, packages: string }>
   },
   innerState?: Record<string, any>,
-  components: Record<string, { default: boolean, packages: string }>,
+  store: { name: string, package: string, version: string },
+  components: Record<string, { version: string, packages: string }>,
   assembly: ModuleAssembly,
   integration: IntegrationMeta,
+  doc: ModuleDoc,
 };
 
 export type ModuleContextData = {
@@ -107,10 +117,13 @@ export type ModuleContextData = {
   comment: Array<string>, // 组件注释
   reactImports: Record<string, ImportContent>, // react库导入
   typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
-  componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
+  componentImports: Record<string, string>, // 组件导入，以导入名为key, 模块只能使用通用组件, 不必描述default导入
+  storeImport: Record<string, string>, // 状态组件, 每个模块有且仅有一个状态组件
   innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
   assembly: ModuleAssembly, // 组件装配结构，以导入的组件名为key
   integration: IntegrationDataContext, // 行为集成
+  props: Record<string, string>, // 模块props, 仅有router, integration两个固定prop
+  doc: ModuleDoc,
 };
 
 const reactImports = (meta: ModuleMeta): Record<string, ImportContent> => {
@@ -160,16 +173,21 @@ const handleImports = (
   }
 };
 
-const typeOrComponentImports = (
-  meta: ModuleMeta, type: string,
-): Record<string, ImportContent> => {
+// 任意类型导入
+const typeImports = (meta: ModuleMeta): Record<string, ImportContent> => {
   const retVal: Record<string, ImportContent> = {};
-  // eslint-disable-next-line no-nested-ternary
-  let imports = type === 'types' ? meta.types.imports : {};
-  imports = type === 'components' ? meta.components : imports;
-  Object.keys(imports).forEach((name) => {
-    const pkg = imports[name];
+  Object.keys(meta.types.imports).forEach((name) => {
+    const pkg = meta.types.imports[name];
     handleImports(name, pkg, retVal);
+  });
+  return retVal;
+};
+
+// 组件导入
+const componentImports = (meta: ModuleMeta): Record<string, string> => {
+  const retVal: Record<string, string> = {};
+  Object.keys(meta.components).forEach((name) => {
+    retVal[name] = meta.components[name].packages;
   });
   return retVal;
 };
@@ -216,11 +234,14 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     comment: meta.comment,
     reactImports: reactImports(meta),
     typeDefinitions: meta.types.definitions || {},
-    typeImports: typeOrComponentImports(meta, 'types'),
-    componentImports: typeOrComponentImports(meta, 'components'),
+    props: { router: 'any', integration: 'object' },
+    typeImports: typeImports(meta),
+    componentImports: componentImports(meta),
+    storeImport: { [meta.store.name]: meta.store.package },
     innerState: meta.innerState || {},
     assembly: meta.assembly,
     integration: handleIntegration(meta),
+    doc: meta.doc,
   };
   return data;
 };

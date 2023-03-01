@@ -4,7 +4,7 @@
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
 
-import { propsAssembler, jsonObject } from '../../assembler';
+import { propsAssembler, jsonObject } from '../../../lib/assembler';
 
 import { ModuleContextData } from '../_parse';
 
@@ -45,29 +45,16 @@ import type {{this.default}} from '{{@key}}';
 
 {{!-- 导入使用的组件 --}}
 {{#each componentImports}}
-{{#if this.types}}
-{{#if this.default}}
-import {{this.default}}, {
-  {{#each this.types}}
-  {{this}},
-  {{/each}}
-} from '{{@key}}';
-{{else}}
-import {
-  {{#each this.types}}
-  {{this}},
-  {{/each}}
-} from '{{@key}}';
-{{/if}}
-{{else}}
-import {{this.default}} from '{{@key}}';
-{{/if}}
+import type { {{@key}}Props } from '{{this}}';
+import { {{@key}} } from '{{{this}}}';
 {{/each}}
 
-{{!-- 导入运行时工具 --}}
-import { useModuleStore as useStore } from '@micrc/bit.runtimes.micrc-web';
-import { useGlobalStore as global  } from '@micrc/bit.runtimes.micrc-web';
-
+{{!-- 导入store --}}
+{{#each storeImport}}
+import { {{@key}} as module } from '{{this}}'
+{{/each}}
+{{!-- 导入运行时store工具 --}}
+import { moduleStore } from '@micrc/bit.runtimes.micrc-web';
 
 {{!-- 导入样式文件 --}}
 import styles from './{{context.name}}.module.scss';
@@ -98,28 +85,36 @@ type {{@key}} = {
 {{/each}}
 
 {{!-- 定义组件本体 --}}
-export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Props) {
+export function {{context.namePascalCase}}({ router, integration }: {{context.namePascalCase}}Props) {
   {{!-- 定义内部状态 --}}
   {{#each innerState}}
   const {{@key}} = useState({{{json this}}});
   {{/each}}
 
   {{!-- 定义binding和action --}}
-  const { bind, action } = useStore({
-    global,
-    module,
-    states: {
-      {{#each innerState}}
-      {{@key}},
-      {{/each}}
-    }
-  });
+  const { bind, action } = moduleStore(
+    {
+      module,
+      states: {
+        {{#each innerState}}
+        {{@key}},
+        {{/each}}
+      }
+    },
+    router,
+    '{{{context.componentId}}}',
+  );
 
-  return( {{#with assembly}}
+  return (
+    <>
+      {{#with assembly}}
       <{{layout}}
       {{{propsAssembler  props}}}
       />
-    {{/with}})
+      {{/with}}
+      { integration ? <IntegrationSimulator integration={integration} /> : null }
+    </>
+  );
 }
 `;
 
@@ -135,6 +130,7 @@ export function componentFile(data: ModuleContextData) {
       singleQuote: true,
       bracketSameLine: false,
       singleAttributePerLine: true,
+      trailingComma: 'all',
     },
   );
 }

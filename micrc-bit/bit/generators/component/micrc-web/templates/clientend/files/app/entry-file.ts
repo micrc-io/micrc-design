@@ -4,7 +4,7 @@
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
 
-import { propsAssembler, jsonObject } from '../../../assembler';
+import { propsAssembler, jsonObject } from '../../../../lib/assembler';
 
 import type { ClientendContextData } from '../../_parser';
 

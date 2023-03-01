@@ -5,15 +5,9 @@ import { ModuleContextData } from '../_parse';
 const tmpl = `// {{context.name}} composition
 import React from 'react';
 
-import {
-  {{#each stories}}
-  {{@key}},
-  {{/each}}
-} from './{{context.name}}.stories';
+import { Default } from './{{context.name}}.stories';
 
-{{#each stories}}
-export const {{@key}} = () => <{{@key}} {...{{@key}}.args} />;
-{{/each}}
+export const DefaultStory = () => <Default {...Default.args} />;
 `;
 
 export function compositionFile(data: ModuleContextData) {
@@ -25,6 +19,7 @@ export function compositionFile(data: ModuleContextData) {
       singleQuote: true,
       bracketSameLine: false,
       singleAttributePerLine: true,
+      trailingComma: 'all',
     },
   );
 }
