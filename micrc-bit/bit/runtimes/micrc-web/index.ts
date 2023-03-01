@@ -1,2 +1,2 @@
-export { useComponentStore, useModuleStore } from './micrc-web';
-export { initGlobalStore, useGlobalStore } from './store/global';
+export { innerStore, moduleStore } from './micrc-web';
+export { initGlobalStore } from './store/global';

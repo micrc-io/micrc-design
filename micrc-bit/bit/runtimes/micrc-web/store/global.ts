@@ -5,10 +5,11 @@
 import create from 'zustand';
 
 export const useGlobalStore = create((set) => ({
-  token: '',
-  i18n: {},
-  tracker: {},
-  integration: {},
+  token: null,
+  i18n: null,
+  tracker: null,
+  integration: null,
+  demo: 'test global',
   set,
 }));
 

@@ -1,11 +1,14 @@
-/* eslint-disable no-await-in-loop */
 /**
  * micrc runtime: bind and action
  */
+import { useGlobalStore } from './store/global';
+
+import patcher from './lib/json-patch';
+import { keyPath, replaceKey } from './lib/i18n';
+
 import {
   StoreScope, PatchOperation, globalAction, moduleAction, statesAction, propsAction,
 } from './lib/action';
-import patcher from './lib/json-patch';
 
 type LocalStore = {
   props?: any,
@@ -13,14 +16,13 @@ type LocalStore = {
 };
 
 type ModuleStore = {
-  global?: any,
   module?: any,
   states?: Record<string, any>,
 };
 
-export const useModuleStore = (stores: ModuleStore) => {
+export const moduleStore = (stores: ModuleStore, router: any, id: string) => {
   const {
-    global, module, states,
+    module, states,
   } = stores;
   const stateStore = {};
   Object.keys(states).forEach((it) => {
@@ -41,46 +43,50 @@ export const useModuleStore = (stores: ModuleStore) => {
     }
   };
   return {
-    // 获取指定json pointer在scope(module or global)中的值，scope在path中指定global:///path
-    // 如：const xxxBinding = bind('global:///json pointer path');
     bind: (bindingPath: string): any => {
-      const [scope, path] = bindingPath.split('://');
-      if (!scope || !path) {
-        throw Error('binding path must format of [global|module|states]://[json pointer]');
+      const [fullScope, path] = bindingPath.split('://');
+      if (!fullScope || !path) {
+        throw Error('binding path must format of [global|module|states|i18n]://[json pointer]');
       }
-      if (scope === StoreScope[StoreScope.global]) {
-        return global((state: any) => patcher(state).path(path));
+      if (fullScope === StoreScope[StoreScope.global]) {
+        return useGlobalStore((state: any) => patcher(state).path(path));
       }
-      if (scope === StoreScope[StoreScope.module]) {
-        return module((state: any) => patcher(state).path(path));
+      if (fullScope === StoreScope[StoreScope.module]) {
+        return replaceKey(module((state: any) => patcher(state).path(path)));
+      }
+      if (fullScope === StoreScope[StoreScope.i18n]) {
+        return useGlobalStore(
+          (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath)),
+        );
+      }
+      const [scope, stateName] = fullScope.split('@');
+      if (!scope || !stateName) {
+        throw Error('state scope of binding path must format of [states@stateName]://[json pointer]');
       }
       if (scope === StoreScope[StoreScope.states]) {
-        return patcher(stateStore).path(path);
+        return patcher(stateStore).path(`/${stateName}${path}`);
       }
-      throw Error('unexpected scope. "global, module, states" allowed');
+      throw Error('unexpected scope. "global, module, states, i18n" allowed');
     },
-    // 包装一个函数，组合执行global,module,states的多个action，使用action的path前缀指明scope
-    // 响应函数的arguments传入作为input，一组jsonpointer对应在input中为actions的value取值
-    // 如：(a, b, c) => action1({a, b, c}, ['/a/path', null, '/c/path'])
-    // 程序会分别使用三个路径对input取值，并应用于对应的action，其中第二个action不存在传入值，使用action中的
-    action: (actions: Array<PatchOperation>) => async (inputs: any, paths: Array<string>) => {
-      for (let idx = 0; idx < actions.length; idx += 1) {
-        const action = actions[idx];
-        const [fullScope, path] = action.path.split('://');
-        // 当执行范围为global，可以执行add, replace, remove操作，表示更新global状态
-        if (fullScope === StoreScope[StoreScope.global]) {
-          globalAction(action, path, global, inputs, paths[idx]);
-        } else if (fullScope === StoreScope[StoreScope.module]) {
-          await moduleAction(action, path, module, inputs, paths[idx]);
-        } else {
-          execStatesAction(action, path, fullScope, inputs, paths[idx]);
-        }
+    action: (action: PatchOperation) => {
+      const [fullScope, path] = action.path.split('://');
+      if (!fullScope || !path) {
+        throw Error('action path must format of [global|module|states]://[json pointer]');
       }
+      // 当执行范围为global，可以执行add, replace, remove操作，表示更新global状态
+      if (fullScope === StoreScope[StoreScope.global]) {
+        return globalAction(action, path, useGlobalStore);
+      }
+      if (fullScope === StoreScope[StoreScope.module]) {
+        return moduleAction(action, path, module);
+      }
+      return (inputs: object, inputPath: string) =>
+        execStatesAction(action, path, fullScope, inputs, inputPath);
     },
   };
 };
 
-export const useComponentStore = (stores: LocalStore) => {
+export const innerStore = (stores: LocalStore) => {
   const {
     props, states,
   } = stores;
@@ -135,6 +141,7 @@ export const useComponentStore = (stores: LocalStore) => {
         const [fullScope, path] = action.path.split('://');
         // 当执行范围为props，仅能存在perform操作，表示执行props中的函数
         if (fullScope === StoreScope[StoreScope.props]) {
+          // eslint-disable-next-line no-await-in-loop
           await propsAction(action, path, props, inputs, paths[idx]);
         } else { // 当执行范围为states，可以有add, replace, remove操作，表示更新state状态
           execStatesAction(

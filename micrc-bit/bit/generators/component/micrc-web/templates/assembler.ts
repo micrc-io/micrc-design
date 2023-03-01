@@ -16,16 +16,16 @@ export const propsAssembler = (props: object): string => {
     const propExpr = exprProp ? `{${prop}}` : '';
     const compProp = typeof prop === 'object' && !objProp && !Array.isArray(prop);
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    const propComp = compProp ? `{<>${assembler(prop)}</>}` : '';
+    const propComp = compProp ? `{(<>${assembler(prop)}</>)}` : '';
     const arrayProp = Array.isArray(prop);
     let propCompArray = '';
     if (arrayProp) {
-      propCompArray += '{[';
+      propCompArray += '{[(';
       prop.forEach((comp) => {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        propCompArray += `<>${assembler(comp)}</>,`;
+        propCompArray += `<>${assembler(comp)}</>`;
       });
-      propCompArray += ']}';
+      propCompArray += '),]}';
     }
     retVal += ` ${name}=${propStr}${propObj}${propExpr}${propComp}${propCompArray}`;
   });
