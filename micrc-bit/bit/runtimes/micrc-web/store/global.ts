@@ -4,25 +4,89 @@
  */
 import create from 'zustand';
 
+type I18nPointer = {
+  key: string,
+  desc: string,
+  defaults: Record<string, string>,
+};
+
+type IntegrationTopic = {
+  name: string,
+  producer: {
+    pageUri: string,
+    moduleId: string,
+    schema: object,
+  },
+  consumers: Record<string, {
+    pageUri: string,
+    moduleId: string,
+    schema: string,
+    state: object,
+  }>,
+};
+
 export const useGlobalStore = create((set) => ({
   token: null,
   i18n: null,
   tracker: null,
   integration: null,
-  demo: 'test global',
   set,
 }));
 
-export const initGlobalStore = (
+export const initModuleGlobalStore = (
   locale: string,
-  i18n: any,
+  i18n: Record<string, I18nPointer>,
   tracker: any,
-  integration: any,
+  integration: Record<string, IntegrationTopic>,
 ) => {
+  const languages = {};
+  Object.values(i18n).forEach((pointer) => {
+    Object.keys(pointer.defaults).forEach((it) => {
+      if (!languages[it]) {
+        languages[it] = {};
+      }
+      languages[it][pointer.key] = pointer.defaults[it];
+    });
+  });
   useGlobalStore.setState({
     i18n: {
       locale: locale || 'en',
-      languages: i18n,
+      languages,
+    },
+    tracker,
+    integration,
+  });
+};
+
+export const initGlobalStore = (
+  locale: string,
+  i18n: Record<string, Record<string, Record<string, I18nPointer>>>,
+  tracker: any,
+  integration: any,
+) => {
+  const languages = {};
+  Object.keys(i18n).forEach((pageUri) => {
+    Object.keys(i18n[pageUri]).forEach((moduleId) => {
+      Object.values(i18n[pageUri][moduleId]).forEach((pointer) => {
+        Object.keys(pointer.defaults).forEach((it) => {
+          if (!languages[it]) {
+            languages[it] = {};
+          }
+          if (!languages[it][pageUri]) {
+            languages[it][pageUri] = {};
+          }
+          if (!languages[it][pageUri][moduleId]) {
+            languages[it][pageUri][moduleId] = {};
+          }
+          languages[it][pageUri][moduleId][pointer.key] = pointer.defaults[it];
+        });
+      });
+    });
+  });
+  useGlobalStore.setState({
+    i18n: {
+      locale: locale || 'en',
+      languages,
     },
     tracker,
     integration,

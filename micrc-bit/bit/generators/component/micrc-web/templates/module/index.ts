@@ -53,7 +53,7 @@ export const moduleTemplate: ComponentTemplate = {
       // scss file
       {
         relativePath: `${context.name}.module.scss`,
-        content: '',
+        content: `// ${context.name} scss`,
       },
       // stories file
       {
@@ -80,11 +80,10 @@ export const moduleTemplate: ComponentTemplate = {
         relativePath: 'meta/integration.json',
         content: integrationMetaFile(data),
       },
-      // {
-      //   relativePath: `${context.name}.docs.mdx`,
-      //   isMain: true,
-      //   content: docFile(data),
-      // },
+      {
+        relativePath: `${context.name}.docs.mdx`,
+        content: docFile(data),
+      },
     ];
   },
 };

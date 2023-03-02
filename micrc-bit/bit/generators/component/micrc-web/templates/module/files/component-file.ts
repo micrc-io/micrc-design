@@ -1,5 +1,5 @@
 /**
- * index.ts
+ * component file
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
@@ -62,7 +62,7 @@ import styles from './{{context.name}}.module.scss';
 {{!-- props类型定义 --}}
 export type {{context.namePascalCase}}Props = {
   {{#each props}}
-  {{@key}}: {{{this}}},
+  {{@key}}?: {{{this}}},
   {{/each}}
 };
 
@@ -104,6 +104,11 @@ export function {{context.namePascalCase}}({ router, integration }: {{context.na
     router,
     '{{{context.componentId}}}',
   );
+
+  {{!-- 定义actions, 受限于hooks规则 --}}
+  {{#each actions}}
+  const {{@key}} = action({{{json this}}})
+  {{/each}}
 
   return (
     <>

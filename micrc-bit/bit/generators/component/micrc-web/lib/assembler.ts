@@ -7,20 +7,22 @@ const actionTmpl = `
 {
 (
   {{#each _params}}
-  {{{this}}},
+  {{{this}}}: any,
   {{/each}}
 ) => {
-  const params = {
-    {{#each _params}}
-    {{{this}}},
-    {{/each}}
-  };
   const actions = async () => {
     {{#each _actions}}
-    await {{{this.action}}}(params, '{{{this.inputPath}}}')
+    await {{{this.action}}}(
+      {
+        {{#each ../_params}}
+        {{{this}}},
+        {{/each}}
+      },
+      '{{{this.inputPath}}}'
+    );
     {{/each}}
   };
-  actions();
+  actions()
 }
 }
 `;

@@ -45,7 +45,7 @@ const Template = (props: {{context.namePascalCase}}Props) => (<{{context.namePas
 {{#each stories.examples}}
 export const {{@key}} = Template.bind({});
 {{@key}}.args = {
-  {{#each this}}
+  {{#each this.props}}
   {{@key}}: {{{jsonObject this}}},
   {{/each}}
 };

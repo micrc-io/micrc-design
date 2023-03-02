@@ -89,7 +89,7 @@ type IntegrationDataContext = {
 
 type ModuleDoc = {
   title: string, // 标题, 文档头部显示的内容
-  label: Array<string>, // 模块label, 用于模块搜索
+  labels: Array<string>, // 模块label, 用于模块搜索
   desc: string, // 模块详细描述
   prototype: string, // 原型(高保真)的链接(原型工具提供, 可以直接浏览器打开, 嵌入到文档的iframe中)
 };
@@ -102,9 +102,10 @@ type ModuleMeta = {
     definitions?: Record<string, TypeDefinition>,
     imports?: Record<string, { default: boolean, packages: string }>
   },
-  innerState?: Record<string, any>,
   store: { name: string, package: string, version: string },
   components: Record<string, { version: string, packages: string }>,
+  innerState?: Record<string, any>,
+  actions?: Record<string, { op: string, path: string, value: any }>,
   assembly: ModuleAssembly,
   integration: IntegrationMeta,
   doc: ModuleDoc,
@@ -120,6 +121,7 @@ export type ModuleContextData = {
   componentImports: Record<string, string>, // 组件导入，以导入名为key, 模块只能使用通用组件, 不必描述default导入
   storeImport: Record<string, string>, // 状态组件, 每个模块有且仅有一个状态组件
   innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
+  actions?: Record<string, { op: string, path: string, value: any }>, // 预先定义所有的action, 受限于hooks规则
   assembly: ModuleAssembly, // 组件装配结构，以导入的组件名为key
   integration: IntegrationDataContext, // 行为集成
   props: Record<string, string>, // 模块props, 仅有router, integration两个固定prop
@@ -239,6 +241,7 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     componentImports: componentImports(meta),
     storeImport: { [meta.store.name]: meta.store.package },
     innerState: meta.innerState || {},
+    actions: meta.actions || {},
     assembly: meta.assembly,
     integration: handleIntegration(meta),
     doc: meta.doc,

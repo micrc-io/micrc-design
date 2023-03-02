@@ -1,2 +1,2 @@
 export { innerStore, moduleStore } from './micrc-web';
-export { initGlobalStore } from './store/global';
+export { initGlobalStore, initModuleGlobalStore } from './store/global';

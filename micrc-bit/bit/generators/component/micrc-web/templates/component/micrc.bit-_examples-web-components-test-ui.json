@@ -24,6 +24,11 @@
       }
     }
   },
+  "doc": {
+    "title": "demo component",
+    "labels": ["demo", "component"],
+    "prototype": "https://xxxx/xxx"
+  },
   "props": {
     "children": " ReactNode",
     "columns": "ColumnsType<DataType>",
@@ -44,35 +49,38 @@
     },
     "examples": {
       "Test1": {
-        "p1": "",
-        "p2": {},
-        "p3": [],
-        "p4": true,
-        "p5": 1,
-        "p6": {
-          "Xxx": {
-            "children": null,
-            "props": {}
-          },
-          "Yxx": {
-            "children": null,
-            "props": {}
-          }
-        },
-        "p7": [
-          {
+        "desc": "demo props usage",
+        "props": {
+          "p1": "",
+          "p2": {},
+          "p3": [],
+          "p4": true,
+          "p5": 1,
+          "p6": {
             "Xxx": {
               "children": null,
               "props": {}
-            }
-          },
-          {
-            "Yyy": {
+            },
+            "Yxx": {
               "children": null,
               "props": {}
             }
-          }
-        ]
+          },
+          "p7": [
+            {
+              "Xxx": {
+                "children": null,
+                "props": {}
+              }
+            },
+            {
+              "Yyy": {
+                "children": null,
+                "props": {}
+              }
+            }
+          ]
+        }
       }
     }
   },

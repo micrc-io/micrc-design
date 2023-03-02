@@ -1,5 +1,9 @@
+/**
+ * composition file
+ */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
+
 import { ModuleContextData } from '../_parse';
 
 const tmpl = `// {{context.name}} composition

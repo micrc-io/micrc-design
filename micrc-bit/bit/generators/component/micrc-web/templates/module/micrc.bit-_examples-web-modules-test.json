@@ -12,7 +12,7 @@
   "comment": ["模块", "注释"],
   "doc": {
     "title": "demo module",
-    "labels": [],
+    "labels": ["demo", "module"],
     "desc": "demo module description",
     "prototype": "https://xxx/xxx/x"
   },
@@ -67,6 +67,9 @@
       "value": "搜索"
     }
   },
+  "actions": {
+    "demoAction": {"op": "replace", "path": "states@message:///value", "value": null}
+  },
   "assembly": {
     "layout": "LayoutTest",
     "props": {
@@ -78,7 +81,7 @@
               "_params": ["e"],
               "_actions": [
                 {
-                  "action": "action({op: 'replace', path: 'states@message:///value', value: null})",
+                  "action": "demoAction",
                   "inputPath": "/target/value"
                 }
               ]

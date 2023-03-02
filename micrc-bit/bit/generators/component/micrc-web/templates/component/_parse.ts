@@ -28,8 +28,7 @@ type PropType = string
 
 type ComponentDoc = {
   title: string, // 标题, 文档头部显示的内容
-  label: Array<string>, // label, 组件label, 用于组件搜索
-  examples: Record<string, string>, // 以stories的名字为key, 描述这个story样例的内容为值
+  labels: Array<string>, // label, 组件label, 用于组件搜索
   prototype: string, // 原型(高保真)的链接(原型工具提供, 可以直接浏览器打开, 嵌入到文档的iframe中)
 };
 
@@ -43,7 +42,7 @@ type ComponentMeta = {
   props: Record<string, string>,
   stories: {
     components: Record<string, { default: boolean, packages: string }>,
-    examples: Record<string, Record<string, any>>,
+    examples: Record<string, { desc: string, props: Record<string, any> }>,
   },
   doc: ComponentDoc,
   innerState?: Record<string, any>,
@@ -60,7 +59,7 @@ export type ComponentContextData = {
   props: Record<string, string>, // 组件props类型定义
   stories: {
     componentImports: Record<string, ImportContent>,
-    examples: Record<string, Record<string, string>>,
+    examples: Record<string, { desc: string, props: Record<string, any> }>,
   },
   doc: ComponentDoc, // 组件文档
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
@@ -139,7 +138,10 @@ const handleStories = (meta: ComponentMeta) => {
   return {
     componentImports,
     examples: {
-      Default: {},
+      Default: {
+        desc: 'default usage',
+        props: {},
+      },
       ...meta.stories.examples,
     },
   };
