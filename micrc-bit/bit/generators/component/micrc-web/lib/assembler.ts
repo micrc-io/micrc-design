@@ -42,12 +42,12 @@ export const propsAssembler = (props: object): string => {
     const propExpr = exprProp ? `{${prop}}` : '';
     // action对象类型的prop, 用于需要传参的或者执行一组action的情况
     // eslint-disable-next-line no-underscore-dangle
-    const exprObjProp = typeof prop === 'object' && !objProp && prop._params && prop._actions;
+    const exprObjProp = typeof prop === 'object' && !objProp && prop._params !== undefined && prop._actions !== undefined;
     const propExprObj = exprObjProp ? HandleBars.compile(actionTmpl)(prop) : '';
     // 组件类型的prop, 用于给prop传递组件
     const compProp = typeof prop === 'object' && !objProp && !Array.isArray(prop) && !exprObjProp;
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    const propComp = compProp ? `{(<>${assembler(prop)}</>)}` : '';
+    const propComp = compProp ? `{(${assembler(prop)})}` : '';
     // 组件数组类型的prop, 用于给prop传递组件数组
     const arrayProp = Array.isArray(prop);
     let propCompArray = '';
@@ -55,7 +55,7 @@ export const propsAssembler = (props: object): string => {
       propCompArray += '{[(';
       prop.forEach((comp) => {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        propCompArray += `<>${assembler(comp)}</>`;
+        propCompArray += `${assembler(comp)}`;
       });
       propCompArray += '),]}';
     }
@@ -65,7 +65,7 @@ export const propsAssembler = (props: object): string => {
 };
 
 export const assembler = (components: object): string => {
-  let retVal = '';
+  let retVal = '<>';
   Object.keys(components).forEach((name) => {
     const comp = components[name];
     const nullChildren: boolean = !comp.children;
@@ -79,19 +79,34 @@ export const assembler = (components: object): string => {
               + `${nestedChildren ? assembler(comp.children) : ''}`
               + `${nullChildren ? '' : endTag}`;
   });
-  return retVal;
+  return `${retVal}</>`;
+};
+
+const checkCompObj = (obj: object): boolean => {
+  if (Object.keys(obj).length === 0) {
+    return false;
+  }
+  let isCompObj = true;
+  Object.keys(obj).forEach((it) => {
+    isCompObj = isCompObj && obj[it].children !== undefined && obj[it].props !== undefined;
+  });
+  return isCompObj;
 };
 
 export const jsonObject = (obj: any): string => {
-  if (typeof obj === 'string') {
-    return obj;
+  if (typeof obj === 'object') {
+    if (checkCompObj(obj)) { // 组件对象
+      return assembler(obj);
+    }
   }
-  return JSON.stringify(obj);
-};
-
-export const arrayJoin = (obj: any): string => {
-  if (Array.isArray(obj)) {
-    return obj.join(',');
+  if (Array.isArray(obj) && obj.length !== 0) { // 组件对象数组
+    let isCompObjArray = true;
+    obj.forEach((it) => {
+      isCompObjArray = isCompObjArray && checkCompObj(it);
+    });
+    if (isCompObjArray) {
+      return `[${obj.map((it) => assembler(it)).join(', ')}]`;
+    }
   }
   return JSON.stringify(obj);
 };

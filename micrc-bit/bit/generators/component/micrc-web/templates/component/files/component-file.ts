@@ -111,9 +111,7 @@ export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Prop
   });
 
   return (
-    <>
-      {{{assembler assembly}}}
-    </>
+    {{{assembler assembly}}}
   );
 }
 `;

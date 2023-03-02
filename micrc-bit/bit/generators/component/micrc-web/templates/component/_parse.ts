@@ -41,7 +41,10 @@ type ComponentMeta = {
     imports?: Record<string, { default: boolean, packages: string }>
   },
   props: Record<string, string>,
-  stories: Record<string, Record<string, any | Record<string, Assembly>>>,
+  stories: {
+    components: Record<string, { default: boolean, packages: string }>,
+    examples: Record<string, Record<string, any>>,
+  },
   doc: ComponentDoc,
   innerState?: Record<string, any>,
   components: Record<string, { default: boolean, packages: string }>,
@@ -55,7 +58,10 @@ export type ComponentContextData = {
   typeDefinitions?: Record<string, TypeDefinition>, // 类型定义，以定义的类型名为key
   typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
   props: Record<string, string>, // 组件props类型定义
-  stories: Record<string, Record<string, any | Record<string, Assembly>>>,
+  stories: {
+    componentImports: Record<string, ImportContent>,
+    examples: Record<string, Record<string, string>>,
+  },
   doc: ComponentDoc, // 组件文档
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
   innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
@@ -124,10 +130,20 @@ const typeOrComponentImports = (
   return retVal;
 };
 
-const handleStories = (meta: ComponentMeta) => ({
-  ...meta.stories,
-  Default: {},
-});
+const handleStories = (meta: ComponentMeta) => {
+  const componentImports: Record<string, ImportContent> = {};
+  Object.keys(meta.stories.components).forEach((name) => {
+    const pkg = meta.stories.components[name];
+    handleImports(name, pkg, componentImports);
+  });
+  return {
+    componentImports,
+    examples: {
+      Default: {},
+      ...meta.stories.examples,
+    },
+  };
+};
 
 export const parse = (meta: ComponentMeta, context: ComponentContext): ComponentContextData => {
   const data: ComponentContextData = {
