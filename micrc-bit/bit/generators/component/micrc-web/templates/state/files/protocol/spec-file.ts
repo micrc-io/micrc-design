@@ -174,47 +174,42 @@ Object.keys(spec.paths).forEach((path: string) => {
   });
 });
 
-export const useHandlers = (handlers) => {
-  // 浏览器环境
-  // 组件运行在bit和storybook环境中时, 会注册; 而运行在端口中时, mock一定为false, 虽然注册但worker不会启动
-  if (
-    typeof window !== 'undefined'
-    // && window.navigator // 用于jest检测. module和func组件不必进行单元测试
-    // && !(window.navigator.userAgent.includes('Node.js') || navigator.userAgent.includes('jsdom'))
-  ) {
-    if (
-      !(process.env.NEXT_PUBLIC_DEVELOPMENT === 'true' || process.env.DEVELOPMENT === 'true'
-        || process.env.NEXT_PUBLIC_PRODUCTION === 'true' || process.env.PRODUCTION === 'true')
-    ) {
-      if (!window['msw-worker']) {
-        const worker = setupWorker();
-        window['msw-worker'] = worker;
-        let workerPath = window.location.pathname;
-        if (workerPath.endsWith('.html')) {
-          workerPath = '';
-        }
-        worker.start({ serviceWorker: { url: \`\${workerPath}mockServiceWorker.js\` } });
-      }
-      window['msw-worker'].use(...handlers);
+const browserWorker = (handlers: Array<any>) => {
+  if (!window['msw-worker']) {
+    const worker = setupWorker();
+    window['msw-worker'] = worker;
+    let workerPath = window.location.pathname;
+    if (workerPath.endsWith('.html')) {
+      workerPath = '';
+    }
+    worker.start({ serviceWorker: { url: \`\${workerPath}mockServiceWorker.js\` } });
+  }
+  window['msw-worker'].use(...handlers);
+};
+
+const serverWorker = (handlers: Array<any>) => {
+  if (!global['msw-worker']) {
+    // eslint-disable-next-line global-require
+    const worker = require('msw/node').setupServer();
+    worker.listen();
+    global['msw-worker'] = worker;
+  }
+  global['msw-worker'].use(...handlers);
+};
+
+export const useHandlers = (handlers: Array<any>) => {
+  // 浏览器环境中, 仅bit/storybook环境需要启动浏览器mock worker
+  if (typeof window !== 'undefined') {
+    // 没有APP_ENV环境变量, 认为是bit/storybook环境
+    if (typeof process.env.NEXT_PUBLIC_APP_ENV === 'undefined') {
+      browserWorker(handlers);
     }
   }
-  // node 代理环境
-  // 组件运行在端口, 浏览器mock service worker不启动
-  // 请求会发送到node代理, 当缺失必要服务器环境变量值时, 代理启动mock service worker, 执行注册在node环境中的handler
+  // 服务端环境中, 仅default和local环境需要启动mock server
   if (typeof window === 'undefined' && typeof global !== 'undefined') {
-    // 当产品环境为true, 且登陆URI和token_pointer同时都配置时, 满足mock条件
-    // 如果global中的msw-worker不存在, 则创建、放入global并启动
-    // 每个状态组件的mock中也会这么做, 同时use(自己的handler))
-    if (
-      !(process.env.PRODUCTION === 'true' && process.env.LOGIN_URI && process.env.SERVER_TOKEN_POINTER)
-    ) {
-      if (!global['msw-worker']) {
-        // eslint-disable-next-line global-require
-        const worker = require('msw/node').setupServer();
-        worker.listen();
-        global['msw-worker'] = worker;
-      }
-      global['msw-worker'].use(...handlers);
+    // APP_ENV环境变量为default或local, 启动mock server
+    if (process.env.APP_ENV && (process.env.APP_ENV === 'local' || process.env.APP_ENV === 'default')) {
+      serverWorker(handlers);
     }
   }
 };

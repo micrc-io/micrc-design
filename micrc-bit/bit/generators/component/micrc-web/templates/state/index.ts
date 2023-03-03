@@ -91,12 +91,12 @@ export const stateTemplate: ComponentTemplate = {
       },
       // impl file
       {
-        relativePath: 'impl/impl.ts',
+        relativePath: 'impl/impl.js',
         content: implFile(),
       },
       // impl mock file
       {
-        relativePath: 'impl/mock.ts',
+        relativePath: 'impl/mock.js',
         content: implMockFile(),
       },
     ];
