@@ -1,0 +1,78 @@
+{
+  "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
+  "teambit.workspace/workspace": {
+    "name": "micrc-bit-extension",
+    "icon": "https://static.bit.dev/bit-logo.svg",
+    "defaultDirectory": "{scope}/{name}",
+    "defaultScope": "micrc.bit"
+  },
+  "teambit.dependencies/dependency-resolver": {
+    "packageManager": "teambit.dependencies/pnpm",
+    "policy": {
+      "dependencies": {
+        "@babel/runtime": "7.21.0",
+        "@teambit/eslint-config-bit-react": "0.0.367",
+        "@teambit/harmony": "0.4.6",
+        "@typescript-eslint/eslint-plugin": "5.35.1",
+        "core-js": "3.29.0",
+        "chalk": "4.1.2",
+        "eslint-import-resolver-node": "0.3.6",
+        "eslint-plugin-import": "2.22.1",
+        "eslint-plugin-jest": "24.4.0",
+        "eslint-plugin-jsx-a11y": "6.4.1",
+        "eslint-plugin-mdx": "1.15.0",
+        "eslint-plugin-react": "7.25.1",
+        "loglevel": "1.8.1"
+      },
+      "peerDependencies": {
+        "@testing-library/react": "12.1.5",
+        "@types/jest": "29.4.0",
+        "@types/node": "18.14.6",
+        "@types/testing-library__jest-dom": "5.14.5",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
+        "react-native": "0.71.3"
+      }
+    },
+    "linkCoreAspects": true,
+    "strictPeerDependencies": true
+  },
+  "teambit.workspace/variants": {
+    "{compilations/**}": {
+      "teambit.harmony/aspect": {}
+    },
+    "{generators/**}": {
+      "teambit.harmony/aspect": {}
+    },
+    "{envs/**}": {
+      "teambit.envs/env": {}
+    },
+    "{runtimes/**}": {
+      "teambit.react/react": {}
+    },
+    "{_examples/web/components/**}": {
+      "micrc.bit/envs/micrc-web": {}
+    },
+    "{_examples/web/modules/**}": {
+      "micrc.bit/envs/micrc-web": {}
+    },
+    "{_examples/web/atoms/**}": {
+      "micrc.bit/envs/micrc-web": {}
+    },
+    "{_examples/web/clientend/**}": {
+      "micrc.bit/envs/micrc-web": {}
+    },
+    "{_examples/mini/components/**}": {
+      "micrc.bit/envs/micrc-mini": {}
+    },
+    "{_examples/mini/modules/**}": {
+      "micrc.bit/envs/micrc-mini": {}
+    },
+    "{_examples/app/components/**}": {
+      "micrc.bit/envs/micrc-app": {}
+    },
+    "{_examples/app/modules/**}": {
+      "micrc.bit/envs/micrc-app": {}
+    }
+  }
+}

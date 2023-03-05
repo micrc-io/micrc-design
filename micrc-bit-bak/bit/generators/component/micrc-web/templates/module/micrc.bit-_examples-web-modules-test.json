@@ -1,0 +1,172 @@
+{
+  "i18n": {
+    "btn.submit": {
+      "key": "btn.submit",
+      "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
+      "defaults": {
+        "zh": "提交",
+        "en": "Submit"
+      }
+    }
+  },
+  "comment": ["模块", "注释"],
+  "doc": {
+    "title": "demo module",
+    "labels": ["demo", "module"],
+    "desc": "demo module description",
+    "prototype": "https://xxx/xxx/x"
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "IntegrationSimulator": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.integration-simulator"
+    },
+    "LayoutTest": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.layout-test"
+    },
+    "InputTest": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.input-test"
+    },
+    "List": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.List"
+    },
+    "CardTest": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.card-test"
+    }
+  },
+  "store": {
+    "name": "DemoStore",
+    "package": "@micrc/bit._examples.web.states.demo-store",
+    "version": "0.0.1"
+  },
+  "innerState": {
+    "show": {
+      "value": false
+    },
+    "showSteps": {
+      "value": false
+    },
+    "message": {
+      "value": "ok"
+    },
+    "columns": {
+      "value": []
+    },
+    "formList": {
+      "value": []
+    },
+    "title": {
+      "value": "搜索"
+    }
+  },
+  "actions": {
+    "demoAction": {"op": "replace", "path": "states@message:///value", "value": null}
+  },
+  "assembly": {
+    "layout": "LayoutTest",
+    "props": {
+      "input": {
+        "InputTest": {
+          "children": null,
+          "props": {
+            "onChange": {
+              "_params": ["e"],
+              "_actions": [
+                {
+                  "action": "demoAction",
+                  "inputPath": "/target/value"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "table": {
+        "List": {
+          "children": null,
+          "props": {
+            "data": "bind('props:///data')",
+            "columns": "bind('states@columns:///value')"
+          }
+        }
+      },
+      "card": {
+        "CardTest": {
+          "children": {
+            "Input": {
+              "children": null,
+              "props": {}
+            },
+            "Button": {
+              "children": "{bind('states@message:///value')}",
+              "props": {
+                "type": "primary"
+              }
+            }
+          },
+          "props": {
+            "title": "example card",
+            "style": {
+              "_val": { "width": 300 }
+            },
+            "extra": {
+              "Button": {
+                "children": "More",
+                "props": {
+                  "type": "link"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "/xxx1/xx1/x1",
+          "moduleId": "micrc.bit/xxx1/xx1/x1",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/yyy21/yy21/y21",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }, {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    }
+  }
+}
