@@ -32,13 +32,14 @@ const handleTaroH5 = (config: WebpackConfigMutator) => {
 
   // taro-ui taroify taro-component size handler
   // append postcss plugin -- postcss-pxtransform
-  config.raw.module.rules
+  // @ts-ignore
+  config.raw.module.rules // @ts-ignore
     .filter((it) => Object.keys(it).includes('oneOf')) // @ts-ignore
-    .reduce((prev, curr) => prev.oneOf.concat(curr.oneOf), { oneOf: [] })
-    .find((it) => `${it.test}` === `${/(?<!\.module)\.(scss|sass)$/.toString()}`)
-    .use
-    .find((it) => it.loader.indexOf('postcss-loader') > -1)
-    .options.postcssOptions.plugins
+    .reduce((prev, curr) => prev.oneOf.concat(curr.oneOf), { oneOf: [] }) // @ts-ignore
+    .find((it) => `${it.test}` === `${/(?<!\.module)\.(scss|sass)$/.toString()}`) // @ts-ignore
+    .use // @ts-ignore
+    .find((it) => it.loader.indexOf('postcss-loader') > -1) // @ts-ignore
+    .options.postcssOptions.plugins // @ts-ignore
     // eslint-disable-next-line global-require
     .push(require('postcss-pxtransform')({
       platform: 'h5',

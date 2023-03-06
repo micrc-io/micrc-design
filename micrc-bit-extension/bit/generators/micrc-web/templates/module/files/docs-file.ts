@@ -13,7 +13,7 @@ description: {{doc.title}}
 label: {{{jsonObject doc.labels}}}
 ---
 
-import 'antd/dist/antd.less';
+import 'antd/dist/reset.css';
 
 import { Default } from './{{context.name}}.composition';
 

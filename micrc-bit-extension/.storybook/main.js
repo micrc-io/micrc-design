@@ -1,26 +1,17 @@
-/**
- * .storybook/main.js
- */
-import { WorkspaceContext } from '@teambit/generator';
 
-import parser from '../_parser';
-
-// storybook main.js
-export function storybookMain(context: WorkspaceContext) {
-  const { account, scope } = parser(context);
-  return `// noinspection JSUnresolvedVariable,JSUnresolvedFunction,NpmUsedModulesInstalled
+// noinspection JSUnresolvedVariable,JSUnresolvedFunction,NpmUsedModulesInstalled
 const webpack = require('webpack');
 // noinspection JSUnresolvedVariable,JSUnresolvedFunction,NpmUsedModulesInstalled
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // noinspection JSUnresolvedVariable,JSUnresolvedFunction,NodeCoreCodingAssistance
 const path = require('path');
 
-const scope_reg = /^(.+?[\\\\/]node_modules)[\\\\/]((?!@${account})).*[\\\\/]*/;
+const scope_reg = /^(.+?[\\/]node_modules)[\\/]((?!@micrc)).*[\\/]*/;
 
 // noinspection JSUnresolvedVariable
 module.exports = {
   "stories": [
-    "../${scope}/!(_apps)/**/*.stories.@(js|jsx|ts|tsx)",
+    "../bit/_examples/**/*.stories.@(js|jsx|ts|tsx)",
   ],
   "addons": [
     "@storybook/addon-links",
@@ -97,7 +88,7 @@ const babel_taro_h5_plugin = [
 // noinspection JSUnresolvedFunction,NpmUsedModulesInstalled
 const webpack_scss_rules = [
   {
-    test: /\\.(scss|sass)$/,
+    test: /\.(scss|sass)$/,
     exclude: /(taro-ui)/,
     sideEffects: true,
     use: [
@@ -124,7 +115,7 @@ const webpack_scss_rules = [
 // noinspection JSUnresolvedFunction,NpmUsedModulesInstalled
 const webpack_taro_h5_rules = [
   {
-    test: /(?<!\\.module)\\.(scss|sass)$/,
+    test: /(?<!\.module)\.(scss|sass)$/,
     include: /(taro-ui)/,
     sideEffects: true,
     use: [
@@ -217,5 +208,3 @@ const webpack_openapi_merge_plugins = [
     Buffer: ['buffer', 'Buffer'],
   }),
 ];
-`;
-}

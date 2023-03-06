@@ -1,7 +1,7 @@
-// storybook preview.jsx
-export function storybookPreview() {
-  // language=JavaScript format=false
-  return `// decorator: taro尺寸处理, 国际化
+/**
+ * decorator
+ * taro尺寸处理, 国际化
+ */
 import React from 'react';
 
 export const decorators = [
@@ -44,6 +44,4 @@ export const parameters = {
     //   date: /Date$/,
     // },
   },
-}
-`;
 }

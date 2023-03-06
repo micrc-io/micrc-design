@@ -6,7 +6,6 @@ export function tsconfig() {
     "noEmit": true
   },
   "exclude": [
-    "dist", "**/_apps"
   ]
 }
 `;

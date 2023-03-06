@@ -13,8 +13,7 @@ export class MicrcMiniMain {
   static runtime = MainRuntime;
 
   static async provider([generator]: [GeneratorMain]) {
-    if (generator) generator.registerComponentTemplate([
-    ]);
+    if (generator) generator.registerComponentTemplate([]);
 
     return new MicrcMiniMain();
   }

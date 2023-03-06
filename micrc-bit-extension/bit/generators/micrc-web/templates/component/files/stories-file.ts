@@ -50,6 +50,13 @@ export const {{@key}} = Template.bind({});
   {{/each}}
 };
 {{/each}}
+Basic.parameters = {
+  micrc: {
+    type: 'web',
+    // eslint-disable-next-line global-require
+    locale: require('antd/locale/zh_CN').default,
+  },
+};
 `;
 
 export function storiesFile(data: ComponentContextData) {

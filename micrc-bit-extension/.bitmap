@@ -10,14 +10,14 @@
 
 {
     "compilations/micrc-app": {
-        "scope": "",
-        "version": "",
+        "scope": "micrc.bit",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bit/compilations/micrc-app"
     },
     "compilations/micrc-mini": {
-        "scope": "",
-        "version": "",
+        "scope": "micrc.bit",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bit/compilations/micrc-mini"
     },
@@ -28,8 +28,8 @@
         "rootDir": "bit/compilations/micrc-web"
     },
     "envs/micrc-app": {
-        "scope": "",
-        "version": "",
+        "scope": "micrc.bit",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bit/envs/micrc-app"
     },
@@ -46,14 +46,14 @@
         "rootDir": "bit/envs/micrc-web"
     },
     "generators/micrc-app": {
-        "scope": "",
-        "version": "",
+        "scope": "micrc.bit",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bit/generators/micrc-app"
     },
     "generators/micrc-mini": {
-        "scope": "",
-        "version": "",
+        "scope": "micrc.bit",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bit/generators/micrc-mini"
     },
@@ -70,14 +70,14 @@
         "rootDir": "bit/generators/micrc-workspace"
     },
     "runtimes/micrc-app": {
-        "scope": "",
-        "version": "",
+        "scope": "micrc.bit",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bit/runtimes/micrc-app"
     },
     "runtimes/micrc-mini": {
-        "scope": "",
-        "version": "",
+        "scope": "micrc.bit",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bit/runtimes/micrc-mini"
     },

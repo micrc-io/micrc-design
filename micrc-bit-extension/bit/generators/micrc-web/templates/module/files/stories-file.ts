@@ -23,7 +23,7 @@ export default {
 };
 
 const Template = (props: {{context.namePascalCase}}Props) => {
-  initGlobalStore(null, I18n, null, Integration.init);
+  initGlobalStore(zh_CN, I18n, null, Integration.init);
   return (<{{context.namePascalCase}} {...props} />);
 };
 
@@ -31,6 +31,13 @@ export const Default = Template.bind({});
 Default.args = {
   integration: Integration.simulation,
   router: null,
+};
+Basic.parameters = {
+  micrc: {
+    type: 'web',
+    // eslint-disable-next-line global-require
+    locale: require('antd/locale/zh_CN').default,
+  },
 };
 `;
 

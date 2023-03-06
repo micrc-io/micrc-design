@@ -3,6 +3,6 @@
  */
 
 export function appAntdLessFile() {
-  return `@import "~antd/dist/antd.less";
+  return `@import "~antd/dist/reset.css";
 `;
 }
