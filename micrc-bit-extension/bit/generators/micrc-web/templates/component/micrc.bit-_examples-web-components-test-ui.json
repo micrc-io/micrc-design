@@ -1,4 +1,7 @@
 {
+  "intro": {
+    "version": "0.0.1"
+  },
   "comment": ["组件", "注释"],
   "types": {
     "definitions": {
@@ -47,6 +50,12 @@
         "packages": "antd"
       }
     },
+    "atoms": {
+      "XXX": {
+        "packages": "@micrc/bit._examples/atoms/test-ui",
+        "version": "0.0.1"
+      }
+    },
     "examples": {
       "Test1": {
         "desc": "demo props usage",
@@ -57,6 +66,10 @@
           "p4": true,
           "p5": 1,
           "p6": {
+            "params": [],
+            "alert": ""
+          },
+          "p7": {
             "Xxx": {
               "children": null,
               "props": {}
@@ -66,7 +79,7 @@
               "props": {}
             }
           },
-          "p7": [
+          "p8": [
             {
               "Xxx": {
                 "children": null,
@@ -110,7 +123,13 @@
       "packages": "antd/lib/pagination"
     }
   },
-  "innerState": {
+  "atoms": {
+    "XXX": {
+      "packages": "@micrc/bit._examples/atoms/test-ui",
+      "version": "0.0.1"
+    }
+  },
+  "localState": {
     "show": {
       "value": false
     },

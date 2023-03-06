@@ -17,18 +17,18 @@ export async function workspaceConfig(context: WorkspaceContext) {
   configParsed['teambit.generator/generator'] = {
     aspects: [
       'micrc.bit/generators/component/micrc-web',
-      'micrc.bit/generators/component/micrc-mini',
-      'micrc.bit/generators/component/micrc-app',
+      // 'micrc.bit/generators/component/micrc-mini',
+      // 'micrc.bit/generators/component/micrc-app',
     ],
   };
   configParsed['micrc.bit/generators/component/micrc-web'] = {};
-  configParsed['micrc.bit/generators/component/micrc-mini'] = {};
-  configParsed['micrc.bit/generators/component/micrc-app'] = {};
+  // configParsed['micrc.bit/generators/component/micrc-mini'] = {};
+  // configParsed['micrc.bit/generators/component/micrc-app'] = {};
 
   // 编译时工具扩展
   configParsed['micrc.bit/compilations/micrc-web'] = {};
-  configParsed['micrc.bit/compilations/micrc-mini'] = {};
-  configParsed['micrc.bit/compilations/micrc-app'] = {};
+  // configParsed['micrc.bit/compilations/micrc-mini'] = {};
+  // configParsed['micrc.bit/compilations/micrc-app'] = {};
 
   // 依赖包
   configParsed['teambit.dependencies/dependency-resolver'] = {
@@ -128,12 +128,12 @@ export async function workspaceConfig(context: WorkspaceContext) {
     '{base-ui/web/**}': {
       'micrc.bit/envs/micrc-web:1.0.0': {},
     },
-    '{base-ui/mini/**}': {
-      'micrc.bit/envs/micrc-mini:1.0.0': {},
-    },
-    '{base-ui/app/**}': {
-      'micrc.bit/envs/micrc-app:0.0.1': {},
-    },
+    // '{base-ui/mini/**}': {
+    //   'micrc.bit/envs/micrc-mini:1.0.0': {},
+    // },
+    // '{base-ui/app/**}': {
+    //   'micrc.bit/envs/micrc-app:0.0.1': {},
+    // },
   };
 
   return stringifyWorkspaceConfig(configParsed);

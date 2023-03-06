@@ -34,6 +34,9 @@ type ComponentDoc = {
 
 // 元数据定义
 type ComponentMeta = {
+  intro: {
+    version: string,
+  },
   comment: Array<string>,
   types?: {
     definitions?: Record<string, TypeDefinition>,
@@ -42,11 +45,13 @@ type ComponentMeta = {
   props: Record<string, string>,
   stories: {
     components: Record<string, { default: boolean, packages: string }>,
+    atoms: Record<string, { version: string, packages: string }>,
     examples: Record<string, { desc: string, props: Record<string, any> }>,
   },
   doc: ComponentDoc,
-  innerState?: Record<string, any>,
+  localState?: Record<string, any>,
   components: Record<string, { default: boolean, packages: string }>,
+  atoms: Record<string, { version: string, packages: string }>,
   assembly: Record<string, Assembly>,
 };
 
@@ -59,13 +64,14 @@ export type ComponentContextData = {
   props: Record<string, string>, // 组件props类型定义
   stories: {
     componentImports: Record<string, ImportContent>,
+    atomImports: Record<string, string>, // 原子组件导入, 以导入名为key, 包名为值
     examples: Record<string, { desc: string, props: Record<string, any> }>,
   },
   doc: ComponentDoc, // 组件文档
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
-  innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
+  atomImports: Record<string, string>, // 原子组件导入, 以导入名为key, 包名为值
+  localState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
   assembly: Record<string, Assembly>, // 组件装配结构，以导入的组件名为key
-  // 以story名称为key，值为一组props，每组是一个props组合
 };
 
 const reactImports = (meta: ComponentMeta): Record<string, ImportContent> => {
@@ -76,7 +82,7 @@ const reactImports = (meta: ComponentMeta): Record<string, ImportContent> => {
     },
   };
   // 根据inner state定义，确定是否导入useState
-  if (meta.innerState && Object.keys(meta.innerState).length > 0) {
+  if (meta.localState && Object.keys(meta.localState).length > 0) {
     retVal.react.types.push('useState');
   }
   // 将类型导入中的react类型的导入，放入react的imports中
@@ -129,6 +135,14 @@ const typeOrComponentImports = (
   return retVal;
 };
 
+const atomsImports = (atoms: Record<string, { version: string, packages: string }>): Record<string, string> => {
+  const retVal: Record<string, string> = {};
+  Object.keys(atoms).forEach((name) => {
+    retVal[name] = atoms[name].packages;
+  });
+  return retVal;
+};
+
 const handleStories = (meta: ComponentMeta) => {
   const componentImports: Record<string, ImportContent> = {};
   Object.keys(meta.stories.components).forEach((name) => {
@@ -137,6 +151,7 @@ const handleStories = (meta: ComponentMeta) => {
   });
   return {
     componentImports,
+    atomImports: atomsImports(meta.stories.atoms),
     examples: {
       Default: {
         desc: 'default usage',
@@ -156,7 +171,8 @@ export const parse = (meta: ComponentMeta, context: ComponentContext): Component
     typeImports: typeOrComponentImports(meta, 'types'),
     props: meta.props,
     componentImports: typeOrComponentImports(meta, 'components'),
-    innerState: meta.innerState || {},
+    atomImports: atomsImports(meta.atoms),
+    localState: meta.localState || {},
     assembly: meta.assembly,
     stories: handleStories(meta),
     doc: meta.doc,

@@ -1,196 +1,31 @@
 /**
- * 配置命令
- * 执行install, compile, link, status等命令配置workspace
- * 下载(局部clone当前仓库)schema目录中的元数据文件, 放在node_modules/.cache/micrc/schema中
- * 读取schema中的context信息，判断当前是system还是domain，system仅允许atom, component类型组件和clientend客户端
- * domain仅允许module和state两类组件，检查schema中的目录，确定符合条件
+ * micrc configure command
+ * 1. 获取github上schema分支最新内容并合并到当前分支.
+ * 2. 将schema中所有内容copy到node_modules/.cache/micrc/schema中.
+ * 3. 通过workspace名称确定上下文目录名称(两者同名), 依次处理每个文件代表的组件.
+ * 3.1. 依赖处理, 对于clientends组件, 其依赖在generator中通过创建package.json逻辑自行处理;
+ *               对于atoms组件, 其只能使用固定的三方组件/lib库, 由workspace固定安装, 所以无需处理;
+ *               对于components组件, 其只能依赖atoms组件或三方组件, 需根据其对atoms组件的依赖关系, 通过bit deps set进行设置;
+ *               对于modules组件, 其只能依赖components组件, 需根据其对components组件的依赖关系, 通过bit deps set进行设置.
+ * 3.2. 源代码, 当组件状态为设计中(designing), 删除已经对应存在的组件, 使用元数据重新生成, 然后进行调试.
+ * 3.3. 发布处理, 当组件状态为发布中(tagging), 首先重新生成代码, 然后使用bit tag --soft对组件打tag.
+ *               分支合入后, 由CI进行发布并标记组件为完成状态, 此时该组件可以作为依赖项.
+ * 3.4. 重建, 当前组件标记为重建时, 需获取组件ID为目录, 版本号为文件名的所有被依赖版本的组件元数据, 依次使用bit tag创建版本,
+ *            随后使用bit remove -r在remote scope删除该组件, 最后将创建的组件版本使用bit export推给remote scope完成重建.
+ * 4. 执行bit install、bit compile、bit link完成workspace依赖安装和配置.
  */
-import path from 'path';
-import fs from 'fs';
-
 import { Command, CommandOptions } from '@teambit/cli';
 
-import chalk from 'chalk';
 import log from 'loglevel';
 
-import { execCmd, invoke } from '../lib/process';
+import { checkout, copy, init, generate } from '../jobs';
 
 log.setLevel('INFO');
-
-// 合并schema分支, 检出最新当前分支
-const checkout = async () => {
-  const gitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-    '../', // git根目录
-  );
-  // 获取当前分支名
-  const branch: string = await invoke('git rev-parse --abbrev-ref HEAD', gitBasePath);
-  try {
-    // 切换到schema分支
-    await execCmd('git', ['checkout', 'schema'], gitBasePath);
-    // 从服务器拉取最新内容
-    await execCmd('git', ['fetch'], gitBasePath);
-    // 合并最新内容到schema
-    await execCmd('git', ['merge'], gitBasePath);
-    // 切换回当前分支, 并merge schema分支
-    await execCmd('git', ['checkout', branch.replace('\n', '')], gitBasePath);
-    await execCmd('git', ['merge', 'schema'], gitBasePath);
-    log.info(chalk.green('schema merged successfully.'));
-  } catch (e) {
-    log.error(chalk.red(`schema merge error: ${e}`));
-  }
-};
-
-// 拷贝元数据到.cache/micrc/schema目录
-const copy = async () => {
-  const nodeModulesBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-  );
-  const gitBasePath = path.resolve(
-    nodeModulesBasePath,
-    '../', // bit workspace根目录
-    '../', // git根目录
-  );
-  // 首先删除.cache/micrc/schema目录
-  const schemaSourcePath = path.resolve(gitBasePath, 'schema');
-  const schemaTargetPath = path.resolve(nodeModulesBasePath, '.cache', 'micrc', 'schema');
-  try {
-    await execCmd('rm', ['-rf', schemaTargetPath], gitBasePath);
-    // 创建目录并拷贝
-    await execCmd('mkdir', ['-p', schemaTargetPath], gitBasePath);
-    await execCmd('cp', ['-r', schemaSourcePath, schemaTargetPath], gitBasePath);
-    log.info(chalk.green('schema copied successfully.'));
-  } catch (e) {
-    log.error(chalk.red(`schema copy error: ${e}`));
-  }
-};
-
-// 初始化workspace
-const init = async () => {
-  const bitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-  );
-  try {
-    await execCmd('bit', ['install'], bitBasePath);
-    await execCmd('bit', ['install'], bitBasePath);
-    await execCmd('bit', ['compile'], bitBasePath);
-    await execCmd('bit', ['compile'], bitBasePath);
-    await execCmd('bit', ['link'], bitBasePath);
-    await execCmd('bit', ['status'], bitBasePath);
-    log.info(chalk.green('workspace initialized successfully.'));
-  } catch (e) {
-    log.error(chalk.red(`workspace init error: ${e}`));
-  }
-};
-
-// 设计子域组件-元数据文件映射
-const mappingDesign = (contextPath: string): Record<string, string> => {
-  const mappingInfo = {};
-  const atomsPath = path.join(contextPath, 'atoms');
-  if (fs.existsSync(atomsPath)) {
-    fs.readdirSync(atomsPath).forEach((atom) => {
-      mappingInfo[atom.replace('.json', '')] = path.join(atomsPath, atom);
-    });
-  }
-  const componentsPath = path.join(contextPath, 'components');
-  if (fs.existsSync(componentsPath)) {
-    fs.readdirSync(componentsPath).forEach((component) => {
-      mappingInfo[component.replace('.json', '')] = path.join(atomsPath, component);
-    });
-  }
-  const clientendsPath = path.join(contextPath, 'clientends');
-  if (fs.existsSync(clientendsPath)) {
-    fs.readdirSync(clientendsPath).forEach((clientend) => {
-      mappingInfo[clientend.replace('.json', '')] = path.join(atomsPath, clientend);
-    });
-  }
-  return mappingInfo;
-};
-
-const handleMapping = (userCasePath: string): Record<string, string> => {
-  const mappingInfo = {};
-  const modulesPath = path.join(userCasePath, 'modules');
-  if (fs.existsSync(modulesPath)) {
-    fs.readdirSync(modulesPath).forEach((module) => {
-      mappingInfo[module.replace('.json', '')] = path.join(modulesPath, module);
-    });
-  }
-  const statesPath = path.join(userCasePath, 'states');
-  if (fs.existsSync(statesPath)) {
-    fs.readdirSync(statesPath).forEach((state) => {
-      mappingInfo[state.replace('.json', '')] = path.join(statesPath, state);
-    });
-  }
-  const atomsPath = path.join(userCasePath, 'atoms');
-  if (fs.existsSync(atomsPath)) {
-    fs.readdirSync(atomsPath).forEach((atom) => {
-      mappingInfo[atom.replace('.json', '')] = path.join(atomsPath, atom);
-    });
-  }
-  const componentsPath = path.join(userCasePath, 'components');
-  if (fs.existsSync(componentsPath)) {
-    fs.readdirSync(componentsPath).forEach((component) => {
-      mappingInfo[component.replace('.json', '')] = path.join(componentsPath, component);
-    });
-  }
-  return mappingInfo;
-};
-
-// 业务子域组件-元数据映射
-const mappingDomain = (contextPath: string): Record<string, string> => {
-  const mappingInfo = {};
-  const userCasesPath = path.join(contextPath, 'usercases');
-  if (fs.existsSync(userCasesPath)) {
-    fs.readdirSync(userCasesPath).forEach((userCase) => {
-      const userCasePath = path.join(userCasesPath, userCase);
-      if (fs.statSync(userCasePath).isDirectory()) {
-        Object.assign(mappingInfo, handleMapping(userCasePath));
-      }
-    });
-  }
-  return mappingInfo;
-};
-
-// 生成组件-元数据文件地址映射
-const mapping = () => {
-  // 读取子域元数据, 判断是否设计子域或业务子域
-  const gitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-    '../', // git根目录
-  );
-  const bitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-  );
-  const workspaceFilePath = path.join(bitBasePath, 'workspace.jsonc');
-  const domainFilePath = path.join(gitBasePath, 'schema', 'domain-info.json');
-  const domainInfo = JSON.parse(fs.readFileSync(domainFilePath, { encoding: 'utf8' }));
-  const workspaceInfo = JSON.parse(fs.readFileSync(workspaceFilePath, { encoding: 'utf8' }));
-  const contextName = workspaceInfo['teambit.workspace/workspace'].defaultScope.split('.')[1];
-  const contextPath = path.join(gitBasePath, 'schema', contextName);
-  const mappingFilePath = path.join(contextPath, 'mapping.json');
-  const { isDesign } = domainInfo;
-  let mappingInfo: Record<string, string>;
-  if (isDesign) {
-    mappingInfo = mappingDesign(contextPath);
-  } else {
-    mappingInfo = mappingDomain(contextPath);
-  }
-  fs.writeFileSync(mappingFilePath, JSON.stringify(mappingInfo));
-};
 
 export class ConfigureCmd implements Command {
   name = 'micrc-web:conf';
 
-  description = 'configure workspace and download file of meta data';
+  description = 'merge meta file from schema and generate component';
 
   extendedDescription = '';
 
@@ -204,10 +39,10 @@ export class ConfigureCmd implements Command {
 
   async report(): Promise<string> {
     log.info('');
-    await init();
-    await checkout();
-    await copy();
-    mapping();
+    await checkout(); // 合并schema分支中的元数据文件
+    await copy(); // 将元数据copy到.cache/micrc/schema中
+    await generate(); // 生成组件代码并处理依赖, 或配置组件发布, 处理组件历史版本重建
+    await init(); // 安装依赖并初始化配置workspace
     return Promise.resolve(`${this.name} complete`);
   }
 }

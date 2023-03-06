@@ -1,6 +1,9 @@
 /**
  * 元数据解析，构造模版渲染上下文数据
  */
+import path from 'path';
+import fs from 'fs';
+
 import { ComponentContext } from '@teambit/generator';
 
 // 类型定义
@@ -96,6 +99,9 @@ type ModuleDoc = {
 
 // 元数据定义
 type ModuleMeta = {
+  intro: {
+    version: string,
+  },
   i18n: I18nPointerMeta,
   comment: Array<string>,
   types?: {
@@ -104,7 +110,19 @@ type ModuleMeta = {
   },
   store: { name: string, package: string, version: string },
   components: Record<string, { version: string, packages: string }>,
-  innerState?: Record<string, any>,
+  localState?: Record<string, any>,
+  remoteState: {
+    rpc: {
+      protocols: Array<string>, // 协议文件名, 用于查找并copy协议文件
+      url: string, // api url前缀, /api/v1/xxx, 用于合并协议文件
+      host: string, // 集成主机, http://xxx.svc.localhost, 用于合并协议文件
+    },
+    ws: {
+      protocols: Array<string>, // 协议文件名
+      url: string, // 监听url前缀
+      host: string, // 监听host
+    }
+  },
   actions?: Record<string, { op: string, path: string, value: any }>,
   assembly: ModuleAssembly,
   integration: IntegrationMeta,
@@ -112,6 +130,10 @@ type ModuleMeta = {
 };
 
 export type ModuleContextData = {
+  intro: { // 自省信息
+    version: string, // 组件版本, 同时作为协议版本, 用于合并协议文件
+    sourceDir: string, // 组件源代码目录
+  },
   i18n: I18nPointerMeta, // 国际化点位
   typeDefinitions?: Record<string, TypeDefinition>, // 类型定义，以定义的类型名为key
   context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息
@@ -120,7 +142,19 @@ export type ModuleContextData = {
   typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
   componentImports: Record<string, string>, // 组件导入，以导入名为key, 模块只能使用通用组件, 不必描述default导入
   storeImport: Record<string, string>, // 状态组件, 每个模块有且仅有一个状态组件
-  innerState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
+  localState?: Record<string, any>, // 组件本地状态，以名称为key，初始值为值
+  remoteState: { // 远程状态, 调用api
+    rpc: {
+      protocols: Array<string>, // 协议文件名, 用于查找并copy协议文件
+      url: string, // api url前缀, /api/v1/xxx, 用于合并协议文件
+      host: string, // 集成主机, http://xxx.svc.localhost, 用于合并协议文件
+    },
+    ws: {
+      protocols: Array<string>, // 协议文件名
+      url: string, // 监听url前缀
+      host: string, // 监听host
+    }
+  }
   actions?: Record<string, { op: string, path: string, value: any }>, // 预先定义所有的action, 受限于hooks规则
   assembly: ModuleAssembly, // 组件装配结构，以导入的组件名为key
   integration: IntegrationDataContext, // 行为集成
@@ -136,7 +170,7 @@ const reactImports = (meta: ModuleMeta): Record<string, ImportContent> => {
     },
   };
   // 根据inner state定义，确定是否导入useState
-  if (meta.innerState && Object.keys(meta.innerState).length > 0) {
+  if (meta.localState && Object.keys(meta.localState).length > 0) {
     retVal.react.types.push('useState');
   }
   // 将类型导入中的react类型的导入，放入react的imports中
@@ -229,8 +263,25 @@ const handleIntegration = (meta: ModuleMeta): IntegrationDataContext => {
   return retVal;
 };
 
+const handleSourceDir = (context: ComponentContext) => {
+  const basePath = path.resolve(
+    require.resolve('@micrc/bit.generators.component.micrc-web'),
+    '../../../../../',
+  );
+  const sourceDir = `${basePath}${path.sep}${context.componentId.toStringWithoutVersion().split('.')[1]}`;
+  if (!fs.existsSync(sourceDir)) {
+    fs.mkdirSync(sourceDir, { recursive: true });
+  }
+  return sourceDir;
+};
+
 export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContextData => {
+  const intro = {
+    ...meta.intro,
+    sourceDir: handleSourceDir(context),
+  };
   const data: ModuleContextData = {
+    intro,
     context,
     i18n: meta.i18n,
     comment: meta.comment,
@@ -240,7 +291,8 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     typeImports: typeImports(meta),
     componentImports: componentImports(meta),
     storeImport: { [meta.store.name]: meta.store.package },
-    innerState: meta.innerState || {},
+    localState: meta.localState || {},
+    remoteState: meta.remoteState,
     actions: meta.actions || {},
     assembly: meta.assembly,
     integration: handleIntegration(meta),

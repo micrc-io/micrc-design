@@ -1,11 +1,53 @@
 {
+  "intro": {
+    "version": "0.0.1"
+  },
   "i18n": {
     "btn.submit": {
       "key": "btn.submit",
       "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
       "defaults": {
-        "zh": "提交",
-        "en": "Submit"
+        "zh_CN": "提交",
+        "en_US": "Submit"
+      }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "/xxx1/xx1/x1",
+          "moduleId": "micrc.bit/xxx1/xx1/x1",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/yyy21/yy21/y21",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }, {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
       }
     }
   },
@@ -47,7 +89,7 @@
     "package": "@micrc/bit._examples.web.states.demo-store",
     "version": "0.0.1"
   },
-  "innerState": {
+  "localState": {
     "show": {
       "value": false
     },
@@ -67,6 +109,7 @@
       "value": "搜索"
     }
   },
+  "remoteState": {},
   "actions": {
     "demoAction": {"op": "replace", "path": "states@message:///value", "value": null}
   },
@@ -127,45 +170,6 @@
             }
           }
         }
-      }
-    }
-  },
-  "integration": {
-    "produce": {
-      "topic1": {
-        "name": "topic1",
-        "producer": {
-          "pageUri": "/xxx1/xx1/x1",
-          "moduleId": "micrc.bit/xxx1/xx1/x1",
-          "schema": {}
-        },
-        "consumers": [{
-          "pageUri": "/yyy1/yy1/y1",
-          "moduleId": "micrc.bit/yyy1/yy1/y1",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-          "state": {}
-        }]
-      }
-    },
-    "consume": {
-      "topic2": {
-        "name": "topic2",
-        "producer": {
-          "pageUri": "/xxx2/xx2/x2",
-          "moduleId": "micrc.bit/xxx2/xx2/x2",
-          "schema": {}
-        },
-        "consumers": [{
-          "pageUri": "/yyy21/yy21/y21",
-          "moduleId": "micrc.bit/yyy21/yy21/y21",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-          "state": {}
-        }, {
-          "pageUri": "/yyy22/yy22/y22",
-          "moduleId": "micrc.bit/yyy22/yy22/y22",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-          "state": {}
-        }]
       }
     }
   }
