@@ -1,15 +1,17 @@
 import { MainRuntime } from '@teambit/cli';
-import { ReactAspect, ReactMain, UseTypescriptModifiers } from '@teambit/react';
+import { ReactAspect, ReactMain, UseWebpackModifiers } from '@teambit/react';
 import { EnvsAspect, EnvsMain } from '@teambit/envs';
+
 import { MicrcAppAspect } from './micrc-app.aspect';
-//import {
-//  previewConfigTransformer,
-//  devServerConfigTransformer
-//} from './webpack/webpack-transformers';
-//import {
+import {
+  previewConfigTransformer,
+  devServerConfigTransformer,
+} from './webpack/webpack-transformers';
+
+// import { ts设置
 //  devConfigTransformer,
 //  buildConfigTransformer,
-//} from "./typescript/ts-transformer";
+// } from "./typescript/ts-transformer";
 
 export class MicrcAppMain {
   static slots = [];
@@ -19,16 +21,15 @@ export class MicrcAppMain {
   static runtime = MainRuntime;
 
   static async provider([react, envs]: [ReactMain, EnvsMain]) {
+    const webpackModifiers: UseWebpackModifiers = {
+      previewConfig: [previewConfigTransformer],
+      devServerConfig: [devServerConfigTransformer],
+    };
 
-    //const webpackModifiers: UseWebpackModifiers = {
-      //  previewConfig: [previewConfigTransformer],
-      //  devServerConfig: [devServerConfigTransformer],
-    //};
-
-    //const tsModifiers: UseTypescriptModifiers = {
-      //  devConfig: [devConfigTransformer],
-      //  buildConfig: [buildConfigTransformer],
-    //};
+    // const tsModifiers: UseTypescriptModifiers = { ts设置
+    //   devConfig: [devConfigTransformer],
+    //   buildConfig: [buildConfigTransformer],
+    // };
 
     const MicrcAppEnv = react.compose([
       /**
@@ -36,8 +37,9 @@ export class MicrcAppMain {
        * Your config gets merged with the defaults
        */
 
-      // react.useTypescript(tsModifiers),  // note: this cannot be used in conjunction with react.overrideCompiler
-      // react.useWebpack(webpackModifiers),
+      // react.useTypescript(tsModifiers),
+      // note: this cannot be used in conjunction with react.overrideCompiler
+      react.useWebpack(webpackModifiers),
       // react.overrideJestConfig(require.resolve('./jest/jest.config')),
 
       /**
@@ -46,14 +48,14 @@ export class MicrcAppMain {
        * bit lint
        * bit lint --fix
        */
-      //react.useEslint({
-      //  transformers: [
-      //  (config) => {
-      //    config.setRule('no-console', ['error']);
-      //    return config;
-      //    }
-      //  ]
-      //}),
+      // react.useEslint({
+      //   transformers: [
+      //     (config) => {
+      //       config.setRule('no-console', ['error']);
+      //       return config;
+      //     }
+      //   ]
+      // }),
 
       /**
        * override the Prettier default config here the check your formatting
@@ -61,14 +63,14 @@ export class MicrcAppMain {
        * bit format --check
        * bit format
        */
-      //react.usePrettier({
+      // react.usePrettier({
       //  transformers: [
       //    (config) => {
       //      config.setKey('tabWidth', 2);
       //      return config;
       //    }
       //  ]
-      //}),
+      // }),
 
       /**
        * override dependencies here
@@ -78,8 +80,8 @@ export class MicrcAppMain {
       react.overrideDependencies({
         devDependencies: {
           // '@types/react': '17.0.3'
-        }
-      })
+        },
+      }),
     ]);
     envs.registerEnv(MicrcAppEnv);
     return new MicrcAppMain();

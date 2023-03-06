@@ -1,3 +1,4 @@
 .eslintrc.js
+jest.config.js
 /public/
 /bit/_examples/web/clientends/

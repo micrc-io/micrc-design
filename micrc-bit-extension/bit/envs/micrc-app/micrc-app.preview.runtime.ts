@@ -10,6 +10,7 @@ export class MicrcAppPreviewMain {
 
   static async provider([react]: [ReactPreview]) {
     const micrcAppPreviewMain = new MicrcAppPreviewMain();
+    react.registerProvider([]);
     return micrcAppPreviewMain;
   }
 }
