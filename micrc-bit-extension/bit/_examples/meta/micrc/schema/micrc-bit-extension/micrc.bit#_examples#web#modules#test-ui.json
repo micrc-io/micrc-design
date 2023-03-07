@@ -136,59 +136,75 @@
     "layout": "LayoutTest",
     "props": {
       "input": {
-        "InputTest": {
-          "children": null,
-          "props": {
-            "onChange": {
-              "_params": ["e"],
-              "_actions": [
-                {
-                  "action": "demoAction",
-                  "inputPath": "/target/value"
-                }
-              ]
+        "assemblies": [
+          {
+            "name": "InputTest",
+            "children": null,
+            "props": {
+              "onChange": {
+                "params": ["e"],
+                "actions": [
+                  {
+                    "action": "demoAction",
+                    "inputPath": "/target/value"
+                  }
+                ]
+              }
             }
           }
-        }
+        ]
       },
       "table": {
-        "List": {
-          "children": null,
-          "props": {
-            "data": "bind('props:///data')",
-            "columns": "bind('states@columns:///value')"
+        "assemblies": [
+          {
+            "name": "List",
+            "children": null,
+            "props": {
+              "data": "bind('props:///data')",
+              "columns": "bind('states@columns:///value')"
+            }
           }
-        }
+        ]
       },
       "card": {
-        "CardTest": {
-          "children": {
-            "Input": {
-              "children": null,
-              "props": {}
-            },
-            "Button": {
-              "children": "{bind('states@message:///value')}",
-              "props": {
-                "type": "primary"
-              }
-            }
-          },
-          "props": {
-            "title": "example card",
-            "style": {
-              "_val": { "width": 300 }
-            },
-            "extra": {
-              "Button": {
-                "children": "More",
-                "props": {
-                  "type": "link"
+        "assemblies": [
+          {
+            "name": "CardTest",
+            "children": {
+              "assemblies": [
+                {
+                  "name": "Input",
+                  "children": null,
+                  "props": {}
+                },
+                {
+                  "name": "Button",
+                  "children": "{bind('states@message:///value')}",
+                  "props": {
+                    "type": "primary"
+                  }
                 }
+              ]
+            },
+            "props": {
+              "title": "example card",
+              "style": {
+                "_val": { "width": 300 }
+              },
+              "extra": {
+                "assemblies": [
+                  {
+                    "name": "Button",
+                    "children": "More",
+                    "props": {
+                      "type": "link"
+                    }
+                  }
+                ]
               }
             }
           }
-        }
+        ]
       }
     }
   }

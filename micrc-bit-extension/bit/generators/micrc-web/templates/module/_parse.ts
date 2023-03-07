@@ -20,7 +20,8 @@ type ImportContent = {
 
 // 装配结构
 type Assembly = {
-  children: string | Record<string, Assembly>,
+  name: string,
+  children: string | { assemblies: Array<Assembly> },
   props: Record<string, PropType>,
 };
 
@@ -31,8 +32,8 @@ type ModuleAssembly = {
 
 type PropType = string
 | { _val: any }
-| Record<string, Assembly>
-| Array<Record<string, Assembly>>
+| { assemblies: Array<Assembly> }
+| Array<{ assemblies: Array<Assembly> }>
 | { _params: Array<string>, _actions: Array<{ action: string, inputPath: string }> };
 
 // 国际化点位
@@ -90,6 +91,7 @@ type IntegrationDataContext = {
   },
 };
 
+// 模块文档
 type ModuleDoc = {
   title: string, // 标题, 文档头部显示的内容
   labels: Array<string>, // 模块label, 用于模块搜索
@@ -162,7 +164,7 @@ export type ModuleContextData = {
   assembly: ModuleAssembly, // 组件装配结构，以导入的组件名为key
   integration: IntegrationDataContext, // 行为集成
   props: Record<string, string>, // 模块props, 仅有router, integration两个固定prop
-  defaultProps: Record<string, string>, // props默认值
+  defaultProps: Record<string, any>, // props默认值
   doc: ModuleDoc,
 };
 

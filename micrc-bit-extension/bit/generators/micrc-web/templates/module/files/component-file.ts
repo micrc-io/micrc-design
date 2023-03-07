@@ -50,7 +50,7 @@ import { {{@key}} } from '{{{this}}}';
 {{/each}}
 
 {{!-- 导入运行时store工具 --}}
-import { moduleStore } from '@micrc/bit.runtimes.micrc-web';
+import { remoteStore } from '@micrc/bit.runtimes.micrc-web';
 {{!-- 导入远程状态模块 --}}
 import { useStore as module } from './state';
 
@@ -90,7 +90,7 @@ export function {{context.namePascalCase}}({ router, integration }: {{context.na
   {{/each}}
 
   {{!-- 定义binding和action --}}
-  const { bind, action } = moduleStore(
+  const { bind, action } = remoteStore(
     {
       module,
       states: {

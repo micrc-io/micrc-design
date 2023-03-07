@@ -50,13 +50,13 @@ export const propsAssembler = (props: object): string => {
     const exprProp = typeof prop === 'string' && (prop.startsWith('bind') || /\(.*\) => action/.test(prop));
     const propExpr = exprProp ? `{${prop}}` : '';
     // action对象类型的prop, 用于需要传参的或者执行一组action的情况
-    // eslint-disable-next-line no-underscore-dangle
-    const exprObjProp = typeof prop === 'object' && !objProp && prop._params !== undefined && prop._actions !== undefined;
+    const exprObjProp = typeof prop === 'object'
+      && !objProp && prop.params !== undefined && prop.actions !== undefined;
     const propExprObj = exprObjProp ? HandleBars.compile(actionTmpl)(prop) : '';
     // 组件类型的prop, 用于给prop传递组件
-    const compProp = typeof prop === 'object' && !objProp && !Array.isArray(prop) && !exprObjProp;
+    const compProp = typeof prop === 'object' && !objProp && !exprObjProp && prop.assemblies !== undefined;
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    const propComp = compProp ? `{(${assembler(prop)})}` : '';
+    const propComp = compProp ? `{(${assembler(prop.assemblies)})}` : '';
     // 组件数组类型的prop, 用于给prop传递组件数组
     const arrayProp = Array.isArray(prop);
     let propCompArray = '';
@@ -64,7 +64,7 @@ export const propsAssembler = (props: object): string => {
       propCompArray += '{[(';
       prop.forEach((comp) => {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        propCompArray += `${assembler(comp)}`;
+        propCompArray += `${assembler(comp.assemblies)}`;
       });
       propCompArray += '),]}';
     }
@@ -79,38 +79,63 @@ export const propsAssembler = (props: object): string => {
  * @param components 组件对象树
  * @returns 组件字符串
  */
-export const assembler = (components: object): string => {
+export const assembler = (
+  components: Array<{ name: string, children: any, props: object }>,
+): string => {
   let retVal = '<>';
-  Object.keys(components).forEach((name) => {
-    const comp = components[name];
+  components.forEach((comp) => {
     const nullChildren: boolean = !comp.children;
     const textChildren: boolean = comp.children && typeof comp.children === 'string';
-    const nestedChildren: boolean = comp.children && typeof comp.children === 'object';
-    const endTag = `</${name}>`;
-    retVal += `<${name}`
+    const nestedChildren: boolean = comp.children
+      && typeof comp.children === 'object' && comp.children.assemblies !== undefined;
+    const endTag = `</${comp.name}>`;
+    retVal += `<${comp.name}`
               + `${propsAssembler(comp.props)}`
               + `${nullChildren ? '\n/>' : '\n>'}`
               + `${textChildren ? comp.children : ''}`
-              + `${nestedChildren ? assembler(comp.children) : ''}`
+              + `${nestedChildren ? assembler(comp.children.assemblies) : ''}`
               + `${nullChildren ? '' : endTag}`;
   });
   return `${retVal}</>`;
 };
 
-const checkCompObj = (obj: object): boolean => {
-  if (Object.keys(obj).length === 0) {
-    return false;
-  }
-  let isCompObj = true;
-  Object.keys(obj).forEach((it) => {
-    isCompObj = isCompObj && obj[it].children !== undefined && obj[it].props !== undefined;
-  });
-  return isCompObj;
-};
+const checkCompObj = (obj: any): boolean =>
+  obj.assemblies !== undefined && Array.isArray(obj.assemblies);
 
 const checkFuncCompObj = (obj: any): boolean => obj.params !== undefined
   && obj.layout !== undefined
   && obj.props !== undefined;
+
+const checkFuncAssemblyObj = (obj: any): boolean => obj.params !== undefined
+  && obj.assembly !== undefined;
+
+const checkFuncDebugObj = (obj: any): boolean => obj.params !== undefined
+  && obj.alert !== undefined;
+
+// 处理特殊类型对象: null对象, 组件对象(布局/装配), 函数组件对象, 调试函数对象
+const handleSpecObj = (obj: any): string => {
+  if (obj === null) {
+    return 'null';
+  }
+  if (checkCompObj(obj)) { // 组件对象
+    return assembler(obj.assemblies);
+  }
+  if (checkFuncCompObj(obj)) { // 函数组件对象 (param) => <组件 {...param} />
+    return `(${obj.params.join(', ')}) => (<${obj.layout} ${propsAssembler(obj.props)} />)`;
+  }
+  if (checkFuncAssemblyObj(obj)) { // 函数组件对象 (param) => <组件 {...param} />
+    return `(${obj.params.join(', ')}) => ${assembler(obj.assembly.assemblies)}`;
+  }
+  if (checkFuncDebugObj(obj)) { // 函数对象, 用于调试函数 (param) => console.log(`params: ${param}`);
+    const log = obj.params.map((it: string) => `\`${it}: \${${it}}\``).join(', ');
+    const alert = obj.params.map((it: string) => `\`${it}: \${JSON.stringify(${it})}\``).join(', ');
+    if (obj.alert) {
+      return `(${obj.params.join(', ')}) => alert(${alert})`;
+    }
+    return `(${obj.params.join(', ')}) => console.log(${log})`;
+  }
+  return '';
+};
 
 /**
  * 处理复杂对象, 包括原子类型值, 普通数组和对象, 追加组件对象、组件数组对象、组件函数对象处理
@@ -119,15 +144,14 @@ const checkFuncCompObj = (obj: any): boolean => obj.params !== undefined
  * @returns 对象的字符串表达
  */
 export const jsonObject = (obj: any): string => {
-  // 首先处理组件对象数组, 只有数组中所有对象都为组件对象, 才判定为组件数组, 否则认为是普通数组
-  // 目前认为不存在数组中混合普通数据和组件数据的情况
+  // 首先处理组件对象数组, 只有数组中所有对象都为组件对象, 才判定为组件数组, 否则按普通数组处理
   if (Array.isArray(obj) && obj.length !== 0) {
     let isCompObjArray = true;
     obj.forEach((it) => {
       isCompObjArray = isCompObjArray && checkCompObj(it);
     });
     if (isCompObjArray) {
-      return `[${obj.map((it) => assembler(it)).join(', ')}]`;
+      return `[${obj.map((it) => assembler(it.assemblies)).join(', ')}]`;
     }
   }
   // 处理普通数组
@@ -140,14 +164,9 @@ export const jsonObject = (obj: any): string => {
   }
   // 处理对象, 注意数组本身也是对象, 所以顺序不能变, 这个应该放在最下面
   if (typeof obj === 'object') {
-    if (obj === null) {
-      return 'null';
-    }
-    if (checkCompObj(obj)) { // 组件对象
-      return assembler(obj);
-    }
-    if (checkFuncCompObj(obj)) { // 函数组件对象 (param) => <组件 {...param} />
-      return `(${obj.params.join(', ')}) => (<${obj.layout} ${propsAssembler(obj.props)} />)`;
+    const result = handleSpecObj(obj);
+    if (result) {
+      return result;
     }
     let retVal = '{';
     Object.keys(obj).forEach((it) => {

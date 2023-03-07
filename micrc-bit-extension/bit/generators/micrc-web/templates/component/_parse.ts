@@ -17,14 +17,14 @@ type ImportContent = {
 
 // 装配结构
 type Assembly = {
-  children?: Record<string, Assembly> | string,
+  children?: string | { assemblies: Array<Assembly> },
   props: Record<string, PropType>,
 };
 
 type PropType = string
 | { _val: any }
-| Record<string, Assembly>
-| Array<Record<string, Assembly>>;
+| { assemblies: Array<Assembly> }
+| Array<{ assemblies: Array<Assembly> }>;
 
 type ComponentDoc = {
   title: string, // 标题, 文档头部显示的内容
@@ -43,6 +43,7 @@ type ComponentMeta = {
     imports?: Record<string, { default: boolean, packages: string }>
   },
   props: Record<string, string>,
+  defaultProps: Record<string, any>,
   stories: {
     components: Record<string, { default: boolean, packages: string }>,
     atoms: Record<string, { version: string, packages: string }>,
@@ -52,16 +53,21 @@ type ComponentMeta = {
   localState?: Record<string, any>,
   components: Record<string, { default: boolean, packages: string }>,
   atoms: Record<string, { version: string, packages: string }>,
-  assembly: Record<string, Assembly>,
+  assembly: { assemblies: Array<Assembly> },
 };
 
 export type ComponentContextData = {
+  intro: {
+    version: string,
+    metaBasePath: string,
+  },
   context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息
   comment: Array<string>, // 组件注释
   reactImports: Record<string, ImportContent>, // react库导入
   typeDefinitions?: Record<string, TypeDefinition>, // 类型定义，以定义的类型名为key
   typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
   props: Record<string, string>, // 组件props类型定义
+  defaultProps: Record<string, any>, // 组件默认props
   stories: {
     componentImports: Record<string, ImportContent>,
     atomImports: Record<string, string>, // 原子组件导入, 以导入名为key, 包名为值
@@ -71,7 +77,7 @@ export type ComponentContextData = {
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
   atomImports: Record<string, string>, // 原子组件导入, 以导入名为key, 包名为值
   localState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
-  assembly: Record<string, Assembly>, // 组件装配结构，以导入的组件名为key
+  assembly: { assemblies: Array<Assembly> }, // 组件装配结构
 };
 
 const reactImports = (meta: ComponentMeta): Record<string, ImportContent> => {
@@ -135,7 +141,9 @@ const typeOrComponentImports = (
   return retVal;
 };
 
-const atomsImports = (atoms: Record<string, { version: string, packages: string }>): Record<string, string> => {
+const atomsImports = (
+  atoms: Record<string, { version: string, packages: string }>,
+): Record<string, string> => {
   const retVal: Record<string, string> = {};
   Object.keys(atoms).forEach((name) => {
     retVal[name] = atoms[name].packages;
@@ -164,12 +172,17 @@ const handleStories = (meta: ComponentMeta) => {
 
 export const parse = (meta: ComponentMeta, context: ComponentContext): ComponentContextData => {
   const data: ComponentContextData = {
+    intro: {
+      ...meta.intro,
+      metaBasePath: '',
+    },
     context,
     comment: meta.comment,
     reactImports: reactImports(meta),
     typeDefinitions: meta.types.definitions || {},
     typeImports: typeOrComponentImports(meta, 'types'),
     props: meta.props,
+    defaultProps: meta.defaultProps,
     componentImports: typeOrComponentImports(meta, 'components'),
     atomImports: atomsImports(meta.atoms),
     localState: meta.localState || {},

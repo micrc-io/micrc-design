@@ -11,7 +11,7 @@ const TYPES = ['atoms', 'components', 'modules', 'apps'];
 
 // 依赖处理
 const dependencies = async (
-  metaData: any, componentId: string, componentName: string, componentType: string,
+  metaData: any, componentName: string, componentType: string,
 ) => {
   const bitBasePath = path.resolve(
     require.resolve('@micrc/bit.compilations.micrc-web'),
@@ -62,7 +62,7 @@ const handleComponent = async (
   const { intro: { state, version } } = metaData;
   if (state === 'designing') { // 组件设计中, 生成代码用于调试
     await codes(componentName, componentType); // 创建组件并生成代码
-    await dependencies(metaData, componentId, componentName, componentType); // 处理组件依赖
+    await dependencies(metaData, componentName, componentType); // 处理组件依赖
   }
   if (state === 'tagging') { // 组件发布中, 打soft tag等待合入, CI处理
     await codes(componentName, componentType); // 需要先创建组件并生成代码

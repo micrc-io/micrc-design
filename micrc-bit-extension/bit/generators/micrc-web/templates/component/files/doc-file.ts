@@ -14,7 +14,6 @@ label: {{{jsonObject doc.labels}}}
 ---
 
 import 'antd/dist/reset.css';
-
 import {
   {{#each stories.examples}}
   {{@key}}
@@ -24,7 +23,7 @@ import {
 {{doc.prototype}}
 
 {{#each stories.examples}}
-### {{{this.desc}}}
+#### {{{this.desc}}}
 \`\`\`js
 <{{@key}} />
 \`\`\`

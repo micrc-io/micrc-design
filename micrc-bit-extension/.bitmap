@@ -34,8 +34,8 @@
         "rootDir": "bit/envs/micrc-app"
     },
     "envs/micrc-mini": {
-        "scope": "",
-        "version": "",
+        "scope": "micrc.bit",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bit/envs/micrc-mini"
     },

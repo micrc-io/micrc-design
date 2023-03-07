@@ -20,7 +20,7 @@ type ModuleStore = {
   states?: Record<string, any>,
 };
 
-export const moduleStore = (stores: ModuleStore, router: any, id: string) => {
+export const remoteStore = (stores: ModuleStore, router: any, id: string) => {
   const {
     module, states,
   } = stores;
@@ -86,7 +86,7 @@ export const moduleStore = (stores: ModuleStore, router: any, id: string) => {
   };
 };
 
-export const innerStore = (stores: LocalStore) => {
+export const localStore = (stores: LocalStore) => {
   const {
     props, states,
   } = stores;

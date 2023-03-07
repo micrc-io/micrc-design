@@ -18,7 +18,6 @@ import 'antd/dist/reset.css';
 
 {{doc.prototype}}
 
-### default usage
 #### {{{ doc.desc }}}
 \`\`\`js
 <Default {...Default.args} />

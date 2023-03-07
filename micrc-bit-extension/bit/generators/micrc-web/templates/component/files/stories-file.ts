@@ -8,8 +8,14 @@ import { jsonObject } from '../../../lib/assembler';
 
 import { ComponentContextData } from '../_parse';
 
-const tmpl = `// {{context.name}} stories
+const tmpl = `/* eslint-disable no-alert */
+/* eslint-disable no-console */
+/**
+ * {{context.name}} stories
+ */
 import React from 'react';
+
+import locale from 'antd/locale/zh_CN'; // todo 根据开发机系统语言动态化
 
 {{!-- 导入使用的组件 --}}
 {{#each stories.componentImports}}
@@ -32,6 +38,12 @@ import {{this.default}} from '{{@key}}';
 {{/if}}
 {{/each}}
 
+{{!-- 导入atom组件 --}}
+{{#each stories.atomImports}}
+import type { {{@key}}Props } from '{{this}}';
+import { {{@key}} } from '{{{this}}}';
+{{/each}}
+
 import type { {{context.namePascalCase}}Props } from './{{context.name}}';
 import { {{context.namePascalCase}} } from './{{context.name}}';
 
@@ -49,14 +61,13 @@ export const {{@key}} = Template.bind({});
   {{@key}}: {{{jsonObject this}}},
   {{/each}}
 };
-{{/each}}
-Basic.parameters = {
+{{@key}}.parameters = {
   micrc: {
     type: 'web',
-    // eslint-disable-next-line global-require
-    locale: require('antd/locale/zh_CN').default,
+    locale,
   },
 };
+{{/each}}
 `;
 
 export function storiesFile(data: ComponentContextData) {

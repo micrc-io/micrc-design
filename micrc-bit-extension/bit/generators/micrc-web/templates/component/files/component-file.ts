@@ -8,7 +8,8 @@ import { assembler, jsonObject } from '../../../lib/assembler';
 
 import { ComponentContextData } from '../_parse';
 
-const tmpl = `{{#each comment}}// {{this}}\n{{/each}}
+const tmpl = `/* eslint-disable react/no-unused-prop-types */
+{{#each comment}}// {{this}}\n{{/each}}
 {{!-- 导入react --}}
 {{#each reactImports}}
 {{#if this.types}}
@@ -63,8 +64,14 @@ import {{this.default}} from '{{@key}}';
 {{/if}}
 {{/each}}
 
+{{!-- 导入atom组件 --}}
+{{#each atomImports}}
+import type { {{@key}}Props } from '{{this}}';
+import { {{@key}} } from '{{{this}}}';
+{{/each}}
+
 {{!-- 导入运行时工具 --}}
-import { innerStore } from '@micrc/bit.runtimes.micrc-web';
+import { localStore } from '@micrc/bit.runtimes.micrc-web';
 
 {{!-- 导入样式文件 --}}
 import styles from './{{context.name}}.module.scss';
@@ -96,24 +103,31 @@ type {{@key}} = {
 {{!-- 定义组件本体 --}}
 export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Props) {
   {{!-- 定义内部状态 --}}
-  {{#each innerState}}
+  {{#each localState}}
   const {{@key}} = useState({{{json this}}});
   {{/each}}
 
   {{!-- 定义binding和action --}}
-  const { bind, action } = innerStore({
+  const { bind, action } = localStore({
     props,
     states: {
-      {{#each innerState}}
+      {{#each localState}}
       {{@key}},
       {{/each}}
     },
   });
 
   return (
-    {{{assembler assembly}}}
+    {{{assembler assembly.assemblies}}}
   );
 }
+
+{{!-- 默认props --}}
+{{context.namePascalCase}}.defaultProps = {
+  {{#each defaultProps}}
+  {{@key}}?: {{{json this}}},
+  {{/each}}
+};
 `;
 
 export function componentFile(data: ComponentContextData) {

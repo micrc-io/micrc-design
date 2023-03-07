@@ -38,7 +38,6 @@ Default.args = {
 Default.parameters = {
   micrc: {
     type: 'web',
-    // eslint-disable-next-line global-require
     locale,
   },
 };

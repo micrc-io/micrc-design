@@ -1,11 +1,11 @@
 /**
  * micrc web module template
  */
-import path from 'path';
 import fs from 'fs';
 
 import { ComponentTemplate, ComponentContext } from '@teambit/generator';
 
+import { handlePath } from '../../lib/schema-path';
 import type { ModuleContextData } from './_parse';
 import { parse } from './_parse';
 
@@ -25,31 +25,6 @@ import { stateProtocolSpecFile } from './files/state/protocol/spec-file';
 import { stateProtocolMergeFile } from './files/state/protocol/merge-file';
 import { stateProtocolAggreFile } from './files/state/protocol/aggre-file';
 import { stateProtocolApiFiles } from './files/state/protocol/api/api-files';
-
-const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
-
-const handlePath = (context: ComponentContext) => {
-  const nodeModulesBasePath = path.resolve(
-    require.resolve('@micrc/bit.generators.micrc-web'),
-    '../../../../',
-  );
-  const bitBasePath = path.resolve(
-    nodeModulesBasePath,
-    '../', // bit workspace根目录
-  );
-  const workspaceFilePath = path.join(bitBasePath, 'workspace.jsonc');
-  const workspaceInfo = JSON.parse(fs.readFileSync(workspaceFilePath, { encoding: 'utf8' }));
-  const contextName = workspaceInfo['teambit.workspace/workspace'].name;
-  const metaBasePath = path.resolve(
-    nodeModulesBasePath, ...SCHEMA_PATH, contextName,
-  );
-  const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '#')}.json`;
-  const metaFilePath = path.resolve(metaBasePath, metaFile);
-  return {
-    metaBasePath,
-    metaFilePath,
-  };
-};
 
 export const moduleTemplate: ComponentTemplate = {
   name: 'micrc-web-module',
