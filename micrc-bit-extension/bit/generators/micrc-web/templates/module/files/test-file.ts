@@ -1,3 +1,6 @@
+/**
+ * spec file
+ */
 import { ModuleContextData } from '../_parse';
 
 export function testFile(data: ModuleContextData) {
@@ -6,5 +9,4 @@ it('dummy', () => {
   expect(true).toBeTruthy();
 });
 `;
-// eslint-disable-next-line eol-last
 }

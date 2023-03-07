@@ -17,27 +17,50 @@ import { docFile } from './files/docs-file';
 import { i18nMetaFile } from './files/meta/i18n-meta-file';
 import { compositionFile } from './files/composition-file';
 import { integrationMetaFile } from './files/meta/integration-meta-file';
+import { stateIndexFile } from './files/state/state-index-file';
+import { stateImplFile } from './files/state/impl/impl-file';
+import { stateMockFile } from './files/state/impl/mock-file';
+import { stateProtocolIndexFile } from './files/state/protocol/index-file';
+import { stateProtocolSpecFile } from './files/state/protocol/spec-file';
+import { stateProtocolMergeFile } from './files/state/protocol/merge-file';
+import { stateProtocolAggreFile } from './files/state/protocol/aggre-file';
+import { stateProtocolApiFiles } from './files/state/protocol/api/api-files';
 
 const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
+
+const handlePath = (context: ComponentContext) => {
+  const nodeModulesBasePath = path.resolve(
+    require.resolve('@micrc/bit.generators.micrc-web'),
+    '../../../../',
+  );
+  const bitBasePath = path.resolve(
+    nodeModulesBasePath,
+    '../', // bit workspace根目录
+  );
+  const workspaceFilePath = path.join(bitBasePath, 'workspace.jsonc');
+  const workspaceInfo = JSON.parse(fs.readFileSync(workspaceFilePath, { encoding: 'utf8' }));
+  const contextName = workspaceInfo['teambit.workspace/workspace'].name;
+  const metaBasePath = path.resolve(
+    nodeModulesBasePath, ...SCHEMA_PATH, contextName,
+  );
+  const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '#')}.json`;
+  const metaFilePath = path.resolve(metaBasePath, metaFile);
+  return {
+    metaBasePath,
+    metaFilePath,
+  };
+};
 
 export const moduleTemplate: ComponentTemplate = {
   name: 'micrc-web-module',
   description: '',
   generateFiles: (context: ComponentContext) => {
-    const contextName = context.componentId.scope.split('.')[1];
-    const typeName = 'modules';
-    const nodeModulesPath = path.resolve(
-      require.resolve('@micrc/bit.generators.component.micrc-web'),
-      '../../../../',
-    );
-    const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '-')}.json`;
-    const metaFilePath = path.resolve(
-      nodeModulesPath, ...SCHEMA_PATH, contextName, typeName, metaFile,
-    );
+    const { metaFilePath, metaBasePath } = handlePath(context);
     const data: ModuleContextData = parse(
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
       context,
     );
+    data.intro.metaBasePath = metaBasePath;
     return [
       // index file
       {
@@ -80,9 +103,50 @@ export const moduleTemplate: ComponentTemplate = {
         relativePath: 'meta/integration.json',
         content: integrationMetaFile(data),
       },
+      // dock file
       {
         relativePath: `${context.name}.docs.mdx`,
         content: docFile(data),
+      },
+      // state index file
+      {
+        relativePath: 'state/index.tsx',
+        content: stateIndexFile(),
+      },
+      // impl file
+      {
+        relativePath: 'state/impl/impl.js',
+        content: stateImplFile(),
+      },
+      // impl mock file
+      {
+        relativePath: 'state/impl/mock.js',
+        content: stateMockFile(),
+      },
+      // protocol index file
+      {
+        relativePath: 'state/protocol/index.ts',
+        content: stateProtocolIndexFile(),
+      },
+      // protocol spec file
+      {
+        relativePath: 'state/protocol/spec.ts',
+        content: stateProtocolSpecFile(data),
+      },
+      // protocol merge file
+      {
+        relativePath: 'state/protocol/merge.json',
+        content: stateProtocolMergeFile(data),
+      },
+      // protocol aggre file
+      {
+        relativePath: 'state/protocol/aggre.json',
+        content: stateProtocolAggreFile(data),
+      },
+      // protocol api files
+      {
+        relativePath: 'state/protocol/apis/readme',
+        content: stateProtocolApiFiles(data),
       },
     ];
   },

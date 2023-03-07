@@ -49,12 +49,10 @@ import type { {{@key}}Props } from '{{this}}';
 import { {{@key}} } from '{{{this}}}';
 {{/each}}
 
-{{!-- 导入store --}}
-{{#each storeImport}}
-import { {{@key}} as module } from '{{this}}'
-{{/each}}
 {{!-- 导入运行时store工具 --}}
 import { moduleStore } from '@micrc/bit.runtimes.micrc-web';
+{{!-- 导入远程状态模块 --}}
+import { useStore as module } from './state';
 
 {{!-- 导入样式文件 --}}
 import styles from './{{context.name}}.module.scss';
@@ -87,7 +85,7 @@ type {{@key}} = {
 {{!-- 定义组件本体 --}}
 export function {{context.namePascalCase}}({ router, integration }: {{context.namePascalCase}}Props) {
   {{!-- 定义内部状态 --}}
-  {{#each innerState}}
+  {{#each localState}}
   const {{@key}} = useState({{{json this}}});
   {{/each}}
 
@@ -96,7 +94,7 @@ export function {{context.namePascalCase}}({ router, integration }: {{context.na
     {
       module,
       states: {
-        {{#each innerState}}
+        {{#each localState}}
         {{@key}},
         {{/each}}
       }
@@ -114,13 +112,20 @@ export function {{context.namePascalCase}}({ router, integration }: {{context.na
     <>
       {{#with assembly}}
       <{{layout}}
-      {{{propsAssembler  props}}}
+      {{{propsAssembler props}}}
       />
       {{/with}}
       { integration ? <IntegrationSimulator integration={integration} /> : null }
     </>
   );
 }
+
+{{!-- 默认props --}}
+{{context.namePascalCase}}.defaultProps = {
+  {{#each defaultProps}}
+  {{@key}}?: {{{json this}}},
+  {{/each}}
+};
 `;
 
 export function componentFile(data: ModuleContextData) {

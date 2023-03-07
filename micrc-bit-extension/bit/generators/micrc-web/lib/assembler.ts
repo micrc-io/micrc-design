@@ -27,6 +27,13 @@ const actionTmpl = `
 }
 `;
 
+/**
+ * 根据组件props对象生成props字符串表达
+ * 可处理原子值, 以_val命名的对象值, 函数表达式, 函数对象, 组件对象, 组件对象数组
+ *
+ * @param props 组件props对象
+ * @returns props对象字符串
+ */
 export const propsAssembler = (props: object): string => {
   let retVal = '';
   Object.keys(props).forEach((name) => {
@@ -66,6 +73,12 @@ export const propsAssembler = (props: object): string => {
   return retVal;
 };
 
+/**
+ * 根据组件对象装配树, 创建组件的字符串表达
+ *
+ * @param components 组件对象树
+ * @returns 组件字符串
+ */
 export const assembler = (components: object): string => {
   let retVal = '<>';
   Object.keys(components).forEach((name) => {
@@ -95,13 +108,20 @@ const checkCompObj = (obj: object): boolean => {
   return isCompObj;
 };
 
+const checkFuncCompObj = (obj: any): boolean => obj.params !== undefined
+  && obj.layout !== undefined
+  && obj.props !== undefined;
+
+/**
+ * 处理复杂对象, 包括原子类型值, 普通数组和对象, 追加组件对象、组件数组对象、组件函数对象处理
+ *
+ * @param obj 待处理对象
+ * @returns 对象的字符串表达
+ */
 export const jsonObject = (obj: any): string => {
-  if (typeof obj === 'object') {
-    if (checkCompObj(obj)) { // 组件对象
-      return assembler(obj);
-    }
-  }
-  if (Array.isArray(obj) && obj.length !== 0) { // 组件对象数组
+  // 首先处理组件对象数组, 只有数组中所有对象都为组件对象, 才判定为组件数组, 否则认为是普通数组
+  // 目前认为不存在数组中混合普通数据和组件数据的情况
+  if (Array.isArray(obj) && obj.length !== 0) {
     let isCompObjArray = true;
     obj.forEach((it) => {
       isCompObjArray = isCompObjArray && checkCompObj(it);
@@ -110,5 +130,34 @@ export const jsonObject = (obj: any): string => {
       return `[${obj.map((it) => assembler(it)).join(', ')}]`;
     }
   }
+  // 处理普通数组
+  if (Array.isArray(obj)) {
+    const retVal = [];
+    obj.forEach((it) => {
+      retVal.push(jsonObject(it));
+    });
+    return `[${retVal.join(', ')}]`;
+  }
+  // 处理对象, 注意数组本身也是对象, 所以顺序不能变, 这个应该放在最下面
+  if (typeof obj === 'object') {
+    if (obj === null) {
+      return 'null';
+    }
+    if (checkCompObj(obj)) { // 组件对象
+      return assembler(obj);
+    }
+    if (checkFuncCompObj(obj)) { // 函数组件对象 (param) => <组件 {...param} />
+      return `(${obj.params.join(', ')}) => (<${obj.layout} ${propsAssembler(obj.props)} />)`;
+    }
+    let retVal = '{';
+    Object.keys(obj).forEach((it) => {
+      retVal += `${it}: `;
+      retVal += jsonObject(obj[it]);
+      retVal += ', ';
+    });
+    retVal += '}';
+    return retVal;
+  }
+  // 原子类型值处理
   return JSON.stringify(obj);
 };

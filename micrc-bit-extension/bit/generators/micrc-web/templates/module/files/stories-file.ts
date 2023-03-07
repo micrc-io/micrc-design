@@ -1,5 +1,5 @@
 /**
- * stories.ts
+ * stories file
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
@@ -9,7 +9,9 @@ import { ModuleContextData } from '../_parse';
 const tmpl = `// {{context.name}} stories
 import React from 'react';
 
-import { initGlobalStore } from '@micrc/bit.runtimes.micrc-web';
+import locale from 'antd/locale/zh_CN'; // todo 通过开发机系统语言动态化
+
+import { initModuleGlobalStore } from '@micrc/bit.runtimes.micrc-web';
 
 import type { {{context.namePascalCase}}Props } from './{{context.name}}';
 import { {{context.namePascalCase}} } from './{{context.name}}';
@@ -23,7 +25,8 @@ export default {
 };
 
 const Template = (props: {{context.namePascalCase}}Props) => {
-  initGlobalStore(zh_CN, I18n, null, Integration.init);
+  // todo 通过开发机系统语言动态化
+  initModuleGlobalStore('zh_CN', I18n, null, Integration.init);
   return (<{{context.namePascalCase}} {...props} />);
 };
 
@@ -32,11 +35,11 @@ Default.args = {
   integration: Integration.simulation,
   router: null,
 };
-Basic.parameters = {
+Default.parameters = {
   micrc: {
     type: 'web',
     // eslint-disable-next-line global-require
-    locale: require('antd/locale/zh_CN').default,
+    locale,
   },
 };
 `;

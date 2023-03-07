@@ -1,9 +1,9 @@
 /**
- * protocol/merge.json
+ * state/protocol/merge.json
  */
-import type { ModuleContextData } from '../../_parse';
+import type { ModuleContextData } from '../../../_parse';
 
-export function protocolMergeFile(data: ModuleContextData) {
+export function stateProtocolMergeFile(data: ModuleContextData) {
   return `{
   "openapi": "3.0.3",
   "info": {
@@ -12,8 +12,8 @@ export function protocolMergeFile(data: ModuleContextData) {
   },
   "servers": [
     {
-      "url": "${data.integration.rpc.url}",
-      "x-host": "${data.integration.rpc.host}"
+      "url": "${data.remoteState.rpc.url}",
+      "x-host": "${data.remoteState.rpc.host}"
     }
   ],
   "externalDocs": {

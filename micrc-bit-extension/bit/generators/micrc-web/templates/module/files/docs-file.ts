@@ -13,14 +13,13 @@ description: {{doc.title}}
 label: {{{jsonObject doc.labels}}}
 ---
 
-import 'antd/dist/reset.css';
-
 import { Default } from './{{context.name}}.composition';
+import 'antd/dist/reset.css';
 
 {{doc.prototype}}
 
 ### default usage
-#### {{{doc.desc}}}
+#### {{{ doc.desc }}}
 \`\`\`js
 <Default {...Default.args} />
 \`\`\`

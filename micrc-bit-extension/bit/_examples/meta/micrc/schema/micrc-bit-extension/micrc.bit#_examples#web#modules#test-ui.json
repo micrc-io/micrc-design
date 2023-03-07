@@ -1,6 +1,8 @@
 {
   "intro": {
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "caseName": "demo-case",
+    "modelFilePath": "models/aggre1.json"
   },
   "i18n": {
     "btn.submit": {
@@ -84,11 +86,6 @@
       "packages": "@micrc/bit._examples.web.components.card-test"
     }
   },
-  "store": {
-    "name": "DemoStore",
-    "package": "@micrc/bit._examples.web.states.demo-store",
-    "version": "0.0.1"
-  },
   "localState": {
     "show": {
       "value": false
@@ -100,7 +97,23 @@
       "value": "ok"
     },
     "columns": {
-      "value": []
+      "value": [
+        {
+          "title": "abc-ABC",
+          "dataIndex": "abc",
+          "key": "abc",
+          "test": 1
+        }, {
+          "title": "Action",
+          "dataIndex": "id",
+          "key": "id",
+          "render": {
+            "params": ["_", "record"],
+            "layout": "TestLayout",
+            "props": {}
+          }
+        }
+      ]
     },
     "formList": {
       "value": []
@@ -109,7 +122,13 @@
       "value": "搜索"
     }
   },
-  "remoteState": {},
+  "remoteState": {
+    "rpc": {
+      "protocols": ["protocols/aggre1/case1/register.json", "protocols/aggre1/case1/user.json"],
+      "url": "/api/aggre/case",
+      "host": "http://xxx.local.svc"
+    }
+  },
   "actions": {
     "demoAction": {"op": "replace", "path": "states@message:///value", "value": null}
   },

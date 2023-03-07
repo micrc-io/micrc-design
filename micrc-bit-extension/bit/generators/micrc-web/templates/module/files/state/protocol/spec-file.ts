@@ -1,10 +1,11 @@
 /**
- * protocol/spec.ts
+ * state/protocol/spec.ts
  */
-import HandleBars from 'handlebars';
-import prettier from 'prettier';
+import path from 'path';
 
-import type { ModuleContextData } from '../../_parse';
+import HandleBars from 'handlebars';
+
+import type { ModuleContextData } from '../../../_parse';
 
 const tmpl = `// 导入apis下所有api protocol, 加上schema, 组合成一个specification并导出
 import {
@@ -28,20 +29,21 @@ import ajvErrors from 'ajv-errors';
 import { setupWorker } from 'msw';
 
 import common from './merge.json';
-{{#each integration.rpc.protocols}}
-import {{this}} from './apis/{{this}}.json';
+{{#each remoteState.rpc.protocols}}
+{{{protocolImport this}}};
 {{/each}}
-// ...导入其他api
 import schema from './aggre.json';
 
 declare type Invalid = {
-  validate: (any) => [boolean, object, ValidateFunction];
+  validate: (any: any) => [boolean, object, ValidateFunction];
   err: object;
 };
+
 declare type Error = {
-  validate: (any) => [boolean, object, ValidateFunction];
+  validate: (any: any) => [boolean, object, ValidateFunction];
   err: object
 };
+
 declare type ProtocolImpl = {
   host: string;
   requestContentType: string;
@@ -51,6 +53,7 @@ declare type ProtocolImpl = {
   result: any;
   error: Error;
 };
+
 declare type ProtocolMock = {
   url: string;
   host: string;
@@ -113,9 +116,9 @@ const mergeResult = merge([
   {
     oas: common as any,
   },
-  {{#each integration.rpc.protocols}}
+  {{#each remoteState.rpc.protocols}}
   {
-    oas: {{this}}
+    oas: {{{protocolName this}}},
   },
   {{/each}}
   {
@@ -208,22 +211,21 @@ export const useHandlers = (handlers: Array<any>) => {
   // 服务端环境中, 仅default和local环境需要启动mock server
   if (typeof window === 'undefined' && typeof global !== 'undefined') {
     // APP_ENV环境变量为default或local, 启动mock server
-    if (process.env.APP_ENV && (process.env.APP_ENV === 'local' || process.env.APP_ENV === 'default')) {
+    const env = process.env.APP_ENV;
+    if (env && (env === 'local' || env === 'default')) {
       serverWorker(handlers);
     }
   }
 };
 `;
 
-export function protocolSpecFile(data: ModuleContextData) {
-  return prettier.format(
-    HandleBars.compile(tmpl)(data),
-    {
-      parser: 'typescript',
-      semi: true,
-      singleQuote: true,
-      bracketSameLine: false,
-      singleAttributePerLine: true,
-    },
-  );
+export function stateProtocolSpecFile(data: ModuleContextData) {
+  HandleBars.registerHelper('protocolImport', (context) => {
+    const protocolFile = path.basename(context);
+    const protocolName = protocolFile.replace('.json', '');
+    return `import ${protocolName} from './apis/${protocolFile}'`;
+  });
+  HandleBars.registerHelper('protocolName', (context) => path.basename(context).replace('.json', ''));
+
+  return HandleBars.compile(tmpl)(data);
 }

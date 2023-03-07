@@ -155,7 +155,7 @@ export const generate = async () => {
     if (fs.existsSync(filePath) && metaFilePath.endsWith('.json')) {
       const metaData = fs.readFileSync(filePath);
       const componentPath = metaFilePath.replace('.json', '');
-      const componentId = componentPath.replace(/_/, '/');
+      const componentId = componentPath.replace(/#/, '/');
       const componentName = componentId.replace(accountScope, '');
       // 组件状态为设计中、发布中、已完成中的任意一个, 都需要首先删除workspace中已有的组件
       // 对于完成状态, 为了避免意外修改, 也应该删除这个组件, 接下来不做任何处理
