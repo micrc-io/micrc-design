@@ -14,6 +14,8 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { MDXProvider } from '@mdx-js/react';
 
+import { initGlobalStore } from '@micrc/bit.runtimes.micrc-web';
+
 {{#each componentImports}}
 import { {{@key}} } from '{{this}}';
 {{/each}}
@@ -24,6 +26,10 @@ import { {{@key}} } from '{{this}}';
 
 import '../styles/antd-themes/default.less';
 import '../styles/globals.css';
+
+import i18n from '../meta/i18n.json';
+import tracker from '../meta/tracker.json';
+import integration from '../meta/integration.json';
 
 const layouts: Record<string, { uris: Array<string>, layout: ReactNode }> = {
   {{#each layouts}}
@@ -42,6 +48,12 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   if (!Layout) {
     throw Error(\`unhandled clientends layout for page: \${router.pathname}\`);
   }
+  const env = process.env.NEXT_PUBLIC_APP_ENV || process.env.APP_ENV;
+  let locale = 'en_US';
+  if (env && (env === 'default' || env === 'local')) {
+    locale = 'zh_CN'; // todo 获取开发机系统语言
+  }
+  initGlobalStore(locale, i18n, integration, tracker);
   return React.cloneElement(Layout, { ...props });
 };
 

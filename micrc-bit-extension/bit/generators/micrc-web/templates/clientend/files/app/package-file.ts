@@ -2,7 +2,7 @@
  * app/package.json
  */
 import HandleBars from 'handlebars';
-import prettier from 'prettier';
+import { format } from 'prettier-package-json';
 
 import type { ClientendContextData } from '../../_parser';
 
@@ -49,10 +49,5 @@ const tmpl = `{
 `;
 
 export function appPackageFile(data: ClientendContextData) {
-  return prettier.format(
-    HandleBars.compile(tmpl)(data),
-    {
-      parser: 'json',
-    },
-  );
+  return format(JSON.parse(HandleBars.compile(tmpl)(data)));
 }

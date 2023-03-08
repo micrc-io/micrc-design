@@ -36,6 +36,8 @@ import { appMetaIntegrationFile } from './files/app/meta/integration-file';
 import { appI18nSubmissionFile } from './files/app/meta/submission/i18n-file';
 import { appMenuSubmissionFile } from './files/app/meta/submission/menu-file';
 import { appPermissionSubmissionFile } from './files/app/meta/submission/permission-file';
+import { appTrackerSubmissionFile } from './files/app/meta/submission/tracker-file';
+import { appMetaTrackerFile } from './files/app/meta/tracker-file';
 
 export const clientendTemplate: ComponentTemplate = {
   name: 'micrc-web-clientend',
@@ -159,6 +161,11 @@ export const clientendTemplate: ComponentTemplate = {
         relativePath: 'app/meta/submission/i18.json',
         content: appI18nSubmissionFile(data),
       },
+      // app meta/tracker.json
+      {
+        relativePath: 'app/meta/submission/tracker.json',
+        content: appTrackerSubmissionFile(data),
+      },
       // app meta/menu.json
       {
         relativePath: 'app/meta/submission/menu.json',
@@ -169,14 +176,19 @@ export const clientendTemplate: ComponentTemplate = {
         relativePath: 'app/meta/submission/permission.json',
         content: appPermissionSubmissionFile(),
       },
-      // app meta/i18-init.json
+      // app meta/i18.json
       {
-        relativePath: 'app/meta/i18n-init.json',
+        relativePath: 'app/meta/i18n.json',
         content: appMetaI18nFile(data),
       },
-      // app meta/integration-init.json
+      // app meta/tracker.json
       {
-        relativePath: 'app/meta/integration-init.json',
+        relativePath: 'app/meta/tracker.json',
+        content: appMetaTrackerFile(data),
+      },
+      // app meta/integration.json
+      {
+        relativePath: 'app/meta/integration.json',
         content: appMetaIntegrationFile(data),
       },
     ];

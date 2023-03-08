@@ -58,11 +58,8 @@ export const initModuleGlobalStore = (
   });
 };
 
-export const initGlobalStore = (
-  locale: string,
+const translateI18n = (
   i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>>,
-  tracker: any,
-  integration: Record<string, IntegrationTopic>,
 ) => {
   const languages = {};
   Object.keys(i18n).forEach((pageUri) => {
@@ -83,12 +80,32 @@ export const initGlobalStore = (
       });
     });
   });
-  useGlobalStore.setState({
-    i18n: {
-      locale: locale || 'en_US',
-      languages,
-    },
-    tracker,
-    integration,
-  });
+  return languages;
+};
+
+export const initGlobalStore = (
+  locale: string | null,
+  i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
+  tracker: any | null,
+  integration: Record<string, IntegrationTopic> | null,
+) => {
+  const state: any = useGlobalStore.getState();
+  if (!state.i18n && i18n) {
+    useGlobalStore.setState({
+      i18n: {
+        locale: locale || 'en_US',
+        languages: translateI18n(i18n),
+      },
+    });
+  }
+  if (!state.tracker && tracker) {
+    useGlobalStore.setState({
+      tracker,
+    });
+  }
+  if (!state.integration && integration) {
+    useGlobalStore.setState({
+      integration,
+    });
+  }
 };

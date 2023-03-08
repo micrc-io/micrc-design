@@ -22,7 +22,7 @@ type ModuleStore = {
 
 export const remoteStore = (stores: ModuleStore, router: any, id: string) => {
   const {
-    module, states,
+    module = {}, states = {},
   } = stores;
   const stateStore = {};
   Object.keys(states).forEach((it) => {

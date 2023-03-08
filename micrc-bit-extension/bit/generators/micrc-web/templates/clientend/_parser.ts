@@ -78,10 +78,15 @@ type ClientendMeta = {
     state: string,
     languages: Array<{ code: string, name: string }>
   },
-  context: ComponentContext,
+  doc: {
+    title: string,
+    labels: Array<string>,
+    showcase: string,
+    desc: string,
+  },
   entry: {
     modules: Record<string, {
-      // todo permission
+      // todo permission tracker
       package: string, version: string, i18n: Record<string, I18nPointerMeta>
     }>,
     components: Record<string, { package: string, version: string }>,
@@ -91,11 +96,11 @@ type ClientendMeta = {
     }>,
   },
   pages: Record<string, {
-    // todo menu和permission
+    // todo menu和permission tracker
     i18n : Record<string, I18nPointerMeta>,
     comment: Array<string>,
     modules: Record<string, {
-      // todo permission
+      // todo permission tracker
       package: string, version: string, i18n: Record<string, I18nPointerMeta>
     }>,
     components: Record<string, { package: string, version: string }>,
@@ -130,11 +135,23 @@ type IntegrationTopicDataContext = {
   consumers: Record<string, Consumer>, // 转换后的consumer
 };
 
+// todo 定义数据context
+type TrackerDataContext = {
+  init: {},
+  submission: {},
+};
+
 export type ClientendContextData = {
   // todo menu和permission数据, 生成报送元数据文件
   i18n: I18nDataContext,
+  tracker: TrackerDataContext,
   integration: Record<string, IntegrationTopicDataContext>,
   intro: ClientendIntro, // 自省数据
+  doc: {
+    title: string,
+    labels: Array<string>,
+    desc: string,
+  },
   context: ComponentContext,
   entry: ClientendEntry, // app入口
   pages: Record<string, {
@@ -148,7 +165,7 @@ export type ClientendContextData = {
 
 const handleSourceDir = (context: ComponentContext) => {
   const basePath = path.resolve(
-    require.resolve('@micrc/bit.generators.component.micrc-web'),
+    require.resolve('@micrc/bit.generators.micrc-web'),
     '../../../../../',
   );
   const sourceDir = `${basePath}${path.sep}${context.componentId.toStringWithoutVersion().split('.')[1]}`;
@@ -207,7 +224,7 @@ const handlePages = (meta: ClientendMeta) => {
   };
 };
 
-const handleI18n = (meta: ClientendMeta): I18nDataContext => {
+const handleI18n = (meta: ClientendMeta, context: ComponentContext): I18nDataContext => {
   const packToId = (pack: string): string => {
     const [account, fullName] = pack.split('/');
     const nameArray = fullName.split('.');
@@ -218,7 +235,7 @@ const handleI18n = (meta: ClientendMeta): I18nDataContext => {
     init: {},
     submission: {
       sourceService: {
-        serviceName: meta.context.name,
+        serviceName: context.name,
         serviceType: 'CLIENT',
       },
       initData: {
@@ -231,10 +248,10 @@ const handleI18n = (meta: ClientendMeta): I18nDataContext => {
   };
   const pushPointer = (pointer: I18nPointerMeta, pageUri: string = '#', mId: string = '#') => {
     retVal.submission.initData.data.pointers.push({
-      code: `${Buffer.from(meta.context.name).toString('base64')}`
-        + `-${Buffer.from(pageUri).toString('base64')}`
-        + `-${Buffer.from(mId).toString('base64')}`
-        + `-${pointer.key}`,
+      code: `${context.name}`
+        + `:${pageUri}`
+        + `:${mId}`
+        + `:${pointer.key}`,
       locate: `${pointer.desc}`,
       translations: Object.keys(pointer.defaults)
         .map((lang) => ({
@@ -274,6 +291,12 @@ const handleI18n = (meta: ClientendMeta): I18nDataContext => {
   return retVal;
 };
 
+// todo 解析埋点点位元数据, 生成用于初始化和报送的点位信息
+const handleTracker = () => ({
+  init: {},
+  submission: {},
+});
+
 const handleIntegration = (meta: ClientendMeta): Record<string, IntegrationTopicDataContext> => {
   const retVal = {};
   Object.values(meta.integration).forEach((it) => {
@@ -284,7 +307,7 @@ const handleIntegration = (meta: ClientendMeta): Record<string, IntegrationTopic
     };
     it.consumers.forEach((consumer) => {
       const key = `${consumer.pageUri.replace(/\//g, '_')}:${consumer.moduleId.replace(/\//g, '_')}`;
-      retVal[it.name].consumer[key] = consumer;
+      retVal[it.name].consumers[key] = consumer;
     });
   });
   return retVal;
@@ -302,10 +325,12 @@ export const parse = (meta: ClientendMeta, context: ComponentContext): Clientend
   const { entryDependencies, entry } = handleEntry(meta);
   const { pageDependencies, pages } = handlePages(meta);
   const data: ClientendContextData = {
-    i18n: handleI18n(meta),
+    i18n: handleI18n(meta, context),
+    tracker: handleTracker(),
     integration: handleIntegration(meta),
     context,
     intro,
+    doc: meta.doc,
     entry,
     pages,
     dependencies: { ...entryDependencies, ...pageDependencies },

@@ -68,6 +68,7 @@ importers:
       postcss-pxtorem: 6.0.0
       postcss-pxtransform: 3.6.2
       prettier: 2.8.4
+      prettier-package-json: 2.8.0
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
       react-native: 0.71.3
@@ -139,6 +140,7 @@ importers:
       postcss-pxtorem: registry.npmmirror.com/postcss-pxtorem/6.0.0_postcss@8.4.21
       postcss-pxtransform: registry.npmmirror.com/postcss-pxtransform/3.6.2_postcss@8.4.21
       prettier: registry.npmmirror.com/prettier/2.8.4
+      prettier-package-json: registry.npmmirror.com/prettier-package-json/2.8.0
       react: registry.npmmirror.com/react/17.0.2
       react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
       react-native: registry.npmmirror.com/react-native/0.71.3_react@17.0.2
@@ -6910,6 +6912,12 @@ packages:
     version: 4.1.4
     dev: false
 
+  registry.npmmirror.com/@types/parse-author/2.0.1:
+    resolution: {integrity: sha512-2RNXvvDY+7ITl/Q3znDpW9DxyAckKgLCXpoiBHN9BeLH1aV7z/W657P2+PK3wVUgGWXtc99ZQy3LkJTGlxLsvA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/parse-author/-/parse-author-2.0.1.tgz}
+    name: '@types/parse-author'
+    version: 2.0.1
+    dev: false
+
   registry.npmmirror.com/@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/parse-json/-/parse-json-4.0.0.tgz}
     name: '@types/parse-json'
@@ -8574,6 +8582,13 @@ packages:
     hasBin: true
     dev: false
 
+  registry.npmmirror.com/author-regex/1.0.0:
+    resolution: {integrity: sha512-KbWgR8wOYRAPekEmMXrYYdc7BRyhn2Ftk7KWfMUnQ43hFdojWEFRxhhRUm3/OFEdPa1r0KAvTTg9YQK57xTe0g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/author-regex/-/author-regex-1.0.0.tgz}
+    name: author-regex
+    version: 1.0.0
+    engines: {node: '>=0.8'}
+    dev: false
+
   registry.npmmirror.com/autoprefixer/9.8.8:
     resolution: {integrity: sha512-eM9d/swFopRt5gdJ7jrpCwgvEMIayITpojhkkSMRsFHYuH5bkSQ4p/9qTEHtmNudUZh22Tehu7I6CxAW0IXTKA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/autoprefixer/-/autoprefixer-9.8.8.tgz}
     name: autoprefixer
@@ -9260,7 +9275,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: registry.npmmirror.com/caniuse-lite/1.0.30001462
-      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.324
+      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.325
       node-releases: registry.npmmirror.com/node-releases/2.0.10
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db/1.0.10_browserslist@4.21.5
     dev: false
@@ -10967,10 +10982,10 @@ packages:
     version: 1.1.1
     dev: false
 
-  registry.npmmirror.com/electron-to-chromium/1.4.324:
-    resolution: {integrity: sha512-m+eBs/kh3TXnCuqDF6aHLLRwLK2U471JAbZ1KYigf0TM96fZglxv0/ZFBvyIxnLKsIWUoDiVnHTA2mhYz1fqdA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.324.tgz}
+  registry.npmmirror.com/electron-to-chromium/1.4.325:
+    resolution: {integrity: sha512-K1C03NT4I7BuzsRdCU5RWkgZxtswnKDYM6/eMhkEXqKu4e5T+ck610x3FPzu1y7HVFSiQKZqP16gnJzPpji1TQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.325.tgz}
     name: electron-to-chromium
-    version: 1.4.324
+    version: 1.4.325
     dev: false
 
   registry.npmmirror.com/elliptic/6.5.4:
@@ -17292,6 +17307,15 @@ packages:
       safe-buffer: registry.npmmirror.com/safe-buffer/5.2.1
     dev: false
 
+  registry.npmmirror.com/parse-author/2.0.0:
+    resolution: {integrity: sha512-yx5DfvkN8JsHL2xk2Os9oTia467qnvRgey4ahSm2X8epehBLx/gWLcy5KI+Y36ful5DzGbCS6RazqZGgy1gHNw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/parse-author/-/parse-author-2.0.0.tgz}
+    name: parse-author
+    version: 2.0.0
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      author-regex: registry.npmmirror.com/author-regex/1.0.0
+    dev: false
+
   registry.npmmirror.com/parse-entities/2.0.0:
     resolution: {integrity: sha512-kkywGpCcRYhqQIchaWqZ875wzpS/bMKhz5HnN3p7wveJTkTtyAB/AlnS0f8DFSqYW1T82t6yEAkEcB+A1I3MbQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/parse-entities/-/parse-entities-2.0.0.tgz}
     name: parse-entities
@@ -17866,6 +17890,23 @@ packages:
     name: prelude-ls
     version: 1.2.1
     engines: {node: '>= 0.8.0'}
+    dev: false
+
+  registry.npmmirror.com/prettier-package-json/2.8.0:
+    resolution: {integrity: sha512-WxtodH/wWavfw3MR7yK/GrS4pASEQ+iSTkdtSxPJWvqzG55ir5nvbLt9rw5AOiEcqqPCRM92WCtR1rk3TG3JSQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prettier-package-json/-/prettier-package-json-2.8.0.tgz}
+    name: prettier-package-json
+    version: 2.8.0
+    hasBin: true
+    dependencies:
+      '@types/parse-author': registry.npmmirror.com/@types/parse-author/2.0.1
+      commander: registry.npmmirror.com/commander/4.1.1
+      cosmiconfig: registry.npmmirror.com/cosmiconfig/7.1.0
+      fs-extra: registry.npmmirror.com/fs-extra/10.1.0
+      glob: registry.npmmirror.com/glob/7.2.3
+      minimatch: registry.npmmirror.com/minimatch/3.1.2
+      parse-author: registry.npmmirror.com/parse-author/2.0.0
+      sort-object-keys: registry.npmmirror.com/sort-object-keys/1.1.3
+      sort-order: registry.npmmirror.com/sort-order/1.0.1
     dev: false
 
   registry.npmmirror.com/prettier/2.3.0:
@@ -20398,6 +20439,18 @@ packages:
       use: registry.npmmirror.com/use/3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  registry.npmmirror.com/sort-object-keys/1.1.3:
+    resolution: {integrity: sha512-855pvK+VkU7PaKYPc+Jjnmt4EzejQHyhhF33q31qG8x7maDzkeFhAAThdCYay11CISO+qAMwjOBP+fPZe0IPyg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sort-object-keys/-/sort-object-keys-1.1.3.tgz}
+    name: sort-object-keys
+    version: 1.1.3
+    dev: false
+
+  registry.npmmirror.com/sort-order/1.0.1:
+    resolution: {integrity: sha512-BiExT7C1IVF4DNd5dttR/dEq3wunGOHpy4phvqFUQA1pY6j2ye8WWEAV8LhRbfdF0EWDX12FfyPPf9P71eT+cA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sort-order/-/sort-order-1.0.1.tgz}
+    name: sort-order
+    version: 1.0.1
     dev: false
 
   registry.npmmirror.com/source-list-map/2.0.1:

@@ -61,12 +61,12 @@ export const propsAssembler = (props: object): string => {
     const arrayProp = Array.isArray(prop);
     let propCompArray = '';
     if (arrayProp) {
-      propCompArray += '{[(';
+      propCompArray += '{[';
       prop.forEach((comp) => {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        propCompArray += `${assembler(comp.assemblies)}`;
+        propCompArray += `${assembler(comp.assemblies)},`;
       });
-      propCompArray += '),]}';
+      propCompArray += ']}';
     }
     retVal += ` ${name}=${propStr}${propObj}${propExpr}${propComp}${propCompArray}${propExprObj}`;
   });
