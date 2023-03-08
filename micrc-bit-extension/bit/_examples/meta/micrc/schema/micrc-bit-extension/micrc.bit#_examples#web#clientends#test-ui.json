@@ -1,6 +1,7 @@
 {
   "intro": {
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "state": "designing"
   },
   "entry": {
     "modules": {
@@ -42,14 +43,22 @@
           "logo": {
             "ProductLogo": {
               "children": null,
-              "props": {}
+              "props": {
+                "router": {
+                  "_val": {}
+                }
+              }
             }
           },
           "toolbar": [
             {
               "Languages": {
                 "children": null,
-                "props": {}
+                "props": {
+                  "router": {
+                    "_val": {}
+                  }
+                }
               }
             }
           ]
@@ -61,19 +70,31 @@
           "header": {
             "MainMenu": {
               "children": null,
-              "props": {}
+              "props": {
+                "router": {
+                  "_val": {}
+                }
+              }
             }
           },
           "sideBar": {
             "SubMenu": {
               "children": null,
-              "props": {}
+              "props": {
+                "router": {
+                  "_val": {}
+                }
+              }
             }
           },
           "logo": {
             "ProductLogo": {
               "children": null,
-              "props": {}
+              "props": {
+                "router": {
+                  "_val": {}
+                }
+              }
             }
           },
           "toolbar": [
@@ -81,7 +102,10 @@
               "SystemAccount": {
                 "children": null,
                 "props": {
-                  "key": "0"
+                  "key": "0",
+                  "router": {
+                    "_val": {}
+                  }
                 }
               }
             },
@@ -89,7 +113,10 @@
               "Languages": {
                 "children": null,
                 "props": {
-                  "key": "1"
+                  "key": "1",
+                  "router": {
+                    "_val": {}
+                  }
                 }
               }
             }

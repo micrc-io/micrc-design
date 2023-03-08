@@ -107,7 +107,7 @@ type ModuleMeta = {
     caseName: string,
     modelFilePath: string,
   },
-  i18n: I18nPointerMeta,
+  i18n: Record<string, I18nPointerMeta>,
   comment: Array<string>,
   types?: {
     definitions?: Record<string, TypeDefinition>,
@@ -142,7 +142,7 @@ export type ModuleContextData = {
     sourceDir: string, // 组件源代码目录
     metaBasePath: string, // 元数据根目录, schema下的上下文目录
   },
-  i18n: I18nPointerMeta, // 国际化点位
+  i18n: Record<string, I18nPointerMeta>, // 国际化点位
   typeDefinitions?: Record<string, TypeDefinition>, // 类型定义，以定义的类型名为key
   context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息
   comment: Array<string>, // 组件注释

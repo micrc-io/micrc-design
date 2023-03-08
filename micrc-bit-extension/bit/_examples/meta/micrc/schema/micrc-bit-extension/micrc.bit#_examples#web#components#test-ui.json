@@ -1,6 +1,7 @@
 {
   "intro": {
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "state": "designing"
   },
   "comment": ["组件", "注释"],
   "types": {

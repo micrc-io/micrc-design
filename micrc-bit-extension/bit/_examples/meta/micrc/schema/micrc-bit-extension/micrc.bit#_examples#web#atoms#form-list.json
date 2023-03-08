@@ -1,0 +1,74 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "测试原子组件"
+  },
+  "comment": ["原子组件", "注释"],
+  "reactImports":{
+    "react": {
+      "default": "React",
+      "types": [ "useState","ReactNode" ]
+    }
+  },
+  "typeImports": {},
+  "componentImports":{
+    "antd": {
+      "default": null,
+      "types": ["Form","Input"]
+    }
+  },
+  "typeDefinitions":{},
+  "props": {
+    "fromlist": "Array<{label: string, placeholder: string}>"
+  },
+  "defaultProps": {
+    "children": null,
+    "fromlist": {
+      "value": [{"label":"店铺名称","placeholder":"请输入店铺名称"},
+      {"label":"账户名称","placeholder":"请输入账户名称"}]
+    }
+  },
+  "stories": {
+    "componentImports": {
+      "antd": {
+        "default": null,
+        "types": ["Form","Input"]
+      }
+    },
+    "atomImports":{},
+    "examples": {
+      "Test1": {
+        "desc": "demo props usage",
+        "props": {
+            "fromlist": {
+              "value": [{"label":"店铺名称","placeholder":"请输入店铺名称"},
+              {"label":"账户名称","placeholder":"请输入账户名称"}]
+            }
+        }
+      }
+    }
+  },
+  "doc": {
+    "title": "demo component",
+    "labels": ["demo", "component"],
+    "prototype": "https://xxxx/xxx"
+  },
+  "localState": {
+    "fromlist": {
+      "value": [{"label":"店铺名称","placeholder":"请输入店铺名称"},
+      {"label":"账户名称","placeholder":"请输入账户名称"}]
+    }
+  },
+  "assembly": {
+    "assemblies": [
+      {
+        "name":"",
+        "children":"{list}",
+        "props": {}
+      }
+    ]
+  },
+  "outerLogic":"",
+  "innerLogic":"const list= fromlist[0].value.map((item,index)=>{return <Form.Item label={item.label} key={index} ><Input placeholder={item.placeholder} /></Form.Item>})"
+
+}

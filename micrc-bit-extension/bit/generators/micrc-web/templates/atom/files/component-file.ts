@@ -5,7 +5,7 @@ import HandleBars from 'handlebars';
 import prettier from 'prettier';
 
 import { AtomContextData } from '../_parse';
-import { propsAssembler, jsonObject } from '../../../lib/assembler';
+import { assembler, jsonObject } from '../../../lib/assembler';
 
 const tmpl = `{{#each comment}}// {{this}}\n{{/each}}
 {{!-- 导入react --}}
@@ -116,7 +116,7 @@ export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Prop
 };
 `;
 export function componentFile(data: AtomContextData) {
-  HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
+  HandleBars.registerHelper('assembler', (context) => assembler(context));
   HandleBars.registerHelper('json', (context) => jsonObject(context));
 
   return prettier.format(

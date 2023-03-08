@@ -8,6 +8,8 @@ import { ComponentContext } from '@teambit/generator';
 
 type ClientendIntro = {
   version: string,
+  state: string,
+  metaBasePath: string,
   sourceDir: string,
   account: string,
   accountPackageReg: string,
@@ -15,7 +17,7 @@ type ClientendIntro = {
 };
 
 type Assembly = {
-  children: string | Record<string, Assembly>,
+  children: string | { assemblies: Array<Assembly> },
   props: Record<string, PropType>,
 };
 
@@ -26,8 +28,8 @@ type PageAssembly = {
 
 type PropType = string
 | { _val: any }
-| Record<string, Assembly>
-| Array<Record<string, Assembly>>;
+| { assemblies: Array<Assembly> }
+| Array<{ assemblies: Array<Assembly> }>;
 
 type ClientendEntry = {
   moduleImports: Record<string, string>,
@@ -38,11 +40,50 @@ type ClientendEntry = {
   }>,
 };
 
+type I18nPointerMeta = {
+  key: string, // 国际化key, 不包含页面uri和模块id, 仅仅只是模块内部定义的key
+  desc: string, // 一段国际化点位描述, 可以表达点位位置等信息
+  defaults: {
+    zh_CN: string, // 中文默认值
+    en_US: string, // 英文默认值
+  },
+};
+
+// 行为集成的驱动方/生产方
+type Producer = {
+  pageUri: string, // 页面uri
+  moduleId: string, // 模块id
+  // todo 暂时留空(不校验)
+  schema: object, // 附带数据的schema结构, 使用json schema表达, 用于校验生成方数据符合规格
+};
+
+// 行为集成的绑定方/消费方
+type Consumer = {
+  pageUri: string, // 页面uri
+  moduleId: string, // 模块id
+  schema: string, // 一段带表达式的json对象字符串, 用于动态映射, 如: let obj; eval('obj = schema')
+  state: object, // 由schema映射转换产生的数据, 用于消费方绑定
+};
+
+type IntegrationTopic = {
+  name: string, // 主题名称
+  producer: Producer, // 生产者
+  consumers: Array<Consumer>, // 一组消费者, 当数量为1时, 表示P2P模式, 用于如页面跳转, 因为不可能同时跳转多个页面
+};
+
 // 元数据定义
 type ClientendMeta = {
-  intro: Record<string, string>,
+  intro: {
+    version: string,
+    state: string,
+    languages: Array<{ code: string, name: string }>
+  },
+  context: ComponentContext,
   entry: {
-    modules: Record<string, { package: string, version: string }>,
+    modules: Record<string, {
+      // todo permission
+      package: string, version: string, i18n: Record<string, I18nPointerMeta>
+    }>,
     components: Record<string, { package: string, version: string }>,
     layouts: Record<string, {
       uris: Array<string>,
@@ -50,18 +91,54 @@ type ClientendMeta = {
     }>,
   },
   pages: Record<string, {
+    // todo menu和permission
+    i18n : Record<string, I18nPointerMeta>,
     comment: Array<string>,
-    modules: Record<string, { package: string, version: string }>,
+    modules: Record<string, {
+      // todo permission
+      package: string, version: string, i18n: Record<string, I18nPointerMeta>
+    }>,
     components: Record<string, { package: string, version: string }>,
     assembly: PageAssembly,
   }>,
+  integration: Record<string, IntegrationTopic> // 集成元数据, 以topic为key
+};
+
+type SubmissionI18n = {
+  sourceService: { serviceName: string, serviceType: 'CLIENT' },
+  initData: {
+    data: {
+      language: Array<{ code: string, name: string }>
+      pointers: Array<{
+        code: string,
+        locate: string,
+        translations: Array<{ langTypeCode: string, trans: string }>
+      }>
+    }
+  }
+};
+
+type I18nDataContext = {
+  init: Record<string, Record<string, I18nPointerMeta | Record<string, I18nPointerMeta>>>,
+  submission: SubmissionI18n,
+};
+
+// 行为集成主题数据(行为集成主题中的consumers是数组, 不方便消费方bind, 转换为使用uri+moduleId作为可以)
+type IntegrationTopicDataContext = {
+  name: string,
+  producer: Producer,
+  consumers: Record<string, Consumer>, // 转换后的consumer
 };
 
 export type ClientendContextData = {
-  context: ComponentContext,
+  // todo menu和permission数据, 生成报送元数据文件
+  i18n: I18nDataContext,
+  integration: Record<string, IntegrationTopicDataContext>,
   intro: ClientendIntro, // 自省数据
+  context: ComponentContext,
   entry: ClientendEntry, // app入口
   pages: Record<string, {
+    // todo permission元数据, 用于页面权限控制
     moduleImports: Record<string, string>,
     componentImports: Record<string, string>,
     assembly: PageAssembly,
@@ -130,9 +207,93 @@ const handlePages = (meta: ClientendMeta) => {
   };
 };
 
+const handleI18n = (meta: ClientendMeta): I18nDataContext => {
+  const packToId = (pack: string): string => {
+    const [account, fullName] = pack.split('/');
+    const nameArray = fullName.split('.');
+    const scope = nameArray.shift();
+    return `${account.replace('@', '')}.${scope}/${nameArray.join('/')}`;
+  };
+  const retVal: I18nDataContext = {
+    init: {},
+    submission: {
+      sourceService: {
+        serviceName: meta.context.name,
+        serviceType: 'CLIENT',
+      },
+      initData: {
+        data: {
+          language: meta.intro.languages,
+          pointers: [],
+        },
+      },
+    },
+  };
+  const pushPointer = (pointer: I18nPointerMeta, pageUri: string = '#', mId: string = '#') => {
+    retVal.submission.initData.data.pointers.push({
+      code: `${Buffer.from(meta.context.name).toString('base64')}`
+        + `-${Buffer.from(pageUri).toString('base64')}`
+        + `-${Buffer.from(mId).toString('base64')}`
+        + `-${pointer.key}`,
+      locate: `${pointer.desc}`,
+      translations: Object.keys(pointer.defaults)
+        .map((lang) => ({
+          langTypeCode: lang,
+          trans: pointer.defaults[lang],
+        })),
+    });
+  };
+  // 首先处理entry中模块的i18n点位
+  Object.keys(meta.entry.modules).forEach((name) => {
+    const mId = packToId(meta.entry.modules[name].package);
+    if (!retVal.init['#']) {
+      retVal.init['#'] = {}; // 端口布局中使用的模块的点位, 页面用#表达
+    }
+    retVal.init['#'][mId] = meta.entry.modules[name].i18n;
+    Object.values(meta.entry.modules[name].i18n).forEach((it) => {
+      pushPointer(it, '#', mId);
+    });
+  });
+  // 处理页面中的点位
+  Object.keys(meta.pages).forEach((pageUri) => {
+    if (!retVal.init[pageUri]) {
+      retVal.init[pageUri] = {};
+    }
+    retVal.init[pageUri]['#'] = meta.pages[pageUri].i18n; // 用#表达模块页面的点位
+    Object.values(meta.pages[pageUri].i18n).forEach((it) => {
+      pushPointer(it, pageUri, '#');
+    });
+    Object.keys(meta.pages[pageUri].modules).forEach((name) => {
+      const mId = packToId(meta.pages[pageUri].modules[name].package);
+      retVal.init[pageUri][mId] = meta.pages[pageUri].modules[name].i18n;
+      Object.values(meta.pages[pageUri].modules[name].i18n).forEach((it) => {
+        pushPointer(it, pageUri, mId);
+      });
+    });
+  });
+  return retVal;
+};
+
+const handleIntegration = (meta: ClientendMeta): Record<string, IntegrationTopicDataContext> => {
+  const retVal = {};
+  Object.values(meta.integration).forEach((it) => {
+    retVal[it.name] = {
+      name: it.name,
+      producer: it.producer,
+      consumers: {},
+    };
+    it.consumers.forEach((consumer) => {
+      const key = `${consumer.pageUri.replace(/\//g, '_')}:${consumer.moduleId.replace(/\//g, '_')}`;
+      retVal[it.name].consumer[key] = consumer;
+    });
+  });
+  return retVal;
+};
+
 export const parse = (meta: ClientendMeta, context: ComponentContext): ClientendContextData => {
   const intro = {
-    version: meta.intro.version,
+    ...meta.intro,
+    metaBasePath: '',
     sourceDir: handleSourceDir(context),
     account: `@${context.componentId.scope.split('.')[0]}`,
     accountPackageReg: `/^(.+?[\\\\/]node_modules)[\\\\/]((?!@${context.componentId.scope.split('.')[0]})).*[\\\\/]*/`,
@@ -141,6 +302,8 @@ export const parse = (meta: ClientendMeta, context: ComponentContext): Clientend
   const { entryDependencies, entry } = handleEntry(meta);
   const { pageDependencies, pages } = handlePages(meta);
   const data: ClientendContextData = {
+    i18n: handleI18n(meta),
+    integration: handleIntegration(meta),
     context,
     intro,
     entry,

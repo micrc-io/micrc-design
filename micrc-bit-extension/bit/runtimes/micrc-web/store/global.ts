@@ -2,7 +2,7 @@
  * global store
  * i18n语言包，tracker埋点配置，token，integration
  */
-import create from 'zustand';
+import { create } from 'zustand';
 
 type I18nPointer = {
   key: string,
@@ -50,7 +50,7 @@ export const initModuleGlobalStore = (
   });
   useGlobalStore.setState({
     i18n: {
-      locale: locale || 'en',
+      locale: locale || 'en_US',
       languages,
     },
     tracker,
@@ -60,9 +60,9 @@ export const initModuleGlobalStore = (
 
 export const initGlobalStore = (
   locale: string,
-  i18n: Record<string, Record<string, Record<string, I18nPointer>>>,
+  i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>>,
   tracker: any,
-  integration: any,
+  integration: Record<string, IntegrationTopic>,
 ) => {
   const languages = {};
   Object.keys(i18n).forEach((pageUri) => {
@@ -85,7 +85,7 @@ export const initGlobalStore = (
   });
   useGlobalStore.setState({
     i18n: {
-      locale: locale || 'en',
+      locale: locale || 'en_US',
       languages,
     },
     tracker,

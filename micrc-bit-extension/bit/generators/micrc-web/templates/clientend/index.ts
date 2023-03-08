@@ -1,10 +1,11 @@
 /**
  * micrc web clientend template, base on nextjs
  */
-import path from 'path';
 import fs from 'fs';
 
 import { ComponentTemplate, ComponentContext } from '@teambit/generator';
+
+import { handlePath } from '../../lib/schema-path';
 
 import type { ClientendContextData } from './_parser';
 import { parse } from './_parser';
@@ -30,27 +31,22 @@ import { appTsConfigFile } from './files/app/ts-config-file';
 import { appEnvFile } from './files/app/env-file';
 import { appEnvDevFile } from './files/app/env-dev-file';
 import { appEnvProdFile } from './files/app/env-prod-file';
-
-const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
+import { appMetaI18nFile } from './files/app/meta/i18n-file';
+import { appMetaIntegrationFile } from './files/app/meta/integration-file';
+import { appI18nSubmissionFile } from './files/app/meta/submission/i18n-file';
+import { appMenuSubmissionFile } from './files/app/meta/submission/menu-file';
+import { appPermissionSubmissionFile } from './files/app/meta/submission/permission-file';
 
 export const clientendTemplate: ComponentTemplate = {
   name: 'micrc-web-clientend',
   description: '',
   generateFiles: (context: ComponentContext) => {
-    const contextName = context.componentId.scope.split('.')[1];
-    const typeName = 'clientends';
-    const nodeModulesPath = path.resolve(
-      require.resolve('@micrc/bit.generators.component.micrc-web'),
-      '../../../../',
-    );
-    const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '-')}.json`;
-    const metaFilePath = path.resolve(
-      nodeModulesPath, ...SCHEMA_PATH, contextName, typeName, metaFile,
-    );
+    const { metaFilePath, metaBasePath } = handlePath(context);
     const data: ClientendContextData = parse(
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
       context,
     );
+    data.intro.metaBasePath = metaBasePath;
     return [
       // index file
       {
@@ -157,6 +153,31 @@ export const clientendTemplate: ComponentTemplate = {
       {
         relativePath: 'app/styles/antd-themes/default.less',
         content: appAntdLessFile(),
+      },
+      // app meta/i18.json
+      {
+        relativePath: 'app/meta/submission/i18.json',
+        content: appI18nSubmissionFile(data),
+      },
+      // app meta/menu.json
+      {
+        relativePath: 'app/meta/submission/menu.json',
+        content: appMenuSubmissionFile(),
+      },
+      // app meta/permission.json
+      {
+        relativePath: 'app/meta/submission/permission.json',
+        content: appPermissionSubmissionFile(),
+      },
+      // app meta/i18-init.json
+      {
+        relativePath: 'app/meta/i18n-init.json',
+        content: appMetaI18nFile(data),
+      },
+      // app meta/integration-init.json
+      {
+        relativePath: 'app/meta/integration-init.json',
+        content: appMetaIntegrationFile(data),
       },
     ];
   },

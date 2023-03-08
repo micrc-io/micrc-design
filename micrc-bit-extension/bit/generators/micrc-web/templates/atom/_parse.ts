@@ -100,6 +100,8 @@ export const parse = (meta: AtomMeta, context: ComponentContext): AtomContextDat
     componentImports: meta.componentImports,
     localState: meta.localState,
     assembly: meta.assembly,
+    outerLogic: meta.outerLogic,
+    innerLogic: meta.innerLogic,
   };
   return data;
 };

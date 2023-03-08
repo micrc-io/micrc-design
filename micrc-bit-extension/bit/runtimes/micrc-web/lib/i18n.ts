@@ -9,10 +9,7 @@ export const keyPath = (state: any, router: any, id: string, bindingPath: string
   if (!router) {
     return `/i18n/languages/${state.i18n.locale}${bindingPath.replace('i18n://', '')}`;
   }
-  if (!id) {
-    throw Error('module id must exists.');
-  }
-  return `/i18n/languages/${state.i18n.locale}/${router.pathname}/${id}/${bindingPath.replace('i18n://', '')}`;
+  return `/i18n/languages/${state.i18n.locale}/${router.pathname || '#'}/${id || '#'}/${bindingPath.replace('i18n://', '')}`;
 };
 
 export const replaceKey = (obj: any) => {

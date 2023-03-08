@@ -16,7 +16,7 @@ label: {{{jsonObject doc.labels}}}
 import 'antd/dist/reset.css';
 import {
   {{#each stories.examples}}
-  {{@key}}
+  {{@key}}Story,
   {{/each}}
 } from './{{context.name}}.composition';
 

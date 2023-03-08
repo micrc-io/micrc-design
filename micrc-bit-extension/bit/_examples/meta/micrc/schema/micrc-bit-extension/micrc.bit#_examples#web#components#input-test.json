@@ -1,0 +1,182 @@
+{
+    "intro": {
+        "version": "0.0.1"
+    },
+    "comment": [
+        "组件",
+        "注释"
+    ],
+    "types": {
+        "definitions": {},
+        "imports": {
+            "ReactNode": {
+                "default": false,
+                "packages": "react"
+            }
+        }
+    },
+    "doc": {
+        "title": "demo component",
+        "labels": [
+            "demo",
+            "component"
+        ],
+        "prototype": "https://xxxx/xxx"
+    },
+    "props": {
+        "fromlist": "Array<{label: string, placeholder: string}>"
+    },
+    "defaultProps": {
+        "children": null,
+        "fromlist": {
+            "value": [
+                {
+                    "label": "店铺名称",
+                    "placeholder": "请输入店铺名称"
+                },
+                {
+                    "label": "账户名称",
+                    "placeholder": "请输入账户名称"
+                }
+            ]
+        }
+    },
+    "stories": {
+        "components": {
+            "Button": {
+                "default": false,
+                "packages": "antd"
+            },
+            "Input": {
+                "default": false,
+                "packages": "antd"
+            },
+            "Form": {
+                "default": false,
+                "packages": "antd"
+            }
+        },
+        "atoms": {
+            "FormList": {
+                "packages": "@micrc/bit._examples.web.atoms.form-list",
+                "version": "0.0.1"
+            }
+        },
+        "examples": {
+            "Test1": {
+                "desc": "demo props usage",
+                "props": {
+                    "fromlist": {
+                        "value": [
+                            {
+                                "label": "店铺名称",
+                                "placeholder": "请输入店铺名称"
+                            },
+                            {
+                                "label": "账户名称",
+                                "placeholder": "请输入账户名称"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "Button": {
+            "default": false,
+            "packages": "antd"
+        },
+        "Input": {
+            "default": false,
+            "packages": "antd"
+        },
+        "Form": {
+            "default": false,
+            "packages": "antd"
+        }
+    },
+    "atoms": {
+        "FormList": {
+            "packages": "@micrc/bit._examples.web.atoms.form-list",
+            "version": "0.0.1"
+        }
+    },
+    "localState": {
+        "fromlist": {
+            "value": [
+                {
+                    "label": "店铺名称",
+                    "placeholder": "请输入店铺名称"
+                },
+                {
+                    "label": "账户名称",
+                    "placeholder": "请输入账户名称"
+                }
+            ]
+        }
+    },
+    "assembly": {
+        "assemblies": [
+            {
+                "name": "Form",
+                "children": {
+                    "assemblies": [
+                        {
+                            "name": "FormList",
+                            "children": null,
+                            "props": {}
+                        },
+                        {
+                            "name": "Form.Item",
+                            "children": {
+                                "assemblies": [
+                                    {
+                                        "name": "Button",
+                                        "children": "搜索",
+                                        "props": {
+                                            "type": "primary",
+                                            "htmlType": "submit"
+                                        }
+                                    }
+                                ]
+                            },
+                            "props": {
+                                "wrapperCol": {
+                                    "_val": {
+                                        "offset": 8,
+                                        "span": 16
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "props": {
+                    "labelCol": {
+                        "_val": {
+                            "span": 8
+                        }
+                    },
+                    "wrapperCol": {
+                        "_val": {
+                            "span": 16
+                        }
+                    },
+                    "style": {
+                        "_val": {
+                            "maxWidth": 600,
+                            "display": "flex"
+                        }
+                    },
+                    "initialValues": {
+                        "_val": {
+                            "remember": true
+                        }
+                    },
+                    "autoComplete": "off"
+                }
+            }
+        ]
+    }
+}
