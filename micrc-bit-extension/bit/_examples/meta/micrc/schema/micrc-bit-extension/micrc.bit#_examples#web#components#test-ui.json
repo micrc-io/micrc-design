@@ -52,7 +52,7 @@
         "dataIndex": "p1",
         "key": "p1",
         "render": {
-          "params": ["_: any", "record: any"],
+          "params": ["_", "record"],
           "assembly": {
             "assemblies": [
               {
@@ -80,11 +80,11 @@
       }
     ],
     "onSelect": {
-      "params": ["param: any"],
+      "params": ["param"],
       "alert": false
     },
     "onChange": {
-      "params": ["param: any"],
+      "params": ["param"],
       "alert": true
     }
   },

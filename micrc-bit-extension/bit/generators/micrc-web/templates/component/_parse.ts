@@ -36,6 +36,7 @@ type ComponentDoc = {
 type ComponentMeta = {
   intro: {
     version: string,
+    state: string,
   },
   comment: Array<string>,
   types?: {
@@ -58,7 +59,8 @@ type ComponentMeta = {
 
 export type ComponentContextData = {
   intro: {
-    version: string,
+    version: string, // 组件版本
+    state: string, // 组件状态(设计, 发布, 完成)
     metaBasePath: string,
   },
   context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息

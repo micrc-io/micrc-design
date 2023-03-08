@@ -1,28 +1,81 @@
 /**
  * stories file
  */
+import HandleBars from 'handlebars';
+import prettier from 'prettier';
+
+import { jsonObject } from '../../../lib/assembler';
+
 import { AtomContextData } from '../_parse';
 
-export function storiesFile(data: AtomContextData) {
-  return `// 必须这样写注释
+const tmpl = `/* eslint-disable no-alert */
+/* eslint-disable no-console */
+/**
+ * {{context.name}} stories
+ */
 import React from 'react';
-import { ${data.context.namePascalCase}, ${data.context.namePascalCase}Props } from './${data.context.name}';
-export default {
-  component:${data.context.namePascalCase},
-  title:'micrc.bit/${data.context.name}/${data.context.namePascalCase}'
-};
-const Template = (props:${data.context.namePascalCase}Props) => <${data.context.namePascalCase} {...props} />;
 
-export const Basic = Template.bind({});
-Basic.args = {
-  text: 'hello world! -- basic'
+import locale from 'antd/locale/zh_CN'; // todo 根据开发机系统语言动态化
+
+{{!-- 导入使用的组件 --}}
+{{#each stories.componentImports}}
+{{#if this.types}}
+{{#if this.default}}
+import {{this.default}}, {
+  {{#each this.types}}
+  {{this}},
+  {{/each}}
+} from '{{@key}}';
+{{else}}
+import {
+  {{#each this.types}}
+  {{this}},
+  {{/each}}
+} from '{{@key}}';
+{{/if}}
+{{else}}
+import {{this.default}} from '{{@key}}';
+{{/if}}
+{{/each}}
+
+import type { {{context.namePascalCase}}Props } from './{{context.name}}';
+import { {{context.namePascalCase}} } from './{{context.name}}';
+
+export default {
+  component: {{context.namePascalCase}},
+  title: '{{context.componentId}}',
 };
-Basic.parameters = {
+
+const Template = (props: {{context.namePascalCase}}Props) => (<{{context.namePascalCase}} {...props} />);
+
+{{#each stories.examples}}
+export const {{@key}} = Template.bind({});
+{{@key}}.args = {
+  {{#each this.props}}
+  {{@key}}: {{{jsonObject this}}},
+  {{/each}}
+};
+{{@key}}.parameters = {
   micrc: {
     type: 'web',
-    // eslint-disable-next-line global-require
-    locale: require('antd/locale/zh_CN').default,
+    locale,
   },
 };
-  `;
+{{/each}}
+`;
+
+export function storiesFile(data: AtomContextData) {
+  HandleBars.registerHelper('jsonObject', (context) => jsonObject(context));
+
+  return prettier.format(
+    HandleBars.compile(tmpl)(data),
+    {
+      parser: 'typescript',
+      semi: true,
+      singleQuote: true,
+      bracketSameLine: false,
+      singleAttributePerLine: true,
+      trailingComma: 'all',
+    },
+  );
 }

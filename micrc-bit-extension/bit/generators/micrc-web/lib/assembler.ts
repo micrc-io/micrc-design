@@ -6,15 +6,15 @@ import HandleBars from 'handlebars';
 const actionTmpl = `
 {
 (
-  {{#each _params}}
+  {{#each params}}
   {{{this}}}: any,
   {{/each}}
 ) => {
   const actions = async () => {
-    {{#each _actions}}
+    {{#each actions}}
     await {{{this.action}}}(
       {
-        {{#each ../_params}}
+        {{#each ../params}}
         {{{this}}},
         {{/each}}
       },

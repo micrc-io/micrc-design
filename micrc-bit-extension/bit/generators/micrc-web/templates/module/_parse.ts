@@ -103,6 +103,7 @@ type ModuleDoc = {
 type ModuleMeta = {
   intro: {
     version: string,
+    state: string,
     caseName: string,
     modelFilePath: string,
   },
@@ -135,6 +136,7 @@ type ModuleMeta = {
 export type ModuleContextData = {
   intro: { // 自省信息
     version: string, // 组件版本, 同时作为协议版本, 用于合并协议文件
+    state: string, // 组件状态(设计, 发布, 完成)
     caseName: string, // 模块所属用例名称
     modelFilePath: string, // 聚合模型元数据文件路径(相对于上下文目录)
     sourceDir: string, // 组件源代码目录

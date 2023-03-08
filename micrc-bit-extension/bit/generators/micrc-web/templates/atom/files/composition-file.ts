@@ -1,5 +1,5 @@
 /**
- * composition.ts
+ * composition file
  */
 import HandleBars from 'handlebars';
 import prettier from 'prettier';
@@ -10,13 +10,13 @@ const tmpl = `// {{context.name}} composition
 import React from 'react';
 
 import {
-  {{#each stories}}
+  {{#each stories.examples}}
   {{@key}},
   {{/each}}
 } from './{{context.name}}.stories';
 
-{{#each stories}}
-export const {{@key}} = () => <{{@key}} {...{{@key}}.args} />;
+{{#each stories.examples}}
+export const {{@key}}Story = () => <{{@key}} {...{{@key}}.args} />;
 {{/each}}
 `;
 

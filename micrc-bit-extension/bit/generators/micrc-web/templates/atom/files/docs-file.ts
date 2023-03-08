@@ -1,28 +1,46 @@
 /**
  * doc file
  */
+import HandleBars from 'handlebars';
+import prettier from 'prettier';
+
+import { jsonObject } from '../../../lib/assembler';
+
 import { AtomContextData } from '../_parse';
 
-export function docsFile(data: AtomContextData) {
-  return `---
-description: 'A React Component for rendering text.'
+const tmpl = `---
+description: {{doc.title}}
+label: {{{jsonObject doc.labels}}}
 ---
 
 import 'antd/dist/reset.css';
+import {
+  {{#each stories.examples}}
+  {{@key}}
+  {{/each}}
+} from './{{context.name}}.composition';
 
-import { ${data.context.namePascalCase} } from './${data.context.name}';
+{{doc.prototype}}
 
-A component that does something special and renders text in a div.
-
-### Component usage
+{{#each stories.examples}}
+#### {{{this.desc}}}
 \`\`\`js
-<${data.context.namePascalCase}>Hello world!</${data.context.namePascalCase}>
+<{{@key}} />
 \`\`\`
-
-### Render hello world!
-
-\`\`\`js live
-<${data.context.namePascalCase}>Hello world!</${data.context.namePascalCase}>
-\`\`\`
+{{/each}}
 `;
+
+export function docsFile(data: AtomContextData) {
+  HandleBars.registerHelper('jsonObject', (context) => jsonObject(context));
+
+  return prettier.format(
+    HandleBars.compile(tmpl)(data),
+    {
+      parser: 'mdx',
+      semi: true,
+      singleQuote: true,
+      bracketSameLine: false,
+      singleAttributePerLine: true,
+    },
+  );
 }

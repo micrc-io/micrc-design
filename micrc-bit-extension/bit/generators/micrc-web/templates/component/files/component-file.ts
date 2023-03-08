@@ -22,6 +22,7 @@ import {{this.default}}, {
 import {{this.default}} from '{{@key}}';
 {{/if}}
 {{/each}}
+
 {{!-- 导入类型 --}}
 {{#each typeImports}}
 {{#if this.types}}
