@@ -1,0 +1,100 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing"
+  },
+  "comment": ["组件", "注释"],
+  "types": {
+    "definitions": {
+      "DataType": {
+        "interface": true,
+        "props": {
+          "title": "string",
+          "description": "string",
+          "subTitle": "string"
+        }
+      }
+    },
+    "imports": {}
+  },
+  "doc": {
+    "title": "demo component",
+    "labels": ["demo", "component"],
+    "prototype": "https://xxxx/xxx"
+  },
+  "props": {
+    "items?": "DataType[]"
+  },
+  "defaultProps": {
+    "items": [
+      {
+        "title": "Finished",
+        "description":"xxxxx"
+      },
+      {
+        "title":"xxxxx",
+        "description":"Finished",
+        "subTitle": "Finished"
+      },
+      {
+        "title":"Finished",
+        "description":"Finished",
+        "subTitle": "Finished"
+      }
+    ]
+  },
+  "stories": {
+    "components": {
+      "Steps": {
+        "default": false,
+        "packages": "antd"
+      }
+    },
+    "atoms": {},
+    "examples": {}
+  },
+  "components": {
+    "Steps": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Modal": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {
+    "show": {
+      "value": false
+    }
+  },
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Modal",
+        "children": {
+          "assemblies": [
+            {
+              "name": "Steps",
+              "children": null,
+              "props": {
+                "items": "bind('props:///items')",
+                "current":{
+                  "_val":1
+                },
+                "direction":"vertical"
+              }
+            }
+          ]
+        },
+        "props": {
+          "title": "订单全量同步跟踪进度",
+          "open": "bind('states@show:///value')",
+          "onOk": "() => action([{ op: 'replace', path: 'states@show:///value', value: false }])()",
+          "onCancel":"() => action([{ op: 'replace', path: 'states@show:///value', value: false }])()"
+        }
+      }
+    ]
+  }
+}

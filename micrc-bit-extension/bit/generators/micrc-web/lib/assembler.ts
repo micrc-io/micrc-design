@@ -44,8 +44,11 @@ export const propsAssembler = (props: object): string => {
     // 对象类型的prop
     // eslint-disable-next-line no-underscore-dangle
     const objProp = typeof prop === 'object' && prop._val;
-    // eslint-disable-next-line no-underscore-dangle
-    const propObj = objProp ? `{${JSON.stringify(prop._val)}}` : '';
+    // eslint-disable-next-line no-nested-ternary
+    const propObj = objProp
+      // eslint-disable-next-line no-underscore-dangle
+      ? typeof prop._val === 'string' ? `{${prop._val}}` : `{${JSON.stringify(prop._val)}}`
+      : '';
     // 函数表达式类型的prop, 用于简单的事件响应函数
     const exprProp = typeof prop === 'string' && (prop.startsWith('bind') || /\(.*\) => action/.test(prop));
     const propExpr = exprProp ? `{${prop}}` : '';
@@ -176,6 +179,9 @@ export const jsonObject = (obj: any): string => {
     });
     retVal += '}';
     return retVal;
+  }
+  if (typeof obj === 'string' && (obj.startsWith('globalBind') || obj.startsWith('bind'))) {
+    return obj;
   }
   // 原子类型值处理
   return JSON.stringify(obj);

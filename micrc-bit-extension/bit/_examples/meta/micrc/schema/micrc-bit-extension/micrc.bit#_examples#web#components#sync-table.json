@@ -1,0 +1,184 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing"
+  },
+  "comment": ["组件", "注释"],
+  "types": {
+    "definitions": {
+      "DataType": {
+        "interface": true,
+        "props": {
+          "key": "string",
+          "name": "string",
+          "age": "number",
+          "address": "string",
+          "tags": "string[]"
+        }
+      }
+    },
+    "imports": {
+      "ReactNode": {
+        "default": false,
+        "packages": "react"
+      },
+      "ColumnsType": {
+        "default": false,
+        "packages": "antd/es/table"
+      }
+    }
+  },
+  "doc": {
+    "title": "demo component",
+    "labels": ["demo", "component"],
+    "prototype": "https://xxxx/xxx"
+  },
+  "props": {
+    "children?": "ReactNode",
+    "columns?": "ColumnsType<DataType>",
+    "data?": "DataType[]",
+    "onChange?": "(page, pageSize)=> void"
+  },
+  "defaultProps": {
+    "children": null,
+    "columns": [
+      {
+        "title": "店铺名称",
+        "dataIndex": "StoreName",
+        "key": "StoreName"
+      },
+      {
+        "title": "账户名称",
+        "dataIndex": "AccountName",
+        "key": "AccountName"
+      },
+      {
+        "title": "同步开始时间",
+        "dataIndex": "StartTime",
+        "key": "StartTime"
+      },
+      {
+        "title": "同步结束时间",
+        "dataIndex": "EndTime",
+        "key": "EndTime"
+      },
+      {
+        "title": "同步数量",
+        "dataIndex": "Count",
+        "key": "Count"
+      },
+      {
+        "title": "同步成功",
+        "dataIndex": "Success",
+        "key": "Success"
+      },
+      {
+        "title": "同步失败",
+        "dataIndex": "Failure",
+        "key": "Failure"
+      },
+      {
+        "title": "操作",
+        "dataIndex": "handle",
+        "key": "handle",
+        "render": {
+          "params": ["_", "record"],
+          "assembly": {
+            "assemblies": [
+              {
+                "name": "Button",
+                "children": "{`Action1 -- ${record.p1}`}",
+                "props": {
+                  "type": "link"
+                }
+              },
+              {
+                "name": "Button",
+                "children": "Action2",
+                "props": {
+                  "type": "link"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "data": [
+      {
+        "key": "1",
+        "StoreName": "John",
+        "AccountName": 32,
+        "StartTime": "XXXXX",
+        "EndTime":"XXXX",
+        "Count":122,
+        "Success":120,
+        "Failure":2
+      },
+      {
+        "key": "2",
+        "StoreName": "Brown",
+        "AccountName": 32,
+        "StartTime": "XXXXX",
+        "EndTime":"XXXX",
+        "Count":122,
+        "Success":120,
+        "Failure":2
+      }
+    ],
+    "onChange": {
+      "params": ["param"],
+      "alert": true
+    }
+  },
+  "stories": {
+    "components": {
+      "Button": {
+        "default": false,
+        "packages": "antd"
+      }
+    },
+    "atoms": {},
+    "examples": {
+      "Test1": {
+        "props": {
+          "onChange": {
+            "params": ["_"],
+            "alert": false
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "Table": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Button": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {
+    "current": {
+      "value": 1
+    },
+    "pageSize": {
+      "value": 5
+    }
+  },
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Table",
+        "children": null,
+        "props": {
+          "columns": "bind('props:///columns')",
+          "dataSource": "bind('props:///data')"
+        }
+      }
+    ]
+  }
+}

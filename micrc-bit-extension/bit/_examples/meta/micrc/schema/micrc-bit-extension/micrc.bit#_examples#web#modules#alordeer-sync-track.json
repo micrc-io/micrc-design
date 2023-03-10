@@ -1,0 +1,305 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing",
+    "caseName": "demo-case",
+    "modelFilePath": "models/aggre1.json"
+  },
+  "i18n": {
+    "btn.btnName": {
+      "key": "btn.btnName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "搜索",
+        "en_US": "btnName"
+      }
+    },
+    "formList.label.StoreName":{
+      "key": "formList.label.StoreName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "店铺名称",
+        "en_US": "StoreName"
+      }
+    },
+    "formList.placeholder.StoreName":{
+      "key": "formList.placeholder.StoreName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "请输入店铺名称",
+        "en_US": "Please enter the store name"
+      }
+    },
+    "formList.label.AccountName":{
+      "key": "formList.label.StoreName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "账户名称",
+        "en_US": "StoreName"
+      }
+    },
+    "formList.placeholder.AccountName":{
+      "key": "formList.placeholder.AccountName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "请输入账户名称",
+        "en_US": "Please enter the account name"
+      }
+    },
+    "columns.StoreName":{
+      "key": "columns.StoreName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "店铺名称",
+        "en_US": "StoreName"
+      }
+    },
+    "columns.AccountName":{
+      "key": "columns.AccountName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "账户名称",
+        "en_US": "AccountName"
+      }
+    },
+    "columns.StartTime":{
+      "key": "columns.StartTime",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步开始时间",
+        "en_US": "StartTime"
+      }
+    },
+    "columns.EndTime":{
+      "key": "columns.EndTime",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步结束时间",
+        "en_US": "EndTime"
+      }
+    },
+    "columns.Count":{
+      "key": "columns.Count",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步数量",
+        "en_US": "Count"
+      }
+    },
+    "columns.Success":{
+      "key": "columns.Success",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步成功",
+        "en_US": "Success"
+      }
+    },
+    "columns.Failure":{
+      "key": "columns.Failure",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步失败",
+        "en_US": "Failure"
+      }
+    },
+    "columns.handle":{
+      "key": "columns.handle",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "操作",
+        "en_US": "handle"
+      }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "/xxx1/xx1/x1",
+          "moduleId": "micrc.bit/xxx1/xx1/x1",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/yyy21/yy21/y21",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }, {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    }
+  },
+  "comment": ["模块", "注释"],
+  "doc": {
+    "title": "demo module",
+    "labels": ["demo", "module"],
+    "desc": "demo module description",
+    "prototype": "https://xxx/xxx/x"
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "IntegrationSimulator": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.integration-simulator"
+    },
+    "SyncTrack": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.sync-track"
+    },
+    "SyncTable": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.sync-table"
+    },
+    "InputQuery": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.input-query"
+    },
+    "CheckTrack":{
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.check-track"
+    },
+    "Layout": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.atoms.layout"
+    }
+  },
+  "localState": {
+    "showSteps": {
+      "value": false
+    },
+    "columns": {
+      "value": [
+        { "title": "globalBind('i18n:///columns.StoreName')", "dataIndex": "StoreName", "key": "StoreName" },
+        { "title": "globalBind('i18n:///columns.AccountName')", "dataIndex": "AccountName", "key": "AccountName" },
+        { "title": "globalBind('i18n:///columns.StartTime')", "dataIndex": "StartTime", "key": "StartTime" },
+        { "title": "globalBind('i18n:///columns.EndTime')", "dataIndex": "EndTime", "key": "EndTime" },
+        { "title": "globalBind('i18n:///columns.Count')", "dataIndex": "Count", "key": "Count" },
+        { "title": "globalBind('i18n:///columns.Success')", "dataIndex": "Success", "key": "Success" },
+        { "title": "globalBind('i18n:///columns.Failure')", "dataIndex": "Failure", "key": "Failure" },
+        {
+          "title": "操作",
+          "dataIndex": "handle",
+          "key": "handle",
+          "render":{
+            "params": ["_", "record"],
+            "layout": "CheckTrack",
+            "props": {
+              "item":{
+                "_val":"_"
+              },
+              "record":{
+                "_val":"record"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "data":{
+      "value": [
+        {
+          "key": "1",
+          "StoreName": "John",
+          "AccountName":32,
+          "StartTime": "XXXXX",
+          "EndTime": "XXXX",
+          "Count": 122,
+          "Success": 120,
+          "Failure": 2
+        },
+        {
+          "key": "2",
+          "StoreName": "Brown",
+          "AccountName": 32,
+          "StartTime": "XXXXX",
+          "EndTime": "XXXX",
+          "Count": 122,
+          "Success": 120,
+          "Failure": 2
+        }
+      ]
+    },
+    "formList": {
+      "value": [
+        { "label": "globalBind('i18n:///formList.label.StoreName')", "placeholder":"globalBind('i18n:///formList.placeholder.StoreName')" },
+        { "label": "globalBind('i18n:///formList.label.AccountName')", "placeholder": "globalBind('i18n:///formList.placeholder.AccountName')" }
+      ]
+    },
+    "btnName": {
+      "value": "globalBind('i18n:///btn.btnName')"
+    }
+  },
+  "remoteState": {
+    "rpc": {
+      "protocols": ["protocols/aggre1/case1/register.json", "protocols/aggre1/case1/user.json"],
+      "url": "/api/aggre/case",
+      "host": "http://xxx.local.svc"
+    }
+  },
+  "actions": {
+    "demoAction": {"op": "replace", "path": "states@showSteps:///value", "value": true}
+  },
+  "assembly": {
+    "layout": "Layout",
+    "props": {
+      "input-query": {
+        "assemblies": [
+          {
+            "name": "InputQuery",
+            "children": null,
+            "props": {
+              "formList" : "bind('states@formList:///value')"
+            }
+          }
+        ]
+      },
+      "sync-table": {
+        "assemblies": [
+          {
+            "name": "SyncTable",
+            "children": null,
+            "props": {
+              "data": "bind('states@data:///value')",
+              "columns": "bind('states@columns:///value')"
+            }
+          }
+        ]
+      },
+      "sync-track": {
+        "assemblies": [
+          {
+            "name": "SyncTrack",
+            "children":null,
+            "props": {
+              "items": "bind('states@items:///value')"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

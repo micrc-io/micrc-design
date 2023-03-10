@@ -142,12 +142,15 @@ export const localStore = (stores: LocalStore) => {
         // 当执行范围为props，仅能存在perform操作，表示执行props中的函数
         if (fullScope === StoreScope[StoreScope.props]) {
           // eslint-disable-next-line no-await-in-loop
-          await propsAction(action, path, props, inputs, paths[idx]);
+          await propsAction(action, path, props,
+            inputs || {}, // 当没有输入参数时，默认为空对象
+            paths && paths.length === actions.length ? paths[idx] : null);
         } else { // 当执行范围为states，可以有add, replace, remove操作，表示更新state状态
           execStatesAction(
             fullScope, action, path,
             inputs || {}, // 当没有输入参数时，默认为空对象
-            paths && paths.length === actions.length ? paths[idx] : '', // input取值json pointer数组存在，且与actions数量一致
+            paths && paths.length === actions.length
+              ? paths[idx] : null, // input取值json pointer数组存在，且与actions数量一致
           );
         }
       }
