@@ -7,7 +7,7 @@
   "reactImports":{
     "react": {
       "default": "React",
-      "types": [ "useState","ReactNode" ]
+      "types": []
     }
   },
   "typeImports": {},
@@ -19,31 +19,22 @@
   },
   "typeDefinitions":{},
   "props": {
-    "fromlist": "Array<{label: string, placeholder: string}>"
+    "formList ?": "Array<{label: string, placeholder: string}>"
   },
   "defaultProps": {
-    "children": null,
-    "fromlist": {
-      "value": [{"label":"店铺名称","placeholder":"请输入店铺名称"},
-      {"label":"账户名称","placeholder":"请输入账户名称"}]
-    }
+    "formList": "Array<{ label: string; placeholder: string }>,"
   },
   "stories": {
     "componentImports": {
-      "antd": {
-        "default": null,
-        "types": ["Form","Input"]
-      }
+
     },
     "atomImports":{},
     "examples": {
       "Test1": {
         "desc": "demo props usage",
         "props": {
-            "fromlist": {
-              "value": [{"label":"店铺名称","placeholder":"请输入店铺名称"},
+            "formList": [{"label":"店铺名称","placeholder":"请输入店铺名称"},
               {"label":"账户名称","placeholder":"请输入账户名称"}]
-            }
         }
       }
     }
@@ -54,10 +45,7 @@
     "prototype": "https://xxxx/xxx"
   },
   "localState": {
-    "fromlist": {
-      "value": [{"label":"店铺名称","placeholder":"请输入店铺名称"},
-      {"label":"账户名称","placeholder":"请输入账户名称"}]
-    }
+
   },
   "assembly": {
     "assemblies": [
@@ -69,6 +57,6 @@
     ]
   },
   "outerLogic":"",
-  "innerLogic":"const list= fromlist[0].value.map((item,index)=>{return <Form.Item label={item.label} key={index} ><Input placeholder={item.placeholder} /></Form.Item>})"
+  "innerLogic":"const {formList}= props;\n;\n\nconst list=formList.map((item, index) => (\n  <Form.Item\n    label={item.label}\n    key={index}\n  >\n    <Input placeholder={item.placeholder} />\n  </Form.Item>\n));"
 
 }
