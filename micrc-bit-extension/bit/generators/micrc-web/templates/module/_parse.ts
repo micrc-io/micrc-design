@@ -34,7 +34,7 @@ type PropType = string
 | { _val: any }
 | { assemblies: Array<Assembly> }
 | Array<{ assemblies: Array<Assembly> }>
-| { _params: Array<string>, _actions: Array<{ action: string, inputPath: string }> };
+| { params: Array<string>, actions: Array<{ action: string, inputPath: string }> };
 
 // 国际化点位
 type I18nPointerMeta = {
@@ -128,6 +128,14 @@ type ModuleMeta = {
     }
   },
   actions?: Record<string, { op: string, path: string, value: any }>,
+  entry: {
+    mount: {
+      actions: Array<string>,
+    },
+    unmount: {
+      actions: Array<string>,
+    },
+  }, // 组件入口, useEffect
   assembly: ModuleAssembly,
   integration: IntegrationMeta,
   doc: ModuleDoc,
@@ -163,6 +171,14 @@ export type ModuleContextData = {
     }
   }
   actions?: Record<string, { op: string, path: string, value: any }>, // 预先定义所有的action, 受限于hooks规则
+  entry: {
+    mount: {
+      actions: Array<string>,
+    },
+    unmount: {
+      actions: Array<string>,
+    },
+  },
   assembly: ModuleAssembly, // 组件装配结构，以导入的组件名为key
   integration: IntegrationDataContext, // 行为集成
   props: Record<string, string>, // 模块props, 仅有router, integration两个固定prop
@@ -177,9 +193,13 @@ const reactImports = (meta: ModuleMeta): Record<string, ImportContent> => {
       types: [],
     },
   };
-  // 根据inner state定义，确定是否导入useState
+  // 根据local state定义，确定是否导入useState
   if (meta.localState && Object.keys(meta.localState).length > 0) {
     retVal.react.types.push('useState');
+  }
+  // 根据entry的定义, 确定是否导入useEffect
+  if (meta.entry && meta.entry.mount && meta.entry.mount.actions.length > 0) {
+    retVal.react.types.push('useEffect');
   }
   // 将类型导入中的react类型的导入，放入react的imports中
   if (meta.types && meta.types.imports) {
@@ -303,6 +323,10 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     localState: meta.localState || {},
     remoteState: meta.remoteState,
     actions: meta.actions || {},
+    entry: meta.entry || {
+      mount: { actions: [] },
+      unmount: { actions: [] },
+    },
     assembly: meta.assembly,
     integration: handleIntegration(meta),
     doc: meta.doc,

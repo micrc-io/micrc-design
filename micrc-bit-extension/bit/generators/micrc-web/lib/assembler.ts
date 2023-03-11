@@ -3,7 +3,7 @@
  */
 import HandleBars from 'handlebars';
 
-const actionTmpl = `
+const actionsPropTmpl = `
 {
 (
   {{#each params}}
@@ -25,6 +25,15 @@ const actionTmpl = `
   actions()
 }
 }
+`;
+
+const actionsTmpl = `
+const {{{name}}} = async () => {
+  {{#each actions}}
+  await {{{this}}};
+  {{/each}}
+};
+{{{name}}}()
 `;
 
 /**
@@ -55,7 +64,7 @@ export const propsAssembler = (props: object): string => {
     // action对象类型的prop, 用于需要传参的或者执行一组action的情况
     const exprObjProp = typeof prop === 'object'
       && !objProp && prop.params !== undefined && prop.actions !== undefined;
-    const propExprObj = exprObjProp ? HandleBars.compile(actionTmpl)(prop) : '';
+    const propExprObj = exprObjProp ? HandleBars.compile(actionsPropTmpl)(prop) : '';
     // 组件类型的prop, 用于给prop传递组件
     const compProp = typeof prop === 'object' && !objProp && !exprObjProp && prop.assemblies !== undefined;
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -112,6 +121,10 @@ const checkFuncCompObj = (obj: any): boolean => obj.params !== undefined
 const checkFuncAssemblyObj = (obj: any): boolean => obj.params !== undefined
   && obj.assembly !== undefined;
 
+const checkFuncActionsObj = (obj: any): boolean => obj.actions !== undefined
+  && obj.name !== undefined
+  && Array.isArray(obj.actions);
+
 const checkFuncDebugObj = (obj: any): boolean => obj.params !== undefined
   && obj.alert !== undefined;
 
@@ -128,6 +141,9 @@ const handleSpecObj = (obj: any): string => {
   }
   if (checkFuncAssemblyObj(obj)) { // 函数组件对象 (param) => <组件 {...param} />
     return `(${obj.params.join(', ')}) => ${assembler(obj.assembly.assemblies)}`;
+  }
+  if (checkFuncActionsObj(obj)) {
+    return HandleBars.compile(actionsTmpl)(obj);
   }
   if (checkFuncDebugObj(obj)) { // 函数对象, 用于调试函数 (param) => console.log(`params: ${param}`);
     const log = obj.params.map((it: string) => `\`${it}: \${${it}}\``).join(', ');

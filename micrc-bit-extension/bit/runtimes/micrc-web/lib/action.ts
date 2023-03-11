@@ -15,6 +15,7 @@ export enum PatchOperationType {
   remove,
   perform,
   verify,
+  integrate,
 }
 
 export type PatchOperation = {
@@ -76,8 +77,12 @@ export const globalAction = (
     case PatchOperationType[PatchOperationType.remove]:
       update(state, input, newAction);
       break;
+    case PatchOperationType[PatchOperationType.integrate]:
+      // todo 普通模块集成
+      // todo 特殊的route主题的集成, 页面跳转专用(设计存在bug, 模块依赖uri设计)
+      throw new Error('not support yet'); // todo 支持集成操作
     default:
-      throw Error('un-excepted operation for store of global. "add, replace, remove" allowed');
+      throw Error('un-excepted operation for store of global. "add, replace, remove, integrate" allowed');
   }
 });
 

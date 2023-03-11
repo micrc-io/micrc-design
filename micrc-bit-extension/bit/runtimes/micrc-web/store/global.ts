@@ -26,7 +26,10 @@ type IntegrationTopic = {
 };
 
 export const useGlobalStore = create((set) => ({
-  token: null,
+  subject: {
+    id: null,
+    permissions: [],
+  },
   i18n: null,
   tracker: null,
   integration: null,

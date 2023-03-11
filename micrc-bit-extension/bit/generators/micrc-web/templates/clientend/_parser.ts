@@ -86,8 +86,12 @@ type ClientendMeta = {
   },
   entry: {
     modules: Record<string, {
-      // todo permission tracker
-      package: string, version: string, i18n: Record<string, I18nPointerMeta>
+      // todo tracker
+      package: string,
+      version: string,
+      i18n: Record<string, I18nPointerMeta>,
+      roles: string,
+      permissions: [],
     }>,
     components: Record<string, { package: string, version: string }>,
     layouts: Record<string, {
@@ -96,12 +100,22 @@ type ClientendMeta = {
     }>,
   },
   pages: Record<string, {
-    // todo menu和permission tracker
+    // todo tracker
     i18n : Record<string, I18nPointerMeta>,
+    role: string,
+    permissions: [],
+    menu: {
+      name: string,
+      parent: Array<string>,
+    },
     comment: Array<string>,
     modules: Record<string, {
-      // todo permission tracker
-      package: string, version: string, i18n: Record<string, I18nPointerMeta>
+      // todo tracker
+      package: string,
+      version: string,
+      i18n: Record<string, I18nPointerMeta>,
+      roles: string,
+      permissions: [],
     }>,
     components: Record<string, { package: string, version: string }>,
     assembly: PageAssembly,

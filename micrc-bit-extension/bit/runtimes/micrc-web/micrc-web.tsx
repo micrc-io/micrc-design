@@ -133,7 +133,7 @@ export const localStore = (stores: LocalStore) => {
       throw Error('unexpected scope. "states, props" allowed');
     },
     action: (actions: Array<PatchOperation>) => async (
-      inputs?: Record<string, any>, paths?: Array<string>,
+      inputs: Record<string, any> = {}, paths: Array<string> = [],
     ) => {
       // 仅能对state进行修改，以及执行props中传入的函数
       for (let idx = 0; idx < actions.length; idx += 1) {
@@ -143,13 +143,13 @@ export const localStore = (stores: LocalStore) => {
         if (fullScope === StoreScope[StoreScope.props]) {
           // eslint-disable-next-line no-await-in-loop
           await propsAction(action, path, props,
-            inputs || {}, // 当没有输入参数时，默认为空对象
-            paths && paths.length === actions.length ? paths[idx] : null);
+            inputs,
+            paths.length === actions.length ? paths[idx] : null);
         } else { // 当执行范围为states，可以有add, replace, remove操作，表示更新state状态
           execStatesAction(
             fullScope, action, path,
-            inputs || {}, // 当没有输入参数时，默认为空对象
-            paths && paths.length === actions.length
+            inputs,
+            paths.length === actions.length
               ? paths[idx] : null, // input取值json pointer数组存在，且与actions数量一致
           );
         }

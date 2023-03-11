@@ -131,7 +131,21 @@
     }
   },
   "actions": {
-    "demoAction": {"op": "replace", "path": "states@message:///value", "value": null}
+    "demoAction": {"op": "replace", "path": "states@message:///value", "value": null},
+    "demoMountAction1": {"op": "replace", "path": "module:///loading", "value": true},
+    "demoMountAction2": {"op": "perform", "path": "module:///demo_api", "value": null},
+    "demoMountAction3": {"op": "replace", "path": "module:///loading", "value": false},
+    "demoUnmountAction": {"op": "remove", "path": "module:///test", "value": null}
+  },
+  "entry": {
+    "mount": {
+      "name": "mount",
+      "actions": ["demoMountAction1()", "demoMountAction2(bind('states:///param'))", "demoMountAction3()"]
+    },
+    "unmount": {
+      "name": "unmount",
+      "actions": ["demoUnmountAction()"]
+    }
   },
   "assembly": {
     "layout": "LayoutTest",

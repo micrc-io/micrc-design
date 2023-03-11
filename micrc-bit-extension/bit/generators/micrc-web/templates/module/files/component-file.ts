@@ -118,6 +118,18 @@ export function {{context.namePascalCase}}({ router, integration }: {{context.na
     '{{{context.componentId}}}',
   );
 
+  {{!-- 定义组件入口 --}}
+  {{#if entry.mount.actions}}
+  useEffect(() => {
+    {{{json entry.mount}}}
+    {{#if entry.unmount.actions}}
+    return () => {
+      {{{json entry.unmount}}}
+    };
+    {{/if}}
+  });
+  {{/if}}
+
   return (
     <>
       {{#with assembly}}
