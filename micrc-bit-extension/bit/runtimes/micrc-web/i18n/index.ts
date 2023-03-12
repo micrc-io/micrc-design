@@ -1,9 +1,9 @@
 /**
- * i18n处理工具
+ * i18n工具库和支持组件
  */
 import { useGlobalStore } from '../store/global';
 
-import patcher from './json-patch';
+import patcher from '../lib/json-patch';
 
 export const keyPath = (state: any, router: any, id: string, bindingPath: string) => {
   if (!router) {
@@ -34,3 +34,5 @@ export const replaceKey = (obj: any) => {
   }
   return obj;
 };
+
+export { I18NHighlight, I18NVisibleProxy } from './i18n';

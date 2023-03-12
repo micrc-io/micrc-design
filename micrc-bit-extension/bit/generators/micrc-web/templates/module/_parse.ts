@@ -271,7 +271,7 @@ const handleIntegration = (meta: ModuleMeta): IntegrationDataContext => {
       consumers: {},
     };
     meta.integration.produce[topic].consumers.forEach((consumer) => {
-      const key = `${consumer.pageUri.replace(/\//g, '_')}:${consumer.moduleId.replace(/\//g, '_')}`;
+      const key = `${consumer.pageUri}:${consumer.moduleId}`;
       retVal.simulation.produce[topic].consumers[key] = consumer;
     });
     retVal.init[topic] = retVal.simulation.produce[topic];
@@ -283,7 +283,7 @@ const handleIntegration = (meta: ModuleMeta): IntegrationDataContext => {
       consumers: {},
     };
     meta.integration.consume[topic].consumers.forEach((consumer) => {
-      const key = `${consumer.pageUri.replace(/\//g, '_')}:${consumer.moduleId.replace(/\//g, '_')}`;
+      const key = `${consumer.pageUri}:${consumer.moduleId}`;
       retVal.simulation.consume[topic].consumers[key] = consumer;
     });
     retVal.init[topic] = retVal.simulation.consume[topic];

@@ -6,7 +6,7 @@ import patcher from './json-patch';
 import { invoke, update, validate } from './operation';
 
 export enum StoreScope {
-  global, module, states, props, i18n,
+  global, module, states, props, i18n, integrate,
 }
 
 export enum PatchOperationType {
@@ -63,8 +63,49 @@ const handleValue = (
   return value;
 };
 
+const handleRoute = (routerPath: string, router: any) => {
+  const routeArray = routerPath.replace('/', '').split('/');
+  if (routeArray.length !== 2) {
+    throw Error(`Illegal router path: ${routerPath}`);
+  }
+  const pageUri = routeArray[1];
+  router?.push(pageUri);
+};
+
+const handleIntegrate = (
+  _ctx: any, state: any, topicName: string, router: any, id: string,
+) => {
+  const topic = state.integration[topicName];
+  if (!topic) {
+    throw Error(`Illegal topic: ${topicName}`);
+  }
+  // 校验生产方信息
+  const pageUri = router?.pathname || '#';
+  if (topic.producer.pageUri !== pageUri || topic.producer.moduleId !== id) {
+    throw Error(`Illegal producer: ${JSON.stringify({ pageUri, moduleId: id })}`);
+  }
+  // 更新消费方状态
+  Object.keys(topic.consumers).forEach((consumerId) => {
+    const consumer = topic.consumers[consumerId];
+    // eslint-disable-next-line no-eval
+    const consumerState = eval(consumer.schema);
+    update(state, null, {
+      op: 'replace',
+      path: `/integration/${topicName}/consumers/${consumerId}/state`,
+      value: consumerState,
+    });
+  });
+  // 如果消费方只有一个并且不是同一个页面, 且router存在, 进行跳转
+  if (Object.keys(topic.consumers).length === 1) {
+    const consumer: any = Object.values(topic.consumers)[0];
+    if (consumer.pageUri !== pageUri) {
+      router?.push(consumer.pageUri);
+    }
+  }
+};
+
 export const globalAction = (
-  action: PatchOperation, path: string, globalStore: any,
+  action: PatchOperation, path: string, globalStore: any, router: any = null, id: string = '',
 ) => globalStore((state: any) => (inputs: any, inputPath: string) => {
   const input = handleValue(action, globalStore, null, null, null, inputs, inputPath);
   const newAction: PatchOperation = {
@@ -78,9 +119,12 @@ export const globalAction = (
       update(state, input, newAction);
       break;
     case PatchOperationType[PatchOperationType.integrate]:
-      // todo 普通模块集成
-      // todo 特殊的route主题的集成, 页面跳转专用(设计存在bug, 模块依赖uri设计)
-      throw new Error('not support yet'); // todo 支持集成操作
+      if (path.startsWith('/route')) {
+        handleRoute(path, router);
+      } else {
+        handleIntegrate(action.value, state, path.replace('/', ''), router, id);
+      }
+      break;
     default:
       throw Error('un-excepted operation for store of global. "add, replace, remove, integrate" allowed');
   }

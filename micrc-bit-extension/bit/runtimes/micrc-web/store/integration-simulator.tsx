@@ -1,0 +1,70 @@
+/**
+ * 集成模拟器, 用于模块独立启动时的行为集成模拟
+ */
+import React, { useState } from 'react';
+
+import { Button, FloatButton, Modal } from 'antd';
+
+import { remoteStore } from '../index';
+import type { IntegrationTopic } from './index';
+
+export const IntegrationSimulator = (
+  {
+    integration,
+  }: {
+    integration: {
+      produce: Record<string, IntegrationTopic>,
+      consume: Record<string, IntegrationTopic>,
+    }
+  },
+) => {
+  const [open, setOpen] = useState(false);
+
+  const { action, bind } = remoteStore({}, null, null);
+  const produceSimulator = [];
+  const consumeSimulator = [];
+  if (!integration || (!integration.consume && !integration.produce)) {
+    return null;
+  }
+  // 自身为消费方, 模拟生产方
+  // eslint-disable-next-line no-restricted-syntax
+  for (const topic of Object.values(integration.consume)) {
+    const send = action({ op: 'integrate', path: `/${topic.name}`, value: {} }); // todo 生产方数据模拟
+    produceSimulator.push(
+      <Button onClick={() => send()}>
+        生产者:
+        {`${topic.producer.pageUri} -- ${topic.producer.moduleId}`}
+      </Button>,
+    );
+  }
+  // 自身为生产方, 模拟展示各消费方绑定的数据
+  // eslint-disable-next-line no-restricted-syntax
+  for (const topic of Object.values(integration.produce)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const consumer of Object.values(topic.consumers)) {
+      const receive = bind(
+        `integrate:///${topic.name}/consumers/${consumer.pageUri}:${consumer.moduleId}/state`,
+      );
+      consumeSimulator.push(
+        <p>
+          { JSON.stringify(receive, null, 2) }
+        </p>,
+      );
+    }
+  }
+  return (
+    <>
+      <FloatButton onClick={() => setOpen(true)} />
+      <Modal open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}>
+        <div>
+          <div>生产模拟</div>
+          { consumeSimulator }
+        </div>
+        <div>
+          <div>消费模拟</div>
+          { produceSimulator }
+        </div>
+      </Modal>
+    </>
+  );
+};

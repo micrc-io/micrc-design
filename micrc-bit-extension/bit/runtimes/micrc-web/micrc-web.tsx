@@ -4,10 +4,13 @@
 import { useGlobalStore } from './store/global';
 
 import patcher from './lib/json-patch';
-import { keyPath, replaceKey } from './lib/i18n';
+
+import { keyPath, replaceKey } from './i18n';
+import { integratePath } from './store';
 
 import {
-  StoreScope, PatchOperation, globalAction, moduleAction, statesAction, propsAction,
+  StoreScope, PatchOperation, PatchOperationType,
+  globalAction, moduleAction, statesAction, propsAction,
 } from './lib/action';
 
 type LocalStore = {
@@ -20,7 +23,9 @@ type ModuleStore = {
   states?: Record<string, any>,
 };
 
-export const remoteStore = (stores: ModuleStore, router: any, id: string) => {
+export const remoteStore = (
+  stores: ModuleStore, router: any, id: string,
+) => {
   const {
     module = {}, states = {},
   } = stores;
@@ -59,6 +64,11 @@ export const remoteStore = (stores: ModuleStore, router: any, id: string) => {
           (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath)),
         );
       }
+      if (fullScope === StoreScope[StoreScope.integrate]) {
+        return useGlobalStore(
+          (state: any) => patcher(state).path(integratePath(router, id, bindingPath)),
+        );
+      }
       const [scope, stateName] = fullScope.split('@');
       if (!scope || !stateName) {
         throw Error('state scope of binding path must format of [states@stateName]://[json pointer]');
@@ -69,6 +79,9 @@ export const remoteStore = (stores: ModuleStore, router: any, id: string) => {
       throw Error('unexpected scope. "global, module, states, i18n" allowed');
     },
     action: (action: PatchOperation) => {
+      if (action.op === PatchOperationType[PatchOperationType.integrate]) {
+        return globalAction(action, action.path, useGlobalStore);
+      }
       const [fullScope, path] = action.path.split('://');
       if (!fullScope || !path) {
         throw Error('action path must format of [global|module|states]://[json pointer]');
