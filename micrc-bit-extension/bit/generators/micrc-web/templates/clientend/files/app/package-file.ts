@@ -26,7 +26,7 @@ const tmpl = `{
     "babel-plugin-import": "1.13.5",
     "cookies": "0.8.0",
     "http-proxy-middleware": "2.0.6",
-    "msw": "0.44.2",
+    "msw": "1.1.0",
     "next": "12.1.6",
     "next-compose-plugins": "2.2.1",
     "next-transpile-modules": "9.0.0"
