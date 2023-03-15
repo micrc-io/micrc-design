@@ -6,6 +6,50 @@
   },
   "components": {
     "schemas": {
+      "SyncInfo": {
+        "type": "object",
+        "properties": {
+          "orderNum": {
+            "type": "integer"
+          },
+          "syncedNum": {
+            "type": "integer"
+          },
+          "successNum":{
+            "type": "integer"
+          },
+          "failNum":{
+            "type": "integer"
+          },
+          "syncTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "syncedTime": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ListInfo": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SyncInfo"
+            }
+          }
+        }
+      },
+      "StoreName": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "userId": {
         "type": "object",
         "required": ["id"],

@@ -125,7 +125,11 @@
   },
   "remoteState": {
     "rpc": {
-      "protocols": ["protocols/aggre1/case1/register.json", "protocols/aggre1/case1/user.json"],
+      "protocols": [
+        "protocols/aggre1/case1/register.json",
+        "protocols/aggre1/case1/user.json",
+        "protocols/aggre1/case1/sync_track.json"
+      ],
       "url": "/api/aggre/case",
       "host": "http://xxx.local.svc"
     }

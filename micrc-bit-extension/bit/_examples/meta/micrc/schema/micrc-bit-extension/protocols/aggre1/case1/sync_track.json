@@ -1,0 +1,92 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "订单全量同步跟踪",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/orders/list": {
+      "post": {
+        "operationId": "orderList",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "default": {
+                  "value": {
+                    "storeName": {
+                      "name": "店铺"
+                    }
+                  }
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storeName": {
+                    "$ref": "#/components/schemas/StoreName"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "正在进行同步的订单",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "default": {
+                    "value": {
+                      "syncInfo": {
+                        "orderNum": 688,
+                        "syncedNum": 300,
+                        "successNum": 280,
+                        "failNum": 20,
+                        "syncTime": 1678514082071
+                      }
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "object",
+                          "properties": {
+                            "pageSize": {
+                              "type": "number"
+                            },
+                            "pageNumber": {
+                              "type": "number"
+                            },
+                            "total": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "listInfo": {
+                          "$ref": "#/components/schemas/ListInfo"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

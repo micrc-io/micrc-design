@@ -134,7 +134,15 @@ export const localStore = (stores: LocalStore) => {
         throw Error('path of binding must format of [states@stateName|props]://[json pointer]');
       }
       if (fullScope === StoreScope[StoreScope.props]) {
-        return patcher(props).path(path);
+        const [realPath, dataContextPath] = path.split('@');
+        if (!realPath || !dataContextPath) { // 没有数据上下文
+          return patcher(props).path(path);
+        }
+        const tmpl = patcher(props).path(realPath);
+        const dataContext = patcher(props).path(dataContextPath);
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
+        const retVal = new Function(`return ${tmpl}`).call(dataContext);
+        return retVal;
       }
       const [scope, stateName] = fullScope.split('@');
       if (!scope || !stateName) {
