@@ -1,6 +1,9 @@
 /**
  * 元数据解析，构造模版渲染上下文数据
  */
+import path from 'path';
+import fs from 'fs';
+
 import { ComponentContext } from '@teambit/generator';
 
 // 类型定义
@@ -54,6 +57,8 @@ type ComponentMeta = {
   localState?: Record<string, any>,
   components: Record<string, { default: boolean, packages: string }>,
   atoms: Record<string, { version: string, packages: string }>,
+  css?: string,
+  images: Record<string, string>,
   assembly: { assemblies: Array<Assembly> },
 };
 
@@ -61,6 +66,7 @@ export type ComponentContextData = {
   intro: {
     version: string, // 组件版本
     state: string, // 组件状态(设计, 发布, 完成)
+    sourceDir: string, // 源码目录
     metaBasePath: string,
   },
   context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息
@@ -79,6 +85,8 @@ export type ComponentContextData = {
   componentImports: Record<string, ImportContent>, // 组件导入，以导入包为key
   atomImports: Record<string, string>, // 原子组件导入, 以导入名为key, 包名为值
   localState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
+  css: string, // 组件样式表
+  images: Array<{ name: string, filename: string, link: string }>, // 图片导入名, 文件名, 文件链接
   assembly: { assemblies: Array<Assembly> }, // 组件装配结构
 };
 
@@ -159,8 +167,13 @@ const handleStories = (meta: ComponentMeta) => {
     const pkg = meta.stories.components[name];
     handleImports(name, pkg, componentImports);
   });
+  const antd = componentImports.antd || { default: null, types: [] };
+  antd.types.push('ConfigProvider');
   return {
-    componentImports,
+    componentImports: {
+      ...componentImports,
+      antd,
+    },
     atomImports: atomsImports(meta.stories.atoms),
     examples: {
       Default: {
@@ -172,10 +185,41 @@ const handleStories = (meta: ComponentMeta) => {
   };
 };
 
+const handleImages = (meta: ComponentMeta) => {
+  const firstUpper = (word: string): string => {
+    const [first, ...rest] = word;
+    return first?.toUpperCase() + rest.join('');
+  };
+  const retVal = [];
+  Object.keys(meta.images || {}).forEach((filename) => {
+    const ext = path.extname(filename);
+    const base = path.basename(filename, ext);
+    retVal.push({
+      name: firstUpper(base) + firstUpper(ext.replace('.', '')),
+      filename,
+      link: meta.images[filename],
+    });
+  });
+  return retVal;
+};
+
+const handleSourceDir = (context: ComponentContext) => {
+  const basePath = path.resolve(
+    require.resolve('@micrc/bit.generators.micrc-web'),
+    '../../../../../',
+  );
+  const sourceDir = `${basePath}${path.sep}${context.componentId.toStringWithoutVersion().split('.')[1]}`;
+  if (!fs.existsSync(sourceDir)) {
+    fs.mkdirSync(sourceDir, { recursive: true });
+  }
+  return sourceDir;
+};
+
 export const parse = (meta: ComponentMeta, context: ComponentContext): ComponentContextData => {
   const data: ComponentContextData = {
     intro: {
       ...meta.intro,
+      sourceDir: handleSourceDir(context),
       metaBasePath: '',
     },
     context,
@@ -188,6 +232,8 @@ export const parse = (meta: ComponentMeta, context: ComponentContext): Component
     componentImports: typeOrComponentImports(meta, 'components'),
     atomImports: atomsImports(meta.atoms),
     localState: meta.localState || {},
+    css: meta.css || '',
+    images: handleImages(meta),
     assembly: meta.assembly,
     stories: handleStories(meta),
     doc: meta.doc,

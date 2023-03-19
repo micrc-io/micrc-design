@@ -232,6 +232,9 @@
   "pages": {
     "/authc": {
       "comment": ["认证页面", "包含一个登陆模块"],
+      "permissions": {
+        "anonymous": []
+      },
       "i18n": {
         "btn.submit": {
           "key": "btn.submit",
@@ -276,6 +279,9 @@
         "暂时包含一个产品介绍模块, 也可以放一个控制台",
         "首页限定为必须展示独立页面, 不要做重定向到其他页面, 容易混淆"
       ],
+      "permissions": {
+        "distributor": ["a:*"]
+      },
       "i18n": {},
       "modules": {
         "ProductWelcome": {

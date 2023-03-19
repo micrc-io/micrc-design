@@ -14,7 +14,7 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { MDXProvider } from '@mdx-js/react';
 
-import { initGlobalStore } from '@micrc/bit.runtimes.micrc-web';
+import { initGlobalStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
 
 {{#each componentImports}}
 import { {{@key}} } from '{{this}}';
@@ -27,9 +27,12 @@ import { {{@key}} } from '{{this}}';
 import '../styles/antd-themes/default.less';
 import '../styles/globals.css';
 
+import permission from '../meta/permission.json';
 import i18n from '../meta/i18n.json';
 import tracker from '../meta/tracker.json';
 import integration from '../meta/integration.json';
+
+const permissions: Record<string, Array<string>> = permission;
 
 const layouts: Record<string, { uris: Array<string>, layout: ReactNode }> = {
   {{#each layouts}}
@@ -59,10 +62,13 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
 
 export default function App({ Component, pageProps }: AppProps) {
   const components = { wrapper: Wrapper };
+  const router = useRouter();
   return (
     <MDXProvider components={ components }>
-      {/* @ts-ignore */}
-      <Component {...pageProps} router={useRouter()} />
+      <Authorized permissions={permissions[router.pathname]} display={true}>
+        {/* @ts-ignore */}
+        <Component {...pageProps} router={router} />;
+      </Authorized>
     </MDXProvider>
   );
 }

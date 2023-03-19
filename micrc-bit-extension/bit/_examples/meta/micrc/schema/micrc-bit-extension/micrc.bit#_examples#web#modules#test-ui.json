@@ -2,8 +2,10 @@
   "intro": {
     "version": "0.0.1",
     "state": "designing",
-    "caseName": "demo-case",
     "modelFilePath": "models/aggre1.json"
+  },
+  "permissions": {
+    "role1": ["a:*", "b:1"]
   },
   "i18n": {
     "btn.submit": {
@@ -27,7 +29,7 @@
         "consumers": [{
           "pageUri": "/yyy1/yy1/y1",
           "moduleId": "micrc.bit/yyy1/yy1/y1",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "schema": "{ a: this.a, b: this.b + this.c }",
           "state": {}
         }]
       }
@@ -38,17 +40,18 @@
         "producer": {
           "pageUri": "/xxx2/xx2/x2",
           "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "exampleState": { "a": "1", "b": 2, "c": 3 },
           "schema": {}
         },
         "consumers": [{
           "pageUri": "/yyy21/yy21/y21",
-          "moduleId": "micrc.bit/yyy21/yy21/y21",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "moduleId": "micrc.bit/_examples/web/modules/test-ui",
+          "schema": "{ a: this.a, b: this.b + this.c }",
           "state": {}
         }, {
           "pageUri": "/yyy22/yy22/y22",
           "moduleId": "micrc.bit/yyy22/yy22/y22",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "schema": "{ a: this.a, b: this.b + this.c }",
           "state": {}
         }]
       }
@@ -66,10 +69,6 @@
     "imports": {}
   },
   "components": {
-    "IntegrationSimulator": {
-      "version": "0.0.1",
-      "packages": "@micrc/bit._examples.web.components.integration-simulator"
-    },
     "LayoutTest": {
       "version": "0.0.1",
       "packages": "@micrc/bit._examples.web.components.layout-test"

@@ -52,7 +52,11 @@ export default {
   title: '{{context.componentId}}',
 };
 
-const Template = (props: {{context.namePascalCase}}Props) => (<{{context.namePascalCase}} {...props} />);
+const Template = (props: {{context.namePascalCase}}Props) => (
+  <ConfigProvider locale={locale}>
+    <{{context.namePascalCase}} {...props} />
+  </ConfigProvider>
+);
 
 {{#each stories.examples}}
 export const {{@key}} = Template.bind({});
@@ -64,7 +68,6 @@ export const {{@key}} = Template.bind({});
 {{@key}}.parameters = {
   micrc: {
     type: 'web',
-    locale,
   },
 };
 {{/each}}

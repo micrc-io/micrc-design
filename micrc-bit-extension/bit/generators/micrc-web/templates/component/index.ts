@@ -15,6 +15,8 @@ import { docFile } from './files/doc-file';
 import { testFile } from './files/test-file';
 import { storiesFile } from './files/stories-file';
 import { compositionFile } from './files/composition-file';
+import { cssFile } from './files/css-file';
+import { imageFiles } from './files/image-files';
 
 export const componentTemplate: ComponentTemplate = {
   name: 'micrc-web-component',
@@ -38,10 +40,15 @@ export const componentTemplate: ComponentTemplate = {
         relativePath: `${context.name}.tsx`,
         content: componentFile(data),
       },
-      // scss file
+      // css file
       {
-        relativePath: `${context.name}.module.scss`,
-        content: `// ${context.name} scss\n`,
+        relativePath: `${context.name}.module.css`,
+        content: cssFile(data),
+      },
+      // image files
+      {
+        relativePath: 'images/readme',
+        content: imageFiles(data),
       },
       // docs file
       {

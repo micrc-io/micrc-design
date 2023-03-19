@@ -7,7 +7,7 @@ export function stateProtocolMergeFile(data: ModuleContextData) {
   return `{
   "openapi": "3.0.3",
   "info": {
-    "title": "${data.intro.caseName}}",
+    "title": "${data.context.name}}",
     "version": "${data.intro.version}"
   },
   "servers": [

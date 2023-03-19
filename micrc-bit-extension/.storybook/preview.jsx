@@ -1,15 +1,16 @@
 /**
  * decorator
- * taro尺寸处理, 国际化
+ * mini(taro)尺寸处理
  */
 import React from 'react';
 
 export const decorators = [
-  (Story, { parameters: { micrc: { type, locale } } }) => {
+  (Story, { parameters: { micrc: { type } } }) => {
     if (type === 'web') {
-      const ConfigProvider = require('antd').ConfigProvider;
-      const en_US = require('antd/locale/en_US').default;
-      return <ConfigProvider locale={locale || en_US}><Story /></ConfigProvider>;
+      return <Story />;
+    }
+    if (type === 'app') {
+      return <Story />;
     }
     if (type === 'mini') {
       const Taro = require('@tarojs/taro').default;

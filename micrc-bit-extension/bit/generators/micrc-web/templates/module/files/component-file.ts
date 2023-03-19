@@ -50,12 +50,15 @@ import { {{@key}} } from '{{{this}}}';
 {{/each}}
 
 {{!-- 导入运行时store工具 --}}
-import { remoteStore } from '@micrc/bit.runtimes.micrc-web';
+import { remoteStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
 {{!-- 导入远程状态模块 --}}
 import { useStore as module } from './state';
 
 {{!-- 导入样式文件 --}}
-import styles from './{{context.name}}.module.scss';
+import styles from './{{context.name}}.module.css';
+
+{{!-- 定义权限 --}}
+const permissions = {{{json permissions}}}
 
 {{!-- props类型定义 --}}
 export type {{context.namePascalCase}}Props = {
@@ -83,7 +86,7 @@ type {{@key}} = {
 {{/each}}
 
 {{!-- 定义组件本体 --}}
-export function {{context.namePascalCase}}({ router, integration }: {{context.namePascalCase}}Props) {
+export function {{context.namePascalCase}}({ router }: {{context.namePascalCase}}Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { bind: globalBind, action: globalAction } = remoteStore(
     {
@@ -131,14 +134,13 @@ export function {{context.namePascalCase}}({ router, integration }: {{context.na
   {{/if}}
 
   return (
-    <>
+    <Authorized permissions={permissions}>
       {{#with assembly}}
       <{{layout}}
       {{{propsAssembler props}}}
       />
       {{/with}}
-      { integration ? <IntegrationSimulator integration={integration} /> : null }
-    </>
+    </Authorized>
   );
 }
 
