@@ -10,12 +10,13 @@ import { execCmd } from '../lib/process';
 
 log.setLevel('INFO');
 
+const bitBasePath = path.resolve(
+  require.resolve('react', { paths: [process.cwd()] }),
+  '../../../../../', // node_modules目录,
+  '../', // bit workspace根目录
+);
+
 export const init = async () => {
-  const bitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-  );
   try {
     await execCmd('bit', ['install'], bitBasePath);
     await execCmd('bit', ['install'], bitBasePath);

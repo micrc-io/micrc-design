@@ -169,8 +169,8 @@ export type ClientendContextData = {
 
 const handleSourceDir = (context: ComponentContext) => {
   const basePath = path.resolve(
-    require.resolve('@micrc/bit.generators.micrc-web'),
-    '../../../../../',
+    require.resolve('react', { paths: [process.cwd()] }),
+    '../../../../../../',
   );
   const sourceDir = `${basePath}${path.sep}${context.componentId.toStringWithoutVersion().split('.')[1]}`;
   if (!fs.existsSync(sourceDir)) {

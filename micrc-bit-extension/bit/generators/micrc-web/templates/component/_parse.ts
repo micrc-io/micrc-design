@@ -14,7 +14,7 @@ type TypeDefinition = {
 
 // 类型导入
 type ImportContent = {
-  default: string, // 默认导入
+  default: string | null, // 默认导入
   types: Array<string>, // 命名导入
 };
 
@@ -142,9 +142,9 @@ const typeOrComponentImports = (
 ): Record<string, ImportContent> => {
   const retVal: Record<string, ImportContent> = {};
   // eslint-disable-next-line no-nested-ternary
-  let imports = type === 'types' ? meta.types.imports : {};
+  let imports = type === 'types' ? meta?.types?.imports || {} : {};
   imports = type === 'components' ? meta.components : imports;
-  Object.keys(imports).forEach((name) => {
+  Object.keys(imports || {}).forEach((name) => {
     const pkg = imports[name];
     handleImports(name, pkg, retVal);
   });
@@ -190,7 +190,7 @@ const handleImages = (meta: ComponentMeta) => {
     const [first, ...rest] = word;
     return first?.toUpperCase() + rest.join('');
   };
-  const retVal = [];
+  const retVal: Array<{ name: string, filename: string, link: string }> = [];
   Object.keys(meta.images || {}).forEach((filename) => {
     const ext = path.extname(filename);
     const base = path.basename(filename, ext);
@@ -205,8 +205,8 @@ const handleImages = (meta: ComponentMeta) => {
 
 const handleSourceDir = (context: ComponentContext) => {
   const basePath = path.resolve(
-    require.resolve('@micrc/bit.generators.micrc-web'),
-    '../../../../../',
+    require.resolve('react', { paths: [process.cwd()] }),
+    '../../../../../../',
   );
   const sourceDir = `${basePath}${path.sep}${context.componentId.toStringWithoutVersion().split('.')[1]}`;
   if (!fs.existsSync(sourceDir)) {
@@ -225,7 +225,7 @@ export const parse = (meta: ComponentMeta, context: ComponentContext): Component
     context,
     comment: meta.comment,
     reactImports: reactImports(meta),
-    typeDefinitions: meta.types.definitions || {},
+    typeDefinitions: meta?.types?.definitions || {},
     typeImports: typeOrComponentImports(meta, 'types'),
     props: meta.props,
     defaultProps: meta.defaultProps,

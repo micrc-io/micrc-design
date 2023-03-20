@@ -12,8 +12,8 @@ export function stateProtocolMergeFile(data: ModuleContextData) {
   },
   "servers": [
     {
-      "url": "${data.remoteState.rpc.url}",
-      "x-host": "${data.remoteState.rpc.host}"
+      "url": "${data?.remoteState?.rpc.url || ''}",
+      "x-host": "${data?.remoteState?.rpc.host || ''}"
     }
   ],
   "externalDocs": {

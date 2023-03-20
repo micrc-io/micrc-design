@@ -14,7 +14,7 @@ type TypeDefinition = {
 
 // 类型导入
 type ImportContent = {
-  default: string, // 默认导入
+  default: string | null, // 默认导入
   types: Array<string>, // 命名导入
 };
 
@@ -240,7 +240,8 @@ const handleImports = (
 // 任意类型导入
 const typeImports = (meta: ModuleMeta): Record<string, ImportContent> => {
   const retVal: Record<string, ImportContent> = {};
-  Object.keys(meta.types.imports).forEach((name) => {
+  Object.keys(meta?.types?.imports || {}).forEach((name) => {
+    // @ts-ignore
     const pkg = meta.types.imports[name];
     handleImports(name, pkg, retVal);
   });
@@ -313,8 +314,8 @@ const handleIntegration = (meta: ModuleMeta, context: ComponentContext): Integra
 
 const handleSourceDir = (context: ComponentContext) => {
   const basePath = path.resolve(
-    require.resolve('@micrc/bit.generators.micrc-web'),
-    '../../../../../',
+    require.resolve('react', { paths: [process.cwd()] }),
+    '../../../../../../',
   );
   const sourceDir = `${basePath}${path.sep}${context.componentId.toStringWithoutVersion().split('.')[1]}`;
   if (!fs.existsSync(sourceDir)) {
@@ -336,7 +337,7 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     i18n: meta.i18n,
     comment: meta.comment,
     reactImports: reactImports(meta),
-    typeDefinitions: meta.types.definitions || {},
+    typeDefinitions: meta?.types?.definitions || {},
     props: { router: 'any' },
     defaultProps: { router: null },
     typeImports: typeImports(meta),

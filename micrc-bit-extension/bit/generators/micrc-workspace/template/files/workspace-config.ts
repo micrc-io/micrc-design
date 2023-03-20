@@ -37,6 +37,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
       dependencies: {
         '@ant-design/icons': '5.0.1',
         '@babel/runtime': '7.21.0',
+        '@micrc/bit.runtimes.micrc-web': '0.0.1',
         '@storybook/addon-actions': '6.5.16',
         '@storybook/addon-docs': '6.5.16',
         '@storybook/addon-essentials': '6.5.16',
@@ -123,17 +124,19 @@ export async function workspaceConfig(context: WorkspaceContext) {
     ],
     strictPeerDependencies: true,
   };
+
   configParsed['teambit.workspace/variants'] = {
-    '{base-ui/web/**}': {
-      'micrc.bit/envs/micrc-web:1.0.0': {},
+    '{web/**}': {
+      'micrc.bit/envs/micrc-web@1.0.0': {},
     },
-    '{base-ui/mini/**}': {
-      'micrc.bit/envs/micrc-mini:1.0.0': {},
+    '{mini/**}': {
+      'micrc.bit/envs/micrc-mini@0.0.1': {},
     },
-    '{base-ui/app/**}': {
-      'micrc.bit/envs/micrc-app:0.0.1': {},
+    '{app/**}': {
+      'micrc.bit/envs/micrc-app@0.0.2': {},
     },
   };
 
-  return stringifyWorkspaceConfig(configParsed);
+  // 清除注释. workspace.jsonc会被读取使用JSON.parse
+  return stringifyWorkspaceConfig(configParsed).replace(/\/\*\*[\s\S]*?\*\*\//g, '').replace(/^\s*$\n/gm, '');
 }

@@ -175,7 +175,7 @@ export const jsonObject = (obj: any): string => {
   }
   // 处理普通数组
   if (Array.isArray(obj)) {
-    const retVal = [];
+    const retVal: Array<string> = [];
     obj.forEach((it) => {
       retVal.push(jsonObject(it));
     });

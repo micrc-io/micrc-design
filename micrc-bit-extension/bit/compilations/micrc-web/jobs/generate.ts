@@ -9,50 +9,47 @@ import { execCmd } from '../lib/process';
 const SCHEMA_PATH = path.join('.cache', 'micrc', 'schema');
 const TYPES = ['atoms', 'components', 'modules', 'apps'];
 
+const nodeModulesBasePath = path.resolve(
+  require.resolve('react', { paths: [process.cwd()] }),
+  '../../../../../', // node_modules目录
+);
+
+const bitBasePath = path.resolve(
+  nodeModulesBasePath,
+  '../', // bit workspace根目录
+);
+
 // 依赖处理
 const dependencies = async (
   metaData: any, componentName: string, componentType: string,
 ) => {
-  const bitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-  );
-  let deps: string;
+  let deps: string = '';
   if (componentType === 'modules') { // 处理modules组件对components组件的依赖
     const { components } = metaData;
     deps = Object.values(components)
-      .map((it: { packages: string, version: string }) => `${it.packages}@${it.version}`)
+      .map((it: any) => `${it.packages}@${it.version}`)
       .join(' ');
   }
   if (componentType === 'components') { // 处理components组件对atoms组件的依赖
     const { atoms } = metaData;
     const storyAtoms = metaData.stories.atoms;
     deps = Object.values(atoms).concat(Object.values(storyAtoms))
-      .map((it: { packages: string, version: string }) => `${it.packages}@${it.version}`)
+      .map((it: any) => `${it.packages}@${it.version}`)
       .join(' ');
   }
-  await execCmd('bit', ['deps', 'set', componentName, deps], bitBasePath);
+  if (deps) {
+    await execCmd('bit', ['deps', 'set', componentName, deps], bitBasePath);
+  }
   // clientends组件依赖由generator自行处理; atoms组件依赖由workspace安装, 其只能使用workspace指定的三方组件或库
 };
 
 // 源代码处理
 const codes = async (componentName: string, componentType: string) => {
-  const bitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-  );
   await execCmd('bit', ['create', `micrc-web-${componentType}`, componentName], bitBasePath); // 使用generator创建组件
 };
 
 // 发布处理
 const tagging = async (componentName: string, version: string) => {
-  const bitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-  );
   await execCmd('bit', ['tag', '--soft', '-v', version, '--skip-auto-tag', componentName], bitBasePath);
 };
 
@@ -75,16 +72,11 @@ const rebuilding = async (
   componentPath: string, contextPath: string,
   componentId: string, componentName: string, componentType: string,
 ) => {
-  const bitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-  );
   const versionPath = path.join(contextPath, componentPath);
   if (!fs.existsSync(versionPath)) { // 如果存放历史版本元数据的目录不存在, 则不必进行重建
     return;
   }
-  const versions = [];
+  const versions: Array<string> = [];
   // 获取所有版本元数据
   const versionMetaFiles = fs.readdirSync(versionPath);
   // eslint-disable-next-line no-restricted-syntax
@@ -129,14 +121,6 @@ const parseNameAndScope = (workspaceInfo: any) => {
 };
 
 export const generate = async () => {
-  const nodeModulesBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录
-  );
-  const bitBasePath = path.resolve(
-    nodeModulesBasePath,
-    '../', // bit workspace根目录
-  );
   const workspaceFilePath = path.join(bitBasePath, 'workspace.jsonc');
   // 读取workspace.jsonc得到上下文名称
   const workspaceInfo = JSON.parse(fs.readFileSync(workspaceFilePath, { encoding: 'utf8' }));

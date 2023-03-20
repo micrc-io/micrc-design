@@ -62,7 +62,7 @@ export const starter: Starter = {
       relativePath: '.storybook/main.js',
       content: storybookMain(context),
     }, {
-      relativePath: '.storybook/mockServiceWorker-0.47.4.js',
+      relativePath: '.storybook/mockServiceWorker.js',
       content: storybookMockServiceWorker(),
     }, {
       relativePath: '.storybook/preview.jsx',
@@ -74,14 +74,14 @@ export const starter: Starter = {
       relativePath: 'package.json',
       content: packageJson(),
     }, {
-      relativePath: `${parser(context).scope}/${parser(context).type}/web/readme.md`,
-      content: '# web atom components\n',
+      relativePath: `${parser(context).scope}/web/readme.md`,
+      content: `# web ${parser(context).type}\n`,
     }, {
-      relativePath: `${parser(context).scope}/${parser(context).type}/mini/readme.md`,
-      content: '# mini atom components\n',
+      relativePath: `${parser(context).scope}/mini/readme.md`,
+      content: `# mini ${parser(context).type}\n`,
     }, {
-      relativePath: `${parser(context).scope}/${parser(context).type}/app/readme.md`,
-      content: '# app atom components\n',
+      relativePath: `${parser(context).scope}/app/readme.md`,
+      content: `# app ${parser(context).type}\n`,
     },
   ],
   importComponents: () => [],
