@@ -89,6 +89,9 @@
       "alert": true
     }
   },
+  "images": {
+    "xxx": "https://xxxxx/xxxx/xx"
+  },
   "stories": {
     "components": {
       "Table as AntTable": {

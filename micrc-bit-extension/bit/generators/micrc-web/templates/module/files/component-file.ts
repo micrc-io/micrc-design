@@ -85,38 +85,26 @@ type {{@key}} = {
 {{!-- 定义组件本体 --}}
 export function {{context.namePascalCase}}({ router, integration }: {{context.namePascalCase}}Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { bind: globalBind, action: globalAction } = remoteStore(
+  const store = remoteStore(
     {
-      module:{},
+      module,
       states: {}
     },
     router,
     '{{{context.componentId}}}',
   );
+  const { bind, action } =store;
 
   {{!-- 定义actions, 受限于hooks规则 --}}
   {{#each actions}}
-  const {{@key}} = globalAction({{{json this}}})
+  const {{@key}} = action({{{json this}}})
   {{/each}}
 
   {{!-- 定义内部状态 --}}
   {{#each localState}}
   const {{@key}} = useState({{{json this}}});
+  store.appendState({ {{@key}} })
   {{/each}}
-
-  {{!-- 定义binding和action --}}
-  const { bind, action } = remoteStore(
-    {
-      module,
-      states: {
-        {{#each localState}}
-        {{@key}},
-        {{/each}}
-      }
-    },
-    router,
-    '{{{context.componentId}}}',
-  );
 
   {{!-- 定义组件入口 --}}
   {{#if entry.mount.actions}}
@@ -127,7 +115,7 @@ export function {{context.namePascalCase}}({ router, integration }: {{context.na
       {{{json entry.unmount}}}
     };
     {{/if}}
-  });
+  }, []);
   {{/if}}
 
   return (

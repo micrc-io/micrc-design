@@ -19,21 +19,19 @@
     "prototype": "https://xxxx/xxx"
   },
   "props": {
-    "formList ?": "Array<{label: string, placeholder: string}>",
-    "btnName ?":"string"
+    "formList ?": "object",
+    "btnName ?":"string",
+    "loading ?":"boolean",
+    "query": "any",
+    "changeParam": "any"
   },
   "defaultProps": {
-    "formList": [
-        {
-          "label": "店铺名称",
-          "placeholder": "请输入店铺名称"
-        },
-        {
-          "label": "账户名称",
-          "placeholder": "请输入账户名称"
-        }
-      ],
-      "btnName": "搜索"
+    "formList": {
+      "label": "店铺名称",
+      "placeholder": "请输入店铺名称"
+    },
+    "btnName": "搜索",
+    "loading": false
   },
   "stories": {
     "components": {
@@ -56,17 +54,12 @@
       "Test1": {
         "desc": "demo props usage",
         "props": {
-          "formList": [
-            {
-              "label": "店铺名称",
-              "placeholder": "请输入店铺名称"
-            },
-            {
-              "label": "账户名称",
-              "placeholder": "请输入账户名称"
-            }
-          ],
-          "btnName":"搜索"
+          "formList": {
+            "label": "店铺名称",
+            "placeholder": "请输入店铺名称"
+          },
+          "btnName":"搜索",
+          "loading": false
         }
       }
     }
@@ -79,14 +72,13 @@
     "Form": {
       "default": false,
       "packages": "antd"
+    },
+    "Input": {
+      "default": false,
+      "packages": "antd"
     }
   },
-  "atoms": {
-    "MapFormList": {
-      "packages": "@micrc/bit._examples.web.atoms.map-form-list",
-      "version": "0.0.1"
-    }
-  },
+  "atoms": {},
   "localState": {},
   "assembly": {
     "assemblies": [
@@ -95,10 +87,22 @@
         "children": {
           "assemblies": [
             {
-              "name": "MapFormList",
-              "children": null,
+              "name": "Form.Item",
+              "children": {
+                "assemblies": [
+                  {
+                    "name": "Input",
+                    "children": null,
+                    "props": {
+                      "placeholder":"bind('props:///formList/placeholder')",
+                      "onChange": "(e) => action([{op: 'perform', path: 'props:///changeParam', value: null}])({ e }, ['/e/target/value'])"
+                    }
+                  }
+                ]
+              },
               "props": {
-                "formList":"bind('props:///formList')"
+                "label": "bind('props:///formList/label')",
+                "key": "bind('props:///formList/label')"
               }
             },
             {
@@ -107,11 +111,12 @@
                 "assemblies": [
                   {
                     "name": "Button",
-                    "children": "{bind('props:///btnName')}",
+                    "children":"{bind('props:///btnName')}",
                     "props": {
+                      "loading":"bind('props:///loading')",
                       "type": "primary",
                       "htmlType": "submit",
-                      "onClick": "() => action([{op: 'perform', path: 'props:///fun', value: null}])()"
+                      "onClick": "() => action([{op: 'perform', path: 'props:///query', value: null}])()"
                     }
                   }
                 ]

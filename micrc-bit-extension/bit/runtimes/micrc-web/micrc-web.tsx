@@ -5,7 +5,7 @@ import { useGlobalStore } from './store/global';
 
 import patcher from './lib/json-patch';
 
-import { keyPath, replaceKey } from './i18n';
+import { keyPath, replaceKey, templateValue } from './i18n';
 import { integratePath } from './store';
 
 import {
@@ -42,12 +42,20 @@ export const remoteStore = (
     }
     const [scope, subScope] = fullScope.split('@');
     if (scope === StoreScope[StoreScope.states]) {
+      debugger
       statesAction(action, path, states, subScope, stateStore, inputs, inputPath);
     } else {
       throw Error('un-excepted scope. "global, module, states" allowed');
     }
   };
   return {
+    appendState: (stateObj : object) => {
+      Object.keys(stateObj).forEach((it) => {
+        states[it] = stateObj[it];
+        // eslint-disable-next-line prefer-destructuring
+        stateStore[it] = stateObj[it][0];
+      });
+    },
     bind: (bindingPath: string): any => {
       const [fullScope, path] = bindingPath.split('://');
       if (!fullScope || !path) {
@@ -128,13 +136,26 @@ export const localStore = (stores: LocalStore) => {
     }
   };
   return {
+    appendState: (stateObj : object) => {
+      Object.keys(stateObj).forEach((it) => {
+        states[it] = stateObj[it];
+        // eslint-disable-next-line prefer-destructuring
+        stateStore[it] = stateObj[it][0];
+      });
+    },
     bind: (bindingPath: string) => {
       const [fullScope, path] = bindingPath.split('://');
       if (!fullScope || !path) {
         throw Error('path of binding must format of [states@stateName|props]://[json pointer]');
       }
       if (fullScope === StoreScope[StoreScope.props]) {
-        return patcher(props).path(path);
+        const [realPath, dataContextPath] = path.split('@');
+        if (!realPath || !dataContextPath) { // 没有数据上下文
+          return patcher(props).path(path);
+        }
+        const tmpl = patcher(props).path(realPath);
+        const dataContext = patcher(props).path(dataContextPath);
+        return templateValue(dataContext, tmpl);
       }
       const [scope, stateName] = fullScope.split('@');
       if (!scope || !stateName) {

@@ -23,9 +23,15 @@
     "prototype": "https://xxxx/xxx"
   },
   "props": {
-    "items?": "DataType[]"
+    "items?": "DataType[]",
+    "fun": "any",
+    "title?": "string",
+    "current?": "number",
+    "showSteps?": "boolean",
+    "currentDate": "object"
   },
   "defaultProps": {
+    "title": " 订单全量同步跟踪进度 ",
     "items": [
       {
         "title": "Finished",
@@ -41,34 +47,27 @@
         "description":"Finished",
         "subTitle": "Finished"
       }
-    ]
+    ],
+    "current": 2,
+    "showSteps": false
   },
   "stories": {
-    "components": {
-      "Steps": {
-        "default": false,
-        "packages": "antd"
-      }
-    },
+    "components": {},
     "atoms": {},
     "examples": {}
   },
   "components": {
-    "Steps": {
+    "Modal": {
       "default": false,
       "packages": "antd"
     },
-    "Modal": {
+    "Steps": {
       "default": false,
       "packages": "antd"
     }
   },
   "atoms": {},
-  "localState": {
-    "show": {
-      "value": false
-    }
-  },
+  "localState": {},
   "assembly": {
     "assemblies": [
       {
@@ -79,9 +78,9 @@
               "name": "Steps",
               "children": null,
               "props": {
-                "items": "bind('props:///items')",
+                "items": "bind('props:///items@/currentDate')",
                 "current":{
-                  "_val":1
+                  "_val":"bind('props:///current')"
                 },
                 "direction":"vertical"
               }
@@ -89,10 +88,10 @@
           ]
         },
         "props": {
-          "title": "订单全量同步跟踪进度",
-          "open": "bind('states@show:///value')",
-          "onOk": "() => action([{ op: 'replace', path: 'states@show:///value', value: false }])()",
-          "onCancel":"() => action([{ op: 'replace', path: 'states@show:///value', value: false }])()"
+          "title": "bind('props:///title')",
+          "open": "bind('props:///showSteps')",
+          "onOk": "() => action([{ op: 'perform', path: 'props:///fun', value: null }])()",
+          "onCancel":"() => action([{ op: 'perform', path: 'props:///fun', value: null }])()"
         }
       }
     ]

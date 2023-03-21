@@ -40,6 +40,7 @@ export const invoke = async (state: any, patch: any) => {
  * @param patch 扩展的json-patch: {op: 'validate', path: 'api路径', value: 'param属性'}
  */
 export const validate = (state: any, input: any, patch: any) => {
+  debugger
   // eslint-disable-next-line no-underscore-dangle,@typescript-eslint/naming-convention
   const _patcher = patcher(state);
   let param = _patcher.path(`${patch.path}/param`); // 用于手动更新param状态

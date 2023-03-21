@@ -160,6 +160,7 @@ export const statesAction = (
   states: Record<string, any>, stateName: string, stateStore: any,
   inputs: any, inputPath: string,
 ) => {
+  debugger
   if (!Object.keys(states).includes(stateName)) {
     throw Error('un-excepted state named: "subScope"');
   }

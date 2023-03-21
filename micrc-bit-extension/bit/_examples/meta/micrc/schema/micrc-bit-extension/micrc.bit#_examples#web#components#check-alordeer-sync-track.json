@@ -20,11 +20,11 @@
   },
   "props": {
     "fun": "any",
-    "showSteps": "boolean",
-    "viewSyncTrace ?":"string"
+    "showSyncTrackModal": "boolean",
+    "btnName ?":"string"
   },
   "defaultProps": {
-    "viewSyncTrace": "查看同步跟踪"
+    "btnName": "查看订单全量同步跟踪"
   },
   "stories": {
     "components": {
@@ -38,7 +38,7 @@
       "Test1": {
         "desc": "demo props usage",
         "props": {
-          "viewSyncTrace": "查看同步跟踪"
+          "btnName": "查看同步跟踪"
         }
       }
     }
@@ -55,7 +55,7 @@
     "assemblies": [
       {
         "name": "Button",
-        "children":"{bind('props:///viewSyncTrace')}",
+        "children":"{bind('props:///btnName')}",
         "props": {
           "onClick":"() => action([{op: 'perform', path: 'props:///fun', value: null}])()"
         }

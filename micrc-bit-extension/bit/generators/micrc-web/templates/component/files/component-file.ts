@@ -67,7 +67,7 @@ import {{this.default}} from '{{@key}}';
 
 {{!-- 导入atom组件 --}}
 {{#each atomImports}}
-import type { {{@key}}Props } from '{{this}}';
+{{!-- import type { {{@key}}Props } from '{{this}}'; 暂不需要 --}}
 import { {{@key}} } from '{{{this}}}';
 {{/each}}
 
@@ -103,20 +103,20 @@ type {{@key}} = {
 {{/each}}
 {{!-- 定义组件本体 --}}
 export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Props) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const store = localStore(
+    {
+      props,
+      states: {}
+    },
+  );
+
+  const { bind, action } =store;
   {{!-- 定义内部状态 --}}
   {{#each localState}}
   const {{@key}} = useState({{{json this}}});
+  store.appendState({ {{@key}} })
   {{/each}}
-
-  {{!-- 定义binding和action --}}
-  const { bind, action } = localStore({
-    props,
-    states: {
-      {{#each localState}}
-      {{@key}},
-      {{/each}}
-    },
-  });
 
   return (
     {{{assembler assembly.assemblies}}}

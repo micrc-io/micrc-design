@@ -3,12 +3,12 @@
     "version": "0.0.1",
     "state": "designing",
     "caseName": "demo-case",
-    "modelFilePath": "models/alordeeraggre.json"
+    "modelFilePath": "models/aggre1.json"
   },
   "entry": {
     "mount": {
       "name": "mount",
-      "actions": ["getOrderListAction()"]
+      "actions": []
     },
     "unmount": {
       "name": "unmount",
@@ -140,8 +140,8 @@
       "key": "steps.SyncedNumber",
       "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
       "defaults": {
-        "zh_CN": "已同步订单${this.syncedNum}",
-        "en_US": "Synchronized order${this.syncedNum}"
+        "zh_CN": "已同步订单${this.orderNum}",
+        "en_US": "Synchronized order${this.orderNum}"
       }
     },
     "steps.OrderSyncCompletion":{
@@ -152,12 +152,20 @@
         "en_US": "Order synchronization completion"
       }
     },
-    "steps.syncResult": {
-      "key": "steps.syncResult",
+    "steps.successNum":{
+      "key": "steps.successNum",
       "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
       "defaults": {
-        "zh_CN": "同步成功${this.successNum},同步失败${this.failNum}",
+        "zh_CN": "同步成功${this.successNum}",
         "en_US": "Synchronization succeededr${this.successNum}"
+      }
+    },
+    "steps.failNum":{
+      "key": "steps.failNum",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步失败${this.failNum}",
+        "en_US": "Synchronization failure${this.failNum}"
       }
     },
     "steps.estimatedRemainingTime":{
@@ -290,11 +298,11 @@
     },
     "items":{
       "value": [
-        { "title": "bind('i18n:///steps.setoutAlorderSync')"},
-        { "title": "bind('i18n:///steps.AlorderSyncStart')"},
-        { "title": "bind('i18n:///steps.AlorderNumber')"},
+        { "title": "bind('i18n:///steps.setoutAlorderSync')", "description": "" },
+        { "title": "bind('i18n:///steps.AlorderSyncStart')", "description": ""},
+        { "title": "bind('i18n:///steps.AlorderNumber')", "description": ""},
         { "title": "bind('i18n:///steps.SyncedNumber')", "description": "bind('i18n:///steps.estimatedRemainingTime')"},
-        { "title": "bind('i18n:///steps.OrderSyncCompletion')", "description": "bind('i18n:///steps.syncResult')" }
+        { "title": "bind('i18n:///steps.OrderSyncCompletion')", "description": "bind('i18n:///steps.successNum')"}
       ]
     },
     "current":{
@@ -312,18 +320,18 @@
   },
   "remoteState": {
     "rpc": {
-      "protocols": ["protocols/aggre1/case1/sync_track.json"],
-      "url": "/api/alordeer",
-      "host": "http://localhost:8080"
+      "protocols": ["protocols/aggre1/case1/register.json", "protocols/aggre1/case1/user.json"],
+      "url": "/api/aggre/case",
+      "host": "http://xxx.local.svc"
     }
   },
   "actions": {
     "showStepsAction": {"op": "replace", "path": "states@showSteps:///value", "value": true},
     "closeStepsAction": {"op": "replace", "path": "states@showSteps:///value", "value": false},
-    "openLoadingAction": {"op": "replace", "path": "module:///pending", "value": true},
-    "closeLoadingAction": {"op": "replace", "path": "module:///pending", "value": false},
+    "openLoadingAction": {"op": "replace", "path": "states@loading:///value", "value": true},
+    "closeLoadingAction": {"op": "replace", "path": "states@loading:///value", "value": false},
     "getOrderListAction": {"op": "perform", "path": "module:///orderList", "value": null},
-    "changeParamAction": {"op": "replace", "path": "module:///orderList/param/storeName/storeName",
+    "changeParamAction": {"op": "replace", "path": "module:///orderList/param/storeName",
     "value": null},
     "currentDateAction": {"op": "replace","path":"states@currentDate:///value", "value": null}
   },
@@ -336,7 +344,7 @@
             "name": "InputQuery",
             "children": null,
             "props": {
-              "loading" : "bind('module:///pending')",
+              "loading" : "bind('states@loading:///value')",
               "formList" : "bind('states@formList:///value')",
               "query": {
                 "params": [],
