@@ -77,18 +77,23 @@ export const remoteStore = (
           (state: any) => patcher(state).path(integratePath(router, id, bindingPath)),
         );
       }
-      const [scope, stateName] = fullScope.split('@');
-      if (!scope || !stateName) {
-        throw Error('state scope of binding path must format of [states@stateName]://[json pointer]');
+      const [scope, subScope] = fullScope.split('@');
+      if (!scope || !subScope) {
+        throw Error('state scope of binding path must format of [states@stateName|integrate@topic]://[json pointer]');
+      }
+      if (scope === StoreScope[StoreScope.integrate]) {
+        return useGlobalStore(
+          (state: any) => patcher(state).path(integratePath(router, id, bindingPath)),
+        );
       }
       if (scope === StoreScope[StoreScope.states]) {
-        return patcher(stateStore).path(`/${stateName}${path}`);
+        return patcher(stateStore).path(`/${subScope}${path}`);
       }
-      throw Error('unexpected scope. "global, module, states, i18n" allowed');
+      throw Error('unexpected scope. "global, module, states, i18n, integrate" allowed');
     },
     action: (action: PatchOperation) => {
       if (action.op === PatchOperationType[PatchOperationType.integrate]) {
-        return globalAction(action, action.path, useGlobalStore);
+        return globalAction(action, action.path, useGlobalStore, router, id);
       }
       const [fullScope, path] = action.path.split('://');
       if (!fullScope || !path) {

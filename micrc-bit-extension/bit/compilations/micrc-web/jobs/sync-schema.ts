@@ -11,14 +11,19 @@ import { execCmd, invoke } from '../lib/process';
 
 log.setLevel('INFO');
 
+const nodeModulesBasePath = path.resolve(
+  require.resolve('react', { paths: [process.cwd()] }),
+  '../../../../../', // node_modules目录,
+);
+
+const gitBasePath = path.resolve(
+  nodeModulesBasePath,
+  '../', // bit workspace根目录
+  '../', // git根目录
+);
+
 // 合并schema分支, 检出最新当前分支
 export const checkout = async () => {
-  const gitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-    '../', // git根目录
-  );
   // 获取当前分支名
   const branch: string = await invoke('git rev-parse --abbrev-ref HEAD', gitBasePath);
   try {
@@ -39,15 +44,6 @@ export const checkout = async () => {
 
 // 拷贝元数据到.cache/micrc/schema目录
 export const copy = async () => {
-  const nodeModulesBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-  );
-  const gitBasePath = path.resolve(
-    nodeModulesBasePath,
-    '../', // bit workspace根目录
-    '../', // git根目录
-  );
   // 首先删除.cache/micrc/schema目录
   const schemaSourcePath = path.resolve(gitBasePath, 'schema');
   const schemaTargetPath = path.resolve(nodeModulesBasePath, '.cache', 'micrc', 'schema');

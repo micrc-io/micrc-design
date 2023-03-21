@@ -75,23 +75,32 @@ const handleRoute = (routerPath: string, router: any) => {
 const handleIntegrate = (
   _ctx: any, state: any, topicName: string, router: any, id: string,
 ) => {
+  let pageUri = router?.pathname || '#';
+  if (!id) { // 模块独立启动, 集成模拟器的使用
+    const arr = topicName.split(':');
+    // eslint-disable-next-line no-param-reassign, prefer-destructuring
+    topicName = arr[0];
+    // eslint-disable-next-line no-param-reassign, prefer-destructuring
+    id = arr[2];
+    // eslint-disable-next-line prefer-destructuring
+    pageUri = arr[1];
+  }
   const topic = state.integration[topicName];
   if (!topic) {
     throw Error(`Illegal topic: ${topicName}`);
   }
   // 校验生产方信息
-  const pageUri = router?.pathname || '#';
   if (topic.producer.pageUri !== pageUri || topic.producer.moduleId !== id) {
     throw Error(`Illegal producer: ${JSON.stringify({ pageUri, moduleId: id })}`);
   }
   // 更新消费方状态
   Object.keys(topic.consumers).forEach((consumerId) => {
     const consumer = topic.consumers[consumerId];
-    // eslint-disable-next-line no-eval
-    const consumerState = eval(consumer.schema);
+    // eslint-disable-next-line @typescript-eslint/no-implied-eval
+    const consumerState = new Function(`return ${consumer.schema}`).call(_ctx);
     update(state, null, {
       op: 'replace',
-      path: `/integration/${topicName}/consumers/${consumerId}/state`,
+      path: `/integration/${topicName}/consumers/${consumerId.replace(/\//g, '~1')}/state`,
       value: consumerState,
     });
   });

@@ -27,6 +27,7 @@ import { {{@key }} } from '{{this}}'
 
 export function appPageFiles(data: ClientendContextData) {
   HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
+
   // 创建页面目录
   const pageBasePath = path.resolve(data.intro.sourceDir, 'app', 'pages');
   if (!fs.existsSync(pageBasePath)) {

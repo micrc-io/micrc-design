@@ -1,6 +1,17 @@
 import path from 'path';
 import fs from 'fs';
 
+const bitBasePath = path.resolve(
+  require.resolve('react', { paths: [process.cwd()] }),
+  '../../../../../', // node_modules目录,
+  '../', // bit workspace根目录
+);
+
+const gitBasePath = path.resolve(
+  bitBasePath,
+  '../', // git根目录
+);
+
 // 设计子域组件-元数据文件映射
 const mappingDesign = (contextPath: string): Record<string, string> => {
   const mappingInfo = {};
@@ -72,17 +83,6 @@ const mappingDomain = (contextPath: string): Record<string, string> => {
 // 生成组件-元数据文件地址映射
 export const mapping = () => {
   // 读取子域元数据, 判断是否设计子域或业务子域
-  const gitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-    '../', // git根目录
-  );
-  const bitBasePath = path.resolve(
-    require.resolve('@micrc/bit.compilations.micrc-web'),
-    '../../../../', // node_modules目录,
-    '../', // bit workspace根目录
-  );
   const workspaceFilePath = path.join(bitBasePath, 'workspace.jsonc');
   const domainFilePath = path.join(gitBasePath, 'schema', 'domain-info.json');
   const domainInfo = JSON.parse(fs.readFileSync(domainFilePath, { encoding: 'utf8' }));

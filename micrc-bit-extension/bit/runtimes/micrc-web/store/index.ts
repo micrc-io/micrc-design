@@ -4,6 +4,7 @@ export * from './global';
 type Producer = {
   pageUri: string, // 页面uri
   moduleId: string, // 模块id
+  exampleState?: any, // 发送数据样例, 用于模块独立启动且为消费方时的驱动方模拟
   // todo 暂时留空(不校验)
   schema: object, // 附带数据的schema结构, 使用json schema表达, 用于校验生成方数据符合规格
 };
@@ -22,12 +23,18 @@ export type IntegrationTopic = {
   consumers: Record<string, Consumer>,
 };
 
+export type I18nPointer = {
+  key: string,
+  desc: string,
+  defaults: Record<string, string>,
+};
+
 // 计算集成值路径
 export const integratePath = (router: any, id: string, bindingPath: string): string => {
-  if (!id) {
-    return bindingPath;
-  }
   const [topicScope, path] = bindingPath.split('://');
+  if (!id) { // 模块独立启动时, 集成模拟器使用
+    return `/integration${path}`;
+  }
   if (!topicScope || !path) {
     throw Error(`Illegal binding path: ${bindingPath}. It must format of [integrate@topic]://[json pointer]`);
   }
@@ -37,5 +44,6 @@ export const integratePath = (router: any, id: string, bindingPath: string): str
   }
   const pagePath = (router?.pathname || '#').replace(/\//g, '~1');
   const modulePath = id.replace(/\//g, '~1');
-  return `/integration/${topic}/consumers/${pagePath}:${modulePath}/state${path}`;
+  const newPath = path === '/' ? '' : path;
+  return `/integration/${topic}/consumers/${pagePath}:${modulePath}/state${newPath}`;
 };

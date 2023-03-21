@@ -75,7 +75,18 @@ import { {{@key}} } from '{{{this}}}';
 import { localStore } from '@micrc/bit.runtimes.micrc-web';
 
 {{!-- 导入样式文件 --}}
-import styles from './{{context.name}}.module.scss';
+import styles from './{{context.name}}.module.css';
+
+{{!-- 导入图片 --}}
+{{#each images}}
+import {{this.name}}Source from './images/{{{this.filename}}}';
+{{/each}}
+
+{{!-- nextjs中必须使用src --}}
+{{#each images}}
+// @ts-ignore
+const {{this.name}} = {{this.name}}Source.src || {{this.name}}Source;
+{{/each}}
 
 {{!-- props类型定义 --}}
 export type {{context.namePascalCase}}Props = {
@@ -143,6 +154,7 @@ export function componentFile(data: ComponentContextData) {
       singleQuote: true,
       bracketSameLine: false,
       singleAttributePerLine: true,
+      trailingComma: 'all',
     },
   );
 }

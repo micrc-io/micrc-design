@@ -38,6 +38,7 @@ import { appMenuSubmissionFile } from './files/app/meta/submission/menu-file';
 import { appPermissionSubmissionFile } from './files/app/meta/submission/permission-file';
 import { appTrackerSubmissionFile } from './files/app/meta/submission/tracker-file';
 import { appMetaTrackerFile } from './files/app/meta/tracker-file';
+import { appMetaPermissionFile } from './files/app/meta/permission-file';
 
 export const clientendTemplate: ComponentTemplate = {
   name: 'micrc-web-clientend',
@@ -156,22 +157,22 @@ export const clientendTemplate: ComponentTemplate = {
         relativePath: 'app/styles/antd-themes/default.less',
         content: appAntdLessFile(),
       },
-      // app meta/i18.json
+      // app meta/submission/i18.json
       {
         relativePath: 'app/meta/submission/i18.json',
         content: appI18nSubmissionFile(data),
       },
-      // app meta/tracker.json
+      // app meta/submission/tracker.json
       {
         relativePath: 'app/meta/submission/tracker.json',
         content: appTrackerSubmissionFile(data),
       },
-      // app meta/menu.json
+      // app meta/submission/menu.json
       {
         relativePath: 'app/meta/submission/menu.json',
         content: appMenuSubmissionFile(),
       },
-      // app meta/permission.json
+      // app meta/submission/permission.json
       {
         relativePath: 'app/meta/submission/permission.json',
         content: appPermissionSubmissionFile(),
@@ -190,6 +191,11 @@ export const clientendTemplate: ComponentTemplate = {
       {
         relativePath: 'app/meta/integration.json',
         content: appMetaIntegrationFile(data),
+      },
+      // app meta/permission.json
+      {
+        relativePath: 'app/meta/permission.json',
+        content: appMetaPermissionFile(data),
       },
     ];
   },

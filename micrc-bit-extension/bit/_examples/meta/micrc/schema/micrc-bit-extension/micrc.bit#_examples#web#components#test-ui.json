@@ -203,6 +203,10 @@
       "value": []
     }
   },
+  "css": ".test { color: red; }\n",
+  "images": {
+    "test.png": "https://www.baidu.com/img/flexible/logo/pc/peak-result.png"
+  },
   "assembly": {
     "assemblies": [
       {

@@ -48,11 +48,6 @@ export const moduleTemplate: ComponentTemplate = {
         relativePath: `${context.name}.tsx`,
         content: componentFile(data),
       },
-      // scss file
-      {
-        relativePath: `${context.name}.module.scss`,
-        content: `// ${context.name} scss`,
-      },
       // stories file
       {
         relativePath: `${context.name}.stories.tsx`,

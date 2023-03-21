@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 
 import { Button, FloatButton, Modal } from 'antd';
 
-import { remoteStore } from '../index';
+import { remoteStore } from '../micrc-web';
 import type { IntegrationTopic } from './index';
 
 export const IntegrationSimulator = (
@@ -29,9 +29,13 @@ export const IntegrationSimulator = (
   // 自身为消费方, 模拟生产方
   // eslint-disable-next-line no-restricted-syntax
   for (const topic of Object.values(integration.consume)) {
-    const send = action({ op: 'integrate', path: `/${topic.name}`, value: {} }); // todo 生产方数据模拟
+    const send = action({
+      op: 'integrate',
+      path: `/${topic.name}:${topic.producer.pageUri}:${topic.producer.moduleId}`,
+      value: topic.producer.exampleState,
+    });
     produceSimulator.push(
-      <Button onClick={() => send()}>
+      <Button key={topic.name} onClick={() => send()}>
         生产者:
         {`${topic.producer.pageUri} -- ${topic.producer.moduleId}`}
       </Button>,
@@ -43,12 +47,19 @@ export const IntegrationSimulator = (
     // eslint-disable-next-line no-restricted-syntax
     for (const consumer of Object.values(topic.consumers)) {
       const receive = bind(
-        `integrate:///${topic.name}/consumers/${consumer.pageUri}:${consumer.moduleId}/state`,
+        `integrate:///${topic.name}/consumers`
+        + `/${consumer.pageUri.replace(/\//g, '~1')}:${consumer.moduleId.replace(/\//g, '~1')}`
+        + '/state',
       );
       consumeSimulator.push(
-        <p>
-          { JSON.stringify(receive, null, 2) }
-        </p>,
+        <div>
+          <span>{`${consumer.pageUri}:${consumer.moduleId}`}</span>
+          <pre>
+            <code key={`${consumer.pageUri}:${consumer.moduleId}`}>
+              { JSON.stringify(receive, null, 2) }
+            </code>
+          </pre>
+        </div>,
       );
     }
   }

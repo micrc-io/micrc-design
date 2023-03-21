@@ -84,14 +84,13 @@ type ClientendMeta = {
     showcase: string,
     desc: string,
   },
+  integration: Record<string, IntegrationTopic>,
   entry: {
     modules: Record<string, {
-      // todo tracker
       package: string,
       version: string,
       i18n: Record<string, I18nPointerMeta>,
-      roles: string,
-      permissions: [],
+      // todo tracker
     }>,
     components: Record<string, { package: string, version: string }>,
     layouts: Record<string, {
@@ -102,25 +101,17 @@ type ClientendMeta = {
   pages: Record<string, {
     // todo tracker
     i18n : Record<string, I18nPointerMeta>,
-    role: string,
-    permissions: [],
-    menu: {
-      name: string,
-      parent: Array<string>,
-    },
+    permissions: Record<string, Array<string>>,
     comment: Array<string>,
     modules: Record<string, {
-      // todo tracker
       package: string,
       version: string,
       i18n: Record<string, I18nPointerMeta>,
-      roles: string,
-      permissions: [],
+      // todo tracker
     }>,
     components: Record<string, { package: string, version: string }>,
     assembly: PageAssembly,
   }>,
-  integration: Record<string, IntegrationTopic> // 集成元数据, 以topic为key
 };
 
 type SubmissionI18n = {
@@ -156,9 +147,8 @@ type TrackerDataContext = {
 };
 
 export type ClientendContextData = {
-  // todo menu和permission数据, 生成报送元数据文件
   i18n: I18nDataContext,
-  tracker: TrackerDataContext,
+  tracker: TrackerDataContext, // todo 完善埋点点位
   integration: Record<string, IntegrationTopicDataContext>,
   intro: ClientendIntro, // 自省数据
   doc: {
@@ -169,7 +159,7 @@ export type ClientendContextData = {
   context: ComponentContext,
   entry: ClientendEntry, // app入口
   pages: Record<string, {
-    // todo permission元数据, 用于页面权限控制
+    permissions: Array<string>,
     moduleImports: Record<string, string>,
     componentImports: Record<string, string>,
     assembly: PageAssembly,
@@ -179,8 +169,8 @@ export type ClientendContextData = {
 
 const handleSourceDir = (context: ComponentContext) => {
   const basePath = path.resolve(
-    require.resolve('@micrc/bit.generators.micrc-web'),
-    '../../../../../',
+    require.resolve('react', { paths: [process.cwd()] }),
+    '../../../../../../',
   );
   const sourceDir = `${basePath}${path.sep}${context.componentId.toStringWithoutVersion().split('.')[1]}`;
   if (!fs.existsSync(sourceDir)) {
@@ -217,6 +207,8 @@ const handlePages = (meta: ClientendMeta) => {
   const pages = {};
   Object.keys(meta.pages).forEach((uri) => {
     pages[uri] = {
+      permissions: Object.values(meta.pages[uri].permissions || {})
+        .reduce((pre, cur) => pre.concat(cur), []),
       moduleImports: {},
       componentImports: {},
       assembly: meta.pages[uri].assembly,

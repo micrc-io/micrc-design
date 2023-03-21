@@ -8,15 +8,16 @@ import { ComponentContext } from '@teambit/generator';
 
 const SCHEMA_PATH = ['.cache', 'micrc', 'schema'];
 
+const nodeModulesBasePath = path.resolve(
+  require.resolve('react', { paths: [process.cwd()] }),
+  '../../../../../',
+);
+const bitBasePath = path.resolve(
+  nodeModulesBasePath,
+  '../', // bit workspace根目录
+);
+
 export const handlePath = (context: ComponentContext) => {
-  const nodeModulesBasePath = path.resolve(
-    require.resolve('@micrc/bit.generators.micrc-web'),
-    '../../../../',
-  );
-  const bitBasePath = path.resolve(
-    nodeModulesBasePath,
-    '../', // bit workspace根目录
-  );
   const workspaceFilePath = path.join(bitBasePath, 'workspace.jsonc');
   const workspaceInfo = JSON.parse(fs.readFileSync(workspaceFilePath, { encoding: 'utf8' }));
   const contextName = workspaceInfo['teambit.workspace/workspace'].name;

@@ -11,6 +11,7 @@ module.exports = {
     'object-curly-newline': 'off',
     'implicit-arrow-linebreak': 'off',
     'react/jsx-curly-newline': 'off',
+    'react/jsx-wrap-multilines': 'off',
   },
 }
 `;

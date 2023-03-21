@@ -4,26 +4,7 @@
  */
 import { create } from 'zustand';
 
-type I18nPointer = {
-  key: string,
-  desc: string,
-  defaults: Record<string, string>,
-};
-
-type IntegrationTopic = {
-  name: string,
-  producer: {
-    pageUri: string,
-    moduleId: string,
-    schema: object,
-  },
-  consumers: Record<string, {
-    pageUri: string,
-    moduleId: string,
-    schema: string,
-    state: object,
-  }>,
-};
+import type { I18nPointer, IntegrationTopic } from './index';
 
 export const useGlobalStore = create((set) => ({
   subject: {
@@ -37,6 +18,7 @@ export const useGlobalStore = create((set) => ({
 }));
 
 export const initModuleGlobalStore = (
+  permissions: Array<string>,
   locale: string,
   i18n: Record<string, I18nPointer>,
   tracker: any,
@@ -52,6 +34,9 @@ export const initModuleGlobalStore = (
     });
   });
   useGlobalStore.setState({
+    subject: {
+      permissions: permissions || [],
+    },
     i18n: {
       locale: locale || 'en_US',
       languages,
