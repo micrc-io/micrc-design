@@ -42,7 +42,6 @@ export const remoteStore = (
     }
     const [scope, subScope] = fullScope.split('@');
     if (scope === StoreScope[StoreScope.states]) {
-      debugger
       statesAction(action, path, states, subScope, stateStore, inputs, inputPath);
     } else {
       throw Error('un-excepted scope. "global, module, states" allowed');

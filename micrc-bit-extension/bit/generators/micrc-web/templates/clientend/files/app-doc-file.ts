@@ -10,7 +10,7 @@ import { ClientendContextData } from '../_parser';
 
 const tmpl = `---
 description: {{doc.title}}
-label: {{{jsonObject doc.labels}}}
+labels: {{{jsonObject doc.labels}}}
 ---
 
 {{doc.showcase}} // todo 一个iframe, 一个链接

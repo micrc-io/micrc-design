@@ -1,7 +1,6 @@
 /**
  * state/impl/mock.ts
  */
-
 export function stateMockFile() {
   return `// browser and node proxy mock
 import { rest } from 'msw';

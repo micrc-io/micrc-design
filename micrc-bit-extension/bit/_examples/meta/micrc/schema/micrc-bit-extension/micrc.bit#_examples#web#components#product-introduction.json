@@ -1,0 +1,83 @@
+{
+  "intro": {
+    "version": "0.0.1"
+  },
+  "comment": ["产品介绍"],
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "doc": {
+    "title": "产品介绍",
+    "labels": ["产品介绍文本","产品图片"],
+    "prototype": "https://mastergo.com/file/88108507811036?page_id=384%3A08737"
+  },
+  "props": {
+    "img?": "string",
+    "productTitle?": "string",
+    "productText?": "string"
+  },
+  "defaultProps": {
+    "img": "https://s1.ax1x.com/2023/03/22/ppdAqyV.png",
+    "productTitle": "Manage all your stores and online sales in one place.",
+    "productText":"Integrate up to 10 Mercado Livre stores and shop free with ColibriERP"
+  },
+  "stories": {
+    "components": {},
+    "atoms": {},
+    "examples": {
+      "Test": {
+        "props": {
+          "img": "https://s1.ax1x.com/2023/03/22/ppdAqyV.png",
+          "productTitle":"在一个地方管理你所有的商店和在线销售。",
+          "productText": "整合多达10个Mercado Livre商店和购物免费与ColibriERP"
+        }
+      }
+    }
+  },
+  "components": {
+    "Typography": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Image": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {},
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Typography.Title",
+        "children":"{bind('props:///productTitle')}",
+        "props": {
+          "level": {
+            "_val": 5
+          }
+        }
+      },
+      {
+        "name": "Typography.Paragraph",
+        "children":"{bind('props:///productText')}",
+        "props": {}
+      },
+      {
+        "name": "Image",
+        "children": null,
+        "props": {
+          "width": {
+            "_val": 518
+          },
+          "height": {
+            "_val": 504
+          },
+          "src": {
+            "_val": "bind('props:///img')"
+          }
+        }
+      }
+    ]
+  }
+}

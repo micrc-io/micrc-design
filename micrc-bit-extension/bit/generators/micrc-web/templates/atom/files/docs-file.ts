@@ -10,7 +10,7 @@ import { AtomContextData } from '../_parse';
 
 const tmpl = `---
 description: {{doc.title}}
-label: {{{jsonObject doc.labels}}}
+labels: {{{jsonObject doc.labels}}}
 ---
 
 import 'antd/dist/reset.css';

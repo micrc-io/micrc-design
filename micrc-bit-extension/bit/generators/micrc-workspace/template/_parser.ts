@@ -7,6 +7,7 @@ const TYPES = ['atoms', 'components', 'modules', 'clientends'];
 
 export default (context: WorkspaceContext) => {
   const { name, defaultScope } = context;
+  // console.log(context);
   if (!defaultScope) {
     throw new Error('default scope must be set by -d/--default-scope.');
   }

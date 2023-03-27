@@ -1,7 +1,6 @@
 /**
  * state/impl/impl.ts
  */
-
 export function stateImplFile() {
   return `// 协议客户端实现
 import OpenAPIClient from 'openapi-client-axios';

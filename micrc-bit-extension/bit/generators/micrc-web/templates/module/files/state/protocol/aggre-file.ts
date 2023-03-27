@@ -7,5 +7,9 @@ import path from 'path';
 import { ModuleContextData } from '../../../_parse';
 
 export function stateProtocolAggreFile(data: ModuleContextData) {
-  return fs.readFileSync(path.join(data.intro.metaBasePath, data.intro.modelFilePath));
+  const aggreFilePath = path.join(data.intro.metaBasePath, data.intro.modelFilePath);
+  if (fs.existsSync(aggreFilePath) && fs.lstatSync(aggreFilePath).isFile()) {
+    return fs.readFileSync(aggreFilePath);
+  }
+  return '';
 }

@@ -1,0 +1,168 @@
+{
+  "intro": {
+    "version": "0.0.1"
+  },
+  "comment": ["组件"],
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "doc": {
+    "title": "主布局",
+    "labels": [],
+    "prototype": "https://mastergo.com/file/88108507811036?page_id=103%3A04800"
+  },
+  "props": {
+    "logo?":"any",
+    "toolbar?":"any"
+  },
+  "defaultProps": {
+    "logo": {
+      "assemblies": [
+        {
+          "name": "Tooltip",
+          "children": {
+            "assemblies":[
+              {
+                "name": "Skeleton.Image",
+                "children": null,
+                "props" :{
+                  "style":{
+                    "_val": {
+                      "width": "125px",
+                      "height": "48px"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "props": {
+            "title": "logo：展示logo的位置"
+          }
+        }
+      ]
+    },
+    "toolbar": {
+      "assemblies": [
+        {
+          "name": "Tooltip",
+          "children": {
+            "assemblies":[
+              {
+                "name": "Skeleton.Input",
+                "children": null,
+                "props" :{}
+              }
+            ]
+          },
+          "props": {
+            "title": "toolbar：展示工具栏的位置"
+          }
+        }
+      ]
+    }
+  },
+  "stories": {
+    "components": {},
+    "atoms": {},
+    "examples": {}
+  },
+  "components": {
+    "Layout": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Skeleton": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Tooltip": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {},
+  "css": ".toolbar{float: right;padding: 15px 3px;}\n.content{margin: 24px;height: 788px;background: #FFFFFF;}\n.logo{margin: 4px;width: 125px;height: 48px;}",
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Layout",
+        "children": {
+          "assemblies": [
+            {
+              "name": "Layout.Sider",
+              "children": {
+                "assemblies": [
+                  {
+                    "name": "Layout.Content",
+                    "children": "{props?.logo}",
+                    "props": {
+                      "className": {
+                        "_val":"styles.logo"
+                      }
+                    }
+                  }
+                ]
+              },
+              "props": {
+                "width":{
+                  "_val":204
+                },
+                "style":{
+                  "_val":{
+                    "background": "#14161D",
+                    "padding": "5px 24px"
+                  }
+                }
+              }
+            },
+            {
+              "name": "Layout",
+              "children": {
+                "assemblies": [
+                  {
+                    "name": "Layout.Header",
+                    "children": {
+                      "assemblies": [
+                        {
+                          "name": "Layout.Content",
+                          "children": "{props?.toolbar}",
+                          "props": {
+                            "className": {
+                              "_val":"styles.toolbar"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "props": {
+                      "style": {
+                        "_val":{
+                          "paddingInline":"5px",
+                          "background":"#FFFFFF"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name": "Layout.Content",
+                    "children": null,
+                    "props": {
+                      "className": {
+                        "_val": "styles.content"
+                      }
+                    }
+                  }
+                ]
+              },
+              "props": {}
+            }
+          ]
+        },
+        "props": {}
+      }
+    ]
+  }
+}

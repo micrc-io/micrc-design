@@ -25,11 +25,6 @@ export async function workspaceConfig(context: WorkspaceContext) {
   configParsed['micrc.bit/generators/micrc-mini'] = {};
   configParsed['micrc.bit/generators/micrc-app'] = {};
 
-  // 编译时工具扩展
-  configParsed['micrc.bit/compilations/micrc-web'] = {};
-  configParsed['micrc.bit/compilations/micrc-mini'] = {};
-  configParsed['micrc.bit/compilations/micrc-app'] = {};
-
   // 依赖包
   configParsed['teambit.dependencies/dependency-resolver'] = {
     packageManager: 'teambit.dependencies/pnpm',

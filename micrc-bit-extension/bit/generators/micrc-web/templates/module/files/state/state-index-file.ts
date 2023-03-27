@@ -1,7 +1,6 @@
 /**
  * state/index.ts
  */
-
 export function stateIndexFile() {
   return `// state entry
 import { create } from 'zustand';

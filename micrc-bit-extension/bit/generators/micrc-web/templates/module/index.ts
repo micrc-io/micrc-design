@@ -14,6 +14,7 @@ import { componentFile } from './files/component-file';
 import { storiesFile } from './files/stories-file';
 import { testFile } from './files/test-file';
 import { docFile } from './files/docs-file';
+import { imageFiles } from './files/image-files';
 import { i18nMetaFile } from './files/meta/i18n-meta-file';
 import { compositionFile } from './files/composition-file';
 import { integrationMetaFile } from './files/meta/integration-meta-file';
@@ -67,6 +68,11 @@ export const moduleTemplate: ComponentTemplate = {
       {
         relativePath: `${context.name}.spec.tsx`,
         content: testFile(data),
+      },
+      // image files
+      {
+        relativePath: 'images/readme',
+        content: imageFiles(data),
       },
       // integration meta file
       {

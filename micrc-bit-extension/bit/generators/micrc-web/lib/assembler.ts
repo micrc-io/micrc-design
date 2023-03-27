@@ -196,7 +196,8 @@ export const jsonObject = (obj: any): string => {
     retVal += '}';
     return retVal;
   }
-  if (typeof obj === 'string' && (obj.startsWith('globalBind') || obj.startsWith('bind'))) {
+  console.log(obj);
+  if (typeof obj === 'string' && (obj.startsWith('styles') || (obj.startsWith('props')  || obj.startsWith('globalBind') || obj.startsWith('bind'))) {
     return obj;
   }
   // 原子类型值处理

@@ -138,6 +138,7 @@ type ModuleMeta = {
       actions: Array<string>,
     },
   }, // 组件入口, useEffect
+  images: Record<string, string>,
   assembly: ModuleAssembly,
 };
 
@@ -183,6 +184,7 @@ export type ModuleContextData = {
       actions: Array<string>,
     },
   },
+  images: Array<{ name: string, filename: string, link: string }>, // 图片导入名, 文件名, 文件链接
   assembly: ModuleAssembly, // 组件装配结构，以导入的组件名为key
 };
 
@@ -235,6 +237,24 @@ const handleImports = (
       item.types.push(name);
     }
   }
+};
+
+const handleImages = (meta: ModuleMeta) => {
+  const firstUpper = (word: string): string => {
+    const [first, ...rest] = word;
+    return first?.toUpperCase() + rest.join('');
+  };
+  const retVal: Array<{ name: string, filename: string, link: string }> = [];
+  Object.keys(meta.images || {}).forEach((filename) => {
+    const ext = path.extname(filename);
+    const base = path.basename(filename, ext);
+    retVal.push({
+      name: firstUpper(base) + firstUpper(ext.replace('.', '')),
+      filename,
+      link: meta.images[filename],
+    });
+  });
+  return retVal;
 };
 
 // 任意类型导入
@@ -349,6 +369,7 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
       mount: { actions: [] },
       unmount: { actions: [] },
     },
+    images: handleImages(meta),
     assembly: meta.assembly,
     integration: handleIntegration(meta, context),
     doc: meta.doc,

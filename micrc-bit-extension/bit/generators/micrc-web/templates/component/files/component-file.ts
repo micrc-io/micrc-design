@@ -121,8 +121,9 @@ export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Prop
       states: {}
     },
   );
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { bind, action } =store;
+
   {{!-- 定义内部状态 --}}
   {{#each localState}}
   const {{@key}} = useState({{{json this}}});

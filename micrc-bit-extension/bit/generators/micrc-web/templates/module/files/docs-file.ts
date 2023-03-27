@@ -10,7 +10,7 @@ import { ModuleContextData } from '../_parse';
 
 const tmpl = `---
 description: {{doc.title}}
-label: {{{jsonObject doc.labels}}}
+labels: {{{jsonObject doc.labels}}}
 ---
 
 import { Default } from './{{context.name}}.composition';

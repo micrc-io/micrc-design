@@ -57,6 +57,17 @@ import { useStore as module } from './state';
 {{!-- 导入样式文件 --}}
 import styles from './{{context.name}}.module.css';
 
+{{!-- 导入图片 --}}
+{{#each images}}
+import {{this.name}}Source from './images/{{{this.filename}}}';
+{{/each}}
+
+{{!-- nextjs中必须使用src --}}
+{{#each images}}
+// @ts-ignore
+const {{this.name}} = {{this.name}}Source.src || {{this.name}}Source;
+{{/each}}
+
 {{!-- 定义权限 --}}
 const permissions = {{{json permissions}}}
 
