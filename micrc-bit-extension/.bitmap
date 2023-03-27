@@ -9,24 +9,6 @@
  */
 
 {
-    "compilations/micrc-app": {
-        "scope": "micrc.bit",
-        "version": "0.0.1",
-        "mainFile": "index.ts",
-        "rootDir": "bit/compilations/micrc-app"
-    },
-    "compilations/micrc-mini": {
-        "scope": "micrc.bit",
-        "version": "0.0.1",
-        "mainFile": "index.ts",
-        "rootDir": "bit/compilations/micrc-mini"
-    },
-    "compilations/micrc-web": {
-        "scope": "micrc.bit",
-        "version": "0.0.3",
-        "mainFile": "index.ts",
-        "rootDir": "bit/compilations/micrc-web"
-    },
     "envs/micrc-app": {
         "scope": "micrc.bit",
         "version": "0.0.2",
