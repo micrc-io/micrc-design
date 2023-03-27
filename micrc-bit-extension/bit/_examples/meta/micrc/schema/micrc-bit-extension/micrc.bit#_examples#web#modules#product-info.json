@@ -19,7 +19,7 @@
   },
   "i18n": {
     "product.title":{
-      "key": "product.introduction",
+      "key": "product.title",
       "desc": "/security/authc/micrc.bit/_examples/web/modules/product-info",
       "defaults": {
         "zh_CN": "在一个地方管理你所有的商店和在线销售",
@@ -27,7 +27,7 @@
       }
     },
     "product.text":{
-      "key": "product.introduction",
+      "key": "product.text",
       "desc": "/security/authc/micrc.bit/_examples/web/modules/product-info",
       "defaults": {
         "zh_CN": "整合多达10个Mercado Livre商店和购物免费与ColibriERP",

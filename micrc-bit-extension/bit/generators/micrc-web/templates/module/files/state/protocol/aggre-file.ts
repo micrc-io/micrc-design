@@ -11,5 +11,11 @@ export function stateProtocolAggreFile(data: ModuleContextData) {
   if (fs.existsSync(aggreFilePath) && fs.lstatSync(aggreFilePath).isFile()) {
     return fs.readFileSync(aggreFilePath);
   }
-  return '';
+  return `
+{
+  "components": {
+    "schemas": {}
+  }
+}
+`;
 }
