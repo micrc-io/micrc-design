@@ -148,5 +148,8 @@
   },
   "micrc.bit/generators/micrc-web": {},
   "micrc.bit/generators/micrc-mini": {},
-  "micrc.bit/generators/micrc-app": {}
+  "micrc.bit/generators/micrc-app": {},
+  "micrc.bit/compilations/micrc-web": {},
+  "micrc.bit/compilations/micrc-mini": {},
+  "micrc.bit/compilations/micrc-app": {}
 }

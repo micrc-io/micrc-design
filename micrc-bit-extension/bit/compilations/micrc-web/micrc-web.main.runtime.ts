@@ -6,6 +6,7 @@ import { MicrcWebAspect } from './micrc-web.aspect';
 
 import {
   ConfigureCmd,
+  GenerateCmd,
 } from './commands';
 
 export class MicrcWebMain {
@@ -19,6 +20,7 @@ export class MicrcWebMain {
     cli.registerGroup('micrc-web', 'Micrc configure');
     cli.register(
       new ConfigureCmd(),
+      new GenerateCmd(),
     );
     return new MicrcWebMain();
   }
