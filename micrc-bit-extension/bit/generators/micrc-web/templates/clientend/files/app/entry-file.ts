@@ -67,7 +67,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <MDXProvider components={ components }>
       <Authorized permissions={permissions[router.pathname]} display={true}>
         {/* @ts-ignore */}
-        <Component {...pageProps} router={router} />;
+        <Component {...pageProps} router={router} />
       </Authorized>
     </MDXProvider>
   );
