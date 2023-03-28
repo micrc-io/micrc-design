@@ -24,6 +24,9 @@ export async function workspaceConfig(context: WorkspaceContext) {
   configParsed['micrc.bit/generators/micrc-web'] = {};
   configParsed['micrc.bit/generators/micrc-mini'] = {};
   configParsed['micrc.bit/generators/micrc-app'] = {};
+  configParsed['micrc.bit/compilations/micrc-web'] = {};
+  configParsed['micrc.bit/compilations/micrc-mini'] = {};
+  configParsed['micrc.bit/compilations/micrc-app'] = {};
 
   // 依赖包
   configParsed['teambit.dependencies/dependency-resolver'] = {
@@ -32,7 +35,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
       dependencies: {
         '@ant-design/icons': '5.0.1',
         '@babel/runtime': '7.21.0',
-        '@micrc/bit.runtimes.micrc-web': '0.0.1',
+        '@micrc/bit.runtimes.micrc-web': '0.0.2',
         '@storybook/addon-actions': '6.5.16',
         '@storybook/addon-docs': '6.5.16',
         '@storybook/addon-essentials': '6.5.16',

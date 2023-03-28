@@ -1,0 +1,126 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing",
+    "modelFilePath": ""
+  },
+  "permissions": {
+    "role1": []
+  },
+  "entry": {
+    "mount": {
+      "name": "mount",
+      "actions": []
+    },
+    "unmount": {
+      "name": "unmount",
+      "actions": []
+    }
+  },
+  "i18n": {
+    "welcome.text":{
+      "key": "welcome.text",
+      "desc": "/@micrc/bit/_examples/web/modules/product-info",
+      "defaults": {
+        "zh_CN": "欢迎使用colibri erp...",
+        "en_US": "Welcome to colibri erp..."
+      }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "/xxx1/xx1/x1",
+          "moduleId": "micrc.bit/xxx1/xx1/x1",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/yyy21/yy21/y21",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }, {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    }
+  },
+  "comment": ["欢迎模块"],
+  "doc": {
+    "title": "欢迎信息",
+    "labels": ["欢迎文本","欢迎图片"],
+    "desc": "经销商进入系统可以看到欢迎页展示的内容",
+    "prototype": "https://mastergo.com/file/89156035824754?page_id=20%3A95"
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "ProductIntroduction":{
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.product-introduction"
+    },
+    "BlankLayout": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.blank-layout"
+    }
+  },
+  "localState": {
+    "img": {
+      "value":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
+    },
+    "welcomeText": {
+      "value": "bind('i18n:///welcome.text')"
+    }
+  },
+  "remoteState": {
+    "rpc": {
+      "protocols": [],
+      "url": "",
+      "host": ""
+    }
+  },
+  "actions": {},
+  "images": {
+    "img.png":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
+  },
+  "assembly": {
+    "layout": "BlankLayout",
+    "props": {
+      "content": {
+        "assemblies": [
+          {
+            "name": "ProductIntroduction",
+            "children": null,
+            "props": {
+              "productTitle": "bind('states@welcomeText:///value')",
+              "img": "bind('states@img:///value')"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

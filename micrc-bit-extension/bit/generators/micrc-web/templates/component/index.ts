@@ -42,7 +42,7 @@ export const componentTemplate: ComponentTemplate = {
       },
       // css file
       {
-        relativePath: `${context.name}.module.css`,
+        relativePath: `${context.name}.module.scss`,
         content: cssFile(data),
       },
       // image files

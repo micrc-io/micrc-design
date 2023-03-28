@@ -8,8 +8,8 @@
     "imports": {}
   },
   "doc": {
-    "title": "blank-layout component",
-    "labels": [],
+    "title": "空布局组件",
+    "labels": ["空布局"],
     "prototype": ""
   },
   "props": {

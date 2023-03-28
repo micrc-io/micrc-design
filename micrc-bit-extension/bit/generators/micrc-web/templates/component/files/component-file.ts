@@ -75,7 +75,7 @@ import { {{@key}} } from '{{{this}}}';
 import { localStore } from '@micrc/bit.runtimes.micrc-web';
 
 {{!-- 导入样式文件 --}}
-import styles from './{{context.name}}.module.css';
+import styles from './{{context.name}}.module.scss';
 
 {{!-- 导入图片 --}}
 {{#each images}}

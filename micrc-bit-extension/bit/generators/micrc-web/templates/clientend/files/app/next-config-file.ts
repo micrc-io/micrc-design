@@ -39,7 +39,7 @@ const collectModules = () => {
   if (fs.existsSync(path.resolve(__dirname, 'node_modules/' + scope))) {
     modules.concat(fs.readdirSync(path.resolve(__dirname, 'node_modules/' + scope)));
   }
-  return modules.filter(it => /^.*-design\\..*/.test(it)).map(it => scope + '/' + it);
+  return modules.map(it => scope + '/' + it);
 };
 
 const withTM = require('next-transpile-modules')([

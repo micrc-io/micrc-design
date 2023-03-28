@@ -2,14 +2,14 @@
   "intro": {
     "version": "0.0.1"
   },
-  "comment": ["产品介绍"],
+  "comment": ["产品介绍","欢迎内容"],
   "types": {
     "definitions": {},
     "imports": {}
   },
   "doc": {
-    "title": "产品介绍",
-    "labels": ["产品介绍文本","产品图片"],
+    "title": "产品介绍,欢迎页面的文本和图片",
+    "labels": ["产品介绍文本及图片","欢迎文本及图片"],
     "prototype": "https://mastergo.com/file/88108507811036?page_id=384%3A08737"
   },
   "props": {
@@ -20,7 +20,7 @@
   "defaultProps": {
     "img": "https://s1.ax1x.com/2023/03/22/ppdAqyV.png",
     "productTitle": "Manage all your stores and online sales in one place.",
-    "productText":"Integrate up to 10 Mercado Livre stores and shop free with ColibriERP"
+    "productText":""
   },
   "stories": {
     "components": {},
