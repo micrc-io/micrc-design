@@ -54,9 +54,6 @@ import { remoteStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
 {{!-- 导入远程状态模块 --}}
 import { useStore as module } from './state';
 
-{{!-- 导入样式文件 --}}
-import styles from './{{context.name}}.module.css';
-
 {{!-- 导入图片 --}}
 {{#each images}}
 import {{this.name}}Source from './images/{{{this.filename}}}';

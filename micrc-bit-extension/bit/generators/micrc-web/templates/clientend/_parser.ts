@@ -9,6 +9,7 @@ import { ComponentContext } from '@teambit/generator';
 type ClientendIntro = {
   version: string,
   state: string,
+  favicon: string,
   metaBasePath: string,
   sourceDir: string,
   account: string,
@@ -76,6 +77,7 @@ type ClientendMeta = {
   intro: {
     version: string,
     state: string,
+    favicon: string,
     languages: Array<{ code: string, name: string }>
   },
   doc: {
@@ -328,6 +330,10 @@ export const parse = (meta: ClientendMeta, context: ComponentContext): Clientend
     accountPackageReg: `/^(.+?[\\\\/]node_modules)[\\\\/]((?!@${context.componentId.scope.split('.')[0]})).*[\\\\/]*/`,
     appId: `@${context.componentId.scope.replace('.', '/')}.${context.componentId.fullName.replace(/\//g, '.')}`,
   };
+  if (!intro.favicon) {
+    throw Error('Icon of favicon must exists.');
+  }
+
   const { entryDependencies, entry } = handleEntry(meta);
   const { pageDependencies, pages } = handlePages(meta);
   const data: ClientendContextData = {

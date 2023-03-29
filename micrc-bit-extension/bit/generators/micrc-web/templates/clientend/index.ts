@@ -20,6 +20,7 @@ import { appEntryFile } from './files/app/entry-file';
 import { apiProxyFile } from './files/app/api/api-proxy-file';
 import { apiFiles } from './files/app/api/api-files';
 import { appMSWFile } from './files/app/public/mock-file';
+import { faviconFile } from './files/app/public/favicon-file';
 import { appGlobalCssFile } from './files/app/styles/globals-css-file';
 import { appAntdLessFile } from './files/app/styles/antd-themes/default-less-file';
 import { appBabelFile } from './files/app/babel-file';
@@ -146,6 +147,10 @@ export const clientendTemplate: ComponentTemplate = {
       {
         relativePath: 'app/public/mockServiceWorker.js',
         content: appMSWFile(),
+      },
+      {
+        relativePath: 'app/public/favicon.ico',
+        content: faviconFile(data),
       },
       // app styles/globals.css
       {

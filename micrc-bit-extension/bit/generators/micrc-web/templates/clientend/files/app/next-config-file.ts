@@ -35,11 +35,9 @@ const nextConfig = {
 }
 
 const collectModules = () => {
-  const modules = fs.readdirSync(path.resolve(require.resolve(app_id), '../../../'));
-  if (fs.existsSync(path.resolve(__dirname, 'node_modules/' + scope))) {
-    modules.concat(fs.readdirSync(path.resolve(__dirname, 'node_modules/' + scope)));
-  }
-  return modules.map(it => scope + '/' + it);
+  return fs.readdirSync(path.resolve(require.resolve(app_id), '../../../'))
+    .concat(fs.readdirSync(path.resolve(__dirname, 'node_modules/' + scope)) || [])
+    .map(it => scope + '/' + it);
 };
 
 const withTM = require('next-transpile-modules')([
