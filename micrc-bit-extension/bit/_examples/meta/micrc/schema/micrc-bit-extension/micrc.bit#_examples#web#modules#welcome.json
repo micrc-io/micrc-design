@@ -20,7 +20,7 @@
   "i18n": {
     "welcome.text":{
       "key": "welcome.text",
-      "desc": "/@micrc/bit/_examples/web/modules/product-info",
+      "desc": "/@micrc.bit/_examples/web/modules/product-info",
       "defaults": {
         "zh_CN": "欢迎使用colibri erp...",
         "en_US": "Welcome to colibri erp..."
@@ -89,7 +89,7 @@
   },
   "localState": {
     "img": {
-      "value":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
+      "value":"https://gd-hbimg.huaban.com/16bf9d06a4f6e135d63b15219b0b4662819382ed263d-XdWz4Q_fw1200"
     },
     "welcomeText": {
       "value": "bind('i18n:///welcome.text')"
@@ -104,7 +104,7 @@
   },
   "actions": {},
   "images": {
-    "img.png":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
+    "img.png":"https://gd-hbimg.huaban.com/16bf9d06a4f6e135d63b15219b0b4662819382ed263d-XdWz4Q_fw1200"
   },
   "assembly": {
     "layout": "BlankLayout",

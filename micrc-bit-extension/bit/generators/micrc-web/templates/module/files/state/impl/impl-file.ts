@@ -37,7 +37,7 @@ export const apis = (get, set) => {
       const [valid, error] = proto.invalid.validate(param);
       if (!valid) {
         patches([{ op: 'replace', path: \`/\${it}/invalid/err\`, value: error }]);
-        return;
+        // return;
       }
       client[it](
         null,

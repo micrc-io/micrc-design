@@ -45,7 +45,7 @@ export function appPageFiles(data: ClientendContextData) {
       prettier.format(
         HandleBars.compile(tmpl)(data.pages[uri]),
         {
-          parser: 'typescript',
+          parser: 'mdx',
           semi: true,
           singleQuote: true,
           bracketSameLine: false,
