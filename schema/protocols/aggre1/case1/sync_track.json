@@ -1,0 +1,126 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "订单全量同步跟踪",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/get_alordeer_sync_track_list": {
+      "post": {
+        "operationId": "orderList",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "default": {
+                  "value": {
+                    "storeName": {
+                      "storeName": "店铺"
+                    }
+                  }
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storeName": {
+                    "$ref": "#/components/schemas/StoreName"
+                  }
+                }
+              },
+              "x-validator": {
+                "$ref": "#/components/schemas/SyncInfo/x-validators/normal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "正在进行同步的订单",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "default": {
+                    "value": {
+                      "data": {
+                        "page": {
+                            "pageSize": 2,
+                            "pageNumber": 1,
+                            "totalPages": 1,
+                            "totalElements": 2
+                        },
+                        "list": [
+                            {
+                                "key": 1111,
+                                "storeName": "测试店铺",
+                                "state": "CREATE",
+                                "orderNum": 688,
+                                "syncedNum": 300,
+                                "successNum": 280,
+                                "failNum": 20,
+                                "syncTime": 1678514082071,
+                                "syncedTime": 1678514082071
+                            },
+                            {
+                                "key": 2222,
+                                "storeName": "测试店铺",
+                                "state": "CREATE",
+                                "orderNum": 688,
+                                "syncedNum": 300,
+                                "successNum": 280,
+                                "failNum": 20,
+                                "syncTime": 1678514082071,
+                                "syncedTime": 1678514082071
+                            }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "object",
+                          "properties": {
+                            "pageSize": {
+                              "type": "number"
+                            },
+                            "pageNumber": {
+                              "type": "number"
+                            },
+                            "totalPages": {
+                              "type": "number"
+                            },
+                            "totalElements": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "list": {
+                          "$ref": "#/components/schemas/ListInfo"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "x-validator": {
+                  "$ref": "#/components/schemas/SyncInfo/x-validators/normal"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

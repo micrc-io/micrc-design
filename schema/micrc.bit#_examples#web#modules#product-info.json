@@ -1,0 +1,138 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing",
+    "modelFilePath": ""
+  },
+  "permissions": {
+    "role1": []
+  },
+  "entry": {
+    "mount": {
+      "name": "mount",
+      "actions": []
+    },
+    "unmount": {
+      "name": "unmount",
+      "actions": []
+    }
+  },
+  "i18n": {
+    "product.title":{
+      "key": "product.title",
+      "desc": "/security/authc/micrc.bit/_examples/web/modules/product-info",
+      "defaults": {
+        "zh_CN": "在一个地方管理你所有的商店和在线销售",
+        "en_US": "Manage all your stores and online sales in one place."
+      }
+    },
+    "product.text":{
+      "key": "product.text",
+      "desc": "/security/authc/micrc.bit/_examples/web/modules/product-info",
+      "defaults": {
+        "zh_CN": "整合多达10个Mercado Livre商店和购物免费与ColibriERP",
+        "en_US": "Integrate up to 10 Mercado Livre stores and shop free with ColibriERP"
+      }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "/xxx1/xx1/x1",
+          "moduleId": "micrc.bit/xxx1/xx1/x1",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/yyy21/yy21/y21",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }, {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    }
+  },
+  "comment": ["模块"],
+  "doc": {
+    "title": "产品介绍",
+    "labels": ["产品介绍文本","产品图片"],
+    "desc": "登录结构的介绍产品内容",
+    "prototype": "https://mastergo.com/file/89156035824754?page_id=20%3A95"
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "ProductIntroduction":{
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.product-introduction"
+    },
+    "BlankLayout": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.blank-layout"
+    }
+  },
+  "localState": {
+    "img": {
+      "value":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
+    },
+    "productTitle": {
+      "value": "bind('i18n:///product.title')"
+    },
+    "productText": {
+      "value": "bind('i18n:///product.text')"
+    }
+  },
+  "remoteState": {
+    "rpc": {
+      "protocols": [],
+      "url": "",
+      "host": ""
+    }
+  },
+  "actions": {},
+  "images": {
+    "img.png":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
+  },
+  "assembly": {
+    "layout": "BlankLayout",
+    "props": {
+      "content": {
+        "assemblies": [
+          {
+            "name": "ProductIntroduction",
+            "children": null,
+            "props": {
+              "productTitle": "bind('states@productTitle:///value')",
+              "productText": "bind('states@productText:///value')",
+              "img": "bind('states@img:///value')"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

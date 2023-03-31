@@ -1,0 +1,47 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "布局组件"
+  },
+  "comment": ["原子组件", "注释"],
+  "reactImports":{
+    "react": {
+      "default": "React",
+      "types": []
+    }
+  },
+  "typeImports": {},
+  "componentImports":{},
+  "typeDefinitions":{},
+  "props": {
+    "layoutProps?" : "object"
+  },
+  "defaultProps": {
+    "layoutProps": {}
+  },
+  "stories": {
+    "componentImports": {},
+    "atomImports":{},
+    "examples": {}
+  },
+  "doc": {
+    "title": "demo component",
+    "labels": ["demo", "component"],
+    "prototype": "https://xxxx/xxx"
+  },
+  "localState": {
+
+  },
+  "assembly": {
+    "assemblies": [
+      {
+        "name":"",
+        "children":"{layout}",
+        "props": {}
+      }
+    ]
+  },
+  "outerLogic":"",
+  "innerLogic":"const { layoutProps } = props;const layout = Object.keys(layoutProps).map((item) => <div key={item}>{layoutProps[item]}</div>)"
+
+}

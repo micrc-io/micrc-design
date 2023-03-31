@@ -1,0 +1,99 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing"
+  },
+  "comment": ["组件", "注释"],
+  "types": {
+    "definitions": {
+      "DataType": {
+        "interface": true,
+        "props": {
+          "title": "string",
+          "description": "string",
+          "subTitle": "string"
+        }
+      }
+    },
+    "imports": {}
+  },
+  "doc": {
+    "title": "demo component",
+    "labels": ["demo", "component"],
+    "prototype": "https://xxxx/xxx"
+  },
+  "props": {
+    "items?": "DataType[]",
+    "fun": "any",
+    "title?": "string",
+    "current?": "number",
+    "showSteps?": "boolean",
+    "currentDate": "object"
+  },
+  "defaultProps": {
+    "title": " 订单全量同步跟踪进度 ",
+    "items": [
+      {
+        "title": "Finished",
+        "description":"xxxxx"
+      },
+      {
+        "title":"xxxxx",
+        "description":"Finished",
+        "subTitle": "Finished"
+      },
+      {
+        "title":"Finished",
+        "description":"Finished",
+        "subTitle": "Finished"
+      }
+    ],
+    "current": 2,
+    "showSteps": false
+  },
+  "stories": {
+    "components": {},
+    "atoms": {},
+    "examples": {}
+  },
+  "components": {
+    "Modal": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Steps": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {},
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Modal",
+        "children": {
+          "assemblies": [
+            {
+              "name": "Steps",
+              "children": null,
+              "props": {
+                "items": "bind('props:///items@/currentDate')",
+                "current":{
+                  "_val":"bind('props:///current')"
+                },
+                "direction":"vertical"
+              }
+            }
+          ]
+        },
+        "props": {
+          "title": "bind('props:///title')",
+          "open": "bind('props:///showSteps')",
+          "onOk": "() => action([{ op: 'perform', path: 'props:///fun', value: null }])()",
+          "onCancel":"() => action([{ op: 'perform', path: 'props:///fun', value: null }])()"
+        }
+      }
+    ]
+  }
+}

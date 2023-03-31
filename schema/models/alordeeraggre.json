@@ -1,0 +1,206 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "订单全量同步处理器schema",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Alordeer": {
+        "type": "object",
+        "properties": {
+          "identity": {
+            "$ref": "#/components/schemas/SyncExecutorId"
+          },
+          "state": {
+            "$ref": "#/components/schemas/SyncExecutorState"
+          },
+          "storeId": {
+            "$ref": "#/components/schemas/StoreId"
+          },
+          "syncInfo": {
+            "$ref": "#/components/schemas/SyncInfo"
+          },
+          "listInfo": {
+            "$ref": "#/components/schemas/ListInfo"
+          },
+          "waitSyncAccounts": {
+            "$ref": "#/components/schemas/WaitSyncAccounts"
+          },
+          "activeAlorders": {
+            "$ref": "#/components/schemas/ActiveAlorders"
+          },
+          "waitSyncOrder": {
+            "$ref": "#/components/schemas/ActiveOrder"
+          },
+          "version": {
+            "type": "integer",
+            "description": "版本号"
+          }
+        }
+      },
+      "SyncExecutorId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        }
+      },
+      "SyncExecutorState": {
+        "enum": [
+          "CREATE",
+          "INITED",
+          "FETCH_ORDER",
+          "ORDER_CREATED"
+        ]
+      },
+      "StoreId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        }
+      },
+      "StoreName": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "SyncInfo": {
+        "type": "object",
+        "properties": {
+          "storeName": {
+            "type": "string"
+          },
+          "key": {
+            "type": "integer"
+          },
+          "orderNum": {
+            "type": "integer"
+          },
+          "syncedNum": {
+            "type": "integer"
+          },
+          "successNum":{
+            "type": "integer"
+          },
+          "failNum":{
+            "type": "integer"
+          },
+          "syncTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "syncedTime": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "x-validators": {
+          "normal": {
+            "required": ["storeName"],
+            "properties": {
+              "storeName": {
+                "$ref": "#/components/schemas/SyncInfo/x-validators/normal"
+              }
+            },
+            "errorMessage": "storeName必须都存在"
+          },
+          "init": {
+            "required": ["storeName"],
+            "properties": {
+              "storeName": {
+                "$ref": "#/components/schemas/SyncInfo/x-validators/init"
+              }
+            },
+            "errorMessage": {
+              "required": {
+                "username": "storeName必须填写"
+              }
+            }
+          }
+        }
+      },
+      "ListInfo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SyncInfo"
+        }
+      },
+      "WaitSyncAccounts": {
+        "type": "object",
+        "properties": {
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WaitSyncAccount"
+            }
+          }
+        }
+      },
+      "WaitSyncAccount": {
+        "type": "object",
+        "properties": {
+          "shopId": {
+            "$ref": "#/components/schemas/ShopId"
+          },
+          "token": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "syncTime": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ShopId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        }
+      },
+      "ActiveAlorders": {
+        "type": "object",
+        "properties": {
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveOrder"
+            }
+          }
+        }
+      },
+      "ActiveOrder": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "integer"
+          },
+          "platformId": {
+            "type": "integer"
+          },
+          "platformStoreId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

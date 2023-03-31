@@ -1,0 +1,229 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing",
+    "modelFilePath": "models/aggre1.json"
+  },
+  "permissions": {
+    "role1": ["a:*", "b:1"]
+  },
+  "i18n": {
+    "btn.submit": {
+      "key": "btn.submit",
+      "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
+      "defaults": {
+        "zh_CN": "提交",
+        "en_US": "Submit"
+      }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "/xxx1/xx1/x1",
+          "moduleId": "micrc.bit/xxx1/xx1/x1",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: this.a, b: this.b + this.c }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "exampleState": { "a": "1", "b": 2, "c": 3 },
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/_examples/web/modules/test-ui",
+          "schema": "{ a: this.a, b: this.b + this.c }",
+          "state": {}
+        }, {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: this.a, b: this.b + this.c }",
+          "state": {}
+        }]
+      }
+    }
+  },
+  "comment": ["模块", "注释"],
+  "doc": {
+    "title": "demo module",
+    "labels": ["demo", "module"],
+    "desc": "demo module description",
+    "prototype": "https://xxx/xxx/x"
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "LayoutTest": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.layout-test"
+    },
+    "InputTest": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.input-test"
+    },
+    "List": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.List"
+    },
+    "CardTest": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.card-test"
+    }
+  },
+  "localState": {
+    "show": {
+      "value": false
+    },
+    "showSteps": {
+      "value": false
+    },
+    "message": {
+      "value": "ok"
+    },
+    "columns": {
+      "value": [
+        {
+          "title": "abc-ABC",
+          "dataIndex": "abc",
+          "key": "abc",
+          "test": 1
+        }, {
+          "title": "Action",
+          "dataIndex": "id",
+          "key": "id",
+          "render": {
+            "params": ["_", "record"],
+            "layout": "TestLayout",
+            "props": {}
+          }
+        }
+      ]
+    },
+    "formList": {
+      "value": []
+    },
+    "title": {
+      "value": "搜索"
+    }
+  },
+  "remoteState": {
+    "rpc": {
+      "protocols": [
+        "protocols/aggre1/case1/register.json",
+        "protocols/aggre1/case1/user.json",
+        "protocols/aggre1/case1/sync_track.json"
+      ],
+      "url": "/api/aggre/case",
+      "host": "http://xxx.local.svc"
+    }
+  },
+  "actions": {
+    "demoAction": {"op": "replace", "path": "states@message:///value", "value": null},
+    "demoMountAction1": {"op": "replace", "path": "module:///loading", "value": true},
+    "demoMountAction2": {"op": "perform", "path": "module:///demo_api", "value": null},
+    "demoMountAction3": {"op": "replace", "path": "module:///loading", "value": false},
+    "demoUnmountAction": {"op": "remove", "path": "module:///test", "value": null}
+  },
+  "entry": {
+    "mount": {
+      "name": "mount",
+      "actions": ["demoMountAction1()", "demoMountAction2(bind('states:///param'))", "demoMountAction3()"]
+    },
+    "unmount": {
+      "name": "unmount",
+      "actions": ["demoUnmountAction()"]
+    }
+  },
+  "assembly": {
+    "layout": "LayoutTest",
+    "props": {
+      "input": {
+        "assemblies": [
+          {
+            "name": "InputTest",
+            "children": null,
+            "props": {
+              "onChange": {
+                "params": ["e"],
+                "actions": [
+                  {
+                    "action": "demoAction",
+                    "inputPath": "/target/value"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "table": {
+        "assemblies": [
+          {
+            "name": "List",
+            "children": null,
+            "props": {
+              "data": "bind('props:///data')",
+              "columns": "bind('states@columns:///value')"
+            }
+          }
+        ]
+      },
+      "card": {
+        "assemblies": [
+          {
+            "name": "CardTest",
+            "children": {
+              "assemblies": [
+                {
+                  "name": "Input",
+                  "children": null,
+                  "props": {}
+                },
+                {
+                  "name": "Button",
+                  "children": "{bind('states@message:///value')}",
+                  "props": {
+                    "type": "primary"
+                  }
+                }
+              ]
+            },
+            "props": {
+              "title": "example card",
+              "style": {
+                "_val": { "width": 300 }
+              },
+              "extra": {
+                "assemblies": [
+                  {
+                    "name": "Button",
+                    "children": "More",
+                    "props": {
+                      "type": "link"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

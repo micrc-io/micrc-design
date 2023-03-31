@@ -1,0 +1,242 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing",
+    "modelFilePath": "models/aggre1.json"
+  },
+  "entry": {
+    "mount": {
+      "name": "mount",
+      "actions": []
+    },
+    "unmount": {
+      "name": "unmount",
+      "actions": []
+    }
+  },
+  "i18n": {
+    "btn.btnName": {
+      "key": "btn.btnName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "登录",
+        "en_US": "btnName"
+      }
+    },
+    "userName.label":{
+      "key": "userName.label",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "用户名",
+        "en_US": "userName"
+      }
+    },
+    "userName.placeholder":{
+      "key": "userName.placeholder",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "请输入用户名",
+        "en_US": "Please enter the user name"
+      }
+    },
+    "passWord.label":{
+      "key": "passWord.label",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "密码",
+        "en_US": "passWord"
+      }
+    },
+    "passWord.placeholder":{
+      "key": "passWord.placeholder",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "请输入密码",
+        "en_US": "Please enter the pass word"
+      }
+    },
+    "repeatPassword.label": {
+      "key": "repeatPassword.label",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/login",
+      "defaults": { "zh_CN": "确认密码", "en_US": "repeatPassword" }
+    },
+    "repeatPassword.placeholder": {
+      "key": "repeatPassword.placeholder",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/login",
+      "defaults": { "zh_CN": "请输入确认密码", "en_US": "Please enter the pass word" }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "/xxx1/xx1/x1",
+          "moduleId": "micrc.bit/xxx1/xx1/x1",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/yyy21/yy21/y21",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }, {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    }
+  },
+  "comment": ["模块", "注释"],
+  "doc": {
+    "title": "test-state",
+    "labels": ["测试", "state状态"],
+    "desc": "",
+    "prototype": ""
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "LoginTest": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.login-test"
+    },
+    "LoginLayout": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.login-layout"
+    }
+  },
+  "localState": {
+    "userName": {
+      "value": { "label": "bind('i18n:///userName.label')",
+      "placeholder":"bind('i18n:///userName.placeholder')" }
+    },
+    "passWord": {
+      "value": { "label": "bind('i18n:///passWord.label')",
+      "placeholder":"bind('i18n:///passWord.placeholder')" }
+    },
+    "repeatPassword": {
+      "value": { "label": "bind('i18n:///repeatPassword.label')",
+      "placeholder":"bind('i18n:///repeatPassword.placeholder')" }
+    },
+    "btnName": {
+      "value": "bind('i18n:///btn.btnName')"
+    }
+  },
+  "remoteState": {
+    "rpc": {
+      "protocols": ["protocols/aggre1/case1/register.json","protocols/aggre1/case1/user.json"],
+      "url": "/api/test",
+      "host": "http://localhost:8080"
+    }
+  },
+  "actions": {
+    "changeUserNameAction": {"op": "replace", "path": "module:///register_post/param/username"},
+    "validateUserNameAction": {"op": "verify", "path": "module:///register_post",
+    "value": "username"},
+    "changePassWordAction": {"op": "replace", "path": "module:///register_post/param/password"},
+    "validatePassWordAction": {"op": "verify", "path": "module:///register_post",
+    "value": "password"},
+    "changeRepeatPasswordAction":{"op": "replace","path": "module:///register_post/param/repeatPassword"},
+    "validateRepeatPasswordAction": {"op": "verify","path":"module:///register_post","value": "repeatPassword"},
+    "openLoadingAction": {"op": "replace","path": "module:///register_post/pending","value": true},
+    "submitAction": {"op": "perform","path": "module:///register_post","value": null},
+    "closeLoadingAction": {"op": "replace","path": "module:///register_post/pending","value": false}
+  },
+  "assembly": {
+    "layout": "LoginLayout",
+    "props": {
+      "content": {
+        "assemblies": [
+          {
+            "name": "LoginTest",
+            "children": null,
+            "props": {
+              "loading" : "bind('module:///register_post/pending')",
+              "userName" : "bind('states@userName:///value')",
+              "passWord" : "bind('states@passWord:///value')",
+              "repeatPassword" : "bind('states@repeatPassword:///value')",
+              "result":"bind('module:///register_post/invalid/err')",
+              "changeUserName":{
+                "params": ["value"],
+                "actions": [
+                  {
+                    "action": "changeUserNameAction",
+                    "inputPath": "/value"
+                  },
+                  {
+                    "action": "validateUserNameAction",
+                    "inputPath": ""
+                  }
+                ]
+              },
+              "changePassWord": {
+                "params": ["value"],
+                "actions": [
+                  {
+                    "action": "changePassWordAction",
+                    "inputPath": "/value"
+                  },
+                  {
+                    "action": "validatePassWordAction",
+                    "inputPath": ""
+                  }
+                ]
+              },
+              "changeRepeatPassword": {
+                "params": ["value"],
+                "actions": [
+                  {
+                    "action": "changeRepeatPasswordAction",
+                    "inputPath": "/value"
+                  },
+                  {
+                    "action": "validateRepeatPasswordAction",
+                    "inputPath": ""
+                  }
+                ]
+              },
+              "submit": {
+                "params": [],
+                "actions": [
+                  {
+                    "action": "openLoadingAction",
+                    "inputPath": ""
+                  },
+                  {
+                    "action": "submitAction",
+                    "inputPath": ""
+                  },
+                  {
+                    "action": "closeLoadingAction",
+                    "inputPath": ""
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

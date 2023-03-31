@@ -1,0 +1,409 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing",
+    "caseName": "demo-case",
+    "modelFilePath": "models/alordeeraggre.json"
+  },
+  "entry": {
+    "mount": {
+      "name": "mount",
+      "actions": ["getOrderListAction()"]
+    },
+    "unmount": {
+      "name": "unmount",
+      "actions": []
+    }
+  },
+  "i18n": {
+    "btn.btnName": {
+      "key": "btn.btnName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "搜索",
+        "en_US": "btnName"
+      }
+    },
+    "modal.title": {
+      "key": "modal.title",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "订单全量同步跟踪进度",
+        "en_US": "Full order synchronization tracking progress"
+      }
+    },
+    "btn.viewSyncTrace": {
+      "key": "btn.viewSyncTrace",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "查看同步跟踪",
+        "en_US": "View sync trace"
+      }
+    },
+    "formList.label.StoreName":{
+      "key": "formList.label.StoreName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "店铺名称",
+        "en_US": "StoreName"
+      }
+    },
+    "formList.placeholder.StoreName":{
+      "key": "formList.placeholder.StoreName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "请输入店铺名称",
+        "en_US": "Please enter the store name"
+      }
+    },
+    "columns.StoreName":{
+      "key": "columns.StoreName",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "店铺名称",
+        "en_US": "StoreName"
+      }
+    },
+    "columns.StartTime":{
+      "key": "columns.StartTime",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步开始时间",
+        "en_US": "StartTime"
+      }
+    },
+    "columns.EndTime":{
+      "key": "columns.EndTime",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步结束时间",
+        "en_US": "EndTime"
+      }
+    },
+    "columns.Count":{
+      "key": "columns.Count",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步数量",
+        "en_US": "Count"
+      }
+    },
+    "columns.Success":{
+      "key": "columns.Success",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步成功",
+        "en_US": "Success"
+      }
+    },
+    "columns.Failure":{
+      "key": "columns.Failure",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步失败",
+        "en_US": "Failure"
+      }
+    },
+    "columns.handle":{
+      "key": "columns.handle",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "操作",
+        "en_US": "handle"
+      }
+    },
+    "steps.setoutAlorderSync":{
+      "key": "steps.setoutAlorderSync",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "正在准备订单同步",
+        "en_US": "Preparing for order synchronization"
+      }
+    },
+    "steps.AlorderSyncStart":{
+      "key": "steps.AlorderSyncStart",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "订单全量同步开始",
+        "en_US": "Full order starts at the same time"
+      }
+    },
+    "steps.AlorderNumber":{
+      "key": "steps.AlorderNumber",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "本次同步订单数量${this.orderNum}",
+        "en_US": "Order quantity of this synchronization${this.orderNum}"
+      }
+    },
+    "steps.SyncedNumber":{
+      "key": "steps.SyncedNumber",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "已同步订单${this.syncedNum}",
+        "en_US": "Synchronized order${this.syncedNum}"
+      }
+    },
+    "steps.OrderSyncCompletion":{
+      "key": "steps.OrderSyncCompletion",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "订单同步完成",
+        "en_US": "Order synchronization completion"
+      }
+    },
+    "steps.syncResult": {
+      "key": "steps.syncResult",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "同步成功${this.successNum},同步失败${this.failNum}",
+        "en_US": "Synchronization succeededr${this.successNum}"
+      }
+    },
+    "steps.estimatedRemainingTime":{
+      "key": "steps.estimatedRemainingTime",
+      "desc": "/orders/summary/micrc.bit/_examples/web/modules/alordeer-sync-track",
+      "defaults": {
+        "zh_CN": "预计剩余时间",
+        "en_US": "Estimated remaining time"
+      }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "/xxx1/xx1/x1",
+          "moduleId": "micrc.bit/xxx1/xx1/x1",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/yyy21/yy21/y21",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }, {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }]
+      }
+    }
+  },
+  "comment": ["模块", "注释"],
+  "doc": {
+    "title": "demo module",
+    "labels": ["demo", "module"],
+    "desc": "demo module description",
+    "prototype": "https://xxx/xxx/x"
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "SyncTrack": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.sync-track"
+    },
+    "SyncTable": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.sync-table"
+    },
+    "InputQuery": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.input-query"
+    },
+    "CheckTrack":{
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.check-track"
+    },
+    "Layout": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.layout"
+    }
+  },
+  "localState": {
+    "showSteps": {
+      "value": false
+    },
+    "loading": {
+      "value": false
+    },
+    "currentDate": {
+      "value": {}
+    },
+    "columns": {
+      "value": [
+        { "title": "bind('i18n:///columns.StoreName')", "dataIndex": "storeName", "key": "storeName" },
+        { "title": "bind('i18n:///columns.StartTime')", "dataIndex": "syncTime", "key": "syncTime" },
+        { "title": "bind('i18n:///columns.EndTime')", "dataIndex": "syncedTime", "key": "syncedTime" },
+        { "title": "bind('i18n:///columns.Count')", "dataIndex": "orderNum", "key": "orderNum" },
+        { "title": "bind('i18n:///columns.Success')", "dataIndex": "successNum", "key": "successNum" },
+        { "title": "bind('i18n:///columns.Failure')", "dataIndex": "failNum", "key": "failNum" },
+        {
+          "title": "bind('i18n:///columns.handle')",
+          "dataIndex": "handle",
+          "key": "handle",
+          "render":{
+            "params": ["_", "record"],
+            "layout": "CheckTrack",
+            "props": {
+              "showSteps":{
+                "_val":"bind('states@showSteps:///value')"
+              },
+              "fun":{
+                "params": [],
+                "actions": [
+                  {
+                    "action": "showStepsAction",
+                    "inputPath": ""
+                  },
+                  {
+                    "action": "currentDateAction",
+                    "inputPath": "/record"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "items":{
+      "value": [
+        { "title": "bind('i18n:///steps.setoutAlorderSync')"},
+        { "title": "bind('i18n:///steps.AlorderSyncStart')"},
+        { "title": "bind('i18n:///steps.AlorderNumber')"},
+        { "title": "bind('i18n:///steps.SyncedNumber')", "description": "bind('i18n:///steps.estimatedRemainingTime')"},
+        { "title": "bind('i18n:///steps.OrderSyncCompletion')", "description": "bind('i18n:///steps.syncResult')" }
+      ]
+    },
+    "current":{
+      "value": 0
+    },
+    "formList": {
+      "value": { "label": "bind('i18n:///formList.label.StoreName')", "placeholder":"bind('i18n:///formList.placeholder.StoreName')" }
+    },
+    "btnName": {
+      "value": "bind('i18n:///btn.btnName')"
+    },
+    "title": {
+      "value": "bind('i18n:///modal.title')"
+    }
+  },
+  "remoteState": {
+    "rpc": {
+      "protocols": ["protocols/aggre1/case1/sync_track.json"],
+      "url": "/api/alordeer",
+      "host": "http://localhost:8080"
+    }
+  },
+  "actions": {
+    "showStepsAction": {"op": "replace", "path": "states@showSteps:///value", "value": true},
+    "closeStepsAction": {"op": "replace", "path": "states@showSteps:///value", "value": false},
+    "openLoadingAction": {"op": "replace", "path": "module:///pending", "value": true},
+    "closeLoadingAction": {"op": "replace", "path": "module:///pending", "value": false},
+    "getOrderListAction": {"op": "perform", "path": "module:///orderList", "value": null},
+    "changeParamAction": {"op": "replace", "path": "module:///orderList/param/storeName/storeName",
+    "value": null},
+    "currentDateAction": {"op": "replace","path":"states@currentDate:///value", "value": null}
+  },
+  "assembly": {
+    "layout": "Layout",
+    "props": {
+      "input-query": {
+        "assemblies": [
+          {
+            "name": "InputQuery",
+            "children": null,
+            "props": {
+              "loading" : "bind('module:///pending')",
+              "formList" : "bind('states@formList:///value')",
+              "query": {
+                "params": [],
+                "actions": [
+                  {
+                    "action": "openLoadingAction",
+                    "inputPath": null
+                  },
+                  {
+                    "action": "getOrderListAction",
+                    "inputPath": null
+                  },
+                  {
+                    "action": "closeLoadingAction",
+                    "inputPath": null
+                  }
+                ]
+              },
+              "changeParam":{
+                "params": ["value"],
+                "actions": [
+                  {
+                    "action": "changeParamAction",
+                    "inputPath": "/value"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "sync-table": {
+        "assemblies": [
+          {
+            "name": "SyncTable",
+            "children": null,
+            "props": {
+              "data": "bind('module:///orderList/result/data/list')",
+              "columns": "bind('states@columns:///value')"
+            }
+          }
+        ]
+      },
+      "sync-track": {
+        "assemblies": [
+          {
+            "name": "SyncTrack",
+            "children":null,
+            "props": {
+              "currentDate":"bind('states@currentDate:///value')",
+              "title":"bind('states@title:///value')",
+              "current":"bind('states@current:///value')",
+              "items": "bind('states@items:///value')",
+              "showSteps":"bind('states@showSteps:///value')",
+              "fun":{
+                "params": [],
+                "actions": [
+                  {
+                    "action": "closeStepsAction",
+                    "inputPath": ""
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

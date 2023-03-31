@@ -1,0 +1,58 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "某API Protocol",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "operationId": "users",
+        "description": "retrieve user",
+        "requestBody": {
+          "description": "param",
+          "content": {
+            "application/json": {
+              "examples": {
+                "default": {
+                  "value": {
+                    "id": -0
+                  }
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/userId"
+              },
+              "x-validator": {
+                "$ref": "#/components/schemas/userId/x-validators/normal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "user",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "default": {
+                    "value": {
+                      "userId": -0,
+                      "username": "测试用户名"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "x-validator": {
+                  "$ref": "#/components/schemas/user/x-validators/normal"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

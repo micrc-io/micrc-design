@@ -1,0 +1,65 @@
+{
+  "intro": {
+    "version": "0.0.1"
+  },
+  "comment": [
+    "组件",
+    "注释"
+  ],
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "doc": {
+    "title": "demo component",
+    "labels": [
+      "demo",
+      "component"
+    ],
+    "prototype": "https://xxxx/xxx"
+  },
+  "props": {
+    "fun": "any",
+    "showSteps": "boolean",
+    "viewSyncTrace ?":"string"
+  },
+  "defaultProps": {
+    "viewSyncTrace": "查看同步跟踪"
+  },
+  "stories": {
+    "components": {
+      "Button": {
+        "default": false,
+        "packages": "antd"
+      }
+    },
+    "atoms": {},
+    "examples": {
+      "Test1": {
+        "desc": "demo props usage",
+        "props": {
+          "viewSyncTrace": "查看同步跟踪"
+        }
+      }
+    }
+  },
+  "components": {
+    "Button": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {},
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Button",
+        "children":"{bind('props:///viewSyncTrace')}",
+        "props": {
+          "onClick":"() => action([{op: 'perform', path: 'props:///fun', value: null}])()"
+        }
+      }
+    ]
+  }
+}
