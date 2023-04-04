@@ -1,0 +1,86 @@
+{
+  "init": {
+    "topic1": {
+      "name": "topic1",
+      "producer": {
+        "pageUri": "#",
+        "moduleId": "micrc.demo/web/modules/logo-main-tmp",
+        "schema": {}
+      },
+      "consumers": {
+        "/yyy1/yy1/y1:micrc.bit/yyy1/yy1/y1": {
+          "pageUri": "/yyy1/yy1/y1",
+          "moduleId": "micrc.bit/yyy1/yy1/y1",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }
+      }
+    },
+    "topic2": {
+      "name": "topic2",
+      "producer": {
+        "pageUri": "/xxx2/xx2/x2",
+        "moduleId": "micrc.bit/xxx2/xx2/x2",
+        "schema": {}
+      },
+      "consumers": {
+        "/yyy21/yy21/y21:micrc.bit/yyy21/yy21/y21": {
+          "pageUri": "/yyy21/yy21/y21",
+          "moduleId": "micrc.bit/yyy21/yy21/y21",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        },
+        "/yyy22/yy22/y22:micrc.bit/yyy22/yy22/y22": {
+          "pageUri": "/yyy22/yy22/y22",
+          "moduleId": "micrc.bit/yyy22/yy22/y22",
+          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+          "state": {}
+        }
+      }
+    }
+  },
+  "simulation": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "#",
+          "moduleId": "micrc.demo/web/modules/logo-main-tmp",
+          "schema": {}
+        },
+        "consumers": {
+          "/yyy1/yy1/y1:micrc.bit/yyy1/yy1/y1": {
+            "pageUri": "/yyy1/yy1/y1",
+            "moduleId": "micrc.bit/yyy1/yy1/y1",
+            "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+            "state": {}
+          }
+        }
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "/xxx2/xx2/x2",
+          "moduleId": "micrc.bit/xxx2/xx2/x2",
+          "schema": {}
+        },
+        "consumers": {
+          "/yyy21/yy21/y21:micrc.bit/yyy21/yy21/y21": {
+            "pageUri": "/yyy21/yy21/y21",
+            "moduleId": "micrc.bit/yyy21/yy21/y21",
+            "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+            "state": {}
+          },
+          "/yyy22/yy22/y22:micrc.bit/yyy22/yy22/y22": {
+            "pageUri": "/yyy22/yy22/y22",
+            "moduleId": "micrc.bit/yyy22/yy22/y22",
+            "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+            "state": {}
+          }
+        }
+      }
+    }
+  }
+}

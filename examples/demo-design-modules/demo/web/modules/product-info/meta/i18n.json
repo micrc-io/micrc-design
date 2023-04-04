@@ -1,0 +1,18 @@
+{
+  "product.title": {
+    "key": "product.title",
+    "desc": "/@micrc.demo/web/modules/product-info",
+    "defaults": {
+      "zh_CN": "在一个地方管理你所有的商店和在线销售",
+      "en_US": "Manage all your stores and online sales in one place."
+    }
+  },
+  "product.text": {
+    "key": "product.text",
+    "desc": "/@micrc.demo/web/modules/product-info",
+    "defaults": {
+      "zh_CN": "整合多达10个Mercado Livre商店和购物免费与ColibriERP",
+      "en_US": "Integrate up to 10 Mercado Livre stores and shop free with ColibriERP"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "welcome.text": {
+    "key": "welcome.text",
+    "desc": "/@micrc.demo/web/modules/welcome",
+    "defaults": {
+      "zh_CN": "欢迎使用colibri erp...",
+      "en_US": "Welcome to colibri erp..."
+    }
+  }
+}
