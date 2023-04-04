@@ -127,11 +127,15 @@ const checkFuncActionsObj = (obj: any): boolean => obj.actions !== undefined
 
 const checkFuncDebugObj = (obj: any): boolean => obj.params !== undefined
   && obj.alert !== undefined;
-
+const checkImgObj = (obj: any): boolean => obj.imageName !== undefined;
 // 处理特殊类型对象: null对象, 组件对象(布局/装配), 函数组件对象, 调试函数对象
 const handleSpecObj = (obj: any): string => {
   if (obj === null) {
     return 'null';
+  }
+  // 判断图片类型
+  if (checkImgObj(obj)) {
+    return obj.imageName;
   }
   if (checkCompObj(obj)) { // 组件对象
     return assembler(obj.assemblies);
