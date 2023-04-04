@@ -15,11 +15,5 @@
         "mainFile": "index.ts",
         "rootDir": "demo/web/clientends/demo"
     },
-    "web/clientends/test": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.ts",
-        "rootDir": "demo/web/clientends/test"
-    },
     "$schema-version": "15.0.0"
 }

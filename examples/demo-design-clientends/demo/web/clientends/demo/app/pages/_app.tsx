@@ -4,16 +4,14 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { MDXProvider } from '@mdx-js/react';
 
-import { initGlobalStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
+import { initGlobalStore, Authorized, useGlobalStore } from '@micrc/bit.runtimes.micrc-web';
 
 import { AuthcGenericLayout } from '@micrc/demo.web.components.authc-generic-layout';
 import { AdminGenericLayout } from '@micrc/demo.web.components.admin-generic-layout';
 
 import { LogoLogin } from '@micrc/demo.web.modules.logo-login';
-import { StateLogin } from '@micrc/demo.web.modules.state-login';
 import { ProductInfo } from '@micrc/demo.web.modules.product-info';
 import { LogoMain } from '@micrc/demo.web.modules.logo-main';
-import { Welcome } from '@micrc/demo.web.modules.welcome';
 
 import '../styles/antd-themes/default.less';
 import '../styles/globals.css';
@@ -25,10 +23,10 @@ import integration from '../meta/integration.json';
 
 const permissions: Record<string, Array<string>> = permission;
 
-const layouts: Record<string, { uris: Array<string>; layout: any }> = {
+const layouts: Record<string, { uris: Array<string>; layout: (props: any) => ReactNode }> = {
   AuthcGenericLayout: {
     uris: ['/security/authc'],
-    layout:(
+    layout: (props) => (
       <AuthcGenericLayout
         logo={
           <>
@@ -37,33 +35,23 @@ const layouts: Record<string, { uris: Array<string>; layout: any }> = {
         }
         productInfo={
           <>
-            <ProductInfo />
+            <ProductInfo router={{}} />
           </>
         }
-        login={
-          // props.children
-          <>
-            <StateLogin />
-          </>
-        }
+        login={props.children}
       />
     ),
   },
   AdminGenericLayout: {
     uris: ['/'],
-    layout: (
+    layout: (props: any) => (
       <AdminGenericLayout
         logo={
           <>
-            <LogoMain />
+            <LogoMain router={{}}  />
           </>
         }
-        page={
-          // props.children
-          <>
-            <Welcome />
-          </>
-        }
+        page={props.children}
       />
     ),
   },
@@ -74,10 +62,9 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   let Layout = null;
   Object.keys(layouts).forEach((layout) => {
     if (layouts[layout].uris.includes(router.pathname)) {
-      Layout = layouts[layout].layout;
+      Layout = layouts[layout].layout(props);
     }
   });
-
   if (!Layout) {
     throw Error(`unhandled clientends layout for page: ${router.pathname}`);
   }
@@ -90,16 +77,19 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   return React.cloneElement(Layout, { ...props });
 };
 
-
 export default function App({ Component, pageProps }: AppProps) {
   const components = { wrapper: Wrapper };
   const router = useRouter();
+  const t = useGlobalStore((state: any) => state.i18n);
   return (
     <MDXProvider components={components}>
       <Authorized
         permissions={permissions[router.pathname]}
         display={true}
       >
+        {/* <pre>
+          <code>{JSON.stringify(t, null, 2)}</code>
+        </pre> */}
         {/* @ts-ignore */}
         <Component
           {...pageProps}

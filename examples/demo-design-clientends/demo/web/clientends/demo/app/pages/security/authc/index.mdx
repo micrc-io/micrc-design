@@ -1,3 +1,10 @@
 import { BlankLayout } from '@micrc/demo.web.components.blank-layout';
+import { StateLogin } from '@micrc/demo.web.modules.state-login';
 
-<BlankLayout content={<></>} />
+<BlankLayout
+  content={
+    <>
+      <StateLogin router={props.router} />
+    </>
+  }
+/>

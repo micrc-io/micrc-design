@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unused-prop-types */
 // 空布局组件
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import { localStore } from '@micrc/bit.runtimes.micrc-web';
-import { Layout } from 'antd';
+
 import styles from './blank-layout.module.scss';
 
 export type BlankLayoutProps = {
-  content: ReactElement;
+  content: any;
 };
 
 export function BlankLayout(props: BlankLayoutProps) {
@@ -21,11 +21,9 @@ export function BlankLayout(props: BlankLayoutProps) {
 
   return (
     <>
-      {props?.content}
+      <>{props?.content}</>
     </>
   );
 }
 
-BlankLayout.defaultProps = {
-
-};
+BlankLayout.defaultProps = {};

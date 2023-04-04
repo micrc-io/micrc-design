@@ -34,9 +34,9 @@ import integration from '../meta/integration.json';
 
 const permissions: Record<string, Array<string>> = permission;
 
-const layouts: Record<string, { uris: Array<string>, layout: ReactNode }> = {
+const layouts: Record<string, {uris: Array<string>; layout: (props: any) => ReactNode }> = {
   {{#each layouts}}
-  {{@key}}: { uris: {{{json this.uris}}}, layout: <{{@key}} {{{propsAssembler this.props}}} /> },
+  {{@key}}: { uris: {{{json this.uris}}}, layout:(props) => <{{@key}} {{{propsAssembler this.props}}} /> },
   {{/each}}
 };
 
@@ -45,7 +45,7 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   let Layout = null;
   Object.keys(layouts).forEach((layout) => {
     if (layouts[layout].uris.includes(router.pathname)) {
-      Layout = layouts[layout].layout;
+      Layout = layouts[layout].layout(props);
     }
   });
   if (!Layout) {

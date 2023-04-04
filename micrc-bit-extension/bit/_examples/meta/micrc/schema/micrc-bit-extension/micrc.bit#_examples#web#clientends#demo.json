@@ -59,24 +59,24 @@
     "modules": {
       "LogoLogin": {
         "package": "@micrc/demo.web.modules.logo-login",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "i18n": {}
       },
       "ProductInfo": {
         "package": "@micrc/demo.web.modules.product-info",
-        "version": "0.0.2",
+        "version": "0.0.6",
         "i18n": {
-          "product.title":{
+          "product.title": {
             "key": "product.title",
-            "desc": "/security/authc/micrc.bit/_examples/web/modules/product-info",
+            "desc": "/@micrc.demo/web/modules/product-info",
             "defaults": {
               "zh_CN": "在一个地方管理你所有的商店和在线销售",
               "en_US": "Manage all your stores and online sales in one place."
             }
           },
-          "product.text":{
+          "product.text": {
             "key": "product.text",
-            "desc": "/security/authc/micrc.bit/_examples/web/modules/product-info",
+            "desc": "/@micrc.demo/web/modules/product-info",
             "defaults": {
               "zh_CN": "整合多达10个Mercado Livre商店和购物免费与ColibriERP",
               "en_US": "Integrate up to 10 Mercado Livre stores and shop free with ColibriERP"
@@ -86,22 +86,8 @@
       },
       "LogoMain": {
         "package": "@micrc/demo.web.modules.logo-main",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "i18n": {}
-      },
-      "Welcome": {
-        "package": "@micrc/demo.web.modules.welcome",
-        "version": "0.0.1",
-        "i18n": {
-          "welcome.text":{
-            "key": "welcome.text",
-            "desc": "/@micrc.bit/_examples/web/modules/product-info",
-            "defaults": {
-              "zh_CN": "欢迎使用colibri erp...",
-              "en_US": "Welcome to colibri erp..."
-            }
-          }
-        }
       }
     },
     "components": {
@@ -143,6 +129,9 @@
                 }
               }
             ]
+          },
+          "login": {
+            "_val":"props.children"
           }
         }
       },
@@ -154,26 +143,12 @@
               {
                 "name": "LogoMain",
                 "children": null,
-                "props": {
-                  "router": {
-                    "_val": {}
-                  }
-                }
+                "props": {}
               }
             ]
           },
           "page": {
-            "assemblies": [
-              {
-                "name": "Welcome",
-                "children": null,
-                "props": {
-                  "router": {
-                    "_val": {}
-                  }
-                }
-              }
-            ]
+            "_val":"props.children"
           }
         }
       }
@@ -187,6 +162,53 @@
       },
       "i18n": {},
       "modules": {
+        "StateLogin": {
+          "package": "@micrc/demo.web.modules.state-login",
+          "version": "0.0.1",
+          "i18n": {
+            "btn.btnName": {
+              "key": "btn.btnName",
+              "desc": "/security/authc/micrc.demo/web/modules/state-login",
+              "defaults": { "zh_CN": "登录", "en_US": "btnName" }
+            },
+            "userName.label": {
+              "key": "userName.label",
+              "desc": "/security/authc/micrc.demo/web/modules/state-login",
+              "defaults": { "zh_CN": "用户名", "en_US": "userName" }
+            },
+            "userName.placeholder": {
+              "key": "userName.placeholder",
+              "desc": "/security/authc/micrc.demo/web/modules/state-login",
+              "defaults": {
+                "zh_CN": "请输入用户名",
+                "en_US": "Please enter the user name"
+              }
+            },
+            "passWord.label": {
+              "key": "passWord.label",
+              "desc": "/security/authc/micrc.demo/web/modules/state-login",
+              "defaults": { "zh_CN": "密码", "en_US": "passWord" }
+            },
+            "passWord.placeholder": {
+              "key": "passWord.placeholder",
+              "desc": "/security/authc/micrc.demo/web/modules/state-login",
+              "defaults": { "zh_CN": "请输入密码", "en_US": "Please enter the pass word" }
+            },
+            "repeatPassword.label": {
+              "key": "repeatPassword.label",
+              "desc": "/security/authc/micrc.demo/web/modules/state-login",
+              "defaults": { "zh_CN": "确认密码", "en_US": "repeatPassword" }
+            },
+            "repeatPassword.placeholder": {
+              "key": "repeatPassword.placeholder",
+              "desc": "/security/authc/micrc.demo/web/modules/state-login",
+              "defaults": {
+                "zh_CN": "请输入确认密码",
+                "en_US": "Please enter the pass word"
+              }
+            }
+          }
+        }
       },
       "components": {
         "BlankLayout": {
@@ -198,7 +220,17 @@
         "layout": "BlankLayout",
         "props": {
           "content": {
-            "assemblies": []
+            "assemblies": [
+              {
+                "name": "StateLogin",
+                "children": null,
+                "props": {
+                  "router": {
+                    "_val": "props.router"
+                  }
+                }
+              }
+            ]
           }
         }
       }
@@ -212,8 +244,17 @@
       "modules": {
         "Welcome": {
           "package": "@micrc/demo.web.modules.welcome",
-          "version": "0.0.1",
-          "i18n": {}
+          "version": "0.0.6",
+          "i18n": {
+            "welcome.text": {
+              "key": "welcome.text",
+              "desc": "/@micrc.demo/web/modules/welcome",
+              "defaults": {
+                "zh_CN": "欢迎使用colibri erp...",
+                "en_US": "Welcome to colibri erp..."
+              }
+            }
+          }
         }
       },
       "components": {
@@ -230,7 +271,11 @@
               {
                 "name": "Welcome",
                 "children": null,
-                "props": {}
+                "props": {
+                  "router": {
+                    "_val": "props.router"
+                  }
+                }
               }
             ]
           }
