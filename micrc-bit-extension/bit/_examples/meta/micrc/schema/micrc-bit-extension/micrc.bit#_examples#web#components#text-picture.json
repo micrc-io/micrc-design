@@ -18,9 +18,14 @@
     "productText?": "string"
   },
   "defaultProps": {
-    "img": "https://s1.ax1x.com/2023/03/22/ppdAqyV.png",
-    "productTitle": "Manage all your stores and online sales in one place.",
+    "img":{
+      "imageName":"ImgPng"
+    },
+    "productTitle": "mastergo.comfile88108507811036\npage384%3A08737text.....",
     "productText":""
+  },
+  "images": {
+    "img.png":"https://s2.loli.net/2023/04/04/DVfNMPjdqEU76uQ.png"
   },
   "stories": {
     "components": {},

@@ -13,16 +13,15 @@
     "prototype": "https://mastergo.com/file/88108507811036?page_id=384%3A08729"
   },
   "props": {
-    "img?": "string",
-    "test?": "string"
+    "img?": "string"
   },
   "defaultProps": {
     "img": {
-      "imageName":"LogoPng"
+      "imageName":"ImgPng"
     }
   },
   "images": {
-    "logo.png":"https://s2.loli.net/2023/04/04/DVfNMPjdqEU76uQ.png"
+    "img.png":"https://s2.loli.net/2023/04/04/DVfNMPjdqEU76uQ.png"
   },
   "stories": {
     "components": {},
