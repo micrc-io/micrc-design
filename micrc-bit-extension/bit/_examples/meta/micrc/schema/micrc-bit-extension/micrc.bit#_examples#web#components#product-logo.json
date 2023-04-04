@@ -13,21 +13,21 @@
     "prototype": "https://mastergo.com/file/88108507811036?page_id=384%3A08729"
   },
   "props": {
-    "img?": "string"
+    "img?": "string",
+    "test?": "string"
   },
   "defaultProps": {
-    "img":"https://s1.ax1x.com/2023/03/23/ppwKdYT.png"
+    "img": {
+      "imageName":"LogoPng"
+    }
+  },
+  "images": {
+    "logo.png":"https://s2.loli.net/2023/04/04/DVfNMPjdqEU76uQ.png"
   },
   "stories": {
     "components": {},
     "atoms": {},
-    "examples": {
-      "Test": {
-        "props": {
-          "img": "https://s1.ax1x.com/2023/03/23/ppwKdYT.png"
-        }
-      }
-    }
+    "examples": {}
   },
   "components": {
     "Image": {
