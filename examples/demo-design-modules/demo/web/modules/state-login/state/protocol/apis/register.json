@@ -1,0 +1,89 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "注册API Protocol",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/register": {
+      "put": {
+        "operationId": "register_post",
+        "description": "register user",
+        "requestBody": {
+          "description": "param",
+          "content": {
+            "application/json": {
+              "examples": {
+                "default": {
+                  "value": {
+                    "userId": {
+                      "id": -1
+                    },
+                    "username": "",
+                    "password": "",
+                    "repeatPassword": ""
+                  }
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "x-validator": {
+                "$ref": "#/components/schemas/user/x-validators/init"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "user",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "default": {
+                    "value": {
+                      "data": {
+                        "userId": {
+                          "id": 0
+                        },
+                        "username": "",
+                        "password": "",
+                        "repeatPassword": ""
+                      }
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "required": ["data"],
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "required": ["user"],
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/user"
+                        }
+                      }
+                    }
+                  }
+                },
+                "x-validator": {
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/user/x-validators/normal"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

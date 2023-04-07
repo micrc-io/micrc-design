@@ -19,7 +19,7 @@ export function imageFiles(data: ComponentContextData) {
   if (!fs.existsSync(imagesPath)) {
     fs.mkdirSync(imagesPath, { recursive: true });
   }
-  data.images.forEach((image) => {
+  data?.images?.examples.concat(data?.images?.local).forEach((image) => {
     const file = fs.createWriteStream(path.join(imagesPath, image.filename));
     const req = https.get(image.link, (resp) => {
       resp.pipe(file);

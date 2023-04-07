@@ -9,23 +9,11 @@
  */
 
 {
-    "web/components/blank-layout": {
+    "web/modules/state-login": {
         "scope": "micrc.demo",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
-        "rootDir": "demo/web/components/blank-layout"
-    },
-    "web/components/product-introduction": {
-        "scope": "micrc.demo",
-        "version": "0.0.2",
-        "mainFile": "index.ts",
-        "rootDir": "demo/web/components/product-introduction"
-    },
-    "web/modules/welcome-tmp": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.ts",
-        "rootDir": "demo/web/modules/welcome-tmp"
+        "rootDir": "demo/web/modules/state-login"
     },
     "$schema-version": "15.0.0"
 }

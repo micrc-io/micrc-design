@@ -88,9 +88,6 @@
     }
   },
   "localState": {
-    "img": {
-      "value":"https://gd-hbimg.huaban.com/16bf9d06a4f6e135d63b15219b0b4662819382ed263d-XdWz4Q_fw1200"
-    },
     "welcomeText": {
       "value": "bind('i18n:///welcome.text')"
     }
@@ -104,7 +101,7 @@
   },
   "actions": {},
   "images": {
-    "img.png":"https://gd-hbimg.huaban.com/16bf9d06a4f6e135d63b15219b0b4662819382ed263d-XdWz4Q_fw1200"
+    "welcome.png":"https://gd-hbimg.huaban.com/16bf9d06a4f6e135d63b15219b0b4662819382ed263d-XdWz4Q_fw1200"
   },
   "assembly": {
     "layout": "BlankLayout",
@@ -116,7 +113,9 @@
             "children": null,
             "props": {
               "productTitle": "bind('states@welcomeText:///value')",
-              "img": "bind('states@img:///value')"
+              "img": {
+                "_val":"WelcomePng"
+              }
             }
           }
         ]

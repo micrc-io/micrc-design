@@ -1,8 +1,4 @@
-/**
- * state/impl/impl.ts
- */
-export function stateImplFile() {
-  return `// 协议客户端实现
+// 协议客户端实现
 import OpenAPIClient from 'openapi-client-axios';
 import { applyPatch, getValueByPointer } from 'fast-json-patch';
 
@@ -33,11 +29,10 @@ export const apis = (get, set) => {
   Object.keys(protocols).forEach((it) => {
     const proto = protocols[it];
     _apis[it] = () => new Promise((resolve) => {
-      const param = getValueByPointer(get(), \`/\${it}/param\`);
+      const param = getValueByPointer(get(), `/${it}/param`);
       const [valid, error] = proto.invalid.validate(param);
       if (!valid) {
-        patches([{ op: 'replace', path: \`/\${it}/invalid/err\`, value: error }]);
-        patches([{ op: 'replace', path: \`/\${it}/pending\`, value: false }]);
+        patches([{ op: 'replace', path: `/${it}/invalid/err`, value: error }]);
         return;
       }
       client[it](
@@ -52,10 +47,10 @@ export const apis = (get, set) => {
           },
         },
       ).then((res) => { // 这里不仅仅包括正常的响应, 服务端会以200包装预期错误对象返回, 这里应该对不同错误作出不同的处理
-        patches([{ op: 'replace', path: \`/\${it}/result\`, value: res.data }]);
+        patches([{ op: 'replace', path: `/${it}/result`, value: res.data }]);
         resolve(res);
       }).catch((err) => { // 这里都是不期望的错误, 如4xx, 5xx, 应该封装统一的错误对象, 并做一致处理
-        patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: err.message }]);
+        patches([{ op: 'replace', path: `/${it}/error/err`, value: err.message }]);
         resolve(err);
       });
     });
@@ -88,5 +83,3 @@ export const states = () => {
   });
   return _states;
 };
-`;
-}

@@ -78,12 +78,12 @@ import { localStore } from '@micrc/bit.runtimes.micrc-web';
 import styles from './{{context.name}}.module.scss';
 
 {{!-- 导入图片 --}}
-{{#each images}}
+{{#each images.local}}
 import {{this.name}}Source from './images/{{{this.filename}}}';
 {{/each}}
 
 {{!-- nextjs中必须使用src --}}
-{{#each images}}
+{{#each images.local}}
 // @ts-ignore
 const {{this.name}} = {{this.name}}Source.src || {{this.name}}Source;
 {{/each}}

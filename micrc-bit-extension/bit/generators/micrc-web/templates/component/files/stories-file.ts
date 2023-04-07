@@ -47,6 +47,16 @@ import { {{@key}} } from '{{{this}}}';
 import type { {{context.namePascalCase}}Props } from './{{context.name}}';
 import { {{context.namePascalCase}} } from './{{context.name}}';
 
+{{!-- 导入图片 --}}
+{{#each images.examples}}
+import {{this.name}}Source from './images/{{{this.filename}}}';
+{{/each}}
+
+{{!-- nextjs中必须使用src --}}
+{{#each images.examples}}
+const {{this.name}} = {{this.name}}Source.src || {{this.name}}Source;
+{{/each}}
+
 export default {
   component: {{context.namePascalCase}},
   title: '{{context.componentId}}',

@@ -58,7 +58,10 @@ type ComponentMeta = {
   components: Record<string, { default: boolean, packages: string }>,
   atoms: Record<string, { version: string, packages: string }>,
   css?: string,
-  images: Record<string, string>,
+  images:{
+    examples:Record<string, string>,
+    local:Record<string, string>,
+  },
   assembly: { assemblies: Array<Assembly> },
 };
 
@@ -86,7 +89,10 @@ export type ComponentContextData = {
   atomImports: Record<string, string>, // 原子组件导入, 以导入名为key, 包名为值
   localState?: Record<string, any>, // 组件内部state，以名称为key，初始值为值
   css: string, // 组件样式表
-  images: Array<{ name: string, filename: string, link: string }>, // 图片导入名, 文件名, 文件链接
+  images?:{
+    examples: Array<{ name: string, filename: string, link: string }>, // 样例图片导入名, 文件名, 文件链接
+    local: Array<{ name: string, filename: string, link: string }>, // 本地图片导入名, 文件名, 文件链接
+  }
   assembly: { assemblies: Array<Assembly> }, // 组件装配结构
 };
 
@@ -185,19 +191,19 @@ const handleStories = (meta: ComponentMeta) => {
   };
 };
 
-const handleImages = (meta: ComponentMeta) => {
+const handleImages = (meta: ComponentMeta, images, type) => {
   const firstUpper = (word: string): string => {
     const [first, ...rest] = word;
     return first?.toUpperCase() + rest.join('');
   };
   const retVal: Array<{ name: string, filename: string, link: string }> = [];
-  Object.keys(meta.images || {}).forEach((filename) => {
+  Object.keys(images || {}).forEach((filename) => {
     const ext = path.extname(filename);
     const base = path.basename(filename, ext);
     retVal.push({
       name: firstUpper(base) + firstUpper(ext.replace('.', '')),
       filename,
-      link: meta.images[filename],
+      link: meta.images[type][filename],
     });
   });
   return retVal;
@@ -233,7 +239,10 @@ export const parse = (meta: ComponentMeta, context: ComponentContext): Component
     atomImports: atomsImports(meta.atoms),
     localState: meta.localState || {},
     css: meta.css || '',
-    images: handleImages(meta),
+    images: {
+      examples: handleImages(meta, meta?.images?.examples, 'examples'),
+      local: handleImages(meta, meta?.images?.local, 'local'),
+    },
     assembly: meta.assembly,
     stories: handleStories(meta),
     doc: meta.doc,
