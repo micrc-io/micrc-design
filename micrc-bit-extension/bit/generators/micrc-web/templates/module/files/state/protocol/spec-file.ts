@@ -182,7 +182,7 @@ const browserWorker = (handlers: Array<any>) => {
     const worker = setupWorker();
     window['msw-worker'] = worker;
     let workerPath = window.location.pathname;
-    if (workerPath.endsWith('.html')) {
+    if (workerPath.endsWith('.html')) { // storybook
       workerPath = '';
     }
     worker.start({ serviceWorker: { url: \`\${workerPath}mockServiceWorker.js\` } });

@@ -141,6 +141,7 @@ export const generate = async () => {
       const componentPath = metaFilePath.replace('.json', '');
       const componentId = componentPath.replace(/#/, '/');
       const componentName = componentId.replace(accountScope, '');
+      // todo 组件不能删除, 会破坏版本历史, 除非组件rebuild, 否则应该先生成临时组件, copy源代码
       // 组件状态为设计中、发布中、已完成中的任意一个, 都需要首先删除workspace中已有的组件
       // 对于完成状态, 为了避免意外修改, 也应该删除这个组件, 接下来不做任何处理
       try {

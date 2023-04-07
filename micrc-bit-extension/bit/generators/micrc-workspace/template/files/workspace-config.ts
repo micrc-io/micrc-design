@@ -130,10 +130,10 @@ export async function workspaceConfig(context: WorkspaceContext) {
       'micrc.bit/envs/micrc-web@1.0.3': {},
     },
     '{mini/**}': {
-      'micrc.bit/envs/micrc-mini@0.0.1': {},
+      'micrc.bit/envs/micrc-mini@0.0.2': {},
     },
     '{app/**}': {
-      'micrc.bit/envs/micrc-app@0.0.2': {},
+      'micrc.bit/envs/micrc-app@0.0.3': {},
     },
   };
 
