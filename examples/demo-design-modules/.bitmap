@@ -9,11 +9,5 @@
  */
 
 {
-    "web/modules/state-login": {
-        "scope": "micrc.demo",
-        "version": "0.0.3",
-        "mainFile": "index.ts",
-        "rootDir": "demo/web/modules/state-login"
-    },
     "$schema-version": "15.0.0"
 }

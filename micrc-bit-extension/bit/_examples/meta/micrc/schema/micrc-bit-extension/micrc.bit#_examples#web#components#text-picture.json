@@ -1,6 +1,7 @@
 {
   "intro": {
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "state": "complete"
   },
   "comment": ["产品介绍","欢迎内容"],
   "types": {

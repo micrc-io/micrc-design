@@ -1,6 +1,7 @@
 {
   "intro": {
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "state": "complete"
   },
   "comment": ["产品logo"],
   "types": {
