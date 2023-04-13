@@ -51,10 +51,10 @@ export const IntegrationSimulator = (
         + '/state',
       );
       consumeSimulator.push(
-        <div>
+        <div key={`${consumer.pageUri}:${consumer.moduleId}`}>
           <span>{`${consumer.pageUri}:${consumer.moduleId}`}</span>
           <pre>
-            <code key={`${consumer.pageUri}:${consumer.moduleId}`}>
+            <code>
               { JSON.stringify(receive, null, 2) }
             </code>
           </pre>

@@ -1,0 +1,255 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing",
+    "modelFilePath": "models/businessAccount.json"
+  },
+  "permissions": {
+    "role1": []
+  },
+  "entry": {
+    "mount": {
+      "name": "mount",
+      "actions": ["getPlatformAction()","getTableAction()"]
+    },
+    "unmount": {
+      "name": "unmount",
+      "actions": []
+    }
+  },
+  "i18n": {
+    "btn.select":{
+      "key": "btn.select",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "查询",
+        "en_US": "query"
+      }
+    },
+    "label.name":{
+      "key": "label.name",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "账户名称",
+        "en_US": "account name"
+      }
+    },
+    "input.name":{
+      "key": "input.name",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "账户名称",
+        "en_US": "account name"
+      }
+    },
+    "label.state":{
+      "key": "label.state",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "账户状态",
+        "en_US": "account state"
+      }
+    },
+    "input.state":{
+      "key": "input.state",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "账户状态",
+        "en_US": "account state"
+      }
+    },
+    "label.platform":{
+      "key": "label.platform",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "电商平台",
+        "en_US": "e-Commerce platform"
+      }
+    },
+    "input.platform":{
+      "key": "input.platform",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "电商平台",
+        "en_US": "e-Commerce platform"
+      }
+    },
+    "state.normal":{
+      "key": "state.normal",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "正常",
+        "en_US": "normal"
+      }
+    },
+    "state.failure":{
+      "key": "state.failure",
+      "desc": "/micrc.demo/web/modules/business-account-query",
+      "defaults": {
+        "zh_CN": "失效",
+        "en_US": "failure"
+      }
+    }
+  },
+  "integration": {
+    "produce": {
+      "topic1": {
+        "name": "topic1",
+        "producer": {
+          "pageUri": "#",
+          "moduleId": "micrc.bit/_examples/web/modules/business-account-query",
+          "schema": {},
+          "exampleState": { "name": "", "state":"", "platformName": "" }
+        },
+        "consumers": [{
+          "pageUri": "#",
+          "moduleId": "micrc.bit/_examples/web/modules/business-account-table",
+          "schema": "{ name: this.name, state: this.state, platformName: this.platformName }",
+          "state": {}
+        }]
+      }
+    },
+    "consume": {
+      "topic2": {
+        "name": "topic2",
+        "producer": {
+          "pageUri": "#",
+          "moduleId": "micrc.bit/_examples/web/modules/business-account-query",
+          "exampleState": { "name": "", "state":"", "platformName": "" },
+          "schema": {}
+        },
+        "consumers": [{
+          "pageUri": "#",
+          "moduleId": "micrc.bit/_examples/web/modules/business-account-table",
+          "schema": "{ name: this.name, state: this.state, platformName: this.platformName }",
+          "state": {}
+        }]
+      }
+    }
+  },
+  "comment": ["电商账户查询模块"],
+  "doc": {
+    "title": "电商账户查询条件",
+    "labels": ["电商账户管理"],
+    "desc": "通过条件筛选出符合条件的电商账户列表",
+    "prototype": "https://mastergo.com/file/89156035824754?page_id=41%3A18"
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "QueryCondition":{
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.query-condition"
+    },
+    "BlankLayout": {
+      "version": "0.0.1",
+      "packages": "@micrc/bit._examples.web.components.blank-layout"
+    }
+  },
+  "localState": {
+    "formName": {
+      "value": {
+        "label": "bind('i18n:///label.name')",
+        "placeholder": "bind('i18n:///input.name')"
+      }
+    },
+    "formState": {
+      "value": {
+        "label": "bind('i18n:///label.state')",
+        "placeholder": "bind('i18n:///input.state')"
+      }
+    },
+    "formPlatform": {
+      "value": {
+        "label": "bind('i18n:///label.platform')",
+        "placeholder": "bind('i18n:///input.platform')"
+      }
+    },
+    "btnName": {
+      "value": "bind('i18n:///btn.select')"
+    },
+    "stateOptions": {
+      "value":[
+        {"value": 1,"label":"bind('i18n:///state.normal')" },
+        {"value": 2,"label":"bind('i18n:///state.failure')" }
+      ]
+    }
+  },
+  "remoteState": {
+    "rpc": {
+      "protocols": ["protocols/aggre1/case1/businessPlatformList.json","protocols/aggre1/case1/businessTable.json"],
+      "url": "/api/BusinessAccount",
+      "host": "http://localhost:8080"
+    }
+  },
+  "actions": {
+    "changeNameAction": {"op": "replace", "path": "module:///businessTable/param/name",
+    "value": null},
+    "changeStateAction": {"op": "replace", "path": "module:///businessTable/param/state",
+    "value": null},
+    "changePlatformAction": {"op": "replace", "path": "module:///businessTable/param/platformName",
+    "value": null},
+    "getPlatformAction": {"op": "perform", "path": "module:///platformList", "value": null},
+    "getTableAction": {"op": "perform", "path": "module:///businessTable", "value": null}
+  },
+  "images": {},
+  "assembly": {
+    "layout": "BlankLayout",
+    "props": {
+      "content": {
+        "assemblies": [
+          {
+            "name": "QueryCondition",
+            "children": null,
+            "props": {
+              "formName": "bind('states@formName:///value')",
+              "formState": "bind('states@formState:///value')",
+              "formPlatform": "bind('states@formPlatform:///value')",
+              "btnName": "bind('states@btnName:///value')",
+              "platformOptions": "bind('module:///platformList/result/data')",
+              "stateOptions": "bind('states@stateOptions:///value')",
+              "changeName": {
+                "params": ["value"],
+                "actions": [
+                  {
+                    "action": "changeNameAction",
+                    "inputPath": "/value"
+                  }
+                ]
+              },
+              "changeState": {
+                "params": ["value"],
+                "actions": [
+                  {
+                    "action": "changeStateAction",
+                    "inputPath": "/value"
+                  }
+                ]
+              },
+              "changePlatform": {
+                "params": ["value"],
+                "actions": [
+                  {
+                    "action": "changePlatformAction",
+                    "inputPath": "/value"
+                  }
+                ]
+              },
+              "query": {
+                "params": [],
+                "actions": [
+                  {
+                    "action": "getTableAction",
+                    "inputPath": null
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

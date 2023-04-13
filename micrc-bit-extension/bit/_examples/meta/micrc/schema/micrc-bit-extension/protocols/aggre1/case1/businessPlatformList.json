@@ -1,0 +1,86 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "电商平台列表协议",
+    "version": "1.0.0"
+  },
+  "components": {},
+  "servers": [
+    {
+      "url": "http://localhost:1080"
+    }
+  ],
+  "paths": {
+    "/api/operator/business_platform_list": {
+      "post": {
+        "operationId": "platformList",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "default": {
+                  "value": {}
+                }
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "电商平台列表",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "default": {
+                    "value": {
+                      "code": 200,
+                      "data": [
+                        {
+                          "platformId":"001",
+                          "platformName":"平台1"
+                        },
+                        {
+                          "platformId":"002",
+                          "platformName":"平台2"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "platformId": {
+                            "type": "string"
+                          },
+                          "platformName": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

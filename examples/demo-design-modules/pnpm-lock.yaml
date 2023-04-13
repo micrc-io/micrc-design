@@ -185,16 +185,7 @@ importers:
   demo/web/components/login-test:
     specifiers: {}
 
-  demo/web/components/picture:
-    specifiers: {}
-
   demo/web/components/text-picture:
-    specifiers: {}
-
-  demo/web/modules/logo-login:
-    specifiers: {}
-
-  demo/web/modules/logo-main:
     specifiers: {}
 
   demo/web/modules/product-introduction:
@@ -4720,7 +4711,7 @@ packages:
       '@react-native-community/cli-tools': registry.npmmirror.com/@react-native-community/cli-tools/10.1.1
       chalk: registry.npmmirror.com/chalk/4.1.2
       execa: registry.npmmirror.com/execa/1.0.0
-      fast-xml-parser: registry.npmmirror.com/fast-xml-parser/4.1.3
+      fast-xml-parser: registry.npmmirror.com/fast-xml-parser/4.1.4
       glob: registry.npmmirror.com/glob/7.2.3
       ora: registry.npmmirror.com/ora/5.4.1
     transitivePeerDependencies:
@@ -4784,7 +4775,7 @@ packages:
       open: registry.npmmirror.com/open/6.4.0
       ora: registry.npmmirror.com/ora/5.4.1
       semver: registry.npmmirror.com/semver/6.3.0
-      shell-quote: registry.npmmirror.com/shell-quote/1.8.0
+      shell-quote: registry.npmmirror.com/shell-quote/1.8.1
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -8654,7 +8645,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: registry.npmmirror.com/browserslist/4.21.5
-      caniuse-lite: registry.npmmirror.com/caniuse-lite/1.0.30001474
+      caniuse-lite: registry.npmmirror.com/caniuse-lite/1.0.30001476
       normalize-range: registry.npmmirror.com/normalize-range/0.1.2
       num2fraction: registry.npmmirror.com/num2fraction/1.2.2
       picocolors: registry.npmmirror.com/picocolors/0.2.1
@@ -9343,8 +9334,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmmirror.com/caniuse-lite/1.0.30001474
-      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.355
+      caniuse-lite: registry.npmmirror.com/caniuse-lite/1.0.30001476
+      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.356
       node-releases: registry.npmmirror.com/node-releases/2.0.10
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db/1.0.10_browserslist@4.21.5
 
@@ -9590,10 +9581,10 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  registry.npmmirror.com/caniuse-lite/1.0.30001474:
-    resolution: {integrity: sha512-iaIZ8gVrWfemh5DG3T9/YqarVZoYf0r188IjaGwx68j4Pf0SGY6CQkmJUIE+NZHkkecQGohzXmBGEwWDr9aM3Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001474.tgz}
+  registry.npmmirror.com/caniuse-lite/1.0.30001476:
+    resolution: {integrity: sha512-JmpktFppVSvyUN4gsLS0bShY2L9ZUslHLE72vgemBkS43JD2fOvKTKs+GtRwuxrtRGnwJFW0ye7kWRRlLJS9vQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001476.tgz}
     name: caniuse-lite
-    version: 1.0.30001474
+    version: 1.0.30001476
 
   registry.npmmirror.com/capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/capture-exit/-/capture-exit-2.0.0.tgz}
@@ -11047,10 +11038,10 @@ packages:
     version: 1.1.1
     dev: false
 
-  registry.npmmirror.com/electron-to-chromium/1.4.355:
-    resolution: {integrity: sha512-056hxzEE4l667YeOccgjhRr5fTiwZ6EIJ4FpzGps4k3YcS8iAhiaBYUBrv5E2LDQJsussscv9EEUwAYKnv+ZKg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.355.tgz}
+  registry.npmmirror.com/electron-to-chromium/1.4.356:
+    resolution: {integrity: sha512-nEftV1dRX3omlxAj42FwqRZT0i4xd2dIg39sog/CnCJeCcL1TRd2Uh0i9Oebgv8Ou0vzTPw++xc+Z20jzS2B6A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.356.tgz}
     name: electron-to-chromium
-    version: 1.4.355
+    version: 1.4.356
 
   registry.npmmirror.com/elliptic/6.5.4:
     resolution: {integrity: sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/elliptic/-/elliptic-6.5.4.tgz}
@@ -12103,10 +12094,10 @@ packages:
     version: 2.0.6
     dev: false
 
-  registry.npmmirror.com/fast-xml-parser/4.1.3:
-    resolution: {integrity: sha512-LsNDahCiCcJPe8NO7HijcnukHB24tKbfDDA5IILx9dmW3Frb52lhbeX6MPNUSvyGNfav2VTYpJ/OqkRoVLrh2Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fast-xml-parser/-/fast-xml-parser-4.1.3.tgz}
+  registry.npmmirror.com/fast-xml-parser/4.1.4:
+    resolution: {integrity: sha512-jKw5Miu3xRSWhXxpWWx3Jujvy231pInmUJgCtsov8JGeuLQsKmYKXlXXPXN1Hopo0YHGuesIlu1cDMKmHa2fJQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fast-xml-parser/-/fast-xml-parser-4.1.4.tgz}
     name: fast-xml-parser
-    version: 4.1.3
+    version: 4.1.4
     hasBin: true
     dependencies:
       strnum: registry.npmmirror.com/strnum/1.0.5
@@ -19165,7 +19156,7 @@ packages:
     name: react-devtools-core
     version: 4.27.4
     dependencies:
-      shell-quote: registry.npmmirror.com/shell-quote/1.8.0
+      shell-quote: registry.npmmirror.com/shell-quote/1.8.1
       ws: registry.npmmirror.com/ws/7.5.9
     transitivePeerDependencies:
       - bufferutil
@@ -20410,10 +20401,10 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  registry.npmmirror.com/shell-quote/1.8.0:
-    resolution: {integrity: sha512-QHsz8GgQIGKlRi24yFc6a6lN69Idnx634w49ay6+jA5yFh7a1UY+4Rp6HPx/L/1zcEDPEij8cIsiqR6bQsE5VQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/shell-quote/-/shell-quote-1.8.0.tgz}
+  registry.npmmirror.com/shell-quote/1.8.1:
+    resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/shell-quote/-/shell-quote-1.8.1.tgz}
     name: shell-quote
-    version: 1.8.0
+    version: 1.8.1
     dev: false
 
   registry.npmmirror.com/side-channel/1.0.4:

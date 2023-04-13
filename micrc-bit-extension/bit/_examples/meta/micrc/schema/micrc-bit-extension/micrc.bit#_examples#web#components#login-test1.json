@@ -151,7 +151,8 @@
                     "props": {
                       "loading":"bind('props:///loading')",
                       "type": "primary",
-                      "htmlType": "submit"
+                      "htmlType": "submit",
+                      "onClick": "() => action([{op: 'perform', path: 'props:///submit', value: null}])()"
                     }
                   }
                 ]
@@ -173,7 +174,6 @@
           ]
         },
         "props": {
-          "onFinish": "() => action([{op: 'perform', path: 'props:///submit', value: null}])()",
           "labelCol": {
             "_val": {
               "span": 8

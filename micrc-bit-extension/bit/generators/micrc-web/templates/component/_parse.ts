@@ -63,6 +63,8 @@ type ComponentMeta = {
     local:Record<string, string>,
   },
   assembly: { assemblies: Array<Assembly> },
+  outerLogic?: string, // 组件外的逻辑代码, 可以使用yaml多行文本转json得到
+  innerLogic?: string, // 组件内的逻辑代码
 };
 
 export type ComponentContextData = {
@@ -94,6 +96,8 @@ export type ComponentContextData = {
     local: Array<{ name: string, filename: string, link: string }>, // 本地图片导入名, 文件名, 文件链接
   }
   assembly: { assemblies: Array<Assembly> }, // 组件装配结构
+  outerLogic?: string, // 组件外的逻辑代码, 可以使用yaml多行文本转json得到
+  innerLogic?: string, // 组件内的逻辑代码
 };
 
 const reactImports = (meta: ComponentMeta): Record<string, ImportContent> => {
@@ -246,6 +250,8 @@ export const parse = (meta: ComponentMeta, context: ComponentContext): Component
     assembly: meta.assembly,
     stories: handleStories(meta),
     doc: meta.doc,
+    outerLogic: meta.outerLogic,
+    innerLogic: meta.innerLogic,
   };
   return data;
 };

@@ -20,7 +20,7 @@
   "i18n": {
     "product.title":{
       "key": "product.title",
-      "desc": "/security/authc/micrc.bit/_examples/web/modules/product-info",
+      "desc": "/micrc.bit/_examples/web/modules/product-info",
       "defaults": {
         "zh_CN": "在一个地方管理你所有的商店和在线销售",
         "en_US": "Manage all your stores and online sales in one place."
@@ -28,7 +28,7 @@
     },
     "product.text":{
       "key": "product.text",
-      "desc": "/security/authc/micrc.bit/_examples/web/modules/product-info",
+      "desc": "/micrc.bit/_examples/web/modules/product-info",
       "defaults": {
         "zh_CN": "整合多达10个Mercado Livre商店和购物免费与ColibriERP",
         "en_US": "Integrate up to 10 Mercado Livre stores and shop free with ColibriERP"
@@ -36,45 +36,10 @@
     }
   },
   "integration": {
-    "produce": {
-      "topic1": {
-        "name": "topic1",
-        "producer": {
-          "pageUri": "/xxx1/xx1/x1",
-          "moduleId": "micrc.bit/xxx1/xx1/x1",
-          "schema": {}
-        },
-        "consumers": [{
-          "pageUri": "/yyy1/yy1/y1",
-          "moduleId": "micrc.bit/yyy1/yy1/y1",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-          "state": {}
-        }]
-      }
-    },
-    "consume": {
-      "topic2": {
-        "name": "topic2",
-        "producer": {
-          "pageUri": "/xxx2/xx2/x2",
-          "moduleId": "micrc.bit/xxx2/xx2/x2",
-          "schema": {}
-        },
-        "consumers": [{
-          "pageUri": "/yyy21/yy21/y21",
-          "moduleId": "micrc.bit/yyy21/yy21/y21",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-          "state": {}
-        }, {
-          "pageUri": "/yyy22/yy22/y22",
-          "moduleId": "micrc.bit/yyy22/yy22/y22",
-          "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-          "state": {}
-        }]
-      }
-    }
+    "produce": {},
+    "consume": {}
   },
-  "comment": ["模块"],
+  "comment": ["产品介绍模块"],
   "doc": {
     "title": "产品介绍",
     "labels": ["产品介绍文本","产品图片"],
@@ -86,9 +51,9 @@
     "imports": {}
   },
   "components": {
-    "ProductIntroduction":{
+    "TextPicture":{
       "version": "0.0.1",
-      "packages": "@micrc/bit._examples.web.components.product-introduction"
+      "packages": "@micrc/bit._examples.web.components.text-picture"
     },
     "BlankLayout": {
       "version": "0.0.1",
@@ -96,9 +61,6 @@
     }
   },
   "localState": {
-    "img": {
-      "value":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
-    },
     "productTitle": {
       "value": "bind('i18n:///product.title')"
     },
@@ -123,12 +85,16 @@
       "content": {
         "assemblies": [
           {
-            "name": "ProductIntroduction",
+            "name": "TextPicture",
             "children": null,
             "props": {
               "productTitle": "bind('states@productTitle:///value')",
               "productText": "bind('states@productText:///value')",
-              "img": "bind('states@img:///value')"
+              "img": {
+                "_val":"ImgPng"
+              },
+              "width":"727px",
+              "height":"403px"
             }
           }
         ]

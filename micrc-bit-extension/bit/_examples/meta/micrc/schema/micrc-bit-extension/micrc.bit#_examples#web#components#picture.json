@@ -1,7 +1,7 @@
 {
   "intro": {
     "version": "0.0.1",
-    "state": "complete"
+    "state": "designing"
   },
   "comment": ["产品logo"],
   "types": {
@@ -22,12 +22,32 @@
     }
   },
   "images": {
-    "img.png":"https://s2.loli.net/2023/04/04/DVfNMPjdqEU76uQ.png"
+    "examples":{
+      "logo.png":"https://s1.ax1x.com/2023/03/23/ppwKdYT.png"
+    },
+    "local":{
+      "img.png":"https://s2.loli.net/2023/04/04/DVfNMPjdqEU76uQ.png"
+    }
   },
   "stories": {
     "components": {},
     "atoms": {},
-    "examples": {}
+    "examples": {
+      "Admin": {
+        "props": {
+          "img":{
+            "imageName":"LogoPng"
+          }
+        }
+      },
+      "Authc": {
+        "props": {
+          "img":{
+            "imageName":"LogoPng"
+          }
+        }
+      }
+    }
   },
   "components": {
     "Image": {
@@ -43,13 +63,10 @@
         "name": "Image",
         "children": null,
         "props": {
-          "width": {
-            "_val": 125
-          },
-          "height": {
-            "_val": 48
-          },
-          "src": "bind('props:///img')"
+          "src": "bind('props:///img')",
+          "preview": {
+            "_val" :"false"
+          }
         }
       }
     ]

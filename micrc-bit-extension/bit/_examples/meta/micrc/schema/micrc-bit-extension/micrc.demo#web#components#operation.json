@@ -1,0 +1,87 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing"
+  },
+  "comment": ["表格操作组件"],
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "doc": {
+    "title": "列表的操作按钮",
+    "labels": ["操作"],
+    "prototype": "https://mastergo.com/file/88108507811036?page_id=1175%3A054520&layer_id=1175%3A056764"
+  },
+  "props": {
+    "activate?": "(v)=> void",
+    "cancel?": "(v)=> void",
+    "btn1?": "string",
+    "btn2?": "string"
+  },
+  "defaultProps": {
+    "btn1": "操作1",
+    "btn2": "操作2",
+    "activate": {
+      "params": ["param"],
+      "alert": true
+    },
+    "cancel": {
+      "params": ["param"],
+      "alert": true
+    }
+  },
+  "stories": {
+    "components": {
+      "Button": {
+        "default": false,
+        "packages": "antd"
+      }
+    },
+    "atoms": {},
+    "examples": {
+      "BusinessAccountTable": {
+        "props": {
+          "btn1": "激活",
+          "btn2": "续约",
+          "activate": {
+            "params": ["param"],
+            "alert": true
+          },
+          "cancel": {
+            "params": ["param"],
+            "alert": true
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "Button": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {},
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Button",
+        "children":"{bind('props:///btn1')}",
+        "props": {
+          "onClick":"() => action([{op: 'perform', path: 'props:///activate', value: null}])()",
+          "type":"link"
+        }
+      },
+      {
+        "name": "Button",
+        "children":"{bind('props:///btn2')}",
+        "props": {
+          "onClick":"() => action([{op: 'perform', path: 'props:///cancel', value: null}])()",
+          "type":"link"
+        }
+      }
+    ]
+  }
+}

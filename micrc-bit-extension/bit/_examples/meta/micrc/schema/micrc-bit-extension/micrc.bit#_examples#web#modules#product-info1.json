@@ -18,12 +18,20 @@
     }
   },
   "i18n": {
-    "welcome.text":{
-      "key": "welcome.text",
+    "product.title":{
+      "key": "product.title",
       "desc": "/micrc.bit/_examples/web/modules/product-info",
       "defaults": {
-        "zh_CN": "欢迎使用colibri erp...",
-        "en_US": "Welcome to colibri erp..."
+        "zh_CN": "在一个地方管理你所有的商店和在线销售",
+        "en_US": "Manage all your stores and online sales in one place."
+      }
+    },
+    "product.text":{
+      "key": "product.text",
+      "desc": "/micrc.bit/_examples/web/modules/product-info",
+      "defaults": {
+        "zh_CN": "整合多达10个Mercado Livre商店和购物免费与ColibriERP",
+        "en_US": "Integrate up to 10 Mercado Livre stores and shop free with ColibriERP"
       }
     }
   },
@@ -31,11 +39,11 @@
     "produce": {},
     "consume": {}
   },
-  "comment": ["欢迎模块"],
+  "comment": ["模块"],
   "doc": {
-    "title": "欢迎信息",
-    "labels": ["欢迎文本","欢迎图片"],
-    "desc": "经销商进入系统可以看到欢迎页展示的内容",
+    "title": "产品介绍",
+    "labels": ["产品介绍文本","产品图片"],
+    "desc": "登录结构的介绍产品内容",
     "prototype": "https://mastergo.com/file/89156035824754?page_id=20%3A95"
   },
   "types": {
@@ -47,14 +55,17 @@
       "version": "0.0.1",
       "packages": "@micrc/bit._examples.web.components.text-picture"
     },
-    "CenterLayout": {
+    "BlankLayout": {
       "version": "0.0.1",
-      "packages": "@micrc/bit._examples.web.components.center-layout"
+      "packages": "@micrc/bit._examples.web.components.blank-layout"
     }
   },
   "localState": {
-    "welcomeText": {
-      "value": "bind('i18n:///welcome.text')"
+    "productTitle": {
+      "value": "bind('i18n:///product.title')"
+    },
+    "productText": {
+      "value": "bind('i18n:///product.text')"
     }
   },
   "remoteState": {
@@ -66,10 +77,10 @@
   },
   "actions": {},
   "images": {
-    "img.png":"https://s2.loli.net/2023/04/04/GkQDYPI5l67zfMh.png"
+    "img.png":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
   },
   "assembly": {
-    "layout": "CenterLayout",
+    "layout": "BlankLayout",
     "props": {
       "content": {
         "assemblies": [
@@ -77,12 +88,13 @@
             "name": "TextPicture",
             "children": null,
             "props": {
-              "productTitle": "bind('states@welcomeText:///value')",
+              "productTitle": "bind('states@productTitle:///value')",
+              "productText": "bind('states@productText:///value')",
               "img": {
                 "_val":"ImgPng"
               },
-              "width":"727px",
-              "height":"403px"
+              "width":"518px",
+              "height":"504px"
             }
           }
         ]

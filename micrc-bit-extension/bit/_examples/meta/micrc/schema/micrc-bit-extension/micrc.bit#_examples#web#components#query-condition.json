@@ -1,0 +1,218 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing"
+  },
+  "comment": ["查询条件组件"],
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "doc": {
+    "title": "电商账户查询",
+    "labels": ["电商账户管理","查询条件"],
+    "prototype": "https://mastergo.com/file/88108507811036?layer_id=826%3A51151"
+  },
+  "props": {
+    "formName ?": "object",
+    "formState ?": "object",
+    "formPlatform ?": "object",
+    "btnName ?":"string",
+    "loading ?":"boolean",
+    "query": "()=>void",
+    "changeName": "(value)=>void",
+    "changeState": "(value)=>void",
+    "changePlatform": "(value)=>void",
+    "platformOptions?":"Array<{value: string, lable: string}>",
+    "stateOptions?":"Array<{value: string, lable: string}>"
+  },
+  "defaultProps": {
+    "formName": {
+      "label": "名称1",
+      "placeholder": "名称1"
+    },
+    "formState": {
+      "label": "名称2",
+      "placeholder": "名称2"
+    },
+    "formPlatform": {
+      "label": "名称3",
+      "placeholder": "名称3"
+    },
+    "platformOptions":[
+      { "platformId": "jack", "platformName": "Jack" },
+      { "platformId": "lucy", "platformName": "Lucy" },
+      { "platformId": "Yiminghe", "platformName": "yiminghe" }
+    ],
+    "stateOptions":[
+      { "value": "jack1", "label": "Jack1" },
+      { "value": "lucy2", "label": "Lucy2" },
+      { "value": "Yiminghe3", "label": "yiminghe3" }
+    ],
+    "btnName": "搜索",
+    "loading": false
+  },
+  "stories": {
+    "components": {},
+    "atoms": {},
+    "examples": {
+      "Account": {
+        "props": {
+          "formName": {
+            "label": "账户名称",
+            "placeholder": "请输入账户名称"
+          },
+          "formState": {
+            "label": "账户状态",
+            "placeholder": "请选择账户状态"
+          },
+          "formPlatform": {
+            "label": "电商平台",
+            "placeholder": "请选择电商平台"
+          },
+          "btnName": "查询",
+          "loading": false
+        }
+      }
+    }
+  },
+  "components": {
+    "Button": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Form": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Select": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Input": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {},
+  "css":"",
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Form",
+        "children": {
+          "assemblies": [
+            {
+              "name": "Form.Item",
+              "children": {
+                "assemblies": [
+                  {
+                    "name": "Input",
+                    "children": null,
+                    "props": {
+                      "style":{
+                        "_val":{
+                          "width":"150px"
+                        }
+                      },
+                      "placeholder":"bind('props:///formName/placeholder')",
+                      "onChange": "(e) => action([{op: 'perform', path: 'props:///changeName', value: null}])({ e }, ['/e/target/value'])"
+                    }
+                  }
+                ]
+              },
+              "props": {
+                "label": "bind('props:///formName/label')",
+                "key": "bind('props:///formName/label')"
+              }
+            },
+            {
+              "name": "Form.Item",
+              "children": {
+                "assemblies": [
+                  {
+                    "name": "Select",
+                    "children": null,
+                    "props": {
+                      "style":{
+                        "_val":{
+                          "width":"150px"
+                        }
+                      },
+                      "placeholder":"bind('props:///formState/placeholder')",
+                      "options":"bind('props:///stateOptions')",
+                      "onChange": "(value) => action([{op: 'perform', path: 'props:///changeState', value: null}])({ value }, ['/value'])"
+                    }
+                  }
+                ]
+              },
+              "props": {
+                "label": "bind('props:///formState/label')",
+                "key": "bind('props:///formState/label')"
+              }
+            },
+            {
+              "name": "Form.Item",
+              "children": {
+                "assemblies": [
+                  {
+                    "name": "Select",
+                    "children": null,
+                    "props": {
+                      "style":{
+                        "_val":{
+                          "width":"150px"
+                        }
+                      },
+                      "placeholder":"bind('props:///formPlatform/placeholder')",
+                      "options":"bind('props:///platformOptions').map((item) => ({ label: item.platformName, value: item.platformId }))",
+                      "onChange": "(value) => action([{op: 'perform', path: 'props:///changePlatform', value: null}])({ value }, ['/value'])"
+                    }
+                  }
+                ]
+              },
+              "props": {
+                "label": "bind('props:///formPlatform/label')",
+                "key": "bind('props:///formPlatform/label')"
+              }
+            },
+            {
+              "name": "Form.Item",
+              "children": {
+                "assemblies": [
+                  {
+                    "name": "Button",
+                    "children":"{bind('props:///btnName')}",
+                    "props": {
+                      "loading":"bind('props:///loading')",
+                      "type": "primary",
+                      "htmlType": "submit"
+                    }
+                  }
+                ]
+              },
+              "props": {
+                "wrapperCol": {
+                  "_val": {
+                    "offset": 8,
+                    "span": 16
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "props": {
+          "layout": "inline",
+          "initialValues": {
+            "_val": {
+              "remember": true
+            }
+          },
+          "onFinish": "() => action([{op: 'perform', path: 'props:///query', value: null}])()"
+        }
+      }
+    ]
+  }
+}

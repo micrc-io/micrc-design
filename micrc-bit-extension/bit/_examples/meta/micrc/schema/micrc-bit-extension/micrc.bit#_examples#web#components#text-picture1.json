@@ -3,22 +3,22 @@
     "version": "0.0.1",
     "state": "complete"
   },
-  "comment": ["产品介绍","欢迎内容"],
+  "comment": ["文本-图片组件"],
   "types": {
     "definitions": {},
     "imports": {}
   },
   "doc": {
-    "title": "产品介绍,欢迎页面的文本和图片",
-    "labels": ["产品介绍文本及图片","欢迎文本及图片"],
-    "prototype": "https://mastergo.com/file/88108507811036?page_id=384%3A08737"
+    "title": "产品介绍，欢迎",
+    "labels": ["文本","图片"],
+    "prototype": "https://mastergo.com/file/88108507811036?layer_id=667%3A09825"
   },
   "props": {
     "img?": "string",
     "productTitle?": "string",
     "productText?": "string",
-    "width?": "string",
-    "height?": "string"
+    "imgStyle?": "object",
+    "textStyle?": "object"
   },
   "defaultProps": {
     "img":{
@@ -26,13 +26,18 @@
     },
     "productTitle": "Title......",
     "productText":"",
-    "width": "500px",
-    "height": "400px"
+    "imgStyle": {
+      "width": "500px",
+      "height": "400px"
+    },
+    "textStyle":{
+      "color": "#000000"
+    }
   },
   "images": {
     "examples":{
       "welcome.png":"https://s2.loli.net/2023/04/04/GkQDYPI5l67zfMh.png",
-      "productInfo.png":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
+      "productInfo.png":"https://s2.loli.net/2023/04/07/WJuRi8frlA6bEXF.png"
     },
     "local":{
       "img.png":"https://s2.loli.net/2023/04/04/DVfNMPjdqEU76uQ.png"
@@ -49,8 +54,13 @@
           },
           "productTitle":"欢迎使用colibrierp",
           "productText": "",
-          "width":"727px",
-          "height":"403px"
+          "imgStyle": {
+            "width":"727px",
+            "height":"403px"
+          },
+          "textStyle":{
+            "color":"#000000"
+          }
         }
       },
       "ProductInfo": {
@@ -60,8 +70,13 @@
           },
           "productTitle":"Manage all your stores and online sales in one place",
           "productText": "Integrate up to 10 Mercado Livre stores and shop free with ColibriERP",
-          "width":"518px",
-          "height":"504px"
+          "imgStyle": {
+            "width":"518px",
+            "height":"504px"
+          },
+          "textStyle":{
+            "color":"#FFFFFF"
+          }
         }
       }
     }
@@ -86,20 +101,27 @@
         "props": {
           "level": {
             "_val": 5
+          },
+          "style":{
+            "_val":"bind('props:///textStyle')"
           }
         }
       },
       {
         "name": "Typography.Paragraph",
         "children":"{bind('props:///productText')}",
-        "props": {}
+        "props": {
+          "style":{
+            "_val":"bind('props:///textStyle')"
+          }
+        }
       },
       {
         "name": "Image",
         "children": null,
         "props": {
           "style":{
-            "_val":"{ width: props?.width, height: props?.height,objectFit:'cover' }"
+            "_val":"bind('props:///imgStyle')"
           },
           "src": {
             "_val": "bind('props:///img')"
@@ -111,5 +133,7 @@
         }
       }
     ]
-  }
+  },
+  "outerLogic":"",
+  "innerLogic":"const { layoutProps } = props;const layout = Object.keys(layoutProps).map((item) => <div key={item}>{layoutProps[item]}</div>)"
 }

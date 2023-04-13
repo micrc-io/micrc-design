@@ -72,7 +72,7 @@ type IntegrationTopic = {
 // 行为集成
 type IntegrationMeta = {
   produce: Record<string, IntegrationTopic>, // 模块自身为生产方的集成主题, 需要生成模拟的消费方
-  consume: Record<string, IntegrationTopic>, // 模块自身为消费方的集成主题, 需要生成模拟的生成方
+  consume: Record<string, IntegrationTopic>, // 模块自身为消费方的集成主题, 需要生成模拟的生产方
 };
 
 // 行为集成主题数据(行为集成主题中的consumers是数组, 不方便消费方bind, 转换为使用uri+moduleId作为可以)

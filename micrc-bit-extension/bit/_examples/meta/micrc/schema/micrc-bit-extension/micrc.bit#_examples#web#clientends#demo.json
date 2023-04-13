@@ -20,55 +20,21 @@
     "showcase": "",
     "desc": "colibrierp深入洞察经销商电商平台管理和在线销售流程,提供商品供应链、市场标签、物流运输、订单管理和在线销售等自动化场景解决方案"
   },
-  "integration": {
-    "topic1": {
-      "name": "topic1",
-      "producer": {
-        "pageUri": "/xxx1/xx1/x1",
-        "moduleId": "micrc.bit/xxx1/xx1/x1",
-        "schema": {}
-      },
-      "consumers": [{
-        "pageUri": "/yyy1/yy1/y1",
-        "moduleId": "micrc.bit/yyy1/yy1/y1",
-        "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-        "state": {}
-      }]
-    },
-    "topic2": {
-      "name": "topic2",
-      "producer": {
-        "pageUri": "/xxx2/xx2/x2",
-        "moduleId": "micrc.bit/xxx2/xx2/x2",
-        "schema": {}
-      },
-      "consumers": [{
-        "pageUri": "/yyy21/yy21/y21",
-        "moduleId": "micrc.bit/yyy21/yy21/y21",
-        "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-        "state": {}
-      }, {
-        "pageUri": "/yyy22/yy22/y22",
-        "moduleId": "micrc.bit/yyy22/yy22/y22",
-        "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
-        "state": {}
-      }]
-    }
-  },
+  "integration": {},
   "entry": {
     "modules": {
       "LogoLogin": {
         "package": "@micrc/demo.web.modules.logo-login",
-        "version": "0.0.2",
+        "version": "0.0.1",
         "i18n": {}
       },
-      "ProductInfo": {
-        "package": "@micrc/demo.web.modules.product-info",
-        "version": "0.0.6",
+      "ProductIntroduction": {
+        "package": "@micrc/demo.web.modules.product-introduction",
+        "version": "0.0.1",
         "i18n": {
           "product.title": {
             "key": "product.title",
-            "desc": "/@micrc.demo/web/modules/product-info",
+            "desc": "/micrc.demo/web/modules/product-introduction",
             "defaults": {
               "zh_CN": "在一个地方管理你所有的商店和在线销售",
               "en_US": "Manage all your stores and online sales in one place."
@@ -76,7 +42,7 @@
           },
           "product.text": {
             "key": "product.text",
-            "desc": "/@micrc.demo/web/modules/product-info",
+            "desc": "/micrc.demo/web/modules/product-introduction",
             "defaults": {
               "zh_CN": "整合多达10个Mercado Livre商店和购物免费与ColibriERP",
               "en_US": "Integrate up to 10 Mercado Livre stores and shop free with ColibriERP"
@@ -86,18 +52,18 @@
       },
       "LogoMain": {
         "package": "@micrc/demo.web.modules.logo-main",
-        "version": "0.0.3",
+        "version": "0.0.1",
         "i18n": {}
       }
     },
     "components": {
       "AuthcGenericLayout": {
         "package": "@micrc/demo.web.components.authc-generic-layout",
-        "version": "0.0.4"
+        "version": "0.0.1"
       },
       "AdminGenericLayout": {
         "package": "@micrc/demo.web.components.admin-generic-layout",
-        "version": "0.0.4"
+        "version": "0.0.1"
       }
     },
     "layouts": {
@@ -120,7 +86,7 @@
           "productInfo": {
             "assemblies": [
               {
-                "name": "ProductInfo",
+                "name": "ProductIntroduction",
                 "children": null,
                 "props": {
                   "router": {
@@ -136,7 +102,7 @@
         }
       },
       "AdminGenericLayout": {
-        "uris": ["/"],
+        "uris": ["/","/accounts/business"],
         "props": {
           "logo": {
             "assemblies": [
@@ -213,7 +179,7 @@
       "components": {
         "BlankLayout": {
           "package": "@micrc/demo.web.components.blank-layout",
-          "version": "0.0.2"
+          "version": "0.0.1"
         }
       },
       "assembly": {
@@ -244,11 +210,11 @@
       "modules": {
         "Welcome": {
           "package": "@micrc/demo.web.modules.welcome",
-          "version": "0.0.6",
+          "version": "0.0.1",
           "i18n": {
             "welcome.text": {
               "key": "welcome.text",
-              "desc": "/@micrc.demo/web/modules/welcome",
+              "desc": "/micrc.demo/web/modules/welcome",
               "defaults": {
                 "zh_CN": "欢迎使用colibri erp...",
                 "en_US": "Welcome to colibri erp..."
@@ -258,13 +224,13 @@
         }
       },
       "components": {
-        "BlankLayout": {
-          "package": "@micrc/demo.web.components.blank-layout",
-          "version": "0.0.2"
+        "CenterLayout": {
+          "package": "@micrc/demo.web.components.center-layout",
+          "version": "0.0.1"
         }
       },
       "assembly": {
-        "layout": "BlankLayout",
+        "layout": "CenterLayout",
         "props": {
           "content": {
             "assemblies": [
@@ -281,6 +247,209 @@
           }
         }
       }
+    },
+    "/accounts/business": {
+      "comment": ["电商账户管理"],
+      "permissions": {
+        "distributor": []
+      },
+      "i18n": {},
+      "modules": {
+        "BusinessAccountQuery": {
+          "package": "@micrc/bit._exampless.web.modules.business-account-query",
+          "version": "0.0.1",
+          "i18n": {
+            "btn.select":{
+              "key": "btn.select",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "查询",
+                "en_US": "query"
+              }
+            },
+            "label.name":{
+              "key": "label.name",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "账户名称",
+                "en_US": "account name"
+              }
+            },
+            "input.name":{
+              "key": "input.name",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "账户名称",
+                "en_US": "account name"
+              }
+            },
+            "label.state":{
+              "key": "label.state",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "账户状态",
+                "en_US": "account state"
+              }
+            },
+            "input.state":{
+              "key": "input.state",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "账户状态",
+                "en_US": "account state"
+              }
+            },
+            "label.platform":{
+              "key": "label.platform",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "电商平台",
+                "en_US": "e-Commerce platform"
+              }
+            },
+            "input.platform":{
+              "key": "input.platform",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "电商平台",
+                "en_US": "e-Commerce platform"
+              }
+            },
+            "state.normal":{
+              "key": "state.normal",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "正常",
+                "en_US": "normal"
+              }
+            },
+            "state.failure":{
+              "key": "state.failure",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "失效",
+                "en_US": "failure"
+              }
+            }
+          }
+        },
+        "BusinessAccountTable": {
+          "package": "@micrc/bit._exampless.web.modules.business-account-table",
+          "version": "0.0.1",
+          "i18n": {
+            "tab.title":{
+              "key": "tab.title",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "电商账户管理",
+                "en_US": "e-Commerce account management"
+              }
+            },
+            "columns.name":{
+              "key": "columns.name",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "账户名称",
+                "en_US": "account name"
+              }
+            },
+            "columns.platform":{
+              "key": "columns.platform",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "平台名称",
+                "en_US": "platform name"
+              }
+            },
+            "columns.state":{
+              "key": "columns.state",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "账户状态",
+                "en_US": "account state"
+              }
+            },
+            "columns.create":{
+              "key": "columns.create",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "创建时间",
+                "en_US": "create time"
+              }
+            },
+            "columns.expiration":{
+              "key": "columns.expiration",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "到期时间",
+                "en_US": "expiration time"
+              }
+            },
+            "columns.operation":{
+              "key": "columns.operation",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "操作",
+                "en_US": "operation"
+              }
+            },
+            "btn.activate": {
+              "key": "btn.activate",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "激活",
+                "en_US": "activate"
+              }
+            },
+            "btn.cancel": {
+              "key": "btn.cancel",
+              "desc": "/micrc.demo/web/modules/business-account-query",
+              "defaults": {
+                "zh_CN": "注销",
+                "en_US": "cancel"
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "PageLayout": {
+          "package": "@micrc/bit._exampless.web.components.page-layout",
+          "version": "0.0.1"
+        }
+      },
+      "assembly": {
+        "layout": "PageLayout",
+        "props": {
+          "query": {
+            "assemblies": [
+              {
+                "name": "BusinessAccountQuery",
+                "children": null,
+                "props": {
+                  "router": {
+                    "_val": "props.router"
+                  }
+                }
+              }
+            ]
+          },
+          "table": {
+            "assemblies": [
+              {
+                "name": "BusinessAccountTable",
+                "children": null,
+                "props": {
+                  "router": {
+                    "_val": "props.router"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
     }
   }
 }
+

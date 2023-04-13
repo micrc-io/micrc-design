@@ -112,6 +112,8 @@ type {{@key}} = {
 {{/if}}
 
 {{/each}}
+{{{outerLogic}}}
+
 {{!-- 定义组件本体 --}}
 export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -129,6 +131,8 @@ export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Prop
   const {{@key}} = useState({{{json this}}});
   store.appendState({ {{@key}} })
   {{/each}}
+
+  {{{innerLogic}}}
 
   return (
     {{{assembler assembly.assemblies}}}

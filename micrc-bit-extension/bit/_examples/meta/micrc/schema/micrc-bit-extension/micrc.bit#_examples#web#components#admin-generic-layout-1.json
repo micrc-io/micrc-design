@@ -5,12 +5,7 @@
   "comment": ["组件"],
   "types": {
     "definitions": {},
-    "imports": {
-      "ReactElement": {
-        "default": false,
-        "packages": "react"
-      }
-    }
+    "imports": {}
   },
   "doc": {
     "title": "主布局",
@@ -18,9 +13,8 @@
     "prototype": "https://mastergo.com/file/88108507811036?page_id=103%3A04800"
   },
   "props": {
-    "logo?":"ReactElement",
-    "toolbar?":"ReactElement",
-    "page?":"ReactElement"
+    "logo?":"any",
+    "toolbar?":"any"
   },
   "defaultProps": {
     "logo": {
@@ -67,37 +61,61 @@
           }
         }
       ]
+    }
+  },
+  "images": {
+    "examples":{
+      "welcome.png":"https://s2.loli.net/2023/04/04/GkQDYPI5l67zfMh.png"
+    }
+  },
+  "stories": {
+    "components": {
+      "Picture": {
+        "version": "0.0.1",
+        "packages": "@micrc/bit._examples.web.components.picture"
+      },
+      "TextPicture": {
+        "version": "0.0.1",
+        "packages": "@micrc/bit._examples.web.components.text-picture"
+      }
     },
-    "page": {
-      "assemblies": [
-        {
-          "name": "Tooltip",
-          "children": {
-            "assemblies":[
+    "atoms": {},
+    "examples": {
+      "Admin": {
+        "props": {
+          "logo": {
+            "assemblies": [
               {
-                "name": "Skeleton",
+                "name": "Picture",
                 "children": null,
-                "props" :{
-                  "style":{
-                    "_val": {
-                      "height": "100%"
-                    }
+                "props": {
+                  "img": {
+                    "_val":"LogoPng"
                   }
                 }
               }
             ]
           },
-          "props": {
-            "title": "page：展示page"
+          "productInfo": {
+            "assemblies": [
+              {
+                "name": "TextPicture",
+                "children": null,
+                "props": {
+                  "img":{
+                    "_val":"WelcomePng"
+                  },
+                  "productTitle":"欢迎使用colibri erp...",
+                  "productText": "",
+                  "width":"727px",
+                  "height":"403px"
+                }
+              }
+            ]
           }
         }
-      ]
+      }
     }
-  },
-  "stories": {
-    "components": {},
-    "atoms": {},
-    "examples": {}
   },
   "components": {
     "Layout": {
@@ -115,7 +133,7 @@
   },
   "atoms": {},
   "localState": {},
-  "css": ".toolbar{float: right;padding: 15px 3px;}\n.content{margin: 24px;padding: 20px;height: 788px;background: #FFFFFF;}\n.logo{margin: 4px;width: 125px;height: 48px;}",
+  "css": ".toolbar{float: right;padding: 15px 3px;}\n.content{margin: 24px;height: 788px;background: #FFFFFF;}\n.logo{margin: 4px;width: 125px;height: 48px;}",
   "assembly": {
     "assemblies": [
       {
@@ -179,7 +197,7 @@
                   },
                   {
                     "name": "Layout.Content",
-                    "children": "{props?.page}",
+                    "children": null,
                     "props": {
                       "className": {
                         "_val": "styles.content"

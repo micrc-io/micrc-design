@@ -1,0 +1,161 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing"
+  },
+  "comment": ["页面布局组件"],
+  "types": {
+    "definitions": {},
+    "imports": {
+      "ReactElement": {
+        "default": false,
+        "packages": "react"
+      }
+    }
+  },
+  "doc": {
+    "title": "电商账户管理",
+    "labels": ["电商账户管理","上中下布局"],
+    "prototype": "https://mastergo.com/file/88108507811036?page_id=702%3A47815&layer_id=826%3A45921"
+  },
+  "props": {
+    "query?": "ReactElement",
+    "auth?": "ReactElement",
+    "table?": "ReactElement"
+  },
+  "defaultProps": {
+    "query": {
+      "assemblies": [
+        {
+          "name": "Tooltip",
+          "children": {
+            "assemblies":[
+              {
+                "name": "Skeleton",
+                "children":null,
+                "props" :{
+                  "style":{
+                    "_val": {
+                      "height":"100px"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "props": {
+            "title": "query：查询条件"
+          }
+        }
+      ]
+    },
+    "auth": {
+      "assemblies": [
+        {
+          "name": "Tooltip",
+          "children": {
+            "assemblies":[
+              {
+                "name": "Skeleton.Input",
+                "children": null,
+                "props" :{
+                  "size":"large"
+                }
+              }
+            ]
+          },
+          "props": {
+            "title": "auth：展示认证授权"
+          }
+        }
+      ]
+    },
+    "table": {
+      "assemblies": [
+        {
+          "name": "Tooltip",
+          "children": {
+            "assemblies":[
+              {
+                "name": "Skeleton",
+                "children": null,
+                "props" :{
+                  "style": {
+                    "_val":{
+                      "height":"500px"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "props": {
+            "title": "table：列表"
+          }
+        }
+      ]
+    }
+  },
+  "stories": {
+    "components": {},
+    "atoms": {},
+    "examples": {}
+  },
+  "components": {
+    "Layout": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Skeleton": {
+      "default": false,
+      "packages": "antd"
+    },
+    "Tooltip": {
+      "default": false,
+      "packages": "antd"
+    }
+  },
+  "atoms": {},
+  "localState": {
+  },
+  "css": ".table {padding: 20px;height: 600px;}\n.query {height: 20%;padding: 20px;}\n.auth {padding-right: 20px;text-align: right;}",
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "Layout",
+        "children": {
+          "assemblies": [
+            {
+              "name": "Layout.Content",
+              "children":"{props?.query}",
+              "props": {
+                "className": {
+                  "_val":"styles.query"
+                }
+              }
+            },
+            {
+              "name": "Layout.Content",
+              "children": "{props?.auth}",
+              "props": {
+                "className": {
+                  "_val": "styles.auth"
+                }
+              }
+            },
+            {
+              "name": "Layout.Content",
+              "children": "{props?.table}",
+              "props": {
+                "className": {
+                  "_val": "styles.table"
+                }
+              }
+            }
+          ]
+        },
+        "props": {}
+      }
+    ]
+  }
+}

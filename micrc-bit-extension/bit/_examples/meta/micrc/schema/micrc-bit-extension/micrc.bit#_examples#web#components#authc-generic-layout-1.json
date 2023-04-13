@@ -1,28 +1,22 @@
 {
   "intro": {
-    "version": "0.0.1",
-    "state": "designing"
+    "version": "0.0.1"
   },
   "comment": ["登录认证"],
   "types": {
     "definitions": {},
-    "imports": {
-      "ReactElement": {
-        "default": false,
-        "packages": "react"
-      }
-    }
+    "imports": {}
   },
   "doc": {
     "title": "认证布局结构",
     "labels": ["登录认证"],
-    "prototype": "https://mastergo.com/file/88108507811036?page_id=308%3A06428&layer_id=425%3A09853"
+    "prototype": "https://mastergo.com/file/88108507811036?page_id=308%3A06428"
   },
   "props": {
-    "logo?": "ReactElement",
-    "productInfo?": "ReactElement",
-    "language?": "ReactElement",
-    "login?": "ReactElement"
+    "logo?": "any",
+    "productInfo?": "any",
+    "language?": "any",
+    "login?": "any"
   },
   "defaultProps": {
     "logo": {
@@ -108,13 +102,13 @@
           "children": {
             "assemblies":[
               {
-                "name": "Skeleton.Input",
+                "name": "Layout.Content",
                 "children": null,
                 "props" :{
                   "style":{
                     "_val":{
-                      "height":"300px",
-                      "width": "400px"
+                      "width": "300px",
+                      "height": "250px"
                     }
                   }
                 }
@@ -128,10 +122,60 @@
       ]
     }
   },
+  "images": {
+    "examples":{
+      "logo.png":"https://s1.ax1x.com/2023/03/23/ppwKdYT.png",
+      "productInfo.png":"https://s1.ax1x.com/2023/03/22/ppdAqyV.png"
+    }
+  },
   "stories": {
-    "components": {},
+    "components": {
+      "Picture": {
+        "version": "0.0.1",
+        "packages": "@micrc/bit._examples.web.components.picture"
+      },
+      "TextPicture": {
+        "version": "0.0.1",
+        "packages": "@micrc/bit._examples.web.components.text-picture"
+      }
+    },
     "atoms": {},
-    "examples": {}
+    "examples": {
+      "Authc": {
+        "props": {
+          "logo": {
+            "assemblies": [
+              {
+                "name": "Picture",
+                "children": null,
+                "props": {
+                  "img": {
+                    "_val":"LogoPng"
+                  }
+                }
+              }
+            ]
+          },
+          "productInfo": {
+            "assemblies": [
+              {
+                "name": "TextPicture",
+                "children": null,
+                "props": {
+                  "img":{
+                    "_val":"ProductInfoPng"
+                  },
+                  "productTitle":"Manage all your stores and online sales in one place",
+                  "productText": "Integrate up to 10 Mercado Livre stores and shop free with ColibriERP",
+                  "width":"518px",
+                  "height":"504px"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
   },
   "components": {
     "Layout": {
@@ -154,7 +198,7 @@
   "atoms": {},
   "localState": {
   },
-  "css": ".content {background: #ffffff;width: 804px;height:900px;padding: 30px;}\n.logo{width: 162px;height: 62px;padding: 0;}\n.productInfo{width: 530px;height: 662px;margin-top: 60px;}\n.language {position: absolute;top: 20px;right: 10px;padding: 0;background: #FFFFFF;}\n.login {width: 400px;height: 300px;margin: 400px auto;}",
+  "css": ".content {background: #ffffff;width: 804px;height:900px;padding: 30px;}\n.logo{width: 162px;height: 62px;padding: 0;}\n.productInfo{width: 530px;height: 662px;margin-top: 60px;}\n.language {position: absolute;top: 20px;right: 10px;padding: 0;background: #FFFFFF;}\n.login {width: 300px;height: 250px;background:#f6f6f6;margin: 400px auto;}",
   "assembly": {
     "assemblies": [
       {
@@ -170,7 +214,7 @@
                     "children":{
                       "assemblies": [
                         {
-                          "name": "Layout.Header",
+                          "name": "Layout.Content",
                           "children":"{props?.logo}",
                           "props":{
                             "className":{
@@ -190,7 +234,9 @@
                       ]
                     },
                     "props": {
-                      "width": "683px",
+                      "width":{
+                        "_val":683
+                      },
                       "style":{
                         "_val":{
                           "height":"900px",

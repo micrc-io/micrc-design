@@ -17,16 +17,7 @@
       "actions": []
     }
   },
-  "i18n": {
-    "welcome.text":{
-      "key": "welcome.text",
-      "desc": "/micrc.bit/_examples/web/modules/product-info",
-      "defaults": {
-        "zh_CN": "欢迎使用colibri erp...",
-        "en_US": "Welcome to colibri erp..."
-      }
-    }
-  },
+  "i18n": {},
   "integration": {
     "produce": {},
     "consume": {}
@@ -43,13 +34,13 @@
     "imports": {}
   },
   "components": {
-    "TextPicture":{
+    "BusinessAccountQuery":{
       "version": "0.0.1",
-      "packages": "@micrc/bit._examples.web.components.text-picture"
+      "packages": "@micrc/bit._examples.web.modules.business-account-query"
     },
-    "CenterLayout": {
+    "BusinessAccountTable": {
       "version": "0.0.1",
-      "packages": "@micrc/bit._examples.web.components.center-layout"
+      "packages": "@micrc/bit._examples.web.modules.business-account-table"
     }
   },
   "localState": {
@@ -74,16 +65,14 @@
       "content": {
         "assemblies": [
           {
-            "name": "TextPicture",
+            "name": "BusinessAccountQuery",
             "children": null,
-            "props": {
-              "productTitle": "bind('states@welcomeText:///value')",
-              "img": {
-                "_val":"ImgPng"
-              },
-              "width":"727px",
-              "height":"403px"
-            }
+            "props": {}
+          },
+          {
+            "name": "BusinessAccountTable",
+            "children": null,
+            "props": {}
           }
         ]
       }
