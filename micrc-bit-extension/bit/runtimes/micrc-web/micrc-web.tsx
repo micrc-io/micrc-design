@@ -48,6 +48,11 @@ export const remoteStore = (
     }
   };
   return {
+    subscribe: (topic: string, listener: () => any) => useGlobalStore.subscribe(
+      (state: any) => patcher(state).path(integratePath(router, id, `integrate@${topic}:///`)),
+      listener,
+      { fireImmediately: true },
+    ),
     appendState: (stateObj : object) => {
       Object.keys(stateObj).forEach((it) => {
         states[it] = stateObj[it];

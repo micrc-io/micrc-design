@@ -60,6 +60,7 @@ declare type ProtocolMock = {
   path: string;
   method: string;
   schema: object;
+  mock: any;
 };
 
 const ajv = new Ajv({
@@ -156,12 +157,14 @@ Object.keys(spec.paths).forEach((path: string) => {
       host: spec.servers[0]['x-host'],
       requestContentType: requestMediaType,
       responseContentType: responseMediaType,
-      param: (request.examples.default as ExampleObject).value,
+      // param: (request.examples.default as ExampleObject).value,
+      param: null,
       invalid: {
         validate: validator(requestValidator),
         err: {},
       },
-      result: (response.examples.default as ExampleObject).value,
+      // result: (response.examples.default as ExampleObject).value,
+      result: (response.examples.mock as ExampleObject),
       error: {
         validate: validator(responseValidator),
         err: {},
@@ -173,6 +176,7 @@ Object.keys(spec.paths).forEach((path: string) => {
       path,
       method,
       schema: response.schema,
+      mock: (response.examples.mock as ExampleObject) || null,
     });
   });
 });

@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /**
  * global store
  * i18n语言包，tracker埋点配置，token，integration
  */
 import { create } from 'zustand';
+import { subscribeWithSelector } from 'zustand/middleware';
 
 import type { I18nPointer, IntegrationTopic } from './index';
 
-export const useGlobalStore = create((set) => ({
+export const useGlobalStore = create(subscribeWithSelector((set) => ({
   subject: {
     id: null,
     permissions: [],
@@ -14,8 +16,9 @@ export const useGlobalStore = create((set) => ({
   i18n: null,
   tracker: null,
   integration: null,
+  currentKey: '',
   set,
-}));
+})));
 
 export const initModuleGlobalStore = (
   permissions: Array<string>,
@@ -23,6 +26,7 @@ export const initModuleGlobalStore = (
   i18n: Record<string, I18nPointer>,
   tracker: any,
   integration: Record<string, IntegrationTopic>,
+  currentKey: string,
 ) => {
   const languages = {};
   Object.values(i18n).forEach((pointer) => {
@@ -43,6 +47,7 @@ export const initModuleGlobalStore = (
     },
     tracker,
     integration,
+    currentKey: 'tab.title',
   });
 };
 

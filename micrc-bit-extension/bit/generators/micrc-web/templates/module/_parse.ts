@@ -60,6 +60,10 @@ type Consumer = {
   moduleId: string, // 模块id
   schema: string, // 一段带表达式的json对象字符串, 用于动态映射, 如: let obj; eval('obj = schema')
   state: object, // 由schema映射转换产生的数据, 用于消费方绑定
+  listener: { // 集成发生的时候，消费方要执行的函数
+    name: string, // 函数名
+    actions: Array<string>
+  }
 };
 
 // 行为集成主题, 所有行为集成基于全局唯一的topic, 可以有一个生产方和一到多个消费方
@@ -199,8 +203,9 @@ const reactImports = (meta: ModuleMeta): Record<string, ImportContent> => {
   if (meta.localState && Object.keys(meta.localState).length > 0) {
     retVal.react.types.push('useState');
   }
-  // 根据entry的定义, 确定是否导入useEffect
-  if (meta.entry && meta.entry.mount && meta.entry.mount.actions.length > 0) {
+  // 根据entry, consume 的定义, 确定是否导入useEffect
+  if ((meta.entry && meta.entry.mount && meta.entry.mount.actions.length > 0)
+      || (Object.keys(meta.integration.consume).length > 0)) {
     retVal.react.types.push('useEffect');
   }
   // 将类型导入中的react类型的导入，放入react的imports中
@@ -288,7 +293,7 @@ const handleIntegration = (meta: ModuleMeta, context: ComponentContext): Integra
     },
   };
   // 处理自身是生产方的情况
-  Object.keys(meta.integration.produce).forEach((topic) => {
+  Object.keys(meta.integration.produce || {}).forEach((topic) => {
     retVal.simulation.produce[topic] = {
       name: meta.integration.produce[topic].name,
       producer: {
@@ -309,13 +314,13 @@ const handleIntegration = (meta: ModuleMeta, context: ComponentContext): Integra
     retVal.init[topic] = retVal.simulation.produce[topic];
   });
   // 处理自身是消费方的情况
-  Object.keys(meta.integration.consume).forEach((topic) => {
-    retVal.simulation.consume[topic] = {
-      name: meta.integration.consume[topic].name,
-      // 自身是消费方, 在模块独立启动时, 仅使用元数据模拟生产方, 不必处理pageUri
-      producer: meta.integration.consume[topic].producer,
-      consumers: {},
-    };
+  Object.keys(meta.integration.consume || {}).forEach((topic) => {
+    // retVal.simulation.consume[topic] = {
+    //   name: meta.integration.consume[topic].name,
+    //   // 自身是消费方, 在模块独立启动时, 仅使用元数据模拟生产方, 不必处理pageUri
+    //   producer: meta.integration.consume[topic].producer,
+    //   consumers: {},
+    // };
     // 模块的集成元数据, 自身为消费方时, 只写自己一个消费方即可, 因为只涉及自身一个模块
     // 如果一个模块在多个页面绑定了同一个topic, 那么其消费逻辑也是一样的, 这里可以覆盖
     // 所以将moduleId相同的消费方pageUri替换为#, 表示任意页面, 以符合runtime库的逻辑
@@ -323,12 +328,15 @@ const handleIntegration = (meta: ModuleMeta, context: ComponentContext): Integra
       const replaceConsumer = consumer;
       if (consumer.moduleId === moduleId) {
         replaceConsumer.pageUri = pageUri;
+        const key = `${replaceConsumer.pageUri}:${replaceConsumer.moduleId}`;
+        retVal.simulation.consume[topic].consumers[key] = replaceConsumer;
       }
-      const key = `${replaceConsumer.pageUri}:${replaceConsumer.moduleId}`;
-      retVal.simulation.consume[topic].consumers[key] = replaceConsumer;
     });
+
     retVal.init[topic] = retVal.simulation.consume[topic];
+    // 只生成当前模块的订阅
   });
+
   return retVal;
 };
 

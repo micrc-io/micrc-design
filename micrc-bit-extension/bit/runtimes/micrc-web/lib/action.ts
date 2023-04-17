@@ -75,6 +75,7 @@ const handleRoute = (routerPath: string, router: any) => {
 const handleIntegrate = (
   _ctx: any, state: any, topicName: string, router: any, id: string,
 ) => {
+  debugger
   let pageUri = router?.pathname || '#';
   if (!id) { // 模块独立启动, 集成模拟器的使用
     const arr = topicName.split(':');

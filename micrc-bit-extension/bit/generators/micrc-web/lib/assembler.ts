@@ -32,9 +32,7 @@ const {{{name}}} = async () => {
   {{#each actions}}
   await {{{this}}};
   {{/each}}
-};
-{{{name}}}()
-`;
+};`;
 
 /**
  * 根据组件props对象生成props字符串表达
@@ -54,10 +52,19 @@ export const propsAssembler = (props: object): string => {
     // eslint-disable-next-line no-underscore-dangle
     const objProp = typeof prop === 'object' && prop._val;
     // eslint-disable-next-line no-nested-ternary
+    // const propObj = objProp
+    //   // eslint-disable-next-line no-underscore-dangle, no-nested-ternary, no-prototype-builtins
+    //   ? typeof prop._val === 'string' ? `{${prop._val}}` : `{${JSON.stringify(prop._val)}}`
+    //   : '';
+    // eslint-disable-next-line no-nested-ternary
     const propObj = objProp
-      // eslint-disable-next-line no-underscore-dangle
-      ? typeof prop._val === 'string' ? `{${prop._val}}` : `{${JSON.stringify(prop._val)}}`
-      : '';
+      // eslint-disable-next-line no-underscore-dangle, array-callback-return
+      ? typeof prop._val === 'string' || typeof prop._val === 'number'
+        // eslint-disable-next-line no-underscore-dangle
+        ? `{${prop._val}}`
+        // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-use-before-define
+        : `{${jsonObject(prop._val)}}` : '';
+    // eslint-disable-next-line @typescript-eslint/no-redeclare
     // 函数表达式类型的prop, 用于简单的事件响应函数
     const exprProp = typeof prop === 'string' && (prop.startsWith('bind') || /\(.*\) => action/.test(prop));
     const propExpr = exprProp ? `{${prop}}` : '';
@@ -146,6 +153,7 @@ const handleSpecObj = (obj: any): string => {
   if (checkFuncAssemblyObj(obj)) { // 函数组件对象 (param) => <组件 {...param} />
     return `(${obj.params.join(', ')}) => ${assembler(obj.assembly.assemblies)}`;
   }
+
   if (checkFuncActionsObj(obj)) {
     return HandleBars.compile(actionsTmpl)(obj);
   }

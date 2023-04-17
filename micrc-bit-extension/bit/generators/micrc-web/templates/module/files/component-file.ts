@@ -104,7 +104,8 @@ export function {{context.namePascalCase}}({ router }: {{context.namePascalCase}
     router,
     '{{{context.componentId}}}',
   );
-  const { bind, action } =store;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { bind, action, subscribe } =store;
 
   {{!-- 定义actions, 受限于hooks规则 --}}
   {{#each actions}}
@@ -121,11 +122,31 @@ export function {{context.namePascalCase}}({ router }: {{context.namePascalCase}
   {{#if entry.mount.actions}}
   useEffect(() => {
     {{{json entry.mount}}}
+    {{{entry.mount.name}}}()
     {{#if entry.unmount.actions}}
     return () => {
       {{{json entry.unmount}}}
     };
     {{/if}}
+  }, []);
+  {{/if}}
+
+  {{!-- 判断consume 对象是否为空对象 --}}
+  {{#if (get_length integration.simulation.consume)}}
+  useEffect(() => {
+    {{#each integration.simulation.consume}}
+    {{#each this.consumers}}
+    {{{json this.listener}}}
+    const {{../this.name}}Unsubscribe = subscribe('{{../this.name}}', {{this.listener.name}});
+    {{/each}}
+    {{/each}}
+    return () => {
+      {{#each integration.simulation.consume}}
+      {{#each this.consumers}}
+      {{../this.name}}Unsubscribe();
+      {{/each}}
+      {{/each}}
+    };
   }, []);
   {{/if}}
 
@@ -151,7 +172,7 @@ export function {{context.namePascalCase}}({ router }: {{context.namePascalCase}
 export function componentFile(data: ModuleContextData) {
   HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
   HandleBars.registerHelper('json', (context) => jsonObject(context));
-
+  HandleBars.registerHelper('get_length', (obj) => Object.keys(obj).length);
   return prettier.format(
     HandleBars.compile(tmpl)(data),
     {

@@ -1,7 +1,12 @@
 import { applyPatch, getValueByPointer } from 'fast-json-patch';
 
 export default (state?: any) => ({
-  path: (json: string) => getValueByPointer(state, json),
+  path: (json: string) => {
+    if (json === '/') {
+      return getValueByPointer(state, '');
+    }
+    return getValueByPointer(state, json);
+  },
   patches: (json: any[]) => {
     state.set((_state: any) => {
       // eslint-disable-next-line @typescript-eslint/naming-convention
