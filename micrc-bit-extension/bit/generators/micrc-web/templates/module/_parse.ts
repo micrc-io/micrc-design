@@ -109,6 +109,8 @@ type ModuleMeta = {
     version: string,
     state: string,
     modelFilePath: string,
+    params: Record<string, any>,
+    pathName: string,
   },
   permissions: Record<string, Array<string>>,
   i18n: Record<string, I18nPointerMeta>,
@@ -151,6 +153,8 @@ export type ModuleContextData = {
     version: string, // 组件版本, 同时作为协议版本, 用于合并协议文件
     state: string, // 组件状态(设计, 发布, 完成)
     modelFilePath: string, // 聚合模型元数据文件路径(相对于上下文目录)
+    params: Record<string, any>, // 参数
+    pathName: string, // uri
     sourceDir: string, // 组件源代码目录
     metaBasePath: string, // 元数据根目录, schema下的上下文目录
   },
@@ -293,7 +297,7 @@ const handleIntegration = (meta: ModuleMeta, context: ComponentContext): Integra
     },
   };
   // 处理自身是生产方的情况
-  Object.keys(meta.integration.produce || {}).forEach((topic) => {
+  Object.keys(meta.integration.produce).forEach((topic) => {
     retVal.simulation.produce[topic] = {
       name: meta.integration.produce[topic].name,
       producer: {
@@ -314,13 +318,13 @@ const handleIntegration = (meta: ModuleMeta, context: ComponentContext): Integra
     retVal.init[topic] = retVal.simulation.produce[topic];
   });
   // 处理自身是消费方的情况
-  Object.keys(meta.integration.consume || {}).forEach((topic) => {
-    // retVal.simulation.consume[topic] = {
-    //   name: meta.integration.consume[topic].name,
-    //   // 自身是消费方, 在模块独立启动时, 仅使用元数据模拟生产方, 不必处理pageUri
-    //   producer: meta.integration.consume[topic].producer,
-    //   consumers: {},
-    // };
+  Object.keys(meta.integration.consume).forEach((topic) => {
+    retVal.simulation.consume[topic] = {
+      name: meta.integration.consume[topic].name,
+      // 自身是消费方, 在模块独立启动时, 仅使用元数据模拟生产方, 不必处理pageUri
+      producer: meta.integration.consume[topic].producer,
+      consumers: {},
+    };
     // 模块的集成元数据, 自身为消费方时, 只写自己一个消费方即可, 因为只涉及自身一个模块
     // 如果一个模块在多个页面绑定了同一个topic, 那么其消费逻辑也是一样的, 这里可以覆盖
     // 所以将moduleId相同的消费方pageUri替换为#, 表示任意页面, 以符合runtime库的逻辑

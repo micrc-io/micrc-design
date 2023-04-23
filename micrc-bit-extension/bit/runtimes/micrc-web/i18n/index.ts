@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * i18n工具库和支持组件
  */
@@ -30,6 +31,7 @@ export const replaceKey = (obj: any) => {
   }
   if (typeof obj === 'object') {
     const retVal = {};
+    if (!obj) return null;
     Object.keys(obj).forEach((it) => {
       const item = obj[it];
       retVal[it] = replaceKey(item);
@@ -59,6 +61,27 @@ export const templateValue = (dataContext: any, tmpl: any) => {
     });
   }
   return retVal;
+};
+
+// 处理i18n 非节点 字符串符/数组的高亮显示  ----   I18NHighlight无法处理字符串,只能处理ReactElement
+// eslint-disable-next-line consistent-return
+export const i18nHightLight = (obj: any) => {
+  const { textPropName, pointerText, currentKey, target } = obj;
+  // table   Select --- 处理数组
+  if (Array.isArray(target)) {
+    const arr = [];
+    target.map((item: any) => {
+      // const newObj = item;
+      // eslint-disable-next-line no-param-reassign
+      item[textPropName] = item.key === currentKey ? `i18n:{ ${item[textPropName]} }` : item[textPropName];
+      return target;
+    });
+    // return arr;
+  }
+  if (typeof target === 'string') {
+    const highlight = pointerText.key === currentKey;
+    return highlight ? `i18n:{ ${pointerText.str} }` : pointerText.str;
+  }
 };
 
 export { I18NHighlight, I18NVisibleProxy } from './i18n';

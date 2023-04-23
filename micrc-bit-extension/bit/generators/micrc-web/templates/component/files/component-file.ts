@@ -72,7 +72,7 @@ import { {{@key}} } from '{{{this}}}';
 {{/each}}
 
 {{!-- 导入运行时工具 --}}
-import { localStore, I18NVisibleProxy, I18NHighlight  } from '@micrc/bit.runtimes.micrc-web';
+import { localStore, I18NVisibleProxy, I18NHighlight, i18nHightLight,  } from '@micrc/bit.runtimes.micrc-web';
 
 {{!-- 导入样式文件 --}}
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

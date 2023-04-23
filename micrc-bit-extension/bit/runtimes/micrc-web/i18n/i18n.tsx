@@ -15,25 +15,28 @@ export const I18NHighlight = (
   }: {
     target: ReactElement,
     textPropName: string,
-    textPropType: 'Node' | 'string'
+    textPropType: 'Node' | 'string',
     pointerText: { key: string, str: string },
     currentKey: string,
   },
+// eslint-disable-next-line consistent-return
 ) => {
   if (!target) {
     return null;
   }
-  const mergeProps = { ...target.props };
+  const mergeProps = { ...target.props.children.props };
   const highlight = pointerText.key === currentKey;
   if (textPropType === 'Node' && highlight) {
     // todo 优化节点类型的反馈方式
-    mergeProps[textPropName] = <span style={{ color: 'red' }}>{pointerText.str}</span>;
+    mergeProps[textPropName] = <span style={{ color: 'red', fontSize: '18px' }}>{pointerText.str}</span>;
   }
   if (textPropType === 'string' && highlight) {
     // todo 优化字符串类型的反馈方式
     mergeProps[textPropName] = `i18n:{ ${pointerText.str} }`;
+    mergeProps.style.border = '1px solid red';
+    mergeProps.style.borderRadius = '6px';
   }
-  return React.cloneElement(target, mergeProps);
+  return React.cloneElement(target.props.children, mergeProps);
 };
 
 // i18n 隐藏元素代理组件
@@ -43,38 +46,18 @@ export const I18NVisibleProxy = (
     visiblePropName = '',
     pointers = [],
     currentKey = '',
-    isHighlight,
   }: {
     target: ReactElement,
     visiblePropName: string,
     pointers: Array<string>,
     currentKey: string,
-    isHighlight: {
-      default: boolean,
-      props: {
-        textPropName: string,
-        textPropType: 'Node' | 'string'
-        pointerText: { key: string, str: string },
-        currentKey: string,
-      }
-    }
   },
 ) => {
   if (!target) {
     return null;
   }
-
-  // 隐藏的modal 中 的tilte 需要 被高亮显示 要用到I18NVisibleProxy，I18NHighlight
-  if (isHighlight.default) {
-    const obj = Object.assign(isHighlight.props, { target: target.props.children });
-    const child = I18NHighlight(obj);
-    const childProps = { ...child.props };
-    childProps[visiblePropName] = child.props[visiblePropName]
-    || pointers.includes(currentKey);
-    return React.cloneElement(child, childProps);
-  }
   const mergeProps = { ...target.props.children.props };
   mergeProps[visiblePropName] = target.props.children.props[visiblePropName]
   || pointers.includes(currentKey);
-  return React.cloneElement(target, mergeProps);
+  return React.cloneElement(target.props.children, mergeProps);
 };

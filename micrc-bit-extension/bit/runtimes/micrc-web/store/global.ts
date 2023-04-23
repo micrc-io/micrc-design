@@ -27,6 +27,8 @@ export const initModuleGlobalStore = (
   tracker: any,
   integration: Record<string, IntegrationTopic>,
   currentKey: string,
+  pathName: string,
+  params: Record<string, any>,
 ) => {
   const languages = {};
   Object.values(i18n).forEach((pointer) => {
@@ -47,7 +49,9 @@ export const initModuleGlobalStore = (
     },
     tracker,
     integration,
-    currentKey: 'tab.title',
+    currentKey: currentKey || '',
+    pathName,
+    params,
   });
 };
 
@@ -81,6 +85,7 @@ export const initGlobalStore = (
   i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
   tracker: any | null,
   integration: Record<string, IntegrationTopic> | null,
+  currentKey: string,
 ) => {
   const state: any = useGlobalStore.getState();
   if (!state.i18n && i18n) {
@@ -99,6 +104,11 @@ export const initGlobalStore = (
   if (!state.integration && integration) {
     useGlobalStore.setState({
       integration,
+    });
+  }
+  if (!state.currentKey && currentKey) {
+    useGlobalStore.setState({
+      currentKey,
     });
   }
 };

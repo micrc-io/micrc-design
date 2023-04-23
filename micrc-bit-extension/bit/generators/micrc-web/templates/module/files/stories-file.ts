@@ -29,9 +29,12 @@ export default {
 
 const permissions = {{{json permissions}}};
 
+const pathName = '{{intro.pathName}}';
+const params = {{{json intro.params}}};
+
 const Template = (props: {{context.namePascalCase}}Props) => {
   // todo 通过开发机系统语言动态化
-  initModuleGlobalStore(permissions, 'zh_CN', I18n, null, Integration.init);
+  initModuleGlobalStore(permissions, 'zh_CN', I18n, null, Integration.init, '', pathName, params);
   return (
     <ConfigProvider locale={locale}>
       <{{context.namePascalCase}} {...props} />

@@ -75,7 +75,6 @@ const handleRoute = (routerPath: string, router: any) => {
 const handleIntegrate = (
   _ctx: any, state: any, topicName: string, router: any, id: string,
 ) => {
-  debugger
   let pageUri = router?.pathname || '#';
   if (!id) { // 模块独立启动, 集成模拟器的使用
     const arr = topicName.split(':');
@@ -99,6 +98,7 @@ const handleIntegrate = (
     const consumer = topic.consumers[consumerId];
     // eslint-disable-next-line @typescript-eslint/no-implied-eval
     const consumerState = new Function(`return ${consumer.schema}`).call(_ctx);
+    console.log('consumerState', consumerState);
     update(state, null, {
       op: 'replace',
       path: `/integration/${topicName}/consumers/${consumerId.replace(/\//g, '~1')}/state`,
@@ -117,11 +117,16 @@ const handleIntegrate = (
 export const globalAction = (
   action: PatchOperation, path: string, globalStore: any, router: any = null, id: string = '',
 ) => globalStore((state: any) => (inputs: any, inputPath: string) => {
+  console.log('action111', action);
   const input = handleValue(action, globalStore, null, null, null, inputs, inputPath);
   const newAction: PatchOperation = {
     ...action,
     path,
   };
+  console.log('newAction', {
+    ...action,
+    path,
+  });
   switch (action.op) {
     case PatchOperationType[PatchOperationType.add]:
     case PatchOperationType[PatchOperationType.replace]:
@@ -132,6 +137,7 @@ export const globalAction = (
       if (path.startsWith('/route')) {
         handleRoute(path, router);
       } else {
+        console.log('handleIntegrate', action);
         handleIntegrate(action.value, state, path.replace('/', ''), router, id);
       }
       break;

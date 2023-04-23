@@ -157,8 +157,8 @@ Object.keys(spec.paths).forEach((path: string) => {
       host: spec.servers[0]['x-host'],
       requestContentType: requestMediaType,
       responseContentType: responseMediaType,
-      // param: (request.examples.default as ExampleObject).value,
-      param: null,
+      param: (request.examples.default as ExampleObject).value,
+      // param: null,
       invalid: {
         validate: validator(requestValidator),
         err: {},
