@@ -12,7 +12,7 @@ importers:
       '@ant-design/icons': 5.0.1
       '@babel/runtime': 7.20.0
       '@micrc/bit.envs.micrc-web': 1.0.3
-      '@micrc/bit.runtimes.micrc-web': 0.0.3
+      '@micrc/bit.runtimes.micrc-web': 0.0.4
       '@storybook/addon-actions': 6.5.16
       '@storybook/addon-docs': 6.5.16
       '@storybook/addon-essentials': 6.5.16
@@ -93,7 +93,7 @@ importers:
       zustand: 4.3.6
     dependencies:
       '@ant-design/icons': registry.npmmirror.com/@ant-design/icons/5.0.1_sfoxds7t5ydpegc3knd667wn6m
-      '@micrc/bit.runtimes.micrc-web': 0.0.3_7vw6fhyzblhs3gcvof77izb3ku
+      '@micrc/bit.runtimes.micrc-web': 0.0.4_7vw6fhyzblhs3gcvof77izb3ku
       '@storybook/addon-actions': registry.npmmirror.com/@storybook/addon-actions/6.5.16_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/addon-docs': registry.npmmirror.com/@storybook/addon-docs/6.5.16_hztcti6fc4b27e4wswkr6bbeqy
       '@storybook/addon-essentials': registry.npmmirror.com/@storybook/addon-essentials/6.5.16_bvfy26eimx3civs4fpd4igddfe
@@ -182,10 +182,22 @@ importers:
   demo/web/components/center-layout:
     specifiers: {}
 
+  demo/web/components/head-menu:
+    specifiers: {}
+
+  demo/web/components/left-menu:
+    specifiers: {}
+
   demo/web/components/text-picture:
     specifiers: {}
 
   demo/web/modules/product-introduction:
+    specifiers: {}
+
+  demo/web/modules/sub-menu:
+    specifiers: {}
+
+  demo/web/modules/top-menu:
     specifiers: {}
 
   demo/web/modules/welcome:
@@ -214,8 +226,8 @@ packages:
       - webpack
     dev: true
 
-  /@micrc/bit.runtimes.micrc-web/0.0.3_7vw6fhyzblhs3gcvof77izb3ku:
-    resolution: {integrity: sha1-H82ujoX74bOrZkZYnfp5ERx7T18=, tarball: '@micrc/bit.runtimes.micrc-web/-/@micrc-bit.runtimes.micrc-web-0.0.3.tgz'}
+  /@micrc/bit.runtimes.micrc-web/0.0.4_7vw6fhyzblhs3gcvof77izb3ku:
+    resolution: {integrity: sha1-PEU7Pd71huN/sAIWfEIKJN8SznE=, tarball: '@micrc/bit.runtimes.micrc-web/-/@micrc-bit.runtimes.micrc-web-0.0.4.tgz'}
     peerDependencies:
       '@types/lodash.clonedeep': '*'
       '@types/lodash.omit': '*'

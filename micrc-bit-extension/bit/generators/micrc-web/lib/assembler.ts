@@ -13,11 +13,15 @@ const actionsPropTmpl = `
   const actions = async () => {
     {{#each actions}}
     await {{{this.action}}}(
+      {{#if this.expr}}
+      {{{ json this.expr }}},
+      {{else}}
       {
         {{#each ../params}}
         {{{this}}},
         {{/each}}
       },
+      {{/if}}
       '{{{this.inputPath}}}'
     );
     {{/each}}
@@ -211,6 +215,10 @@ export const jsonObject = (obj: any): string => {
   if (typeof obj === 'string' && obj.startsWith('bind')) {
     return obj;
   }
+  if (typeof obj === 'string' && obj.startsWith('params-')) {
+    return obj.split('-')[1];
+  }
   // 原子类型值处理
   return JSON.stringify(obj);
 };
+HandleBars.registerHelper('json', (context) => jsonObject(context));

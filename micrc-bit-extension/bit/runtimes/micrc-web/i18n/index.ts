@@ -69,14 +69,13 @@ export const i18nHightLight = (obj: any) => {
   const { textPropName, pointerText, currentKey, target } = obj;
   // table   Select --- 处理数组
   if (Array.isArray(target)) {
-    const arr = [];
-    target.map((item: any) => {
-      // const newObj = item;
+    const retVal = cloneDeep(target);
+    // eslint-disable-next-line array-callback-return
+    retVal.map((item: any) => {
       // eslint-disable-next-line no-param-reassign
       item[textPropName] = item.key === currentKey ? `i18n:{ ${item[textPropName]} }` : item[textPropName];
-      return target;
     });
-    // return arr;
+    return retVal;
   }
   if (typeof target === 'string') {
     const highlight = pointerText.key === currentKey;

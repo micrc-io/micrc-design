@@ -105,10 +105,10 @@ const parseNameAndScope = (workspaceInfo: any) => {
   if (accountAndScopeArray.length !== 2) {
     throw new Error('default scope must be format with account.scope');
   }
-  const scope = accountAndScopeArray[1];
+  // const scope = accountAndScopeArray[1];
   // 获取组件类型
   const nameArray = contextName.split('-');
-  if (nameArray.length !== 3 || nameArray[0] !== scope || nameArray[1] !== 'design' || !TYPES.includes(nameArray[2])) {
+  if (nameArray.length !== 3 || nameArray[1] !== 'design' || !TYPES.includes(nameArray[2])) {
     throw new Error('workspace name must be format with [scope]-design-[componentType]s.'
       + `componentType: ${JSON.stringify(TYPES)}`
       + 'for examples: system-design-apps, order-design-components');

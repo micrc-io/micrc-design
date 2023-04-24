@@ -12,7 +12,7 @@
       "dependencies": {
         "@ant-design/icons": "5.0.1",
         "@babel/runtime": "7.21.0",
-        "@micrc/bit.runtimes.micrc-web": "0.0.3",
+        "@micrc/bit.runtimes.micrc-web": "0.0.4",
         "@storybook/addon-actions": "6.5.16",
         "@storybook/addon-docs": "6.5.16",
         "@storybook/addon-essentials": "6.5.16",
@@ -120,7 +120,7 @@
       "micrc.bit/generators/micrc-app"
     ]
   },
-  "micrc.bit/generators/micrc-web": {},
+  "micrc.bit/generators/micrc-web@0.1.6": {},
   "micrc.bit/generators/micrc-mini": {},
   "micrc.bit/generators/micrc-app": {},
   "micrc.bit/compilations/micrc-web": {},

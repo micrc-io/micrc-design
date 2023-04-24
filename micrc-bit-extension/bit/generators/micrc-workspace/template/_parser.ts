@@ -16,7 +16,7 @@ export default (context: WorkspaceContext) => {
   }
   const scope = accountAndScopeArray[1];
   const nameArray = name.split('-');
-  if (nameArray.length !== 3 || nameArray[0] !== scope || nameArray[1] !== 'design' || !TYPES.includes(nameArray[2])) {
+  if (nameArray.length !== 3 || nameArray[1] !== 'design' || !TYPES.includes(nameArray[2])) {
     throw new Error('workspace name must be format with [scope]-design-[componentType]s.'
       + `componentType: ${JSON.stringify(TYPES)}`
       + 'for examples: system-design-apps, ');
