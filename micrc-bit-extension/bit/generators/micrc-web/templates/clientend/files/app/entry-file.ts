@@ -56,7 +56,7 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   if (env && (env === 'default' || env === 'local')) {
     locale = 'zh_CN'; // todo 获取开发机系统语言
   }
-  initGlobalStore(locale, i18n, integration, tracker);
+  initGlobalStore(locale, i18n, tracker, integration);
   return React.cloneElement(Layout, { ...props });
 };
 

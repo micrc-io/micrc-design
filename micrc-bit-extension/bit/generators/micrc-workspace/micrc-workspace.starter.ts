@@ -74,13 +74,13 @@ export const starter: Starter = {
       relativePath: 'package.json',
       content: packageJson(),
     }, {
-      relativePath: `${parser(context).scope}/web/readme.md`,
+      relativePath: `${parser(context).scope}/${context.name.split('-')[0]}/web/readme.md`,
       content: `# web ${parser(context).type}\n`,
     }, {
-      relativePath: `${parser(context).scope}/mini/readme.md`,
+      relativePath: `${parser(context).scope}/${context.name.split('-')[0]}/mini/readme.md`,
       content: `# mini ${parser(context).type}\n`,
     }, {
-      relativePath: `${parser(context).scope}/app/readme.md`,
+      relativePath: `${parser(context).scope}/${context.name.split('-')[0]}/app/readme.md`,
       content: `# app ${parser(context).type}\n`,
     },
   ],
