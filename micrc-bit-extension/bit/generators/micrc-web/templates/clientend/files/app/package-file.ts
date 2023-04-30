@@ -43,6 +43,7 @@ const tmpl = `{
     "less": "4.1.3",
     "less-loader": "11.0.0",
     "next-with-less": "2.0.5",
+    "sass": "1.62.1",
     "typescript": "4.7.4"
   }
 }

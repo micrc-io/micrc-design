@@ -11,13 +11,16 @@ const fs = require('fs');
 
 const scope = '{{intro.account}}';
 const scope_reg = {{{intro.accountPackageReg}}};
-const app_id = '{{intro.appId}}';
+// const app_id = '{{intro.appId}}';
 
 const withPlugins = require('next-compose-plugins');
 
 // noinspection JSValidateJSDoc
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    outputStandalone: true,
+  },
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   poweredByHeader: false,
@@ -35,8 +38,10 @@ const nextConfig = {
 }
 
 const collectModules = () => {
-  return fs.readdirSync(path.resolve(require.resolve(app_id), '../../../'))
-    .concat(fs.readdirSync(path.resolve(__dirname, 'node_modules/' + scope)) || [])
+  // return fs.readdirSync(path.resolve(require.resolve(app_id), '../../../'))
+  //   .concat(fs.readdirSync(path.resolve(__dirname, 'node_modules/' + scope)) || [])
+  //   .map(it => scope + '/' + it);
+  return (fs.readdirSync(path.resolve(__dirname, 'node_modules/' + scope)) || [])
     .map(it => scope + '/' + it);
 };
 

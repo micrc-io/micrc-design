@@ -30,8 +30,8 @@ import { appGitignoreFile } from './files/app/gitignore-file';
 import { appNextEnvFile } from './files/app/next-env-file';
 import { appTsConfigFile } from './files/app/ts-config-file';
 import { appEnvFile } from './files/app/env-file';
-import { appEnvDevFile } from './files/app/env-dev-file';
-import { appEnvProdFile } from './files/app/env-prod-file';
+import { appNpmRcFile } from './files/app/appNpmRcFile';
+import { appDockerFile } from './files/app/appDockerFile';
 import { appMetaI18nFile } from './files/app/meta/i18n-file';
 import { appMetaIntegrationFile } from './files/app/meta/integration-file';
 import { appI18nSubmissionFile } from './files/app/meta/submission/i18n-file';
@@ -78,6 +78,16 @@ export const clientendTemplate: ComponentTemplate = {
         relativePath: 'app/next.config.js',
         content: appConfigFile(data),
       },
+      // app .npmrc file
+      {
+        relativePath: 'app/.npmrc',
+        content: appNpmRcFile(),
+      },
+      // app Dockerfile file
+      {
+        relativePath: 'app/Dockerfile',
+        content: appDockerFile(),
+      },
       // app .babelrc file
       {
         relativePath: 'app/.babelrc',
@@ -112,16 +122,6 @@ export const clientendTemplate: ComponentTemplate = {
       {
         relativePath: 'app/.env',
         content: appEnvFile(),
-      },
-      // app .env.development file
-      {
-        relativePath: 'app/.env.development',
-        content: appEnvDevFile(),
-      },
-      // app .env.production file
-      {
-        relativePath: 'app/.env.production',
-        content: appEnvProdFile(),
       },
       // app pages/_app.ts file
       {
