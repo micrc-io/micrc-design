@@ -20,7 +20,7 @@ const bitBasePath = path.resolve(
 export const handlePath = (context: ComponentContext) => {
   const workspaceFilePath = path.join(bitBasePath, 'workspace.jsonc');
   const workspaceInfo = JSON.parse(fs.readFileSync(workspaceFilePath, { encoding: 'utf8' }));
-  const contextName = workspaceInfo['teambit.workspace/workspace'].name;
+  const contextName = workspaceInfo['teambit.workspace/workspace'].name.split('-')[0];
   const metaBasePath = path.resolve(
     nodeModulesBasePath, ...SCHEMA_PATH, contextName,
   );
