@@ -63,13 +63,13 @@ const handleValue = (
   return value;
 };
 
-const handleRoute = (routerPath: string, router: any) => {
-  const routeArray = routerPath.replace('/', '').split('/');
-  if (routeArray.length !== 2) {
-    throw Error(`Illegal router path: ${routerPath}`);
+const handleRoute = (routerPath: string, router: any, _ctx: any) => {
+  // const routeArray = routerPath.replace('/', '').split('/'); // /route/test/select
+  // const pageUri = routerPath.replace('/route', ''); // routeArray[1];
+  if (!_ctx.uri) {
+    throw Error(`Illegal router path: ${_ctx.uri}`);
   }
-  const pageUri = routeArray[1];
-  router?.push(pageUri);
+  router?.push(_ctx.uri);
 };
 
 const handleIntegrate = (
@@ -129,7 +129,7 @@ export const globalAction = (
       break;
     case PatchOperationType[PatchOperationType.integrate]:
       if (path.startsWith('/route')) {
-        handleRoute(path, router);
+        handleRoute(path, router, action.value || input);
       } else {
         handleIntegrate(action.value || input, state, path.replace('/', ''), router, id);
       }

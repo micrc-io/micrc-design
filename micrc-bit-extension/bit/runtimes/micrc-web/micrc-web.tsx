@@ -96,6 +96,7 @@ export const remoteStore = (
       throw Error('unexpected scope. "global, module, states, i18n, integrate" allowed');
     },
     action: (action: PatchOperation) => {
+      // {op:integrate ; path:'/主题名'，value：null }
       if (action.op === PatchOperationType[PatchOperationType.integrate]) {
         return globalAction(action, action.path, useGlobalStore, router, id);
       }

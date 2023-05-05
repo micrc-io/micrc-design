@@ -75,10 +75,9 @@ importers:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
       react-draggable: 4.4.5
-      react-iframe: ^1.8.5
+      react-iframe: 1.8.5
       react-native: 0.71.3
-      react-new-improved-window: ^0.2.9
-      react-new-window: ^1.0.1
+      react-new-improved-window: 0.2.9
       resolve-url-loader: 5.0.0
       sass: 1.58.3
       sass-loader: 13.2.0
@@ -92,6 +91,7 @@ importers:
       zustand: 4.3.6
     dependencies:
       '@ant-design/icons': registry.npmmirror.com/@ant-design/icons/5.0.1_sfoxds7t5ydpegc3knd667wn6m
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@storybook/addon-actions': registry.npmmirror.com/@storybook/addon-actions/6.5.16_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/addon-docs': registry.npmmirror.com/@storybook/addon-docs/6.5.16_hztcti6fc4b27e4wswkr6bbeqy
       '@storybook/addon-essentials': registry.npmmirror.com/@storybook/addon-essentials/6.5.16_bvfy26eimx3civs4fpd4igddfe
@@ -156,7 +156,6 @@ importers:
       react-iframe: registry.npmmirror.com/react-iframe/1.8.5_react@17.0.2
       react-native: registry.npmmirror.com/react-native/0.71.3_react@17.0.2
       react-new-improved-window: registry.npmmirror.com/react-new-improved-window/0.2.9_sfoxds7t5ydpegc3knd667wn6m
-      react-new-window: registry.npmmirror.com/react-new-window/1.0.1_sfoxds7t5ydpegc3knd667wn6m
       resolve-url-loader: registry.npmmirror.com/resolve-url-loader/5.0.0
       sass: registry.npmmirror.com/sass/1.58.3
       sass-loader: registry.npmmirror.com/sass-loader/13.2.0_sass@1.58.3+webpack@5.75.0
@@ -169,45 +168,11 @@ importers:
       webpack: registry.npmmirror.com/webpack/5.75.0
       zustand: registry.npmmirror.com/zustand/4.3.6_react@17.0.2
     devDependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@types/jest': registry.npmmirror.com/@types/jest/26.0.20
       '@types/node': registry.npmmirror.com/@types/node/12.20.4
       '@types/react': registry.npmmirror.com/@types/react/17.0.56
       '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.19
       '@types/testing-library__jest-dom': registry.npmmirror.com/@types/testing-library__jest-dom/5.9.5
-
-  bit/_examples/web/components/blank-layout:
-    specifiers: {}
-
-  bit/_examples/web/components/center-layout:
-    specifiers: {}
-
-  bit/_examples/web/components/modal-iframe:
-    specifiers: {}
-
-  bit/_examples/web/components/operation:
-    specifiers: {}
-
-  bit/_examples/web/components/query-condition:
-    specifiers: {}
-
-  bit/_examples/web/components/select-authc:
-    specifiers: {}
-
-  bit/_examples/web/components/table-list:
-    specifiers: {}
-
-  bit/_examples/web/components/text-picture:
-    specifiers: {}
-
-  bit/_examples/web/modules/business-account-auth:
-    specifiers: {}
-
-  bit/_examples/web/modules/business-account-query:
-    specifiers: {}
-
-  bit/_examples/web/modules/welcome:
-    specifiers: {}
 
   bit/compilations/micrc-app:
     specifiers: {}
@@ -249,6 +214,15 @@ importers:
     specifiers: {}
 
   bit/runtimes/micrc-web:
+    specifiers: {}
+
+  demo/web/components/blank-layout:
+    specifiers: {}
+
+  demo/web/components/login-test:
+    specifiers: {}
+
+  demo/web/modules/state-login:
     specifiers: {}
 
 packages:
@@ -3768,6 +3742,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: registry.npmmirror.com/regenerator-runtime/0.13.11
+    dev: false
 
   registry.npmmirror.com/@babel/runtime/7.21.0:
     resolution: {integrity: sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/runtime/-/runtime-7.21.0.tgz}
@@ -12708,7 +12683,7 @@ packages:
     version: 1.2.13
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: registry.npmmirror.com/bindings/1.5.0
@@ -19553,25 +19528,6 @@ packages:
       typescript: registry.npmmirror.com/typescript/4.7.3
     dev: false
 
-  registry.npmmirror.com/react-new-window/1.0.1_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-pLQlq5NzMxNocXKPIwkXfAxSOZmbpWSbP8QrxCbunpHcx4k249YChkk7l/7P4jjwxq3dI/xwL3nVHLp6h5zM3w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-new-window/-/react-new-window-1.0.1.tgz}
-    id: registry.npmmirror.com/react-new-window/1.0.1
-    name: react-new-window
-    version: 1.0.1
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      prop-types: registry.npmmirror.com/prop-types/15.8.1
-      react: registry.npmmirror.com/react/17.0.2
-      react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
-    dev: false
-
   registry.npmmirror.com/react-refresh/0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-refresh/-/react-refresh-0.11.0.tgz}
     name: react-refresh
@@ -19760,6 +19716,7 @@ packages:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz}
     name: regenerator-runtime
     version: 0.13.11
+    dev: false
 
   registry.npmmirror.com/regenerator-transform/0.15.1:
     resolution: {integrity: sha512-knzmNAcuyxV+gQCufkYcvOqX/qIIfHLv0u5x79kRxuGojfYVky1f15TzZEu2Avte8QGepvUNTnLskf8E6X6Vyg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/regenerator-transform/-/regenerator-transform-0.15.1.tgz}
