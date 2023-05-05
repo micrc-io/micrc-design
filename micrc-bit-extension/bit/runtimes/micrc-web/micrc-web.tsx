@@ -61,7 +61,7 @@ export const remoteStore = (
       });
     },
     bind: (bindingPath: string): any => {
-      const [fullScope, path] = bindingPath.split('://');
+      const [fullScope, path] = bindingPath.split('://'); // bind('integrate@switchPage:///url')
       if (!fullScope || !path) {
         throw Error('binding path must format of [global|module|states|i18n]://[json pointer]');
       }
