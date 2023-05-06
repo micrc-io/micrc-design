@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * action lib
  * global, module, states, props
@@ -156,9 +157,9 @@ export const globalAction = (
 });
 
 export const moduleAction = (
-  action: PatchOperation, path: string, moduleStore: any,
+  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '',
 ) => moduleStore((state: any) => async (inputs: any, inputPath: string) => {
-  const input = handleValue(action, moduleStore, null, null, null, inputs, inputPath);
+  const input = handleValue(action, globalStore, moduleStore, null, null, inputs, inputPath, router, id);
   const newAction: PatchOperation = {
     ...action,
     path,

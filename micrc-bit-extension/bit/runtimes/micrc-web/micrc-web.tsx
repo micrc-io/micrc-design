@@ -109,7 +109,7 @@ export const remoteStore = (
         return globalAction(action, path, useGlobalStore);
       }
       if (fullScope === StoreScope[StoreScope.module]) {
-        return moduleAction(action, path, module);
+        return moduleAction(action, path, useGlobalStore, module, router, id);
       }
       return (inputs: object, inputPath: string) =>
         execStatesAction(action, path, fullScope, inputs, inputPath);
