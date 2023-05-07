@@ -61,7 +61,7 @@ export const remoteStore = (
       });
     },
     bind: (bindingPath: string): any => {
-      const [fullScope, path] = bindingPath.split('://');
+      const [fullScope, path] = bindingPath.split('://'); // bind('integrate@switchPage:///url')
       if (!fullScope || !path) {
         throw Error('binding path must format of [global|module|states|i18n]://[json pointer]');
       }
@@ -96,6 +96,7 @@ export const remoteStore = (
       throw Error('unexpected scope. "global, module, states, i18n, integrate" allowed');
     },
     action: (action: PatchOperation) => {
+      // {op:integrate ; path:'/主题名'，value：null }
       if (action.op === PatchOperationType[PatchOperationType.integrate]) {
         return globalAction(action, action.path, useGlobalStore, router, id);
       }
@@ -108,7 +109,7 @@ export const remoteStore = (
         return globalAction(action, path, useGlobalStore);
       }
       if (fullScope === StoreScope[StoreScope.module]) {
-        return moduleAction(action, path, module);
+        return moduleAction(action, path, useGlobalStore, module, router, id);
       }
       return (inputs: object, inputPath: string) =>
         execStatesAction(action, path, fullScope, inputs, inputPath);

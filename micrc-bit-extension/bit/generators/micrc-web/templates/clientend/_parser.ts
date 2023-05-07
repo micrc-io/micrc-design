@@ -15,6 +15,21 @@ type ClientendIntro = {
   account: string,
   accountPackageReg: string,
   appId: string,
+  context: {
+    ownerDomain: string,
+    global: {
+      integration: {
+        proxyServerUrl: string,
+        registry: string,
+        gitopsRepo: string,
+      },
+      production: {
+        proxyServerUrl: string,
+        registry: string,
+        gitopsRepo: string,
+      },
+    }
+  },
 };
 
 type Assembly = {
@@ -78,7 +93,22 @@ type ClientendMeta = {
     version: string,
     state: string,
     favicon: string,
-    languages: Array<{ code: string, name: string }>
+    languages: Array<{ code: string, name: string }>,
+    context: {
+      ownerDomain: string,
+      global: {
+        integration: {
+          proxyServerUrl: string,
+          registry: string,
+          gitopsRepo: string,
+        },
+        production: {
+          proxyServerUrl: string,
+          registry: string,
+          gitopsRepo: string,
+        },
+      }
+    }
   },
   doc: {
     title: string,
