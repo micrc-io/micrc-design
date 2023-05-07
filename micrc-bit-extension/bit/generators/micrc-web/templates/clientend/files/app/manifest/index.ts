@@ -72,6 +72,6 @@ export const appManifests = (data: ClientendContextData) => [
   // k8s/kustomize/dev/kustomization.yaml
   {
     relativePath: path.join(...PATH, 'kustomize', 'dev', 'kustomization.yaml'),
-    content: devFile(),
+    content: devFile(data),
   },
 ];

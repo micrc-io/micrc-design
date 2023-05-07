@@ -5,30 +5,30 @@ import type { ClientendContextData } from '../../../_parser';
 
 export function appProductionCIFile(data: ClientendContextData) {
   return `pipeline {
-options {
-  overrideIndexTriggers(false)
-}
-agent {
-  node {
-    label 'micrc'
+  options {
+    overrideIndexTriggers(false)
   }
-}
-parameters {
-  string(name: 'commit', defaultValue: '', description: 'git commit num')
-  choice(
-    name: 'profile',
-    choices: ['no-deploy', 'alpha', 'beta', 'prod'],
-    description: 'deploy profile'
-  )
-}
-environment {
-  tag='${data.intro.version}'
-  git_credential='github-repo-admin'
-  registry_credential='registry-admin'
-  npm_credential='npm-admin'
-  docker_registry='${data.intro.context.global.production.registry}'
-  gitops_repo='${data.intro.context.global.production.gitopsRepo}'
-}
+  agent {
+    node {
+      label 'micrc'
+    }
+  }
+  parameters {
+    string(name: 'commit', defaultValue: '', description: 'git commit num')
+    choice(
+      name: 'profile',
+      choices: ['no-deploy', 'alpha', 'beta', 'prod'],
+      description: 'deploy profile'
+    )
+  }
+  environment {
+    tag='${data.intro.version}'
+    git_credential='github-repo-admin'
+    registry_credential='registry-admin'
+    npm_credential='npm-admin'
+    docker_registry='${data.intro.context.global.production.registry}'
+    gitops_repo='${data.intro.context.global.production.gitopsRepo}'
+  }
 
   stages {
     stage('${data.context.name} - integration') {
