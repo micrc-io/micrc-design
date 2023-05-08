@@ -42,6 +42,8 @@ import { appMetaTrackerFile } from './files/app/meta/tracker-file';
 import { appMetaPermissionFile } from './files/app/meta/permission-file';
 import { appManifests } from './files/app/manifest';
 import { appSkaffoldFile } from './files/app/skaffold-file';
+import { appIntegrationCIFile } from './files/app/ci/integration-jenkins-file';
+import { appProductionCIFile } from './files/app/ci/production-jenkins-file';
 
 export const clientendTemplate: ComponentTemplate = {
   name: 'micrc-web-clientend',
@@ -79,6 +81,16 @@ export const clientendTemplate: ComponentTemplate = {
       {
         relativePath: 'app/next.config.js',
         content: appConfigFile(data),
+      },
+      // app integration.jenkinsfile file
+      {
+        relativePath: 'app/integration.jenkinsfile',
+        content: appIntegrationCIFile(data),
+      },
+      // app production.jenkinsfile file
+      {
+        relativePath: 'app/production.jenkinsfile',
+        content: appProductionCIFile(data),
       },
       // app skaffold file
       {

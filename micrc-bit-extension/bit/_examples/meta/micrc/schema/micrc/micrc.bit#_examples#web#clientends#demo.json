@@ -12,7 +12,22 @@
         "code": "en-US",
         "name": "English"
       }
-    ]
+    ],
+    "context": {
+      "ownerDomain": "design-system",
+      "global": {
+        "integration": {
+          "proxyServerUrl": "http://127.0.0.1:7890",
+          "registry": "registry.integration.it.colibrierp.com.br",
+          "gitopsRepo": "github.com/colibri-tech/_gitops"
+        },
+        "production": {
+          "proxyServerUrl": "http://x.x.x.x:7890",
+          "registry": "registry.production.it.colibrierp.com.br",
+          "gitopsRepo": "github.com/colibri-tech/_gitops"
+        }
+      }
+    }
   },
   "doc": {
     "title": "用于经销商管理电商平台",

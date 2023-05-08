@@ -35,7 +35,7 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - node_modules/.cache/micrc/manifests/k8s/kustomize/local
+          - manifests/k8s/kustomize/local
         buildArgs:
           - --enable-helm
           - --load-restrictor=LoadRestrictionsNone
@@ -45,7 +45,7 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - node_modules/.cache/micrc/manifests/k8s/kustomize/dev
+          - manifests/k8s/kustomize/dev
         buildArgs:
           - --enable-helm
           - --load-restrictor=LoadRestrictionsNone

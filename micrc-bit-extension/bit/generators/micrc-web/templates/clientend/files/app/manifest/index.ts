@@ -16,7 +16,7 @@ import { baseFile } from './kustomize/base';
 import { devFile } from './kustomize/dev';
 import { localFile } from './kustomize/local';
 
-const PATH = ['app', 'node_modules', '.cache', 'micrc', 'manifests', 'k8s'];
+const PATH = ['app', 'manifests', 'k8s'];
 
 export const appManifests = (data: ClientendContextData) => [
   // k8s/helm/${clientendName}/Chart.yaml
@@ -72,6 +72,6 @@ export const appManifests = (data: ClientendContextData) => [
   // k8s/kustomize/dev/kustomization.yaml
   {
     relativePath: path.join(...PATH, 'kustomize', 'dev', 'kustomization.yaml'),
-    content: devFile(),
+    content: devFile(data),
   },
 ];

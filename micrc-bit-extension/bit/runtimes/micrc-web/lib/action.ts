@@ -146,7 +146,7 @@ export const globalAction = (
       break;
     case PatchOperationType[PatchOperationType.integrate]:
       if (path.startsWith('/route')) {
-        handleRoute(path, router, action.value.includes('://') ? input : action.value || input);
+        handleRoute(path, router, action.value || input);
       } else {
         handleIntegrate(action.value || input, state, path.replace('/', ''), router, id);
       }
