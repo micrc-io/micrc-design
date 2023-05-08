@@ -26,6 +26,11 @@
           "registry": "registry.production.it.colibrierp.com.br",
           "gitopsRepo": "github.com/colibri-tech/_gitops"
         }
+      },
+      "gateway": {
+        "entry": "colibri-erp-it/colibri-gateway",
+        "host": "*.colibrierp.com.br",
+        "rule": {}
       }
     }
   },

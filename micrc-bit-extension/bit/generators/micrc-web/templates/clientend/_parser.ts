@@ -28,6 +28,11 @@ type ClientendIntro = {
         registry: string,
         gitopsRepo: string,
       },
+    },
+    gateway: {
+      entry: string,
+      host: string,
+      rule: {},
     }
   },
 };
@@ -107,6 +112,11 @@ type ClientendMeta = {
           registry: string,
           gitopsRepo: string,
         },
+      },
+      gateway: {
+        entry: string,
+        host: string,
+        rule: {},
       }
     }
   },

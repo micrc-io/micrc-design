@@ -19,6 +19,7 @@ const tmpl = `{
   "dependencies": {
     "@mdx-js/loader": "2.1.2",
     "@mdx-js/react": "2.1.2",
+    "@micrc/bit.runtimes.micrc-web": "0.0.11",
     {{#each dependencies}}
     "{{@key}}": "{{this}}",
     {{/each}}
@@ -29,7 +30,9 @@ const tmpl = `{
     "msw": "1.1.0",
     "next": "12.1.6",
     "next-compose-plugins": "2.2.1",
-    "next-transpile-modules": "9.0.0"
+    "next-transpile-modules": "9.0.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@types/cookies": "0.7.7",

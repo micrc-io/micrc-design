@@ -18,6 +18,7 @@ secretGenerator:
 
 resources:
   - ../base
+  - ./traffic-manager.yaml
 
 patches:
   - patch: |-
