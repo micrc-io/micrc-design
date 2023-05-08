@@ -35,7 +35,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
       dependencies: {
         '@ant-design/icons': '5.0.1',
         '@babel/runtime': '7.21.0',
-        '@micrc/bit.runtimes.micrc-web': '0.0.10',
+        '@micrc/bit.runtimes.micrc-web': '0.0.11',
         '@storybook/addon-actions': '6.5.16',
         '@storybook/addon-docs': '6.5.16',
         '@storybook/addon-essentials': '6.5.16',
