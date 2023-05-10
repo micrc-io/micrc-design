@@ -19,7 +19,7 @@ const tmpl = `{
   "dependencies": {
     "@mdx-js/loader": "2.1.2",
     "@mdx-js/react": "2.1.2",
-    "@micrc/bit.runtimes.micrc-web": "0.0.11",
+    "@micrc/bit.runtimes.micrc-web": "0.0.13",
     {{#each dependencies}}
     "{{@key}}": "{{this}}",
     {{/each}}

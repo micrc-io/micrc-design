@@ -26,7 +26,7 @@ export const initModuleGlobalStore = (
   i18n: Record<string, I18nPointer>,
   tracker: any,
   integration: Record<string, IntegrationTopic>,
-  currentKey: string | '',
+  currentKey?: string | '',
 ) => {
   const languages = {};
   Object.values(i18n).forEach((pointer) => {
@@ -81,7 +81,7 @@ export const initGlobalStore = (
   i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
   tracker: any | null,
   integration: Record<string, IntegrationTopic> | null,
-  currentKey: string | '',
+  currentKey?: string | '',
 ) => {
   const state: any = useGlobalStore.getState();
   if (!state.i18n && i18n) {

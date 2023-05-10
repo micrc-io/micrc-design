@@ -97,9 +97,10 @@ export async function workspaceConfig(context: WorkspaceContext) {
         util: '0.12.5',
         webpack: '5.75.0',
         zustand: '4.3.6',
+        'react-new-improved-window': '0.2.9',
       },
       peerDependencies: {
-        '@micrc/bit.runtimes.micrc-web': '>= 0.0.11',
+        '@micrc/bit.runtimes.micrc-web': '>= 0.0.13',
         '@tarojs/components': '3.5.12',
         '@tarojs/taro': '3.5.12',
         '@tarojs/taro-h5': '3.5.12',
