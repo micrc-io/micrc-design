@@ -15,5 +15,8 @@ helmCharts:
     includeCRDs: false
     releaseName: ${data.context.name}-gateway
     version: ${data.intro.version}
+    valuesInline:
+      podAnnotations:
+        sidecar.istio.io/inject: 'true'
 `;
 }

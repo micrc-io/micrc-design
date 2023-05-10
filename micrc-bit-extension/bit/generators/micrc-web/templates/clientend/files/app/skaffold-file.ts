@@ -16,12 +16,14 @@ build:
       template: "{{.TAG}}"
   artifacts:
     - image: ${data.context.name}-gateway
+      context: ${data.intro.sourceDir}/app
       sync:
         infer: []
       docker:
         dockerfile: Dockerfile
-        buildArgs:
-          NPM_TOKEN: "{{.NPM_TOKEN}}"
+        secrets:
+          - id: npmrc
+            src: ~/.npmrc
         pullParent: true
         cliFlags:
           - "--rm"

@@ -10,21 +10,16 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-ARG NPM_TOKEN
-
-COPY .npmrc ./
 COPY package.json package-lock.json* ./
-RUN \
-  if [ -f package-lock.json ]; then npm ci; \
-  else echo "Lockfile package-lock.json not found." && exit 1; \
+RUN --mount=type=secret,id=npmrc,target=/root/.npmrc \\
+  if [ -f package-lock.json ]; then npm ci; \\
+  else echo "Lockfile not found." && exit 1; \\
   fi
-RUN rm -f .npmrc
 
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN rm -f .npmrc
+COPY . .\
 
 RUN npm run build
 
@@ -43,9 +38,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 8000
 
-ENV PORT 3000
+ENV PORT 8000
 
 CMD ["node", "server.js"]
 `;

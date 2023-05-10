@@ -37,7 +37,6 @@ export async function workspaceConfig(context: WorkspaceContext) {
       dependencies: {
         '@ant-design/icons': '5.0.1',
         '@babel/runtime': '7.21.0',
-        '@micrc/bit.runtimes.micrc-web': '0.0.13',
         '@storybook/addon-actions': '6.5.16',
         '@storybook/addon-docs': '6.5.16',
         '@storybook/addon-essentials': '6.5.16',
@@ -100,6 +99,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
         zustand: '4.3.6',
       },
       peerDependencies: {
+        '@micrc/bit.runtimes.micrc-web': '>= 0.0.11',
         '@tarojs/components': '3.5.12',
         '@tarojs/taro': '3.5.12',
         '@tarojs/taro-h5': '3.5.12',

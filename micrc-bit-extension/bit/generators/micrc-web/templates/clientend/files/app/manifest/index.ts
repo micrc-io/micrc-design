@@ -15,6 +15,7 @@ import { deploymentFile } from './helm/deployment-file';
 import { baseFile } from './kustomize/base';
 import { devFile } from './kustomize/dev';
 import { localFile } from './kustomize/local';
+import { devTrafficManagerFile } from './kustomize/dev-traffic-manager-file';
 
 const PATH = ['app', 'manifests', 'k8s'];
 
@@ -73,5 +74,10 @@ export const appManifests = (data: ClientendContextData) => [
   {
     relativePath: path.join(...PATH, 'kustomize', 'dev', 'kustomization.yaml'),
     content: devFile(data),
+  },
+  // k8s/kustomize/dev/traffic-manager.yaml
+  {
+    relativePath: path.join(...PATH, 'kustomize', 'dev', 'traffic-manager.yaml'),
+    content: devTrafficManagerFile(data),
   },
 ];

@@ -71,7 +71,7 @@
     },
     "generators/micrc-workspace": {
         "scope": "",
-        "version": "0.0.1",
+        "version": "",
         "mainFile": "index.ts",
         "rootDir": "bit/generators/micrc-workspace"
     },

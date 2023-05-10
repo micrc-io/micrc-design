@@ -39,14 +39,17 @@ export function appIntegrationCIFile(data: ClientendContextData) {
         container('micrc') {
           sh "git checkout $COMMIT"
           dir("${data.intro.sourceDir}/app") {
-            withCredentials([usernamePassword(credentialsId: "$NPM_CREDENTIAL", passwordVariable: 'NPM_TOKEN')]) {
-              sh "export NPM_TOKEN=$NPM_TOKEN && npm i"
-              sh "export TAG=$TAG && export NPM_TOKEN=$NPM_TOKEN && skaffold build -p $PROFILE --default-repo=$DOCKER_REGISTRY"
+            withCredentials([
+              usernamePassword(credentialsId: "$NPM_CREDENTIAL", usernameVariable: 'NPM_REGISTRY', passwordVariable: 'NPM_TOKEN'),
+              usernamePassword(credentialsId: "$REGISTRY_CREDENTIAL", passwordVariable: 'REGISTRY_PASSWORD', usernameVariable: 'REGISTRY_USERNAME')
+            ]) {
+              sh "echo $NPM_REGISTRY > ~/.npmrc"
+              sh "echo $NPM_TOKEN >> ~/.npmrc"
+              sh "npm i"
+              sh "export TAG=$TAG && skaffold build -p $PROFILE --default-repo=$DOCKER_REGISTRY"
+              sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
+              sh "docker push $DOCKER_REGISTRY/${data.context.name}-gateway:$TAG"
             }
-          }
-          withCredentials([usernamePassword(credentialsId: "$REGISTRY_CREDENTIAL", passwordVariable: 'REGISTRY_PASSWORD', usernameVariable: 'REGISTRY_USERNAME')]) {
-            sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
-            sh "docker push $DOCKER_REGISTRY/${data.context.name}-gateway:$TAG"
           }
         }
       }
@@ -57,12 +60,14 @@ export function appIntegrationCIFile(data: ClientendContextData) {
       }
       steps {
         container('micrc') {
-          withCredentials([usernamePassword(credentialsId: "$REGISTRY_CREDENTIAL", passwordVariable: 'REGISTRY_PASSWORD', usernameVariable: 'REGISTRY_USERNAME')]) {
+          withCredentials([
+            usernamePassword(credentialsId: "$REGISTRY_CREDENTIAL", passwordVariable: 'REGISTRY_PASSWORD', usernameVariable: 'REGISTRY_USERNAME')
+          ]) {
             sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
-          }
-          dir("${data.intro.sourceDir}/app") {
-            sh "/bin/cp ~/.docker/config.json ./build/micrc/manifests/k8s/kustomize/docker-config.json"
-            sh "export TAG=$TAG && export NPM_TOKEN=$NPM_TOKEN && skaffold render -p $PROFILE --digest-source=tag --default-repo=$DOCKER_REGISTRY > ${data.context.name}-gateway-manifest.yaml"
+            dir("${data.intro.sourceDir}/app") {
+              sh "/bin/cp ~/.docker/config.json ./build/micrc/manifests/k8s/kustomize/docker-config.json"
+              sh "export TAG=$TAG && skaffold render -p $PROFILE --digest-source=tag --default-repo=$DOCKER_REGISTRY > ${data.context.name}-gateway-manifest.yaml"
+            }
           }
           lock("micrc-gitops") {
             dir("../"){
