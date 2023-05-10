@@ -1,0 +1,325 @@
+{
+  "intro": {
+    "version": "0.0.1",
+    "state": "designing",
+    "favicon": "https://s1.ax1x.com/2023/03/23/ppwKdYT.png",
+    "languages": [
+      {
+        "code": "zh_CN",
+        "name": "简体中文"
+      },
+      {
+        "code": "en-US",
+        "name": "English"
+      }
+    ]
+  },
+  "doc": {
+    "title": "demo clientend",
+    "labels": ["demo", "clientend", "test"],
+    "showcase": "https://xxxx/xxx/xx - 这是一个开发集群日构建版本地址",
+    "desc": "md字符串, 使用md在线工具编写, 使用在线工具拷贝到yaml文件, 转为json单行文本后拷贝回来"
+  },
+  "integration": {
+    "topic1": {
+      "name": "topic1",
+      "producer": {
+        "pageUri": "/xxx1/xx1/x1",
+        "moduleId": "micrc.bit/xxx1/xx1/x1",
+        "schema": {}
+      },
+      "consumers": [{
+        "pageUri": "/yyy1/yy1/y1",
+        "moduleId": "micrc.bit/yyy1/yy1/y1",
+        "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+        "state": {}
+      }]
+    },
+    "topic2": {
+      "name": "topic2",
+      "producer": {
+        "pageUri": "/xxx2/xx2/x2",
+        "moduleId": "micrc.bit/xxx2/xx2/x2",
+        "schema": {}
+      },
+      "consumers": [{
+        "pageUri": "/yyy21/yy21/y21",
+        "moduleId": "micrc.bit/yyy21/yy21/y21",
+        "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+        "state": {}
+      }, {
+        "pageUri": "/yyy22/yy22/y22",
+        "moduleId": "micrc.bit/yyy22/yy22/y22",
+        "schema": "{ a: ctx.a, b: ctx.b + ctx.c }",
+        "state": {}
+      }]
+    }
+  },
+  "entry": {
+    "modules": {
+      "MainMenu": {
+        "package": "@micrc/bit._examples.web.modules.main-menu",
+        "version": "0.0.1",
+        "i18n": {
+          "btn.submit": {
+            "key": "btn.submit",
+            "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
+            "defaults": {
+              "zh_CN": "提交",
+              "en_US": "Submit"
+            }
+          }
+        }
+      },
+      "SubMenu": {
+        "package": "@micrc/bit._examples.web.modules.sub-menu",
+        "version": "0.0.1",
+        "i18n": {
+          "btn.submit": {
+            "key": "btn.submit",
+            "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
+            "defaults": {
+              "zh_CN": "提交",
+              "en_US": "Submit"
+            }
+          }
+        }
+      },
+      "Languages": {
+        "package": "@micrc/bit._examples.web.modules.languages",
+        "version": "0.0.1",
+        "i18n": {}
+      },
+      "SystemAccount": {
+        "package": "@micrc/bit._examples.web.modules.system-account",
+        "version": "0.0.1",
+        "i18n": {}
+      },
+      "ProductLogo": {
+        "package": "@micrc/bit._examples.web.modules.product-logo",
+        "version": "0.0.1",
+        "i18n": {
+          "btn.submit": {
+            "key": "btn.submit",
+            "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
+            "defaults": {
+              "zh_CN": "提交",
+              "en_US": "Submit"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "AuthcGenericLayout": {
+        "package": "@micrc/bit._examples.web.components.authc-generic-layout",
+        "version": "0.0.1"
+      },
+      "AdminGenericLayout": {
+        "package": "@micrc/bit._examples.web.components.admin-generic-layout",
+        "version": "0.0.1"
+      }
+    },
+    "layouts": {
+      "AuthcGenericLayout": {
+        "uris": ["/authc"],
+        "props": {
+          "logo": {
+            "assemblies": [
+              {
+                "name": "ProductLogo",
+                "children": null,
+                "props": {
+                  "router": {
+                    "_val": {}
+                  }
+                }
+              }
+            ]
+          },
+          "toolbar": [
+            {
+              "assemblies": [
+                {
+                  "name": "Languages",
+                  "children": null,
+                  "props": {
+                    "router": {
+                      "_val": {}
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "AdminGenericLayout": {
+        "uris": ["/", "/order-summery"],
+        "props": {
+          "header": {
+            "assemblies": [
+              {
+                "name": "MainMenu",
+                "children": null,
+                "props": {
+                  "router": {
+                    "_val": {}
+                  }
+                }
+              }
+            ]
+          },
+          "sideBar": {
+            "assemblies": [
+              {
+                "name": "SubMenu",
+                "children": null,
+                "props": {
+                  "router": {
+                    "_val": {}
+                  }
+                }
+              }
+            ]
+          },
+          "logo": {
+            "assemblies": [
+              {
+                "name": "ProductLogo",
+                "children": null,
+                "props": {
+                  "router": {
+                    "_val": {}
+                  }
+                }
+              }
+            ]
+          },
+          "toolbar": [
+            {
+              "assemblies": [
+                {
+                  "name": "SystemAccount",
+                  "children": null,
+                  "props": {
+                    "key": "0",
+                    "router": {
+                      "_val": {}
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "assemblies": [
+                {
+                  "name": "Languages",
+                  "children": null,
+                  "props": {
+                    "key": "0",
+                    "router": {
+                      "_val": {}
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "pages": {
+    "/authc": {
+      "comment": ["认证页面", "包含一个登陆模块"],
+      "permissions": {
+        "anonymous": []
+      },
+      "i18n": {
+        "btn.submit": {
+          "key": "btn.submit",
+          "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
+          "defaults": {
+            "zh_CN": "提交",
+            "en_US": "Submit"
+          }
+        }
+      },
+      "modules": {
+        "Authc": {
+          "package": "@micrc/bit._examples.web.modules.authc",
+          "version": "0.0.1",
+          "i18n": {}
+        }
+      },
+      "components": {
+        "Blank": {
+          "package": "@micrc/bit._examples.web.components.blank",
+          "version": "1.0.0"
+        }
+      },
+      "assembly": {
+        "layout": "Blank",
+        "props": {
+          "content": {
+            "assemblies": [
+              {
+                "name": "Authc",
+                "children": null,
+                "props": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "/": {
+      "comment": [
+        "首页",
+        "暂时包含一个产品介绍模块, 也可以放一个控制台",
+        "首页限定为必须展示独立页面, 不要做重定向到其他页面, 容易混淆"
+      ],
+      "permissions": {
+        "distributor": ["a:*"]
+      },
+      "i18n": {},
+      "modules": {
+        "ProductWelcome": {
+          "package": "@micrc/bit._examples.web.modules.product-welcome",
+          "version": "0.0.1",
+          "i18n": {
+            "btn.submit": {
+              "key": "btn.submit",
+              "desc": "/uri/xxx-micrc.bit/xxx/xxx/xxx",
+              "defaults": {
+                "zh_CN": "提交",
+                "en_US": "Submit"
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "Blank": {
+          "package": "@micrc/bit._examples.web.components.blank",
+          "version": "1.0.0"
+        }
+      },
+      "assembly": {
+        "layout": "Blank",
+        "props": {
+          "content": {
+            "assemblies": [
+              {
+                "name": "ProductWelcome",
+                "children": null,
+                "props": {}
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
