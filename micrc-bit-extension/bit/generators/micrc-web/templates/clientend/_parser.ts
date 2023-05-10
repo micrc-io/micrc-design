@@ -344,7 +344,7 @@ const handleIntegration = (meta: ClientendMeta): Record<string, IntegrationTopic
       consumers: {},
     };
     it.consumers.forEach((consumer) => {
-      const key = `${consumer.pageUri.replace(/\//g, '_')}:${consumer.moduleId}`;
+      const key = `${consumer.pageUri}:${consumer.moduleId}`;
       retVal[it.name].consumers[key] = consumer;
     });
   });

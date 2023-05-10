@@ -9,7 +9,9 @@ export async function workspaceConfig(context: WorkspaceContext) {
   const configParsed = await getWorkspaceConfigTemplateParsed();
   // 工作空间名称，default scope
   configParsed['teambit.workspace/workspace'].name = context.name;
-  configParsed['teambit.workspace/workspace'].defaultScope = context.defaultScope;
+  // 如果类型是components或者atoms，那么default scope应该必须是design 'atoms', 'components'
+  // eslint-disable-next-line no-constant-condition
+  configParsed['teambit.workspace/workspace'].defaultScope = context.name.split('-')[2] === 'components' || 'atoms' ? 'colibri-tech.design-system' : context.defaultScope;
   // scope ui中展示的logo
   configParsed['teambit.workspace/workspace'].icon = 'https://bitsrc.imgix.net/eb3c4405de109d8186592f28c446b8bdd0814001.jpeg?fit=scale&w=91&h=85';
 
@@ -35,7 +37,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
       dependencies: {
         '@ant-design/icons': '5.0.1',
         '@babel/runtime': '7.21.0',
-        '@micrc/bit.runtimes.micrc-web': '0.0.11',
+        '@micrc/bit.runtimes.micrc-web': '0.0.13',
         '@storybook/addon-actions': '6.5.16',
         '@storybook/addon-docs': '6.5.16',
         '@storybook/addon-essentials': '6.5.16',
@@ -126,7 +128,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
   };
 
   configParsed['teambit.workspace/variants'] = {
-    '{web/**}': {
+    '{**/web/**}': {
       'micrc.bit/envs/micrc-web@1.0.3': {},
     },
     '{mini/**}': {
