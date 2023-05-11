@@ -4,7 +4,7 @@
     "name": "_examples-design-modules",
     "icon": "https://bitsrc.imgix.net/eb3c4405de109d8186592f28c446b8bdd0814001.jpeg?fit=scale&w=91&h=85",
     "defaultDirectory": "{scope}/{name}",
-    "defaultScope": "colibri-tech.design-system"
+    "defaultScope": "micrc.test"
   },
   "teambit.dependencies/dependency-resolver": {
     "packageManager": "teambit.dependencies/pnpm",

@@ -8378,7 +8378,7 @@ packages:
       rc-mentions: registry.npmmirror.com/rc-mentions/2.0.0_sfoxds7t5ydpegc3knd667wn6m
       rc-menu: registry.npmmirror.com/rc-menu/9.8.4_sfoxds7t5ydpegc3knd667wn6m
       rc-motion: registry.npmmirror.com/rc-motion/2.7.3_sfoxds7t5ydpegc3knd667wn6m
-      rc-notification: registry.npmmirror.com/rc-notification/5.0.3_sfoxds7t5ydpegc3knd667wn6m
+      rc-notification: registry.npmmirror.com/rc-notification/5.0.4_sfoxds7t5ydpegc3knd667wn6m
       rc-pagination: registry.npmmirror.com/rc-pagination/3.2.0_sfoxds7t5ydpegc3knd667wn6m
       rc-picker: registry.npmmirror.com/rc-picker/3.2.4_3k25dfbgqbh5cjdt2kbkjmeb2i
       rc-progress: registry.npmmirror.com/rc-progress/3.4.1_sfoxds7t5ydpegc3knd667wn6m
@@ -19204,11 +19204,11 @@ packages:
       react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
     dev: false
 
-  registry.npmmirror.com/rc-notification/5.0.3_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-+wHbHu6RiTNtsZYx42WxWA+tC5m0qyKvJAauO4/6LIEyJspK8fRlFQz+OCFgFwGuNs3cOdo9tLs+cPfztSZwbQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rc-notification/-/rc-notification-5.0.3.tgz}
-    id: registry.npmmirror.com/rc-notification/5.0.3
+  registry.npmmirror.com/rc-notification/5.0.4_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-3535oellIRlt1LspERfK8yvCqb8Gio3R02rULciaSc1xe3H7ArTU/khlUTv1ddGzua4HhmF4D4Rwz/+mBxETvg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rc-notification/-/rc-notification-5.0.4.tgz}
+    id: registry.npmmirror.com/rc-notification/5.0.4
     name: rc-notification
-    version: 5.0.3
+    version: 5.0.4
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '*'
@@ -19877,10 +19877,10 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmmirror.com/react-native-gradle-plugin/0.71.17:
-    resolution: {integrity: sha512-OXXYgpISEqERwjSlaCiaQY6cTY5CH6j73gdkWpK0hedxtiWMWgH+i5TOi4hIGYitm9kQBeyDu+wim9fA8ROFJA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.17.tgz}
+  registry.npmmirror.com/react-native-gradle-plugin/0.71.18:
+    resolution: {integrity: sha512-7F6bD7B8Xsn3JllxcwHhFcsl9aHIig47+3eN4IHFNqfLhZr++3ElDrcqfMzugM+niWbaMi7bJ0kAkAL8eCpdWg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz}
     name: react-native-gradle-plugin
-    version: 0.71.17
+    version: 0.71.18
     dev: false
 
   registry.npmmirror.com/react-native-modal/13.0.1_ffzbiptsl2t2zrbm64zftjhxge:
@@ -19942,7 +19942,7 @@ packages:
       react: registry.npmmirror.com/react/17.0.2
       react-devtools-core: registry.npmmirror.com/react-devtools-core/4.27.7
       react-native-codegen: registry.npmmirror.com/react-native-codegen/0.71.5
-      react-native-gradle-plugin: registry.npmmirror.com/react-native-gradle-plugin/0.71.17
+      react-native-gradle-plugin: registry.npmmirror.com/react-native-gradle-plugin/0.71.18
       react-refresh: registry.npmmirror.com/react-refresh/0.4.3
       react-shallow-renderer: registry.npmmirror.com/react-shallow-renderer/16.15.0_react@17.0.2
       regenerator-runtime: registry.npmmirror.com/regenerator-runtime/0.13.11

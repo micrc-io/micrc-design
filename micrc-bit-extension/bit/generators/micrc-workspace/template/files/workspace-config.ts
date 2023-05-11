@@ -11,7 +11,13 @@ export async function workspaceConfig(context: WorkspaceContext) {
   configParsed['teambit.workspace/workspace'].name = context.name;
   // 如果类型是components或者atoms，那么default scope应该必须是design 'atoms', 'components'
   // eslint-disable-next-line no-constant-condition
-  configParsed['teambit.workspace/workspace'].defaultScope = context.name.split('-')[2] === 'components' || 'atoms' ? 'colibri-tech.design-system' : context.defaultScope;
+  let defaultScope = '';
+  if (context.name.split('-')[2] === 'components' || context.name.split('-')[2] === 'atoms') {
+    defaultScope = 'colibri-tech.design-system';
+  } else {
+    defaultScope = context.defaultScope;
+  }
+  configParsed['teambit.workspace/workspace'].defaultScope = defaultScope;
   // scope ui中展示的logo
   configParsed['teambit.workspace/workspace'].icon = 'https://bitsrc.imgix.net/eb3c4405de109d8186592f28c446b8bdd0814001.jpeg?fit=scale&w=91&h=85';
 
