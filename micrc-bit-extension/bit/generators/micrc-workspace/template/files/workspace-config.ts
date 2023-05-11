@@ -10,14 +10,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
   // 工作空间名称，default scope
   configParsed['teambit.workspace/workspace'].name = context.name;
   // 如果类型是components或者atoms，那么default scope应该必须是design 'atoms', 'components'
-  // eslint-disable-next-line no-constant-condition
-  let defaultScope = '';
-  if (context.name.split('-')[2] === 'components' || context.name.split('-')[2] === 'atoms') {
-    defaultScope = 'colibri-tech.design-system';
-  } else {
-    defaultScope = context.defaultScope;
-  }
-  configParsed['teambit.workspace/workspace'].defaultScope = defaultScope;
+  configParsed['teambit.workspace/workspace'].defaultScope = context.name.split('-')[2] === 'components' || context.name.split('-')[2] === 'atoms' ? 'colibri-tech.design-system' : context.defaultScope;
   // scope ui中展示的logo
   configParsed['teambit.workspace/workspace'].icon = 'https://bitsrc.imgix.net/eb3c4405de109d8186592f28c446b8bdd0814001.jpeg?fit=scale&w=91&h=85';
 
@@ -92,6 +85,8 @@ export async function workspaceConfig(context: WorkspaceContext) {
         prettier: '2.8.4',
         'prettier-package-json': '2.8.0',
         'react-draggable': '4.4.5',
+        'react-iframe': '1.8.5',
+        'react-new-improved-window': '0.2.9',
         'resolve-url-loader': '5.0.0',
         sass: '1.58.3',
         'sass-loader': '13.2.0',
@@ -103,7 +98,6 @@ export async function workspaceConfig(context: WorkspaceContext) {
         util: '0.12.5',
         webpack: '5.75.0',
         zustand: '4.3.6',
-        'react-new-improved-window': '0.2.9',
       },
       peerDependencies: {
         '@micrc/bit.runtimes.micrc-web': '>= 0.0.13',
