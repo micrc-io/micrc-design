@@ -5,12 +5,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // noinspection JSUnresolvedVariable,JSUnresolvedFunction,NodeCoreCodingAssistance
 const path = require('path');
 
-const scope_reg = /^(.+?[\\/]node_modules)[\\/]((?!@micrc)).*[\\/]*/;
+const scope_reg = /^(.+?[\\/]node_modules)[\\/]((?!@colibri-tech)).*[\\/]*/;
 
 // noinspection JSUnresolvedVariable
 module.exports = {
   "stories": [
-    "../test/!(_apps)/**/*.stories.@(js|jsx|ts|tsx)",
+    "../design-system/!(_apps)/**/*.stories.@(js|jsx|ts|tsx)",
   ],
   "addons": [
     "@storybook/addon-links",
