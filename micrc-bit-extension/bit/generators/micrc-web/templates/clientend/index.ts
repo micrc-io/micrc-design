@@ -30,7 +30,6 @@ import { appGitignoreFile } from './files/app/gitignore-file';
 import { appNextEnvFile } from './files/app/next-env-file';
 import { appTsConfigFile } from './files/app/ts-config-file';
 import { appEnvFile } from './files/app/env-file';
-import { appNpmRcFile } from './files/app/npmrc-file';
 import { appDockerFile } from './files/app/docker-file';
 import { appMetaI18nFile } from './files/app/meta/i18n-file';
 import { appMetaIntegrationFile } from './files/app/meta/integration-file';
@@ -96,11 +95,6 @@ export const clientendTemplate: ComponentTemplate = {
       {
         relativePath: 'app/skaffold.yaml',
         content: appSkaffoldFile(data),
-      },
-      // app .npmrc file
-      {
-        relativePath: 'app/.npmrc',
-        content: appNpmRcFile(),
       },
       // app Dockerfile file
       {
