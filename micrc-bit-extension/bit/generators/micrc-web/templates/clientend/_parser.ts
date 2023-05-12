@@ -10,6 +10,7 @@ type ClientendIntro = {
   version: string,
   state: string,
   favicon: string,
+  namespace: string,
   metaBasePath: string,
   sourceDir: string,
   account: string,
@@ -98,6 +99,7 @@ type ClientendMeta = {
     version: string,
     state: string,
     favicon: string,
+    namespace:string,
     languages: Array<{ code: string, name: string }>,
     context: {
       ownerDomain: string,

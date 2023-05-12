@@ -109,8 +109,8 @@ type ModuleMeta = {
     version: string,
     state: string,
     modelFilePath: string,
-    params: Record<string, any>,
-    pathName: string,
+    ownerDomain: string,
+    context: string,
   },
   permissions: Record<string, Array<string>>,
   i18n: Record<string, I18nPointerMeta>,
@@ -126,8 +126,6 @@ type ModuleMeta = {
   remoteState: {
     rpc: {
       protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
-      url: string, // api url前缀, /api/v1/xxx, 用于合并协议文件
-      host: string, // 集成主机, http://xxx.svc.localhost, 用于合并协议文件
     },
     ws: {
       protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
@@ -153,10 +151,10 @@ export type ModuleContextData = {
     version: string, // 组件版本, 同时作为协议版本, 用于合并协议文件
     state: string, // 组件状态(设计, 发布, 完成)
     modelFilePath: string, // 聚合模型元数据文件路径(相对于上下文目录)
-    params: Record<string, any>, // 参数
-    pathName: string, // uri
     sourceDir: string, // 组件源代码目录
     metaBasePath: string, // 元数据根目录, schema下的上下文目录
+    ownerDomain: string, // 子域名称
+    context: string, // 上下文名称
   },
   permissions: Array<string>, // 模块权限组
   i18n: Record<string, I18nPointerMeta>, // 国际化点位
@@ -174,8 +172,6 @@ export type ModuleContextData = {
   remoteState?: { // 远程状态, 调用api
     rpc: {
       protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
-      url: string, // api url前缀, /api/v1/xxx, 用于合并协议文件
-      host: string, // 集成主机, http://xxx.svc.localhost, 用于合并协议文件
     },
     ws: {
       protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件

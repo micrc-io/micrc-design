@@ -1,6 +1,8 @@
 /**
  * app/pages/api/[...slug].ts
  */
+import HandleBars from 'handlebars';
+import type { ClientendContextData } from '../../../_parser';
 
 const tmpl = `// api proxy.
 // note: 这里仅处理请求代理转发, 不必负责启动msw, 各状态组件mock会自行处理
@@ -21,6 +23,7 @@ const SERVER_TOKEN_POINTER = process.env.SERVER_TOKEN_POINTER || '/auth_token';
 
 const proxy = createProxyMiddleware({
   changeOrigin: true,
+  selfHandleResponse:true,
   pathRewrite: (path: string, req: Request): string => {
     if (!req.headers['x-host']) { // 如果没有x-host, 重写为空, 以转发到400报错
       return '';
@@ -28,7 +31,9 @@ const proxy = createProxyMiddleware({
     return path;
   },
   router: (req: Request): string => {
-    const host = req.headers['x-host'];
+    const hostSuffix = '.svc.cluster.local';
+    const [ownerDomain,context]=req.headers['x-host'].split('.');
+    const host = \`http://\${context}-service.{{namespace}}.\${ownerDomain}.\${process.env.APP_ENV}.\${hostSuffix} \`;
     if (host && typeof host === 'string') {
       return host;
     }
@@ -89,6 +94,6 @@ export const config = {
 };
 `;
 
-export function apiProxyFile() {
-  return tmpl;
+export function apiProxyFile(data: ClientendContextData) {
+  return HandleBars.compile(tmpl)(data.intro);
 }

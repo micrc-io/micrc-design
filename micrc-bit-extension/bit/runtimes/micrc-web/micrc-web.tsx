@@ -100,6 +100,9 @@ export const remoteStore = (
       if (action.op === PatchOperationType[PatchOperationType.integrate]) {
         return globalAction(action, action.path, useGlobalStore, router, id);
       }
+      if (action.op === PatchOperationType[PatchOperationType.exec]) {
+        return globalAction(action, action.path, useGlobalStore, router, id);
+      }
       const [fullScope, path] = action.path.split('://');
       if (!fullScope || !path) {
         throw Error('action path must format of [global|module|states]://[json pointer]');

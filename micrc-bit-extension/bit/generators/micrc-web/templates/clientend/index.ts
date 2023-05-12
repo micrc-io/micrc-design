@@ -144,7 +144,7 @@ export const clientendTemplate: ComponentTemplate = {
       // app pages/api/[...slug].ts file
       {
         relativePath: 'app/pages/api/[...slug].ts',
-        content: apiProxyFile(),
+        content: apiProxyFile(data),
       },
       // app api files
       {

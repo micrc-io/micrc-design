@@ -18,6 +18,7 @@ export enum PatchOperationType {
   perform,
   verify,
   integrate,
+  exec,
 }
 
 export type PatchOperation = {
@@ -130,6 +131,10 @@ const handleIntegrate = (
   }
 };
 
+// const handleExec = (_ctx: any, state: any, action: any) => {
+
+// };
+
 export const globalAction = (
   action: PatchOperation, path: string, globalStore: any, router: any = null, id: string = '',
 ) => globalStore((state: any) => (inputs: any, inputPath: string) => {
@@ -151,6 +156,9 @@ export const globalAction = (
         handleIntegrate(action.value || input, state, path.replace('/', ''), router, id);
       }
       break;
+    // case PatchOperationType[PatchOperationType.exec]:
+    //   handleExec(state, action.value || input, action);
+    //   break;
     default:
       throw Error('un-excepted operation for store of global. "add, replace, remove, integrate" allowed');
   }
