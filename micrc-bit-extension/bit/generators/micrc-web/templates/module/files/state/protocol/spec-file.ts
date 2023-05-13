@@ -163,8 +163,8 @@ Object.keys(spec.paths).forEach((path: string) => {
         validate: validator(requestValidator),
         err: {},
       },
-      // result: (response.examples.default as ExampleObject).value,
-      result: (response.examples.mock as ExampleObject),
+      result: (response.examples.default as ExampleObject).value,
+      // result: (response.examples.mock as ExampleObject),
       error: {
         validate: validator(responseValidator),
         err: {},

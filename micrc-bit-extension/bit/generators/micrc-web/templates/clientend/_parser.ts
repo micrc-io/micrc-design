@@ -32,7 +32,7 @@ type ClientendIntro = {
     },
     gateway: {
       entry: string,
-      host: string,
+      fqdn: string,
       rule: {},
     }
   },
@@ -117,7 +117,7 @@ type ClientendMeta = {
       },
       gateway: {
         entry: string,
-        host: string,
+        fqdn: string,
         rule: {},
       }
     }

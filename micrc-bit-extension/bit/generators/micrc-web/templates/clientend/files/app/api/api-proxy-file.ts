@@ -32,7 +32,7 @@ const proxy = createProxyMiddleware({
   },
   router: (req: Request): string => {
     const hostSuffix = '.svc.cluster.local';
-    const [ownerDomain,context]=req.headers['x-host'].split('.');
+    const [ownerDomain,context] = req.headers['x-host'].split('.');
     const host = \`http://\${context}-service.{{namespace}}.\${ownerDomain}.\${process.env.APP_ENV}.\${hostSuffix} \`;
     if (host && typeof host === 'string') {
       return host;
