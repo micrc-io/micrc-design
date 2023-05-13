@@ -13,7 +13,7 @@ import { checkout, copy, init } from '../jobs';
 log.setLevel('INFO');
 
 export class ConfigureCmd implements Command {
-  name = 'micrc-web:conf';
+  name = 'micrc:conf';
 
   description = 'merge meta file from schema branch';
 
@@ -29,9 +29,9 @@ export class ConfigureCmd implements Command {
 
   async report(): Promise<string> {
     log.info('');
+    await init(); // 安装依赖并初始化配置workspace
     await checkout(); // 合并schema分支中的元数据文件
     await copy(); // 将元数据copy到.cache/micrc/schema中
-    await init(); // 安装依赖并初始化配置workspace
     return Promise.resolve(`${this.name} complete`);
   }
 }
