@@ -12,7 +12,10 @@ const OpenAPISampler = require('openapi-sampler');
 const handlers = protocols.map((proto) => {
   const path = (protocol) => {
     if (typeof window === 'undefined') {
-      return \`\${protocol.host}\${protocol.url}\${protocol.path}\`;
+      const hostSuffix = '.svc.cluster.local';
+      const [ownerDomain, context] = protocol.host.split('.');
+      return \`http://\${context}-service.\${process.env.NAMESPACE_PRODUCT}.\${ownerDomain}.\${process.env.APP_ENV}\${hostSuffix}\${protocol.url}\${protocol.path}\`;
+      // return \`\${protocol.host}\${protocol.url}\${protocol.path}\`;
     }
     return \`\${protocol.url}\${protocol.path}\`;
   };

@@ -134,7 +134,7 @@ export const clientendTemplate: ComponentTemplate = {
       // app .env file
       {
         relativePath: 'app/.env',
-        content: appEnvFile(),
+        content: appEnvFile(data),
       },
       // app pages/_app.ts file
       {
@@ -144,7 +144,7 @@ export const clientendTemplate: ComponentTemplate = {
       // app pages/api/[...slug].ts file
       {
         relativePath: 'app/pages/api/[...slug].ts',
-        content: apiProxyFile(data),
+        content: apiProxyFile(),
       },
       // app api files
       {
