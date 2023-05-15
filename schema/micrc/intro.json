@@ -1,1 +1,5 @@
-{}
+{
+  "global": {
+    "npmRepoUrl": "https://packages.aliyun.com/63640832603557de05c9fd31/npm/npm-registry/"
+  }
+}
