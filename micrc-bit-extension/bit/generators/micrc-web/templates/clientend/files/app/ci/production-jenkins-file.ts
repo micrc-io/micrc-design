@@ -76,7 +76,7 @@ export function appProductionCIFile(data: ClientendContextData) {
                 sh "export https_proxy=${data.intro.context.global.production.proxyServerUrl} && git clone https://$GIT_USERNAME:$GIT_PASSWORD@$GITOPS_REPO gitops"
               }
             }
-            sh "mkdir -p ../gitops/profiles/$PROFILE/architecture"
+            sh "mkdir -p ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}"
             sh "/bin/cp ${data.intro.sourceDir}/app/${data.context.name}-gateway-manifest.yaml ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}/${data.context.name}-gateway-manifest.yaml"
             dir("../gitops"){
               sh "git config --global user.email 'developer@ouxxa.com'"
