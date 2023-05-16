@@ -53,7 +53,6 @@ export const clientendTemplate: ComponentTemplate = {
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
       context,
     );
-    console.log(' relativePath', relativePath);
     data.intro.metaBasePath = metaBasePath;
     data.intro.relativePath = relativePath;
     return [
