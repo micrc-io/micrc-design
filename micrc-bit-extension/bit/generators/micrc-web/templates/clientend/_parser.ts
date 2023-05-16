@@ -12,6 +12,7 @@ type ClientendIntro = {
   favicon: string,
   namespace: string,
   metaBasePath: string,
+  relativePath: string,
   sourceDir: string,
   account: string,
   accountPackageReg: string,
@@ -367,6 +368,7 @@ export const parse = (meta: ClientendMeta, context: ComponentContext): Clientend
   const intro = {
     ...meta.intro,
     metaBasePath: '',
+    relativePath: '',
     sourceDir: handleSourceDir(context),
     account: `@${context.componentId.scope.split('.')[0]}`,
     accountPackageReg: `/^(.+?[\\\\/]node_modules)[\\\\/]((?!@${context.componentId.scope.split('.')[0]})).*[\\\\/]*/`,

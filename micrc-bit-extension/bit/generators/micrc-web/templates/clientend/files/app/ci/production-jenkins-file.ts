@@ -64,9 +64,9 @@ export function appProductionCIFile(data: ClientendContextData) {
             usernamePassword(credentialsId: "$REGISTRY_CREDENTIAL", passwordVariable: 'REGISTRY_PASSWORD', usernameVariable: 'REGISTRY_USERNAME')
           ]) {
             sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
-            dir("${data.intro.sourceDir}/app") {
-              sh "/bin/cp ~/.docker/config.json ./build/micrc/manifests/k8s/kustomize/docker-config.json"
-              sh "export TAG=$TAG && skaffold render -p $PROFILE --digest-source=tag --default-repo=$DOCKER_REGISTRY > ${data.intro.sourceDir}-gateway-manifest.yaml"
+            dir("${data.intro.relativePath}") {
+              sh "/bin/cp ~/.docker/config.json ./${data.intro.relativePath}/manifests/k8s/kustomize/docker-config.json"
+              sh "export TAG=$TAG && skaffold render -p $PROFILE --digest-source=tag --default-repo=$DOCKER_REGISTRY > ${data.context.name}-gateway-manifest.yaml"
             }
           }
           lock("micrc-gitops") {
@@ -77,7 +77,7 @@ export function appProductionCIFile(data: ClientendContextData) {
               }
             }
             sh "mkdir -p ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}"
-            sh "/bin/cp ${data.intro.sourceDir}/app/${data.context.name}-gateway-manifest.yaml ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}/${data.context.name}-gateway-manifest.yaml"
+            sh "/bin/cp ${data.intro.relativePath}/${data.context.name}-gateway-manifest.yaml ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}/${data.context.name}-gateway-manifest.yaml"
             dir("../gitops"){
               sh "git config --global user.email 'developer@ouxxa.com'"
               sh "git config --global user.name 'jenkins'"

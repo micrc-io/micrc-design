@@ -16,7 +16,7 @@ build:
       template: "{{.TAG}}"
   artifacts:
     - image: ${data.context.name}-gateway
-      context: ${data.intro.sourceDir}/app
+      context: .
       sync:
         infer: []
       docker:
