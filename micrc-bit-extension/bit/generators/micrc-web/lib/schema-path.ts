@@ -20,14 +20,19 @@ const bitBasePath = path.resolve(
 export const handlePath = (context: ComponentContext) => {
   const workspaceFilePath = path.join(bitBasePath, 'workspace.jsonc');
   const workspaceInfo = JSON.parse(fs.readFileSync(workspaceFilePath, { encoding: 'utf8' }));
-  const contextName = workspaceInfo['teambit.workspace/workspace'].name.split('-')[0];
+  const workspaceName = workspaceInfo['teambit.workspace/workspace'].name;
+  const scope = workspaceInfo['teambit.workspace/workspace'].defaultScope.split('.')[1];
+  const contextName = workspaceName.split('-')[0];
+  const componentType = workspaceName.split('-')[2];
   const metaBasePath = path.resolve(
-    nodeModulesBasePath, ...SCHEMA_PATH, contextName,
+    nodeModulesBasePath, ...SCHEMA_PATH,
   );
   const metaFile = `${context.componentId.toStringWithoutVersion().replace(/\//g, '#')}.json`;
   const metaFilePath = path.resolve(metaBasePath, metaFile);
+
   return {
     metaBasePath,
     metaFilePath,
+    relativePath: `${workspaceName}/${scope}/${contextName}/web/${componentType}/${context.name}/app`,
   };
 };

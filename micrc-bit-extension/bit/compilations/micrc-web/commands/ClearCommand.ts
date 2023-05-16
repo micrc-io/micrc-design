@@ -1,18 +1,18 @@
 /**
- * micrc generate command
+ * micrc clear command
  */
 import { Command, CommandOptions } from '@teambit/cli';
 
 import log from 'loglevel';
 
-import { generate } from '../jobs';
+import { clear } from '../jobs/clear';
 
 log.setLevel('INFO');
 
-export class GenerateCmd implements Command {
-  name = 'micrc:web:gen';
+export class ClearCmd implements Command {
+  name = 'micrc:web:clear';
 
-  description = 'generate component from schema';
+  description = 'clear components in workspace';
 
   extendedDescription = '';
 
@@ -26,7 +26,7 @@ export class GenerateCmd implements Command {
 
   async report(): Promise<string> {
     log.info('');
-    await generate();
+    await clear();
     return Promise.resolve(`${this.name} complete`);
   }
 }

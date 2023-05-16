@@ -48,12 +48,13 @@ export const clientendTemplate: ComponentTemplate = {
   name: 'micrc-web-clientend',
   description: '',
   generateFiles: (context: ComponentContext) => {
-    const { metaFilePath, metaBasePath } = handlePath(context);
+    const { metaFilePath, metaBasePath, relativePath } = handlePath(context);
     const data: ClientendContextData = parse(
       JSON.parse(fs.readFileSync(metaFilePath).toString()),
       context,
     );
     data.intro.metaBasePath = metaBasePath;
+    data.intro.relativePath = relativePath;
     return [
       // index file
       {

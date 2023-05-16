@@ -9,26 +9,12 @@ import chalk from 'chalk';
 import log from 'loglevel';
 
 import { execCmd, invoke } from '../lib/process';
+import { nodeModulesBasePath, bitBasePath, gitBasePath } from '../lib/workspace-config';
 
 log.setLevel('INFO');
 
 const STABLE_BRANCHES = ['main', 'master', 'dev', 'develop', 'main', 'hotfix', 'schema'];
 const SCHEMA_BRANCH = 'schema';
-
-const nodeModulesBasePath = path.resolve(
-  require.resolve('react', { paths: [process.cwd()] }),
-  '../../../../../', // node_modules目录,
-);
-
-const bitBasePath = path.resolve(
-  nodeModulesBasePath,
-  '../', // bit workspace根目录
-);
-
-const gitBasePath = path.resolve(
-  bitBasePath,
-  '../', // git根目录
-);
 
 const contextName = JSON.parse(
   fs.readFileSync(path.join(bitBasePath, 'workspace.jsonc'), { encoding: 'utf8' }),
@@ -66,7 +52,7 @@ export const copy = async () => {
     await execCmd('rm', ['-rf', schemaTargetPath], gitBasePath);
     // 创建目录并拷贝
     await execCmd('mkdir', ['-p', schemaTargetPath], gitBasePath);
-    await execCmd('cp', ['-r', schemaSourcePath, schemaTargetPath], gitBasePath);
+    await execCmd('cp', ['-r', `${schemaSourcePath}/`, `${schemaTargetPath}/`], gitBasePath);
     log.info(chalk.green('schema copied successfully.'));
   } catch (e) {
     log.error(chalk.red(`schema copy error: ${e}`));

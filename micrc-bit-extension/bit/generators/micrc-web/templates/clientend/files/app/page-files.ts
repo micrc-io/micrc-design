@@ -19,9 +19,11 @@ import { {{@key }} } from '{{this}}'
 {{/each}}
 
 {{#with assembly}}
+{{#if layout}}
 <{{layout}}
   {{{propsAssembler props}}}
 />
+{{/if}}
 {{/with}}
 `;
 

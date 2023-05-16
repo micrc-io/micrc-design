@@ -5,6 +5,7 @@ import { MainRuntime, CLIAspect, CLIMain } from '@teambit/cli';
 import { MicrcWebAspect } from './micrc-web.aspect';
 
 import {
+  ClearCmd,
   ConfigureCmd,
   GenerateCmd,
 } from './commands';
@@ -21,6 +22,7 @@ export class MicrcWebMain {
     cli.register(
       new ConfigureCmd(),
       new GenerateCmd(),
+      new ClearCmd(),
     );
     return new MicrcWebMain();
   }

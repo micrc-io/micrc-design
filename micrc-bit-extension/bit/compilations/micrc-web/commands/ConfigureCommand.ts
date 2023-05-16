@@ -9,11 +9,12 @@ import { Command, CommandOptions } from '@teambit/cli';
 import log from 'loglevel';
 
 import { checkout, copy, init } from '../jobs';
+import { repo } from '../jobs/config-npm-repo';
 
 log.setLevel('INFO');
 
 export class ConfigureCmd implements Command {
-  name = 'micrc:conf';
+  name = 'micrc:web:conf';
 
   description = 'merge meta file from schema branch';
 
@@ -32,6 +33,7 @@ export class ConfigureCmd implements Command {
     await init(); // 安装依赖并初始化配置workspace
     await checkout(); // 合并schema分支中的元数据文件
     await copy(); // 将元数据copy到.cache/micrc/schema中
+    await repo(); // 在workspace.jsonc中配置组件的npm仓库
     return Promise.resolve(`${this.name} complete`);
   }
 }
