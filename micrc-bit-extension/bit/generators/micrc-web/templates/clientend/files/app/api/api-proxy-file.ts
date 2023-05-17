@@ -2,7 +2,8 @@
  * app/pages/api/[...slug].ts
  */
 
-const tmpl = `// api proxy.
+const tmpl = `// @ts-nocheck
+// api proxy.
 // note: 这里仅处理请求代理转发, 不必负责启动msw, 各状态组件mock会自行处理
 // note: 各组件处理mock是为了组件自包含, 端口不必强行了解协议等不必要的知识
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -31,8 +32,8 @@ const proxy = createProxyMiddleware({
   router: (req: Request): string => {
     if (!req.headers['x-host']) return NO_HOST_400; // 如果没有x-host头指定服务端地址, 则转发到400报错
     const hostSuffix = '.svc.cluster.local';
-    const [ownerDomain, context] = req.headers['x-host'].split('.');
-    return \`http://\${context}-service.\${process.env.NAMESPACE_PRODUCT}.\${ownerDomain}.\${process.env.APP_ENV}\${hostSuffix} \`;
+    const context = req.headers['x-host'].split('.')[1];
+    return \`http://\${context}-service.\${process.env.NAMESPACE_PRODUCT}-\${process.env.APP_ENV}\${hostSuffix} \`;
   },
   onProxyReq: (proxyReq: ClientRequest, req: Request, res: Response) => {
     const cookies = new Cookies(req, res);

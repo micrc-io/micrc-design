@@ -109,6 +109,8 @@ type ModuleMeta = {
     version: string,
     state: string,
     modelFilePath: string,
+  },
+  context:{
     ownerDomain: string,
     context: string,
   },
@@ -153,8 +155,6 @@ export type ModuleContextData = {
     modelFilePath: string, // 聚合模型元数据文件路径(相对于上下文目录)
     sourceDir: string, // 组件源代码目录
     metaBasePath: string, // 元数据根目录, schema下的上下文目录
-    ownerDomain: string, // 子域名称
-    context: string, // 上下文名称
   },
   permissions: Array<string>, // 模块权限组
   i18n: Record<string, I18nPointerMeta>, // 国际化点位
