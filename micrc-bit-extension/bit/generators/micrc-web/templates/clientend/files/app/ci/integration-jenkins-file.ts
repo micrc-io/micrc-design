@@ -46,7 +46,7 @@ export function appIntegrationCIFile(data: ClientendContextData) {
               sh "echo $NPM_REGISTRY > ~/.npmrc"
               sh "echo $NPM_TOKEN >> ~/.npmrc"
               sh "npm i"
-              sh "export TAG=$TAG && skaffold build -p $PROFILE --default-repo=$DOCKER_REGISTRY"
+              sh "export TAG=$TAG && export PROXY_SERVER_URL=${data.intro.context.global.integration.proxyServerUrl}  && export DOCKER_BUILDKIT=1 && COMPOSE_DOCKER_CLI_BUILD=1 && skaffold build -p $PROFILE --default-repo=$DOCKER_REGISTRY"
               sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
               sh "docker push $DOCKER_REGISTRY/${data.context.name}-gateway:$TAG"
             }
@@ -65,7 +65,7 @@ export function appIntegrationCIFile(data: ClientendContextData) {
           ]) {
             sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
             dir("${data.intro.relativePath}") {
-              sh "/bin/cp ~/.docker/config.json ./${data.intro.relativePath}/manifests/k8s/kustomize/docker-config.json"
+              sh "/bin/cp ~/.docker/config.json ./manifests/k8s/kustomize/docker-config.json"
               sh "export TAG=$TAG && skaffold render -p $PROFILE --digest-source=tag --default-repo=$DOCKER_REGISTRY > ${data.context.name}-gateway-manifest.yaml"
             }
           }
@@ -77,7 +77,7 @@ export function appIntegrationCIFile(data: ClientendContextData) {
               }
             }
             sh "mkdir -p ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}"
-            sh "/bin/cp ${data.intro.relativePath}/${data.context.name}-gateway-manifest.yaml ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}/${data.context.name}-gateway-manifest.yaml"
+            sh "/bin/cp ./${data.intro.relativePath}/${data.context.name}-gateway-manifest.yaml ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}/${data.context.name}-gateway-manifest.yaml"
             dir("../gitops"){
               sh "git config --global user.email 'developer@ouxxa.com'"
               sh "git config --global user.name 'jenkins'"

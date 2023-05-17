@@ -21,6 +21,11 @@ build:
         infer: []
       docker:
         dockerfile: Dockerfile
+        buildArgs:
+          HTTPS_PROXY: "{{.PROXY_SERVER_URL}}"
+          HTTP_PROXY: "{{.PROXY_SERVER_URL}}"
+          https_proxy: "{{.PROXY_SERVER_URL}}"
+          http_proxy: "{{.PROXY_SERVER_URL}}"
         secrets:
           - id: npmrc
             src: ~/.npmrc
