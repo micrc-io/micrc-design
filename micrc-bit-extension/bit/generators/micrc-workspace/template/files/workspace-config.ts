@@ -9,8 +9,8 @@ export async function workspaceConfig(context: WorkspaceContext) {
   const configParsed = await getWorkspaceConfigTemplateParsed();
   // 工作空间名称，default scope
   configParsed['teambit.workspace/workspace'].name = context.name;
-  // 如果类型是components或者atoms，那么default scope应该必须是design 'atoms', 'components'
-  configParsed['teambit.workspace/workspace'].defaultScope = context.name.split('-')[2] === 'components' || context.name.split('-')[2] === 'atoms' ? 'colibri-tech.design-system' : context.defaultScope;
+  // 如果类型是components或者atoms,clientends，那么default scope应该必须是design
+  configParsed['teambit.workspace/workspace'].defaultScope = context.name.split('-')[2] === 'components' || context.name.split('-')[2] === 'atoms' || context.name.split('-')[2] === 'clientends' ? 'colibri-tech.design' : context.defaultScope;
   // scope ui中展示的logo
   configParsed['teambit.workspace/workspace'].icon = 'https://bitsrc.imgix.net/eb3c4405de109d8186592f28c446b8bdd0814001.jpeg?fit=scale&w=91&h=85';
 

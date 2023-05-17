@@ -33,6 +33,6 @@ export const handlePath = (context: ComponentContext) => {
   return {
     metaBasePath,
     metaFilePath,
-    relativePath: `${workspaceName}/${scope}/${contextName}/web/${componentType}/${context.componentId}/app`,
+    relativePath: `${workspaceName}/${scope}/${contextName}/web/${componentType}/${context.name}/app`,
   };
 };
