@@ -219,8 +219,9 @@ export const generate = async () => {
       case TYPES.MODULES:
         metaData.intro.context = {
           ownerDomain: contextMetaData.ownerDomain,
-          context: contextMetaData.context,
+          contextName: contextMetaData.contextName,
         }
+        fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), { encoding: 'utf8' });
         // eslint-disable-next-line no-await-in-loop
         await generateModule(
           metaData,
