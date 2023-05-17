@@ -9,6 +9,12 @@
  */
 
 {
+    "_examples/web/components/picture": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/components/picture"
+    },
     "compilations/micrc-app": {
         "scope": "micrc.bit",
         "version": "0.0.2",
@@ -65,7 +71,7 @@
     },
     "generators/micrc-web": {
         "scope": "micrc.bit",
-        "version": "0.1.25",
+        "version": "0.1.26",
         "mainFile": "index.ts",
         "rootDir": "bit/generators/micrc-web"
     },

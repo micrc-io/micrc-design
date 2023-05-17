@@ -3,7 +3,7 @@
  */
 import fs from 'fs';
 import path from 'path';
-import https from 'https';
+import request from 'sync-request';
 
 import chalk from 'chalk';
 import log from 'loglevel';
@@ -19,15 +19,10 @@ export function faviconFile(data: ClientendContextData) {
   if (!fs.existsSync(publicPath)) {
     fs.mkdirSync(publicPath, { recursive: true });
   }
-  const file = fs.createWriteStream(path.join(publicPath, 'favicon.ico'));
-  const req = https.get(data.intro.favicon, (resp) => {
-    resp.pipe(file);
-    file.on('finish', () => {
-      file.close();
-    });
-  });
-  req.on('error', (err) => {
-    log.error(chalk.red(err));
-  });
+  try {
+    fs.writeFileSync(path.join(publicPath, 'favicon.ico'), request('GET', data.intro.favicon).body);
+  } catch (e) {
+    log.error(chalk.red(`download image error: ${e}`));
+  }
   return '';
 }
