@@ -71,7 +71,7 @@ export const i18nHightLight = (obj: any) => {
   if (Array.isArray(target)) {
     const retVal = cloneDeep(target);
     // eslint-disable-next-line array-callback-return
-    retVal.map((item: any) => {
+    retVal.forEach((item: any) => {
       // eslint-disable-next-line no-param-reassign
       item[textPropName] = item.key === currentKey ? `i18n:{ ${item[textPropName]} }` : item[textPropName];
     });

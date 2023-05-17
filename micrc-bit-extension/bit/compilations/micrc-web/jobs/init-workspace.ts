@@ -1,20 +1,13 @@
 /**
  * 安装workspace依赖, 并配置
  */
-import path from 'path';
-
 import chalk from 'chalk';
 import log from 'loglevel';
 
 import { execCmd } from '../lib/process';
+import { bitBasePath } from '../lib/workspace-config';
 
 log.setLevel('INFO');
-
-const bitBasePath = path.resolve(
-  require.resolve('react', { paths: [process.cwd()] }),
-  '../../../../../', // node_modules目录,
-  '../', // bit workspace根目录
-);
 
 export const init = async () => {
   try {

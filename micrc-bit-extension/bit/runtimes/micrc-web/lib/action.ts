@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /**
  * action lib
  * global, module, states, props
@@ -82,8 +81,6 @@ const handleValue = (
 };
 
 const handleRoute = (routerPath: string, router: any, uri: any) => {
-  // const routeArray = routerPath.replace('/', '').split('/'); // /route/test/select
-  // const pageUri = routerPath.replace('/route', ''); // routeArray[1];
   if (!uri) {
     throw Error(`Illegal router path: ${uri}`);
   }
@@ -131,10 +128,6 @@ const handleIntegrate = (
   }
 };
 
-// const handleExec = (_ctx: any, state: any, action: any) => {
-
-// };
-
 export const globalAction = (
   action: PatchOperation, path: string, globalStore: any, router: any = null, id: string = '',
 ) => globalStore((state: any) => (inputs: any, inputPath: string) => {
@@ -167,7 +160,9 @@ export const globalAction = (
 export const moduleAction = (
   action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '',
 ) => moduleStore((state: any) => async (inputs: any, inputPath: string) => {
-  const input = handleValue(action, globalStore, moduleStore, null, null, inputs, inputPath, router, id);
+  const input = handleValue(
+    action, globalStore, moduleStore, null, null, inputs, inputPath, router, id,
+  );
   const newAction: PatchOperation = {
     ...action,
     path,
