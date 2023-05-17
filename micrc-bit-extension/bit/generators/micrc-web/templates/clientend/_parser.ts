@@ -18,7 +18,6 @@ type ClientendIntro = {
   appId: string,
   context: {
     ownerDomain: string,
-    namespace: string,
     global: {
       integration: {
         proxyServerUrl: string,
@@ -103,7 +102,6 @@ type ClientendMeta = {
     languages: Array<{ code: string, name: string }>,
     context: {
       ownerDomain: string,
-      namespace: string,
       global: {
         integration: {
           proxyServerUrl: string,

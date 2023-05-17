@@ -32,8 +32,8 @@ const proxy = createProxyMiddleware({
   router: (req: Request): string => {
     if (!req.headers['x-host']) return NO_HOST_400; // 如果没有x-host头指定服务端地址, 则转发到400报错
     const hostSuffix = '.svc.cluster.local';
-    const context = req.headers['x-host'].split('.')[1];
-    return \`http://\${context}-service.\${process.env.NAMESPACE_PRODUCT}-\${process.env.APP_ENV}\${hostSuffix} \`;
+    const [ownerDomain, context, namespace] = protocol.host.split('.');
+    return \`http://\${context}-service.\${namespace}-\${ownerDomain}-\${process.env.APP_ENV}\${hostSuffix} \`;
   },
   onProxyReq: (proxyReq: ClientRequest, req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
