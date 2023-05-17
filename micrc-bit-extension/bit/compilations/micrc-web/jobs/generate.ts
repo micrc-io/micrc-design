@@ -220,7 +220,8 @@ export const generate = async () => {
         metaData.intro.context = {
           ownerDomain: contextMetaData.ownerDomain,
           contextName: contextMetaData.contextName,
-        }
+          namespace: contextMetaData.namespace,
+        };
         fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), { encoding: 'utf8' });
         // eslint-disable-next-line no-await-in-loop
         await generateModule(
@@ -233,7 +234,6 @@ export const generate = async () => {
           ownerDomain: contextMetaData.ownerDomain,
           global: contextMetaData.global,
           gateway: contextMetaData.gateway,
-          namespace: contextMetaData.namespace,
         };
         fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), { encoding: 'utf8' });
         // eslint-disable-next-line no-await-in-loop
@@ -248,5 +248,7 @@ export const generate = async () => {
         log.error(chalk.red('un-excepted type of component'));
         break;
     }
+    const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'meta.json');
+    fs.writeFileSync(metaPath, JSON.stringify(metaData, null, 2), { encoding: 'utf8' });
   }
 };

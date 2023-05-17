@@ -13,7 +13,7 @@ export function stateProtocolMergeFile(data: ModuleContextData) {
   "servers": [
     {
       "url": "/api/${data.intro.context.ownerDomain}/${data.intro.context.contextName}",
-      "x-host": "${data.intro.context.ownerDomain}.${data.intro.context.contextName}"
+      "x-host": "${data.intro.context.ownerDomain}.${data.intro.context.contextName}.${data.intro.context.namespace}"
     }
   ],
   "externalDocs": {

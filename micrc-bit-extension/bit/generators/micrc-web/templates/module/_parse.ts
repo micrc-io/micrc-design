@@ -112,6 +112,7 @@ type ModuleMeta = {
     context: {
       ownerDomain: string,
       contextName: string,
+      namespace: string,
     },
   },
   permissions: Record<string, Array<string>>,
@@ -158,6 +159,7 @@ export type ModuleContextData = {
     context:{
       ownerDomain: string,
       contextName: string,
+      namespace: string,
     },
   },
   permissions: Array<string>, // 模块权限组

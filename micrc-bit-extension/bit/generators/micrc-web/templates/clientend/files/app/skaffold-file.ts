@@ -48,6 +48,9 @@ profiles:
           - --load-restrictor=LoadRestrictionsNone
     deploy:
       kubectl: {}
+    patches:
+      - op: remove
+        path: /build/artifacts/0/docker/buildArgs
   - name: dev
     manifests:
       kustomize:
