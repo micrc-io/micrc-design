@@ -3,7 +3,7 @@
  */
 import fs from 'fs';
 import path from 'path';
-import https from 'https';
+import request from 'sync-request';
 
 import chalk from 'chalk';
 import log from 'loglevel';
@@ -20,16 +20,11 @@ export function imageFiles(data: ComponentContextData) {
     fs.mkdirSync(imagesPath, { recursive: true });
   }
   data?.images?.examples.concat(data?.images?.local).forEach((image) => {
-    const file = fs.createWriteStream(path.join(imagesPath, image.filename));
-    const req = https.get(image.link, (resp) => {
-      resp.pipe(file);
-      file.on('finish', () => {
-        file.close();
-      });
-    });
-    req.on('error', (err) => {
-      log.error(chalk.red(err));
-    });
+    try {
+      fs.writeFileSync(path.join(imagesPath, image.filename), request('GET', image.link).body);
+    } catch (e) {
+      log.error(chalk.red(`download image error: ${e}`));
+    }
   });
   return 'image files';
 }
