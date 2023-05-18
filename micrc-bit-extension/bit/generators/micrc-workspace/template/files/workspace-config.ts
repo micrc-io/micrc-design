@@ -92,6 +92,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
         'sass-loader': '13.2.0',
         'stream-http': '3.2.0',
         'style-loader': '3.3.1',
+        'sync-request': '6.1.0',
         'taro-ui': '3.1.0-beta.4',
         typescript: '4.9.5',
         url: '0.11.0',

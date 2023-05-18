@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /**
  * 生成组件
  */
@@ -222,6 +223,10 @@ export const generate = async () => {
           contextName: contextMetaData.contextName,
           namespace: contextMetaData.namespace,
         };
+        metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model/model.json`;
+        metaData.remoteState.operationIds.map((item) => {
+          metaData.remoteState.rpc.protocols.push(`./aggregations/${metaData.remoteState.aggregations}/protocol/rest/${item}.json`);
+        });
         fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), { encoding: 'utf8' });
         // eslint-disable-next-line no-await-in-loop
         await generateModule(

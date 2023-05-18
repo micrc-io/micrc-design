@@ -127,6 +127,8 @@ type ModuleMeta = {
   components: Record<string, { version: string, packages: string }>,
   localState?: Record<string, any>,
   remoteState: {
+    aggregations: string,
+    operationIds: Array<string>,
     rpc: {
       protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
     },
@@ -176,6 +178,8 @@ export type ModuleContextData = {
   componentImports: Record<string, string>, // 组件导入，以导入名为key, 模块只能使用通用组件, 不必描述default导入
   localState?: Record<string, any>, // 组件本地状态，以名称为key，初始值为值
   remoteState?: { // 远程状态, 调用api
+    aggregations: string,
+    operationIds: Array<string>,
     rpc: {
       protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
     },
@@ -388,6 +392,5 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     integration: handleIntegration(meta, context),
     doc: meta.doc,
   };
-  console.log("---data---",data);
   return data;
 };
