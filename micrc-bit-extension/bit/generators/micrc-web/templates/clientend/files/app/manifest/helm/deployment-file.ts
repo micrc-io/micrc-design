@@ -44,6 +44,10 @@ spec:
               value: "prod"
             - name: NEXT_PUBLIC_APP_ENV
               value: "prod"
+            - name: LOGIN_URI
+              value: {{ .Values.loginUrl }}
+            - name: SERVER_TOKEN_POINTER
+              value: {{ .Values.serverTokenPointer }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

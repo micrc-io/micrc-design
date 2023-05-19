@@ -105,7 +105,7 @@ export const propsAssembler = (props: object): string => {
 export const assembler = (
   components: Array<{ name: string, children: any, props: object }>,
 ): string => {
-  let retVal = '<>';
+  let retVal = '';
   components.forEach((comp) => {
     const nullChildren: boolean = !comp.children;
     const textChildren: boolean = comp.children && typeof comp.children === 'string';
@@ -119,7 +119,10 @@ export const assembler = (
               + `${nestedChildren ? assembler(comp.children.assemblies) : ''}`
               + `${nullChildren ? '' : endTag}`;
   });
-  return `${retVal}</>`;
+  if (components.length > 1) {
+    return `<>${retVal}</>`;
+  }
+  return retVal;
 };
 
 const checkCompObj = (obj: any): boolean =>

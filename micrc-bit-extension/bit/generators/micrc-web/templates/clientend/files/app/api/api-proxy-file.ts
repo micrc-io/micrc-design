@@ -54,7 +54,7 @@ const proxy = createProxyMiddleware({
       proxyRes.on('end', () => {
         try {
           const respBody = JSON.parse(apiResponseBody);
-          const {authToken} = getValueByPointer(respBody, SERVER_TOKEN_POINTER || '');
+          const { authToken } = getValueByPointer(respBody, SERVER_TOKEN_POINTER || '');
           const cookies = new Cookies(req, res);
           cookies.set(TOKEN_COOKIE_KEY, authToken, {
             httpOnly: true,
@@ -66,7 +66,7 @@ const proxy = createProxyMiddleware({
             false,
             true,
           );
-          res.status(200).json({});
+          res.status(200).json(respBody);
         } catch (err) {
           res.status(500).end();
         }

@@ -34,6 +34,10 @@ type ClientendIntro = {
       entry: string,
       fqdn: string,
       rule: {},
+      properties: {
+        loginUrl: string,
+        serverTokenPointer: string
+      },
     }
   },
 };
@@ -118,6 +122,10 @@ type ClientendMeta = {
         entry: string,
         fqdn: string,
         rule: {},
+        properties: {
+          loginUrl: string,
+          serverTokenPointer: string
+        },
       }
     }
   },

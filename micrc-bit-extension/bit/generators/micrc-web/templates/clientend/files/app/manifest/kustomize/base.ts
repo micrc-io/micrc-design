@@ -16,6 +16,8 @@ helmCharts:
     releaseName: ${data.context.name}-gateway
     version: ${data.intro.version}
     valuesInline:
+      loginUrl: ${data.intro.context.gateway.properties.loginUrl}
+      serverTokenPointer: ${data.intro.context.gateway.properties.serverTokenPointer}
       podAnnotations:
         sidecar.istio.io/inject: 'true'
 `;
