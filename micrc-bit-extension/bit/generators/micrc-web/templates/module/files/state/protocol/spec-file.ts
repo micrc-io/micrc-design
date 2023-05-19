@@ -171,7 +171,7 @@ Object.keys(spec.paths).forEach((path: string) => {
       },
     };
     mock.push({
-      url: spec.servers[0].url,
+      url: \`/api\${spec.servers[0].url}\`,
       host: spec.servers[0]['x-host'],
       path,
       method,

@@ -15,7 +15,6 @@ const handlers = protocols.map((proto) => {
       const hostSuffix = '.svc.cluster.local';
       const [ownerDomain, context, namespace] = protocol.host.split('.');
       return \`http://\${context}-service.\${namespace}-\${ownerDomain}-\${process.env.APP_ENV}\${hostSuffix}\${protocol.url}\${protocol.path}\`;
-      // return \`\${protocol.host}\${protocol.url}\${protocol.path}\`;
     }
     return \`\${protocol.url}\${protocol.path}\`;
   };
