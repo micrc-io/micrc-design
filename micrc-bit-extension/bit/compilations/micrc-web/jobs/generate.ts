@@ -223,9 +223,9 @@ export const generate = async () => {
           contextName: contextMetaData.contextName,
           namespace: contextMetaData.namespace,
         };
-        metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model/model.json`;
+        metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model.json`;
         metaData.remoteState.operationIds.map((item) => {
-          metaData.remoteState.rpc.protocols.push(`./aggregations/${metaData.remoteState.aggregations}/protocol/rest/${item}.json`);
+          metaData.remoteState.rpc.protocols.push(`./cases/${metaData.remoteState.casesId}/protocol/api/${item}.json`);
         });
         fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), { encoding: 'utf8' });
         // eslint-disable-next-line no-await-in-loop

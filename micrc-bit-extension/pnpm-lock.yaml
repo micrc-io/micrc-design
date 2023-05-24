@@ -9,6 +9,8 @@ importers:
     specifiers:
       '@ant-design/icons': 5.0.1
       '@babel/runtime': 7.20.0
+      '@colibri-tech/design.system.web.components.blank-layout': 0.0.1
+      '@colibri-tech/design.system.web.components.form-authc': 0.0.1
       '@storybook/addon-actions': 6.5.16
       '@storybook/addon-docs': 6.5.16
       '@storybook/addon-essentials': 6.5.16
@@ -92,6 +94,8 @@ importers:
       zustand: 4.3.6
     dependencies:
       '@ant-design/icons': registry.npmmirror.com/@ant-design/icons/5.0.1_sfoxds7t5ydpegc3knd667wn6m
+      '@colibri-tech/design.system.web.components.blank-layout': 0.0.1_7vw6fhyzblhs3gcvof77izb3ku
+      '@colibri-tech/design.system.web.components.form-authc': 0.0.1_7vw6fhyzblhs3gcvof77izb3ku
       '@storybook/addon-actions': registry.npmmirror.com/@storybook/addon-actions/6.5.16_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/addon-docs': registry.npmmirror.com/@storybook/addon-docs/6.5.16_hztcti6fc4b27e4wswkr6bbeqy
       '@storybook/addon-essentials': registry.npmmirror.com/@storybook/addon-essentials/6.5.16_bvfy26eimx3civs4fpd4igddfe
@@ -176,6 +180,9 @@ importers:
       '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.20
       '@types/testing-library__jest-dom': registry.npmmirror.com/@types/testing-library__jest-dom/5.9.5
 
+  bit/_examples/web/modules/system-account-login:
+    specifiers: {}
+
   bit/compilations/micrc-app:
     specifiers: {}
 
@@ -219,6 +226,94 @@ importers:
     specifiers: {}
 
 packages:
+
+  /@colibri-tech/design.system.web.components.blank-layout/0.0.1_7vw6fhyzblhs3gcvof77izb3ku:
+    resolution: {integrity: sha1-CMzeVq8q5AXGfyQCOwlj9bQ3ysM=, tarball: '@colibri-tech/design.system.web.components.blank-layout/-/@colibri-tech-design.system.web.components.blank-layout-0.0.1.tgz'}
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@micrc/bit.runtimes.micrc-web': 0.0.13_7vw6fhyzblhs3gcvof77izb3ku
+      antd: registry.npmmirror.com/antd/5.3.0_sfoxds7t5ydpegc3knd667wn6m
+      core-js: registry.npmmirror.com/core-js/3.30.2
+      react: registry.npmmirror.com/react/17.0.2
+      react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
+    transitivePeerDependencies:
+      - '@types/lodash.clonedeep'
+      - '@types/lodash.omit'
+      - '@types/lodash.pick'
+      - date-fns
+      - immer
+      - moment
+    dev: false
+
+  /@colibri-tech/design.system.web.components.form-authc/0.0.1_7vw6fhyzblhs3gcvof77izb3ku:
+    resolution: {integrity: sha1-0EgMuCzW3fEs+wBz34YEhuNaI+s=, tarball: '@colibri-tech/design.system.web.components.form-authc/-/@colibri-tech-design.system.web.components.form-authc-0.0.1.tgz'}
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@micrc/bit.runtimes.micrc-web': 0.0.13_7vw6fhyzblhs3gcvof77izb3ku
+      antd: registry.npmmirror.com/antd/5.3.0_sfoxds7t5ydpegc3knd667wn6m
+      core-js: registry.npmmirror.com/core-js/3.30.2
+      react: registry.npmmirror.com/react/17.0.2
+      react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
+    transitivePeerDependencies:
+      - '@types/lodash.clonedeep'
+      - '@types/lodash.omit'
+      - '@types/lodash.pick'
+      - date-fns
+      - immer
+      - moment
+    dev: false
+
+  /@micrc/bit.runtimes.micrc-web/0.0.13_7vw6fhyzblhs3gcvof77izb3ku:
+    resolution: {integrity: sha1-La4q/ZiKvU7ngX3gL7LSVPo2Uq8=, tarball: '@micrc/bit.runtimes.micrc-web/-/@micrc-bit.runtimes.micrc-web-0.0.13.tgz'}
+    peerDependencies:
+      '@types/lodash.clonedeep': '*'
+      '@types/lodash.omit': '*'
+      '@types/lodash.pick': '*'
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      '@types/lodash.clonedeep':
+        optional: true
+      '@types/lodash.omit':
+        optional: true
+      '@types/lodash.pick':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@types/lodash.clonedeep': registry.npmmirror.com/@types/lodash.clonedeep/4.5.7
+      '@types/lodash.omit': registry.npmmirror.com/@types/lodash.omit/4.5.7
+      '@types/lodash.pick': registry.npmmirror.com/@types/lodash.pick/4.4.7
+      antd: registry.npmmirror.com/antd/5.3.0_sfoxds7t5ydpegc3knd667wn6m
+      core-js: registry.npmmirror.com/core-js/3.30.2
+      fast-json-patch: registry.npmmirror.com/fast-json-patch/3.1.1
+      lodash.clonedeep: registry.npmmirror.com/lodash.clonedeep/4.5.0
+      lodash.omit: registry.npmmirror.com/lodash.omit/4.5.0
+      lodash.pick: registry.npmmirror.com/lodash.pick/4.4.0
+      react: registry.npmmirror.com/react/17.0.2
+      react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
+      zustand: registry.npmmirror.com/zustand/4.3.6_react@17.0.2
+    transitivePeerDependencies:
+      - date-fns
+      - immer
+      - moment
+    dev: false
 
   registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367_7gdyqevfquy4oyvrhbbbaelo7q:
     resolution: {integrity: sha512-d8N9+n/OSxaVpeFBkRhYm6QvqKbzaMf4bN8NJrLmPBuJh4on74U3z4xsqu8sLIphEO0fA2G8ISB9Mo+TINqbMw==, registry: https://node.bit.cloud/, tarball: https://registry.npmjs.org/@teambit/eslint-config-bit-react/-/eslint-config-bit-react-0.0.367.tgz}

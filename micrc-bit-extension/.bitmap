@@ -9,6 +9,22 @@
  */
 
 {
+    "_examples/web/modules/system-account-login": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/_examples/web/modules/system-account-login",
+        "config": {
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "dependencies": {
+                        "@colibri-tech/design.system.web.components.form-authc": "0.0.1",
+                        "@colibri-tech/design.system.web.components.blank-layout": "0.0.1"
+                    }
+                }
+            }
+        }
+    },
     "compilations/micrc-app": {
         "scope": "micrc.bit",
         "version": "0.0.2",
@@ -23,7 +39,7 @@
     },
     "compilations/micrc-web": {
         "scope": "micrc.bit",
-        "version": "0.0.11",
+        "version": "0.0.14",
         "mainFile": "index.ts",
         "rootDir": "bit/compilations/micrc-web"
     },
@@ -65,7 +81,7 @@
     },
     "generators/micrc-web": {
         "scope": "micrc.bit",
-        "version": "0.1.30",
+        "version": "0.1.32",
         "mainFile": "index.ts",
         "rootDir": "bit/generators/micrc-web"
     },

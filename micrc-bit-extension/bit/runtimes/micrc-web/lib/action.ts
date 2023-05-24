@@ -7,7 +7,7 @@ import { integratePath } from '../store';
 import { invoke, update, validate } from './operation';
 
 export enum StoreScope {
-  global, module, states, props, i18n, integrate,
+  global, module, states, props, i18n, integrate, invalid,
 }
 
 export enum PatchOperationType {
@@ -17,7 +17,6 @@ export enum PatchOperationType {
   perform,
   verify,
   integrate,
-  exec,
 }
 
 export type PatchOperation = {
@@ -149,9 +148,6 @@ export const globalAction = (
         handleIntegrate(action.value || input, state, path.replace('/', ''), router, id);
       }
       break;
-    // case PatchOperationType[PatchOperationType.exec]:
-    //   handleExec(state, action.value || input, action);
-    //   break;
     default:
       throw Error('un-excepted operation for store of global. "add, replace, remove, integrate" allowed');
   }

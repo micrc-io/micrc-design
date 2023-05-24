@@ -56,14 +56,9 @@ export const propsAssembler = (props: object): string => {
     // eslint-disable-next-line no-underscore-dangle
     const objProp = typeof prop === 'object' && prop._val;
     // eslint-disable-next-line no-nested-ternary
-    // const propObj = objProp
-    //   // eslint-disable-next-line no-underscore-dangle, no-nested-ternary, no-prototype-builtins
-    //   ? typeof prop._val === 'string' ? `{${prop._val}}` : `{${JSON.stringify(prop._val)}}`
-    //   : '';
-    // eslint-disable-next-line no-nested-ternary
     const propObj = objProp
       // eslint-disable-next-line no-underscore-dangle, array-callback-return
-      ? typeof prop._val === 'string' || typeof prop._val === 'number'
+      ? typeof prop._val === 'string' || typeof prop._val === 'number' || typeof prop._val === 'boolean'
         // eslint-disable-next-line no-underscore-dangle
         ? `{${prop._val}}`
         // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-use-before-define

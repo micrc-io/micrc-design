@@ -63,7 +63,7 @@ export const remoteStore = (
     bind: (bindingPath: string): any => {
       const [fullScope, path] = bindingPath.split('://'); // bind('integrate@switchPage:///url')
       if (!fullScope || !path) {
-        throw Error('binding path must format of [global|module|states|i18n]://[json pointer]');
+        throw Error('binding path must format of [global|module|states|i18n|integrate]://[json pointer]');
       }
       if (fullScope === StoreScope[StoreScope.global]) {
         return useGlobalStore((state: any) => patcher(state).path(path));
@@ -75,6 +75,14 @@ export const remoteStore = (
         return useGlobalStore(
           (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath)),
         );
+      }
+      // module:///bslg000046/invalid/err/  invalid:///bslg000046/invalid/err/
+      if (fullScope === StoreScope[StoreScope.invalid]) {
+        try {
+          return module((state: any) => patcher(state).path(path)); // replaceKey();
+        } catch (e) {
+          return null;
+        }
       }
       if (fullScope === StoreScope[StoreScope.integrate]) {
         return useGlobalStore(
@@ -98,9 +106,6 @@ export const remoteStore = (
     action: (action: PatchOperation) => {
       // {op:integrate ; path:'/主题名'，value：null }
       if (action.op === PatchOperationType[PatchOperationType.integrate]) {
-        return globalAction(action, action.path, useGlobalStore, router, id);
-      }
-      if (action.op === PatchOperationType[PatchOperationType.exec]) {
         return globalAction(action, action.path, useGlobalStore, router, id);
       }
       const [fullScope, path] = action.path.split('://');
