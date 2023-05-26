@@ -2,6 +2,8 @@
  * action lib
  * global, module, states, props
  */
+import { notification } from 'antd';
+
 import patcher from './json-patch';
 import { integratePath } from '../store';
 import { invoke, update, validate } from './operation';
@@ -165,7 +167,24 @@ export const moduleAction = (
   };
   switch (action.op) {
     case PatchOperationType[PatchOperationType.perform]:
-      await invoke(state, newAction);
+      try {
+        await invoke(state, newAction);
+      } catch (e) {
+        const { config, message, description } = globalStore.getState().error;
+        if (!config.custom) {
+          notification.error({
+            message: 'Oops! System Error. ',
+            description: '',
+          });
+        } else {
+          globalStore.setState({
+            error: {
+              message,
+              description,
+            },
+          });
+        }
+      }
       break;
     case PatchOperationType[PatchOperationType.verify]:
       validate(state, input, newAction);

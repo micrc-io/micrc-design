@@ -76,14 +76,14 @@
         "x-validators": {
           "normal": {
             "required": ["username"],
-            "errorMessage": "s-i18n:///name.required"
+            "errorMessage": "i18n:///name.required"
           },
           "init": {
             "required": ["username"],
             "properties": {
               "username": {
                 "pattern": "^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\\.[a-zA-Z0-9_-])+",
-                "errorMessage": "s-i18n:///username.message"
+                "errorMessage": "i18n:///username.message"
               }
             }
           }
@@ -100,14 +100,14 @@
         "x-validators": {
           "normal": {
             "required": ["password"],
-            "errorMessage": "s-i18n:///password.required"
+            "errorMessage": "i18n:///password.required"
           },
           "init": {
             "required": ["password"],
             "properties": {
               "password": {
                 "pattern": "^.*(?=.{6,})(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$",
-                "errorMessage": "s-i18n:///password.message"
+                "errorMessage": "i18n:///password.message"
                 }
               }
           }
@@ -125,7 +125,7 @@
         "x-validators": {
           "normal": {
             "required": ["authcode"],
-            "errorMessage": "s-i18n:///authcode.required"
+            "errorMessage": "i18n:///authcode.required"
           },
           "init": {
             "required": ["authcode"],
@@ -133,7 +133,7 @@
               "authcode": {
                 "pattern": "^[A-Za-z0-9]{4}$",
                 "errorMessage": {
-                  "pattern": "s-i18n:///authcode.message"
+                  "pattern": "i18n:///authcode.message"
                 }
               }
             }
@@ -218,7 +218,7 @@
                 "$ref": "#/components/schemas/Authcode/x-validators/normal"
               }
             },
-            "errorMessage": "s-i18n:///required.message"
+            "errorMessage": "i18n:///required.message"
           },
           "init": {
             "required": ["username", "password", "authcode"],
@@ -230,10 +230,10 @@
                 "$ref": "#/components/schemas/Password/x-validators/init"
               },
               "authcode": {
-                "$ref": "#/components/schemas/Authcode/x-validators/normal"
+                "$ref": "#/components/schemas/Authcode/x-validators/init"
               }
             },
-            "errorMessage": "s-i18n:///required.message"
+            "errorMessage": "i18n:///required.message"
           }
         }
       },

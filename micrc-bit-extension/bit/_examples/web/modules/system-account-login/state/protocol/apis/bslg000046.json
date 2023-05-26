@@ -32,7 +32,7 @@
                 "$ref": "#/components/schemas/LoginInfo"
               },
               "x-validator": {
-                "$ref": "#/components/schemas/LoginInfo/x-validators/normal"
+                "$ref": "#/components/schemas/LoginInfo/x-validators/init"
               }
             }
           }
@@ -61,9 +61,6 @@
                 },
                 "schema": {
                   "$ref": "#/components/schemas/Result"
-                },
-                "x-validator": {
-                  "$ref": "#/components/schemas/LoginInfo/x-validators/init"
                 }
               }
             }

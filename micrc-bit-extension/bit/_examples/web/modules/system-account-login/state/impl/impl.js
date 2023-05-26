@@ -32,33 +32,40 @@ export const apis = (get, set) => {
   const _apis = {};
   Object.keys(protocols).forEach((it) => {
     const proto = protocols[it];
-    _apis[it] = () => new Promise((resolve) => {
+    _apis[it] = () => new Promise((resolve, reject) => {
+      loadingState(it, true);
       const param = getValueByPointer(get(), `/${it}/param`);
-      const [valid, error] = proto.invalid.validate(param);
-      if (!valid) {
-        patches([{ op: 'replace', path: `/${it}/invalid/err`, value: error }]);
+      const [isParamValid, paramValidError] = proto.invalid.validate(param);
+      if (!isParamValid) {
+        patches([{ op: 'replace', path: `/${it}/invalid/err`, value: paramValidError }]);
         loadingState(it, false);
         return;
       }
-      loadingState(it, true);
       client[it](
         null,
         param,
         {
           headers: {
-            'x-host': proto.host, // 不带这个头会报400
+            'x-host': proto.host,
             'Content-Type': proto.requestContentType,
-            // eslint-disable-next-line
-            'Accept': proto.responseContentType,
+            Accept: proto.responseContentType,
           },
         },
-      ).then((res) => { // 这里不仅仅包括正常的响应, 服务端会以200包装预期错误对象返回, 这里应该对不同错误作出不同的处理
-        patches([{ op: 'replace', path: `/${it}/result`, value: res.data }]);
-        resolve(res);
+      ).then((res) => {
+        const [isResultValid, resultValidError] = proto.error.validate(res.data);
+        if (isResultValid) {
+          if (res.data.code === '200') {
+            patches([{ op: 'replace', path: `/${it}/result`, value: res.data }]);
+          } else {
+            patches([{ op: 'replace', path: `/${it}/error/err`, value: res.data.message }]);
+          }
+          resolve(res);
+        } else {
+          reject(resultValidError);
+        }
         loadingState(it, false);
-      }).catch((err) => { // 这里都是不期望的错误, 如4xx, 5xx, 应该封装统一的错误对象, 并做一致处理
-        patches([{ op: 'replace', path: `/${it}/error/err`, value: err.message }]);
-        resolve(err);
+      }).catch((err) => {
+        reject(err);
         loadingState(it, false);
       });
     });

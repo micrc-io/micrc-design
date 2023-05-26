@@ -17,6 +17,15 @@ export const useGlobalStore = create(subscribeWithSelector((set) => ({
   tracker: null,
   integration: null,
   currentKey: '',
+  error: {
+    config: {
+      custom: false,
+      message: '',
+      description: '',
+    },
+    message: '',
+    description: '',
+  },
   set,
 })));
 

@@ -86,8 +86,6 @@ export function SystemAccountLogin({ router }: SystemAccountLoginProps) {
   const btnName = useState({ value: bind('i18n:///btn.btnName') });
   store.appendState({ btnName });
 
-  console.log('--', bind('invalid:///bslg000046/invalid/err/username/type'));
-
   return (
     <Authorized permissions={permissions}>
       <BlankLayout
@@ -99,12 +97,12 @@ export function SystemAccountLogin({ router }: SystemAccountLoginProps) {
             authCode={bind('states@authCode:///value')}
             changeUserName={(value: any) => {
               const actions = async () => {
-                await changeUserNameAction(
-                  {
-                    value,
-                  },
-                  '/value',
-                );
+                // await changeUserNameAction(
+                //   {
+                //     value,
+                //   },
+                //   '/value',
+                // );
                 await validateUserNameAction(
                   {
                     value,
