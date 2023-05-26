@@ -33,8 +33,9 @@ export const checkout = async () => {
   try {
     // 从服务器拉取最新内容
     await execCmd('git', ['fetch'], gitBasePath);
-    // 合并schema分支下, schema目录当前上下文的最新内容到当前分支的
-    await execCmd('git', ['restore', '--source', `${repo}/${SCHEMA_BRANCH}`, `schema/${contextName}`], gitBasePath);
+    // 合并schema分支下, schema目录当前上下文/intro.json和aggregations目录下的最新内容到当前分支的
+    await execCmd('git', ['restore', '--source', `${repo}/${SCHEMA_BRANCH}`, `schema/${contextName}/intro.json`], gitBasePath);
+    await execCmd('git', ['restore', '--source', `${repo}/${SCHEMA_BRANCH}`, `schema/${contextName}/aggregations`], gitBasePath);
     // 添加合并的文件
     await execCmd('git', ['add', `schema/${contextName}`], gitBasePath);
     log.info(chalk.green('schema merged successfully.'));

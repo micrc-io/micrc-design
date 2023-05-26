@@ -171,7 +171,7 @@ Object.keys(spec.paths).forEach((path: string) => {
       },
     };
     mock.push({
-      url: \`/api\${spec.servers[0].url}\`,
+      url: spec.servers[0].url,
       host: spec.servers[0]['x-host'],
       path,
       method,
@@ -189,7 +189,14 @@ const browserWorker = (handlers: Array<any>) => {
     if (workerPath.endsWith('.html')) { // storybook
       workerPath = '';
     }
-    worker.start({ serviceWorker: { url: \`\${workerPath}mockServiceWorker.js\` } });
+    worker.start({
+      serviceWorker: { url: \`\${workerPath}mockServiceWorker.js\` },
+      onUnhandledRequest: (req, print) => {
+        if (req.url.pathname.startsWith('/api')) {
+          print.error();
+        }
+      }
+    });
   }
   window['msw-worker'].use(...handlers);
 };
@@ -198,7 +205,13 @@ const serverWorker = (handlers: Array<any>) => {
   if (!global['msw-worker']) {
     // eslint-disable-next-line global-require
     const worker = require('msw/node').setupServer();
-    worker.listen();
+    worker.listen({
+      onUnhandledRequest: (req, print) => {
+        if (req.url.pathname.startsWith('/api')) {
+          print.error();
+        }
+      }
+    });
     global['msw-worker'] = worker;
   }
   global['msw-worker'].use(...handlers);

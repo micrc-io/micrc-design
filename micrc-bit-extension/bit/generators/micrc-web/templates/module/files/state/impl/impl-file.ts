@@ -38,9 +38,9 @@ export const apis = (get, set) => {
     const proto = protocols[it];
     _apis[it] = () => new Promise((resolve) => {
       const param = getValueByPointer(get(), \`/\${it}/param\`);
-      const [valid, error] = proto.invalid.validate(param);
-      if (!valid) {
-        patches([{ op: 'replace', path: \`/\${it}/invalid/err\`, value: error }]);
+      const [isValidParam, paramValidError] = proto.invalid.validate(param);
+      if (!isValidParam) {
+        patches([{ op: 'replace', path: \`/\${it}/invalid/err\`, value: paramValidError }]);
         loadingState(it, false);
         return;
       }
@@ -57,17 +57,16 @@ export const apis = (get, set) => {
           },
         },
       ).then((res) => {
-        if (res.data && res.code && res.code.startsWith('200')) {
+        const [isValidResult, reaultValidError] = proto.error.validate(res.data);
+        if (!isValidResult) {
+          patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: reaultValidError }]);
+        } else {
           patches([{ op: 'replace', path: \`/\${it}/result\`, value: res.data }]);
-        } else if (res.data && res.code && res.message && !res.code.startsWith('200')) { // 预期错误
-          patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: res.message }]);
-        } else { // 非预期错误, 包括不标准的res结构, 非200码却缺少message
-          patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: '' }]);
         }
         resolve(res);
         loadingState(it, false);
       }).catch((err) => { // 非预期错误. 4xx,5xx
-        patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: '' }]);
+        patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: 'i18n:///#:#:global.error.message' }]);
         resolve(err);
         loadingState(it, false);
       });
