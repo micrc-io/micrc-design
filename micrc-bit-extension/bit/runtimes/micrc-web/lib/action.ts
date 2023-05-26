@@ -130,9 +130,11 @@ const handleIntegrate = (
 };
 
 export const globalAction = (
-  action: PatchOperation, path: string, globalStore: any, router: any = null, id: string = '',
+  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '',
 ) => globalStore((state: any) => (inputs: any, inputPath: string) => {
-  const input = handleValue(action, globalStore, null, null, null, inputs, inputPath, router, id);
+  const input = handleValue(
+    action, globalStore, moduleStore, null, null, inputs, inputPath, router, id,
+  );
   const newAction: PatchOperation = {
     ...action,
     path,

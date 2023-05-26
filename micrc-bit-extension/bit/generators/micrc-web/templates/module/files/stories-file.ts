@@ -20,6 +20,7 @@ import type { {{context.namePascalCase}}Props } from './{{context.name}}';
 import { {{context.namePascalCase}} } from './{{context.name}}';
 
 import I18n from './meta/i18n.json';
+import I18ns from './meta/i18ns.json';
 import Integration from './meta/integration.json';
 
 export default {
@@ -31,7 +32,7 @@ const permissions = {{{json permissions}}};
 
 const Template = (props: {{context.namePascalCase}}Props) => {
   // todo 通过开发机系统语言动态化
-  initModuleGlobalStore(permissions, 'zh_CN', I18n, null, Integration.init);
+  initModuleGlobalStore(permissions, 'zh_CN', I18n, I18ns, null, Integration.init);
   return (
     <ConfigProvider locale={locale}>
       <{{context.namePascalCase}} {...props} />

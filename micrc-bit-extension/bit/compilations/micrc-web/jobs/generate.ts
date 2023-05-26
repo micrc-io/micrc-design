@@ -217,7 +217,7 @@ export const generate = async () => {
           `${contextName}/web/components/${metaFile.replace('.json', '')}`,
         );
         break;
-      case TYPES.MODULES:
+      case TYPES.MODULES: {
         metaData.intro.context = {
           ownerDomain: contextMetaData.ownerDomain,
           contextName: contextMetaData.contextName,
@@ -233,7 +233,13 @@ export const generate = async () => {
           metaData,
           `${contextName}/web/modules/${metaFile.replace('.json', '')}`,
         );
+        // 把服务端i18ns.json 放在模块/meta下的
+        const i18nsPath = path.join(schemaLocation, 'aggregations', metaData.remoteState.aggregations, 'i18ns.json');
+        const i18nsMetaData = JSON.parse(fs.readFileSync(i18nsPath, { encoding: 'utf8' }));
+        const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'meta', 'i18ns.json')
+        fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
         break;
+      }
       case TYPES.CLIENTENDS:
         metaData.intro.context = {
           ownerDomain: contextMetaData.ownerDomain,

@@ -253,7 +253,7 @@ packages:
     dev: false
 
   /@colibri-tech/design.system.web.components.form-authc/0.0.1_7vw6fhyzblhs3gcvof77izb3ku:
-    resolution: {integrity: sha1-0EgMuCzW3fEs+wBz34YEhuNaI+s=, tarball: '@colibri-tech/design.system.web.components.form-authc/-/@colibri-tech-design.system.web.components.form-authc-0.0.1.tgz'}
+    resolution: {integrity: sha1-H4/f6GlToung/pI1WfD15s4Sw/I=, tarball: '@colibri-tech/design.system.web.components.form-authc/-/@colibri-tech-design.system.web.components.form-authc-0.0.1.tgz'}
     peerDependencies:
       react: '*'
       react-dom: '*'

@@ -63,14 +63,15 @@ export const apis = (get, set) => {
           } else {
             patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: res.data.message }]);
           }
+          loadingState(it, false);
           resolve(res);
         } else {
+          loadingState(it, false);
           reject(resultValidError);
         }
-        loadingState(it, false);
       }).catch((err) => {
-        reject(err);
         loadingState(it, false);
+        reject(err);
       });
     });
   });

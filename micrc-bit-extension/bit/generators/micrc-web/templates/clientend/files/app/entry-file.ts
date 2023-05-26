@@ -29,6 +29,7 @@ import '../styles/globals.css';
 
 import permission from '../meta/permission.json';
 import i18n from '../meta/i18n.json';
+import I18ns from './meta/i18ns.json';
 import tracker from '../meta/tracker.json';
 import integration from '../meta/integration.json';
 
@@ -56,7 +57,7 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   if (env && (env === 'default' || env === 'local')) {
     locale = 'zh_CN'; // todo 获取开发机系统语言
   }
-  initGlobalStore(locale, i18n, tracker, integration);
+  initGlobalStore(locale, i18n, I18ns, tracker, integration);
   return React.cloneElement(Layout, { ...props });
 };
 

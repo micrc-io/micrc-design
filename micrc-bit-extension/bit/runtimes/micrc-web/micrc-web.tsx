@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * micrc runtime: bind and action
  */
@@ -76,13 +77,15 @@ export const remoteStore = (
           (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath)),
         );
       }
-      // module:///bslg000046/invalid/err/  invalid:///bslg000046/invalid/err/
+      // invalid:///bslg000046/invalid/err/
       if (fullScope === StoreScope[StoreScope.invalid]) {
-        try {
-          return module((state: any) => patcher(state).path(path)); // replaceKey();
-        } catch (e) {
-          return null;
-        }
+        return module((state: any) => {
+          try {
+            return replaceKey(patcher(state).path(path));
+          } catch (e) {
+            return null;
+          }
+        });
       }
       if (fullScope === StoreScope[StoreScope.integrate]) {
         return useGlobalStore(
@@ -114,7 +117,7 @@ export const remoteStore = (
       }
       // 当执行范围为global，可以执行add, replace, remove操作，表示更新global状态
       if (fullScope === StoreScope[StoreScope.global]) {
-        return globalAction(action, path, useGlobalStore);
+        return globalAction(action, path, useGlobalStore, module, router, id);
       }
       if (fullScope === StoreScope[StoreScope.module]) {
         return moduleAction(action, path, useGlobalStore, module, router, id);
