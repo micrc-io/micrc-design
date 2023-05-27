@@ -9,6 +9,7 @@ import { ComponentContext } from '@teambit/generator';
 type ClientendIntro = {
   version: string,
   state: string,
+  loginPageUri: string,
   favicon: string,
   metaBasePath: string,
   relativePath: string,
@@ -102,6 +103,7 @@ type ClientendMeta = {
   intro: {
     version: string,
     state: string,
+    loginPageUri: string,
     favicon: string,
     languages: Array<{ code: string, name: string }>,
     context: {
