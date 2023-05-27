@@ -116,13 +116,20 @@ const generateModule = async (metaData: any, componentPath: string) => {
 
   try {
     const { components } = metaData;
-    const deps = Object.values(components)
-      .map((it: any) => `${it.packages}@${it.version}`)
-      .join(' ');
-    if (deps) {
-      await execCmd('bit', ['deps', 'set', componentPath, deps], bitBasePath);
-      await execCmd('bit', ['install'], bitBasePath);
-    }
+    Object.values(components).map(async (it:any) => {
+      const deps = `${it.packages}@${it.version}`;
+      if (deps) {
+        await execCmd('bit', ['deps', 'set', componentPath, deps], bitBasePath);
+        await execCmd('bit', ['install'], bitBasePath);
+      }
+    });
+    // const deps = Object.values(components)
+    //   .map((it: any) => `${it.packages}@${it.version}`)
+    //   .join(' ');
+    // if (deps) {
+    //   await execCmd('bit', ['deps', 'set', componentPath, deps], bitBasePath);
+    //   await execCmd('bit', ['install'], bitBasePath);
+    // }
   } catch (e) {
     const msg = `component: ${componentPath} of type: modules - dependencies handle error: ${e}`;
     log.error(chalk.red(msg));
@@ -236,7 +243,7 @@ export const generate = async () => {
         // 把服务端i18ns.json 放在模块/meta下的
         const i18nsPath = path.join(schemaLocation, 'aggregations', metaData.remoteState.aggregations, 'i18ns.json');
         const i18nsMetaData = JSON.parse(fs.readFileSync(i18nsPath, { encoding: 'utf8' }));
-        const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'meta', 'i18ns.json')
+        const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'meta', 'i18ns.json');
         fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
         break;
       }
