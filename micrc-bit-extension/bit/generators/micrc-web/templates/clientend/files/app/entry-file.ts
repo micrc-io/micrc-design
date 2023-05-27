@@ -81,8 +81,6 @@ export default function MicrcApp({ Component, pageProps }: AppProps) {
       <Authorized
         permissions={permissions[router.pathname]}
         display={true}
-        router={router}
-        loginUri={process.env.NEXT_PUBLIC_LOGIN_URI}
       >
         {/* @ts-ignore */}
         <Component {...pageProps} router={router} />

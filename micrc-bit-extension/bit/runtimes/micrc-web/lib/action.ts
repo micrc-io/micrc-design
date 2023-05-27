@@ -81,11 +81,22 @@ const handleValue = (
   return value;
 };
 
-const handleRoute = (routerPath: string, router: any, uri: any) => {
+// 判断window存在，并且是default和local环境 , 再次刷新页面
+const refreshPage = () => {
+  if (typeof window !== 'undefined') {
+    const env = process.env.APP_ENV;
+    if (env && (env === 'local' || env === 'default')) {
+      window.location.reload();
+    }
+  }
+};
+
+const handleRoute = (router: any, uri: any) => {
   if (!uri) {
     throw Error(`Illegal router path: ${uri}`);
   }
   router?.push(uri);
+  refreshPage();
 };
 
 const handleIntegrate = (
@@ -125,6 +136,7 @@ const handleIntegrate = (
     const consumer: any = Object.values(topic.consumers)[0];
     if (consumer.pageUri !== pageUri) {
       router?.push(consumer.pageUri);
+      refreshPage();
     }
   }
 };
@@ -147,7 +159,7 @@ export const globalAction = (
       break;
     case PatchOperationType[PatchOperationType.integrate]:
       if (path.startsWith('/route')) {
-        handleRoute(path, router, action.value || input);
+        handleRoute(router, action.value || input);
       } else {
         handleIntegrate(action.value || input, state, path.replace('/', ''), router, id);
       }
