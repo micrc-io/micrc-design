@@ -27,7 +27,7 @@ const proxy = createProxyMiddleware({
     if (!req.headers['x-host']) { // 如果没有x-host, 重写为空, 以转发到400报错
       return '';
     }
-    return \`/api\${path}\`;
+    return path;
   },
   router: (req: Request): string => {
     if (!req.headers['x-host']) return NO_HOST_400; // 如果没有x-host头指定服务端地址, 则转发到400报错
