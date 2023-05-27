@@ -10,11 +10,12 @@ import type { ClientendContextData } from '../../_parser';
 
 const tmpl = `// 入口文件, 处理端口布局、global store初始化(i18n、tracker、integration)
 import React, { ReactNode } from 'react';
+import App from 'next/app';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { MDXProvider } from '@mdx-js/react';
 
-import { initGlobalStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
+import { useGlobalStore, initGlobalStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
 
 {{#each componentImports}}
 import { {{@key}} } from '{{this}}';
@@ -61,17 +62,38 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   return React.cloneElement(Layout, { ...props });
 };
 
-export default function App({ Component, pageProps }: AppProps) {
+const authcRouter = (router: any) => {
+  if (typeof window !== 'undefined') {
+    const global: any = useGlobalStore.getState();
+    const loginUri = process.env.NEXT_PUBLIC_LOGIN_PAGE_URI || '/security/authc';
+    if (!global.subject.id && router && router.pathname !== loginUri) {
+      window.location.replace(loginUri);
+    }
+  }
+};
+
+export default function MicrcApp({ Component, pageProps }: AppProps) {
   const components = { wrapper: Wrapper };
   const router = useRouter();
+  authcRouter(router);
   return (
     <MDXProvider components={ components }>
-      <Authorized permissions={permissions[router.pathname]} display={true}>
+      <Authorized
+        permissions={permissions[router.pathname]}
+        display={true}
+        router={router}
+        loginUri={process.env.NEXT_PUBLIC_LOGIN_URI}
+      >
         {/* @ts-ignore */}
         <Component {...pageProps} router={router} />
       </Authorized>
     </MDXProvider>
   );
+}
+
+MicrcApp.getInitialProps = async (context: any) => {
+  const props = await App.getInitialProps(context);
+  return { ...props };
 }
 `;
 
