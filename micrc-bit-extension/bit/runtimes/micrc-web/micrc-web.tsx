@@ -109,7 +109,7 @@ export const remoteStore = (
     action: (action: PatchOperation) => {
       // {op:integrate ; path:'/主题名'，value：null }
       if (action.op === PatchOperationType[PatchOperationType.integrate]) {
-        return globalAction(action, action.path, useGlobalStore, router, id);
+        return globalAction(action, action.path, useGlobalStore, module, router, id);
       }
       const [fullScope, path] = action.path.split('://');
       if (!fullScope || !path) {
