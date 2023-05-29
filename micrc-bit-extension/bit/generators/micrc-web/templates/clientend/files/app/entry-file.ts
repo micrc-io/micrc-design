@@ -17,11 +17,11 @@ import { MDXProvider } from '@mdx-js/react';
 
 import { useGlobalStore, initGlobalStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
 
-{{#each componentImports}}
+{{#each data.entry.componentImports}}
 import { {{@key}} } from '{{this}}';
 {{/each}}
 
-{{#each moduleImports}}
+{{#each data.entry.moduleImports}}
 import { {{@key}} } from '{{this}}';
 {{/each}}
 
@@ -37,7 +37,7 @@ import integration from '../meta/integration.json';
 const permissions: Record<string, Array<string>> = permission;
 
 const layouts: Record<string, {uris: Array<string>; layout: (props: any) => ReactNode }> = {
-  {{#each layouts}}
+  {{#each data.entry.layouts}}
   {{@key}}: { uris: {{{json this.uris}}}, layout:(props) => <{{@key}} {{{propsAssembler this.props}}} /> },
   {{/each}}
 };
@@ -58,7 +58,7 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   if (env && (env === 'default' || env === 'local')) {
     locale = 'zh_CN'; // todo 获取开发机系统语言
   }
-  initGlobalStore(locale, i18n, i18ns, tracker, integration);
+  initGlobalStore(locale, data.intro.context.clientend, i18n, i18ns, tracker, integration);
   return React.cloneElement(Layout, { ...props });
 };
 
@@ -100,7 +100,7 @@ export function appEntryFile(data: ClientendContextData) {
   HandleBars.registerHelper('json', (context) => jsonObject(context));
 
   return prettier.format(
-    HandleBars.compile(tmpl)(data.entry),
+    HandleBars.compile(tmpl)(data),
     {
       parser: 'typescript',
       semi: true,

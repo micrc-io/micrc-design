@@ -9,7 +9,7 @@ import { integratePath } from '../store';
 import { invoke, update, validate } from './operation';
 
 export enum StoreScope {
-  global, module, states, props, i18n, integrate, invalid,
+  global, module, states, props, i18n, integrate, invalid, router,
 }
 
 export enum PatchOperationType {

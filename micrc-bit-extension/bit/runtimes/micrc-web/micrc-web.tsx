@@ -77,6 +77,10 @@ export const remoteStore = (
           (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath)),
         );
       }
+      // router:///pathname
+      if (fullScope === StoreScope[StoreScope.router]) {
+        return router[path];
+      }
       // invalid:///bslg000046/invalid/err/
       if (fullScope === StoreScope[StoreScope.invalid]) {
         return module((state: any) => {

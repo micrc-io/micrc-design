@@ -32,7 +32,7 @@ const permissions = {{{json permissions}}};
 
 const Template = (props: {{context.namePascalCase}}Props) => {
   // todo 通过开发机系统语言动态化
-  initModuleGlobalStore(permissions, 'zh_CN', I18n, I18ns, null, Integration.init);
+  initModuleGlobalStore(permissions, 'zh_CN', data.intro.context.clientend, I18n, I18ns, null, Integration.init);
   return (
     <ConfigProvider locale={locale}>
       <{{context.namePascalCase}} {...props} />

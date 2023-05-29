@@ -14,7 +14,7 @@ import patcher from './json-patch';
  * @param patch json patch对象/数组
  */
 export const update = (state: any, input: any, patch: any) => {
-  if (input) {
+  if (input !== null || input !== undefined) {
     // eslint-disable-next-line no-param-reassign
     (patch[0] || patch).value = input;
   }
