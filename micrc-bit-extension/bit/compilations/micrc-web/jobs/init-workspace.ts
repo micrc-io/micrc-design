@@ -11,9 +11,6 @@ log.setLevel('INFO');
 
 export const init = async () => {
   try {
-    await execCmd('bit', ['install'], bitBasePath);
-    await execCmd('bit', ['install'], bitBasePath);
-    await execCmd('bit', ['compile'], bitBasePath);
     await execCmd('bit', ['compile'], bitBasePath);
     await execCmd('bit', ['link'], bitBasePath);
     await execCmd('bit', ['status'], bitBasePath);
