@@ -94,7 +94,7 @@ type {{@key}} = {
 {{/each}}
 
 {{!-- 定义组件本体 --}}
-export function {{context.namePascalCase}}({ router }: {{context.namePascalCase}}Props) {
+export function {{context.namePascalCase}}({ router , fix }: {{context.namePascalCase}}Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const store = remoteStore(
     {
@@ -103,6 +103,7 @@ export function {{context.namePascalCase}}({ router }: {{context.namePascalCase}
     },
     router,
     '{{{context.componentId}}}',
+    fix,
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { bind, action, subscribe } =store;

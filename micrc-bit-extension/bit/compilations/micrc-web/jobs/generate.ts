@@ -116,20 +116,13 @@ const generateModule = async (metaData: any, componentPath: string) => {
 
   try {
     const { components } = metaData;
-    Object.values(components).map(async (it:any) => {
-      const deps = `${it.packages}@${it.version}`;
-      if (deps) {
-        await execCmd('bit', ['deps', 'set', componentPath, deps], bitBasePath);
-        await execCmd('bit', ['install'], bitBasePath);
-      }
-    });
-    // const deps = Object.values(components)
-    //   .map((it: any) => `${it.packages}@${it.version}`)
-    //   .join(' ');
-    // if (deps) {
-    //   await execCmd('bit', ['deps', 'set', componentPath, deps], bitBasePath);
-    //   await execCmd('bit', ['install'], bitBasePath);
-    // }
+    const deps = Object.values(components)
+      .map((it: any) => `${it.packages}@${it.version}`)
+      .join(' ');
+    if (deps) {
+      await execCmd('bit', ['deps', 'set', componentPath, deps], bitBasePath);
+      await execCmd('bit', ['install'], bitBasePath);
+    }
   } catch (e) {
     const msg = `component: ${componentPath} of type: modules - dependencies handle error: ${e}`;
     log.error(chalk.red(msg));
@@ -229,6 +222,7 @@ export const generate = async () => {
           ownerDomain: contextMetaData.ownerDomain,
           contextName: contextMetaData.contextName,
           namespace: contextMetaData.namespace,
+          clientend: contextMetaData.clientend,
         };
         metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model.json`;
         metaData.remoteState.operationIds.map((item) => {
@@ -250,6 +244,7 @@ export const generate = async () => {
       case TYPES.CLIENTENDS:
         metaData.intro.context = {
           ownerDomain: contextMetaData.ownerDomain,
+          clientend: contextMetaData.clientend,
           global: contextMetaData.global,
           gateway: contextMetaData.gateway,
         };

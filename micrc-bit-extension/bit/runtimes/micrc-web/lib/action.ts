@@ -9,7 +9,7 @@ import { integratePath } from '../store';
 import { invoke, update, validate } from './operation';
 
 export enum StoreScope {
-  global, module, states, props, i18n, integrate, invalid,
+  global, module, states, props, i18n, integrate, invalid, router,
 }
 
 export enum PatchOperationType {
@@ -35,6 +35,7 @@ const getValueByPointer = (
   propStore: any,
   router: any = null,
   id: string = '',
+  fix: string = null,
 ) => {
   const [scope, path] = pointer.split('://'); // scope:integrate@switchPage
   if (!scope || !path) {
@@ -43,7 +44,7 @@ const getValueByPointer = (
   if (scope.includes('@')) { // bind('integrate@switchPage:///url')
     const [fullScope, fullPath] = scope.split('@');
     if (fullScope === StoreScope[StoreScope.integrate]) {
-      return patcher(globalStore.getState()).path(integratePath(router, id, pointer));
+      return patcher(globalStore.getState()).path(integratePath(router, id, pointer, fix));
     }
     if (fullScope === StoreScope[StoreScope.states]) {
       return patcher(stateStore).path(`/${fullPath}${path}`);
@@ -68,6 +69,7 @@ const handleValue = (
   inputs: any, inputPath: string,
   router: any = null,
   id: string = '',
+  fix: string = null,
 ) => {
   const { value } = action;
   // 存在输入参数，优先取值
@@ -76,7 +78,9 @@ const handleValue = (
   }
   // 没有输入参数，那么检查action中的value是否是个pointer. states@xxx:///xxx
   if (typeof value === 'string' && value.includes('://')) {
-    return getValueByPointer(value, globalStore, moduleStore, stateStore, propStore, router, id);
+    return getValueByPointer(
+      value, globalStore, moduleStore, stateStore, propStore, router, id, fix,
+    );
   }
   return value;
 };
@@ -142,10 +146,10 @@ const handleIntegrate = (
 };
 
 export const globalAction = (
-  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '',
+  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix:string = null,
 ) => globalStore((state: any) => (inputs: any, inputPath: string) => {
   const input = handleValue(
-    action, globalStore, moduleStore, null, null, inputs, inputPath, router, id,
+    action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
   );
   const newAction: PatchOperation = {
     ...action,
@@ -170,10 +174,10 @@ export const globalAction = (
 });
 
 export const moduleAction = (
-  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '',
+  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: string = null,
 ) => moduleStore((state: any) => async (inputs: any, inputPath: string) => {
   const input = handleValue(
-    action, globalStore, moduleStore, null, null, inputs, inputPath, router, id,
+    action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
   );
   const newAction: PatchOperation = {
     ...action,

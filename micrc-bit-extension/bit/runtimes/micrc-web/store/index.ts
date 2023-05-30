@@ -30,7 +30,9 @@ export type I18nPointer = {
 };
 
 // 计算集成值路径
-export const integratePath = (router: any, id: string, bindingPath: string): string => {
+export const integratePath = (
+  router: any, id: string, bindingPath: string, fix: string,
+): string => {
   const [topicScope, path] = bindingPath.split('://');
   if (!id) { // 模块独立启动时, 集成模拟器使用
     return `/integration${path}`;
@@ -42,7 +44,10 @@ export const integratePath = (router: any, id: string, bindingPath: string): str
   if (!scope || !topic) {
     throw Error(`Illegal binding path: ${bindingPath}. It must format of [integrate@topic]://[json pointer]`);
   }
-  const pagePath = (router?.pathname || '#').replace(/\//g, '~1');
+  let pagePath = '#';
+  if (!fix) {
+    pagePath = (router?.pathname || '#').replace(/\//g, '~1');
+  }
   const modulePath = id.replace(/\//g, '~1');
   const newPath = path === '/' ? '' : path;
   return `/integration/${topic}/consumers/${pagePath}:${modulePath}/state${newPath}`;

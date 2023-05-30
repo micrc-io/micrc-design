@@ -18,11 +18,11 @@ import { MDXProvider } from '@mdx-js/react';
 
 import { useGlobalStore, initGlobalStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
 
-{{#each componentImports}}
+{{#each entry.componentImports}}
 import { {{@key}} } from '{{this}}';
 {{/each}}
 
-{{#each moduleImports}}
+{{#each entry.moduleImports}}
 import { {{@key}} } from '{{this}}';
 {{/each}}
 
@@ -45,7 +45,7 @@ if (env && (env === 'default' || env === 'local')) {
 initGlobalStore(locale, i18n, i18ns, tracker, integration);
 
 const layouts: Record<string, {uris: Array<string>; layout: (props: any) => ReactNode }> = {
-  {{#each layouts}}
+  {{#each entry.layouts}}
   {{@key}}: { uris: {{{json this.uris}}}, layout:(props) => <{{@key}} {{{propsAssembler this.props}}} /> },
   {{/each}}
 };
@@ -130,7 +130,7 @@ export function appEntryFile(data: ClientendContextData) {
   HandleBars.registerHelper('json', (context) => jsonObject(context));
 
   return prettier.format(
-    HandleBars.compile(tmpl)(data.entry),
+    HandleBars.compile(tmpl)(data),
     {
       parser: 'typescript',
       semi: true,

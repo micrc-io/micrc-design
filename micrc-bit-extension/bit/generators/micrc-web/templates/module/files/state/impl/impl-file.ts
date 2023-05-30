@@ -36,7 +36,7 @@ export const apis = (get, set) => {
   const _apis = {};
   Object.keys(protocols).forEach((it) => {
     const proto = protocols[it];
-    _apis[it] = () => new Promise((resolve) => {
+    _apis[it] = () => new Promise((resolve,reject) => {
       loadingState(it, true);
       const param = getValueByPointer(get(), \`/\${it}/param\`);
       const [isParamValid, paramValidError] = proto.invalid.validate(param);

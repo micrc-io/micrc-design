@@ -135,7 +135,7 @@ export const clientendTemplate: ComponentTemplate = {
       // app .env file
       {
         relativePath: 'app/.env',
-        content: appEnvFile(),
+        content: appEnvFile(data),
       },
       // app pages/_app.ts file
       {

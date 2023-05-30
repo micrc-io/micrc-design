@@ -10,6 +10,7 @@ type ClientendIntro = {
   version: string,
   state: string,
   loginPageUri: string,
+  fix: any,
   favicon: string,
   metaBasePath: string,
   relativePath: string,
@@ -19,6 +20,7 @@ type ClientendIntro = {
   appId: string,
   context: {
     ownerDomain: string,
+    clientend: string,
     global: {
       integration: {
         proxyServerUrl: string,
@@ -104,10 +106,12 @@ type ClientendMeta = {
     version: string,
     state: string,
     loginPageUri: string,
+    fix: any,
     favicon: string,
     languages: Array<{ code: string, name: string }>,
     context: {
       ownerDomain: string,
+      clientend: string,
       global: {
         integration: {
           proxyServerUrl: string,
