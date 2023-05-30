@@ -10,6 +10,7 @@ type ClientendIntro = {
   version: string,
   state: string,
   loginPageUri: string,
+  fix: string,
   favicon: string,
   metaBasePath: string,
   relativePath: string,
@@ -105,6 +106,7 @@ type ClientendMeta = {
     version: string,
     state: string,
     loginPageUri: string,
+    fix: string,
     favicon: string,
     languages: Array<{ code: string, name: string }>,
     context: {

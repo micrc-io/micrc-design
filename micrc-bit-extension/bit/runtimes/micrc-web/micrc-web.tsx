@@ -25,7 +25,7 @@ type ModuleStore = {
 };
 
 export const remoteStore = (
-  stores: ModuleStore, router: any, id: string,
+  stores: ModuleStore, router: any, id: string, fix,
 ) => {
   const {
     module = {}, states = {},
@@ -50,7 +50,7 @@ export const remoteStore = (
   };
   return {
     subscribe: (topic: string, listener: () => any) => useGlobalStore.subscribe(
-      (state: any) => patcher(state).path(integratePath(router, id, `integrate@${topic}:///`)),
+      (state: any) => patcher(state).path(integratePath(router, id, `integrate@${topic}:///`, fix)),
       listener,
       { fireImmediately: true },
     ),
@@ -70,15 +70,33 @@ export const remoteStore = (
         return useGlobalStore((state: any) => patcher(state).path(path));
       }
       if (fullScope === StoreScope[StoreScope.module]) {
-        return replaceKey(module((state: any) => patcher(state).path(path)));
+        return module((state: any) => {
+          if (path.includes('@')) {
+            const [pointer, defaultValue] = path.split('@');
+            try {
+              return replaceKey(patcher(state).path(pointer));
+            } catch (e) {
+              return defaultValue;
+            }
+          }
+          return replaceKey(patcher(state).path(path));
+        });
       }
       if (fullScope === StoreScope[StoreScope.i18n]) {
         return useGlobalStore(
           (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath)),
         );
       }
-      // router:///pathname
+      // bind(`router:///pathname@${bind('module:///inve000010/result/data/0/key@""')}`
       if (fullScope === StoreScope[StoreScope.router]) {
+        if (path.includes('@')) {
+          const [prop, defaultValue] = path.split('@');
+          try {
+            return router[prop];
+          } catch (e) {
+            return defaultValue;
+          }
+        }
         return router[path];
       }
       // invalid:///bslg000046/invalid/err/
@@ -93,7 +111,7 @@ export const remoteStore = (
       }
       if (fullScope === StoreScope[StoreScope.integrate]) {
         return useGlobalStore(
-          (state: any) => patcher(state).path(integratePath(router, id, bindingPath)),
+          (state: any) => patcher(state).path(integratePath(router, id, bindingPath, fix)),
         );
       }
       const [scope, subScope] = fullScope.split('@');
@@ -102,7 +120,7 @@ export const remoteStore = (
       }
       if (scope === StoreScope[StoreScope.integrate]) {
         return useGlobalStore(
-          (state: any) => patcher(state).path(integratePath(router, id, bindingPath)),
+          (state: any) => patcher(state).path(integratePath(router, id, bindingPath, fix)),
         );
       }
       if (scope === StoreScope[StoreScope.states]) {
@@ -113,7 +131,7 @@ export const remoteStore = (
     action: (action: PatchOperation) => {
       // {op:integrate ; path:'/主题名'，value：null }
       if (action.op === PatchOperationType[PatchOperationType.integrate]) {
-        return globalAction(action, action.path, useGlobalStore, module, router, id);
+        return globalAction(action, action.path, useGlobalStore, module, router, id, fix);
       }
       const [fullScope, path] = action.path.split('://');
       if (!fullScope || !path) {
