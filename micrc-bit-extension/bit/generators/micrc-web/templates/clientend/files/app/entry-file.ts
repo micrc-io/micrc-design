@@ -17,11 +17,11 @@ import { MDXProvider } from '@mdx-js/react';
 
 import { useGlobalStore, initGlobalStore, Authorized } from '@micrc/bit.runtimes.micrc-web';
 
-{{#each data.entry.componentImports}}
+{{#each entry.componentImports}}
 import { {{@key}} } from '{{this}}';
 {{/each}}
 
-{{#each data.entry.moduleImports}}
+{{#each entry.moduleImports}}
 import { {{@key}} } from '{{this}}';
 {{/each}}
 
@@ -37,7 +37,7 @@ import integration from '../meta/integration.json';
 const permissions: Record<string, Array<string>> = permission;
 
 const layouts: Record<string, {uris: Array<string>; layout: (props: any) => ReactNode }> = {
-  {{#each data.entry.layouts}}
+  {{#each entry.layouts}}
   {{@key}}: { uris: {{{json this.uris}}}, layout:(props) => <{{@key}} {{{propsAssembler this.props}}} /> },
   {{/each}}
 };
@@ -58,7 +58,7 @@ const Wrapper = (props: JSX.IntrinsicAttributes) => {
   if (env && (env === 'default' || env === 'local')) {
     locale = 'zh_CN'; // todo 获取开发机系统语言
   }
-  initGlobalStore(locale, data.intro.context.clientend, i18n, i18ns, tracker, integration);
+  initGlobalStore(locale, intro.context.clientend, i18n, i18ns, tracker, integration);
   return React.cloneElement(Layout, { ...props });
 };
 

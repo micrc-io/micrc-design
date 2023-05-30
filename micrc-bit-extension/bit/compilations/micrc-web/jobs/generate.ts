@@ -222,6 +222,7 @@ export const generate = async () => {
           ownerDomain: contextMetaData.ownerDomain,
           contextName: contextMetaData.contextName,
           namespace: contextMetaData.namespace,
+          clientend: contextMetaData.clientend,
         };
         metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model.json`;
         metaData.remoteState.operationIds.map((item) => {
@@ -243,6 +244,7 @@ export const generate = async () => {
       case TYPES.CLIENTENDS:
         metaData.intro.context = {
           ownerDomain: contextMetaData.ownerDomain,
+          clientend: contextMetaData.clientend,
           global: contextMetaData.global,
           gateway: contextMetaData.gateway,
         };

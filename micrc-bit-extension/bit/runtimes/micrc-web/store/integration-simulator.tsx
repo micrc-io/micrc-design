@@ -19,7 +19,7 @@ export const IntegrationSimulator = (
   },
 ) => {
   const [open, setOpen] = useState(false);
-  const { action, bind } = remoteStore({}, null, null);
+  const { action, bind } = remoteStore({}, null, null, null);
   const produceSimulator = [];
   const consumeSimulator = [];
   if (!integration || (!integration.consume && !integration.produce)) {

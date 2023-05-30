@@ -13,7 +13,6 @@ export const useGlobalStore = create(subscribeWithSelector((set) => ({
   subject: {
     id: null,
     permissions: [],
-    token: '',
   },
   i18n: null,
   tracker: null,
@@ -59,6 +58,7 @@ const translateI18n = (
 export const initModuleGlobalStore = (
   permissions: Array<string>,
   locale: string,
+  clientend: string,
   i18n: Record<string, I18nPointer>,
   i18ns: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
   tracker: any,
@@ -82,8 +82,8 @@ export const initModuleGlobalStore = (
     subject: {
       id: null,
       permissions: permissions || [],
-      token: '',
     },
+    clientend,
     i18n: {
       locale: locale || 'en_US',
       languages,
@@ -96,6 +96,7 @@ export const initModuleGlobalStore = (
 
 export const initGlobalStore = (
   locale: string | null,
+  clientend: string,
   i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
   i18ns: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
   tracker: any | null,
@@ -126,6 +127,11 @@ export const initGlobalStore = (
   if (!state.currentKey && currentKey) {
     useGlobalStore.setState({
       currentKey,
+    });
+  }
+  if (!state.clientend && clientend) {
+    useGlobalStore.setState({
+      clientend,
     });
   }
 };
