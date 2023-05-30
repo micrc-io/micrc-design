@@ -23,7 +23,7 @@ const handlers = protocols.map((proto) => {
     (req, res, ctx) => res(
       ctx.status(200),
       ctx.delay(3000),
-      ctx.json(proto.mock || OpenAPISampler.sample(proto.schema)),
+      ctx.json(proto.mock.value || OpenAPISampler.sample(proto.schema)),
     ),
   );
 });

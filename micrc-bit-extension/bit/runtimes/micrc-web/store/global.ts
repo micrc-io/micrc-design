@@ -14,6 +14,7 @@ export const useGlobalStore = create(subscribeWithSelector((set) => ({
     id: null,
     permissions: [],
   },
+  workbench: '',
   i18n: null,
   tracker: null,
   integration: null,
@@ -58,7 +59,7 @@ const translateI18n = (
 export const initModuleGlobalStore = (
   permissions: Array<string>,
   locale: string,
-  clientend: string,
+  workbench: string,
   i18n: Record<string, I18nPointer>,
   i18ns: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
   tracker: any,
@@ -83,7 +84,7 @@ export const initModuleGlobalStore = (
       id: null,
       permissions: permissions || [],
     },
-    clientend,
+    workbench,
     i18n: {
       locale: locale || 'en_US',
       languages,
@@ -96,7 +97,7 @@ export const initModuleGlobalStore = (
 
 export const initGlobalStore = (
   locale: string | null,
-  clientend: string,
+  workbench: string,
   i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
   i18ns: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
   tracker: any | null,
@@ -129,9 +130,9 @@ export const initGlobalStore = (
       currentKey,
     });
   }
-  if (!state.clientend && clientend) {
+  if (!state.workbench && workbench) {
     useGlobalStore.setState({
-      clientend,
+      workbench,
     });
   }
 };
