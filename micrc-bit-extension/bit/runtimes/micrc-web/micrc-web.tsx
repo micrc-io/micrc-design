@@ -25,7 +25,7 @@ type ModuleStore = {
 };
 
 export const remoteStore = (
-  stores: ModuleStore, router: any, id: string, fix,
+  stores: ModuleStore, router: any, id: string, fix: any,
 ) => {
   const {
     module = {}, states = {},

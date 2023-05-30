@@ -116,11 +116,10 @@ const generateModule = async (metaData: any, componentPath: string) => {
 
   try {
     const { components } = metaData;
-    const deps = Object.values(components)
-      .map((it: any) => `${it.packages}@${it.version}`)
-      .join(' ');
+    const deps: string[] = Object.values(components)
+      .map((it: any) => `${it.packages}@${it.version}`);
     if (deps) {
-      await execCmd('bit', ['deps', 'set', componentPath, deps], bitBasePath);
+      await execCmd('bit', ['deps', 'set', componentPath, ...deps], bitBasePath);
       await execCmd('bit', ['install'], bitBasePath);
     }
   } catch (e) {
