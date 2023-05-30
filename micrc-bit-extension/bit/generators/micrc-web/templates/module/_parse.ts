@@ -378,7 +378,7 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     comment: meta.comment,
     reactImports: reactImports(meta),
     typeDefinitions: meta?.types?.definitions || {},
-    props: { router: 'any' },
+    props: { router: 'any', fix: 'string' },
     defaultProps: { router: null, fix: null },
     typeImports: typeImports(meta),
     componentImports: componentImports(meta),
