@@ -49,10 +49,12 @@ export const remoteStore = (
     }
   };
   return {
-    subscribe: (topic: string, listener: () => any) => useGlobalStore.subscribe(
+    subscribe: (topic: string, listener: (curr, prev) => any) => useGlobalStore.subscribe(
       (state: any) => patcher(state).path(integratePath(router, id, `integrate@${topic}:///`, fix)),
-      listener,
-      { fireImmediately: true },
+      (curr, prev) => {
+        listener(curr, prev);
+      },
+      { fireImmediately: false },
     ),
     appendState: (stateObj : object) => {
       Object.keys(stateObj).forEach((it) => {
@@ -92,12 +94,13 @@ export const remoteStore = (
         if (path.includes('@')) {
           const [prop, defaultValue] = path.split('@');
           try {
-            return router[prop];
+            return patcher(router).path(prop); // router[prop];
           } catch (e) {
             return defaultValue;
           }
         }
-        return router[path];
+        return patcher(router).path(path);
+        // return router[path];
       }
       // invalid:///bslg000046/invalid/err/
       if (fullScope === StoreScope[StoreScope.invalid]) {

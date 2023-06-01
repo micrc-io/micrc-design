@@ -99,8 +99,13 @@ const handleRoute = (router: any, uri: any) => {
   if (!uri) {
     throw Error(`Illegal router path: ${uri}`);
   }
-  router?.push(uri);
-  refreshPage();
+  const { redirectUri } = router.query;
+  if (redirectUri) {
+    window.location.replace(redirectUri);
+  } else {
+    router?.push(uri);
+    refreshPage();
+  }
 };
 
 const handleIntegrate = (

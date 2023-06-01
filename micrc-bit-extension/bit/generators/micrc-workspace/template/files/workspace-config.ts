@@ -101,7 +101,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
         zustand: '4.3.6',
       },
       peerDependencies: {
-        '@micrc/bit.runtimes.micrc-web': '>= 0.0.21',
+        '@micrc/bit.runtimes.micrc-web': '>= 0.0.23',
         '@tarojs/components': '3.5.12',
         '@tarojs/taro': '3.5.12',
         '@tarojs/taro-h5': '3.5.12',
