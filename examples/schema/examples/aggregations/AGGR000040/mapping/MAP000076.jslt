@@ -1,0 +1,6 @@
+{
+    "username": .username,
+    "permissions": [
+                       for (.permissionDetails) .permissionExpression.permissionExpression
+                   ]
+}

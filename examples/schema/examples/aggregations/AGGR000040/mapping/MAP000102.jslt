@@ -1,0 +1,5 @@
+{
+    "authCode": .result.value,
+    "identity": .result.key,
+    "imageString": .result.base64Str
+}

@@ -1,0 +1,91 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "角色schema",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "Role": {
+        "type": "object",
+        "properties": {
+          "identity": {
+            "type": "object",
+            "$ref": "#/components/schemas/RoleId",
+            "description": "标识"
+          },
+          "rolePermissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RolePermission"
+            },
+            "description": "角色权限"
+          },
+          "roleName": {
+            "type": "object",
+            "$ref": "#/components/schemas/RoleName",
+            "description": "角色名称"
+          }
+        },
+        "x-validators": null
+      },
+      "RoleId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "标识"
+          }
+        },
+        "description": "角色标识Id",
+        "x-validators": null
+      },
+      "RoleName": {
+        "type": "object",
+        "properties": {
+          "roleName":{
+            "type": "string",
+            "description": "角色名称"
+          }
+        }
+      },
+      "RolePermission": {
+        "type": "object",
+        "properties": {
+          "permissionId": {
+            "type": "integer",
+            "description": "权限ID"
+          }
+        }
+      },
+      "Expressions": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Expression"
+        }
+      },
+      "Expression": {
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": "string",
+            "description": "表达式"
+          }
+        }
+      }
+    }
+  }
+}

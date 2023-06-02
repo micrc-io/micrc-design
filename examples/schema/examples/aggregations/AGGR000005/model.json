@@ -1,0 +1,340 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "菜单schema",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "Menu": {
+        "type": "object",
+        "x-model-type": "entity",
+        "x-table": {
+          "name": "security_menu"
+        },
+        "properties": {
+          "identity": {
+            "$ref": "#/components/schemas/MenuIdentity"
+          },
+          "menuCode": {
+            "$ref": "#/components/schemas/MenuCode"
+          },
+          "menuType": {
+            "$ref": "#/components/schemas/MenuType"
+          },
+          "uri": {
+            "$ref": "#/components/schemas/Uri"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sort"
+          },
+          "parentCode":{
+            "$ref": "#/components/schemas/ParentCode"
+          },
+          "authority":{
+            "$ref": "#/components/schemas/Authority"
+          },
+          "belongWorkbench": {
+            "$ref": "#/components/schemas/BelongWorkbench"
+          },
+          "delFlag":{
+            "$ref": "#/components/schemas/DelFlag"
+          },
+          "contents": {
+            "type": "array",
+            "x-table-cascade": {
+              "oneToMany": {
+                "mappedBy": "MenuContent",
+                "cascade": "ALL"
+              },
+              "joinColumn": {
+                "name": "menu_id"
+              }
+            },
+            "items": [{
+              "$ref": "#/components/schemas/MenuContent"
+            }]
+          },
+          "version": {
+            "type": "integer",
+            "description": "版本号"
+          }
+        }
+      },
+      "MenuTree": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Tree"
+        },
+        "x-validators": {
+          "normal": {
+            "type": "array",
+            "minItems": 1,
+            "errorMessage": "i18n:///AGGR000005:MDL000211:result.required"
+          }
+        }
+      },
+      "Tree": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "parentCode": {
+            "type": "string"
+          },
+          "sort": {
+            "type": "integer"
+          },
+          "label": {
+            "type": "string",
+            "description": "菜单内容"
+          },
+          "children": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      },
+      "MenuContent": {
+        "type": "object",
+        "x-model-type": "entity",
+        "x-table": {
+          "name": "security_menu_content"
+        },
+        "properties": {
+          "identity": {
+            "$ref": "#/components/schemas/MenuContentIdentity"
+          },
+          "languageType": {
+            "$ref": "#/components/schemas/LanguageType"
+          },
+          "content": {
+            "$ref": "#/components/schemas/Content"
+          }
+        }
+      },
+      "InitMenuCommand": {
+        "type": "object",
+        "description": "初始化菜单命令",
+        "x-model-type": "command",
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/Menu"
+          },
+          "target": {
+            "$ref": "#/components/schemas/Menu"
+          },
+          "menus": {
+            "$ref": "#/components/schemas/InitMenus"
+          },
+          "menu": {
+            "$ref": "#/components/schemas/Menu"
+          }
+        }
+      },
+      "InitMenus": {
+        "type": "array",
+        "items": [{
+          "$ref": "#/components/schemas/Menu"
+        }],
+        "description": "初始化菜单列表"
+      },
+      "MenuIdentity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "标识"
+          }
+        },
+        "description": "菜单标识"
+      },
+      "MenuCode": {
+        "type": "object",
+        "properties": {
+          "menuCode": {
+            "type": "string"
+          }
+        },
+        "description": "菜单编码"
+      },
+      "MenuType": {
+        "type": "object",
+        "properties": {
+          "menuType": {
+            "type": "string"
+          }
+        },
+        "description": "菜单类型"
+      },
+      "BelongWorkbench": {
+        "type": "object",
+        "properties": {
+          "workbenchCode": {
+            "type": "string"
+          }
+        },
+        "description": "所属端口"
+      },
+      "Sort": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          }
+        },
+        "description": "菜单序号"
+      },
+      "DelFlag": {
+        "type": "object",
+        "properties": {
+          "delFlag": {
+            "type": "integer"
+          }
+        },
+        "description": "删除标记"
+      },
+      "Uri": {
+        "type": "object",
+        "properties": {
+          "uri": {
+            "type": "string"
+          }
+        },
+        "description": "页面路径"
+      },
+      "ParentCode": {
+        "type": "object",
+        "properties": {
+          "parentCode": {
+            "type": "string"
+          }
+        }
+      },
+      "Authority": {
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "MenuContentIdentity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        },
+        "description": "菜单内容标识"
+      },
+      "LanguageType": {
+        "type": "object",
+        "properties": {
+          "languageType": {
+            "type": "string"
+          }
+        }
+      },
+      "Content": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "MenuTreeParams": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "parentCode": {
+            "type": "string"
+          },
+          "langType": {
+            "type": "string"
+          },
+          "workbench": {
+            "type": "string"
+          }
+        },
+        "x-validators": {
+          "normal": {
+            "required": ["userId", "parentCode","workbench"],
+            "errorMessage": "i18n:///AGGR000005:MDL000260:params.required"
+          }
+        }
+      },
+      "TopMenuParams": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer"
+          },
+          "langType": {
+            "type": "string"
+          },
+          "workbench": {
+            "type": "string"
+          }
+        },
+        "x-validators": {
+          "normal": {
+            "required": ["userId", "workbench"],
+            "properties":{
+              "userId":{
+                "minimum": 0
+              }
+            },
+            "errorMessage": "i18n:///AGGR000005:MDL000259:params.required"
+          }
+        }
+      },
+      "TopMenu": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "sort": {
+            "type": "integer"
+          },
+          "label": {
+            "type": "string",
+            "description": "菜单内容"
+          }
+        },
+        "required": ["key", "label"]
+      },
+      "TopMenuList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/TopMenu"
+        },
+        "minItems": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+let langType = .langType
+
+{"list" :
+ [for(.menuPage.content)
+      let content = {for(.contents)  "content" : .content.content
+                                     if(.languageType.languageType == $langType)
+                    }
+      let en = {for(.contents)  "content" : .content.content
+                                if(.languageType.languageType == "en-Us")
+               }
+      { "key" : .menuCode.menuCode,
+        "sort" : .sort.sort,
+        "parentCode": .parentCode.parentCode,
+        "uri": .uri.uri,
+        "authority": .authority.authority,
+        "label" : if ($content != {}) $content.content else $en.content
+      }],
+ "parentCode": .parentCode,
+ "permissions": [
+                    for (.permissions) .permissionExpression.permissionExpression
+                ]
+}

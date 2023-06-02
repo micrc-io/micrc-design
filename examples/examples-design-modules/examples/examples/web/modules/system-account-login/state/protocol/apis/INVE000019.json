@@ -1,0 +1,77 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "获取验证码协议",
+    "version": "1.0.0"
+  },
+  "components": {
+  },
+  "servers": [
+    {
+      "x-host": "colibri-erp.security.security",
+      "url": "/security/security/aggr000040"
+    }
+  ],
+  "paths": {
+    "/inve000019": {
+      "post": {
+        "operationId": "inve000019",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "default": {
+                  "value": {}
+                }
+              },
+              "schema": {}
+            },
+            "x-validator": {}
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/AuthCode"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "mock": {
+                    "value":{
+                      "code": "200",
+                      "message": "请求成功",
+                      "data": {
+                        "authCode": "9MDT",
+                        "identity": "2ee797a3-741b-413d-932f-77e71f91f6a8",
+                        "imageString": "data:image/jpeg;base64,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"
+                      }
+                    }
+                  },
+                  "default": {
+                    "value": {
+                      "code": "",
+                      "data": {},
+                      "message": ""
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

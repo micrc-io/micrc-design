@@ -1,0 +1,76 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "生成TOKEN协议",
+    "version": "1.0.0"
+  },
+  "components": {
+  },
+  "servers": [
+    {
+      "x-host": "colibri-erp.security.security",
+      "url": "/security/security/aggr000040"
+    }
+  ],
+  "paths": {
+    "/dl000019": {
+      "post": {
+        "operationId": "dl000019",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "object"
+                  },
+                  "permissions": {
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "username",
+                  "permissions"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Authentication"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "code": "200",
+                      "data": {
+                        "token": "test_token"
+                      },
+                      "message": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+    "initializedMenus": .initializedMenus.content,
+    "initMenus": .menus
+}

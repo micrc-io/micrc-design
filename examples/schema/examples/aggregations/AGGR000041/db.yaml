@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-role-0.0.1
+      author: hyosunghan
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                tableName: role
+      changes:
+        - createTable:
+            tableName: role
+            remarks: role
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT(11)
+                  remarks: id of role
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: role-pk
+              - column:
+                  name: role_name
+                  type: varchar(255)
+                  remarks: role name
+              - column:
+                  name: role_permissions
+                  type: json
+                  remarks: role permissions
+              - column:
+                  name: version
+                  type: INT(11)
+                  remarks: version

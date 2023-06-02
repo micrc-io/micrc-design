@@ -1,0 +1,369 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "系统账号schema",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "SystemAccount": {
+        "type": "object",
+        "properties": {
+          "identity": {
+            "type": "object",
+            "$ref": "#/components/schemas/SystemAccountId",
+            "description": "标识"
+          },
+          "username": {
+            "type": "object",
+            "$ref": "#/components/schemas/Username",
+            "description": "用户名"
+          },
+          "password": {
+            "type": "object",
+            "$ref": "#/components/schemas/Password",
+            "description": "密码"
+          },
+          "salt": {
+            "type": "object",
+            "$ref": "#/components/schemas/Salt",
+            "description": "盐值"
+          },
+          "authentication": {
+            "type": "object",
+            "$ref": "#/components/schemas/Authentication",
+            "description": "认证信息"
+          },
+          "accountRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountRole"
+            },
+            "description": "账号角色"
+          },
+          "accountType": {
+            "enum": [
+              "NORMAL",
+              "ACTIVE",
+              "CANARY"
+            ],
+            "description": "账号类型"
+          }
+        },
+        "x-validators": null
+      },
+      "SystemAccountId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "标识"
+          }
+        },
+        "description": "系统账号标识Id",
+        "x-validators": {
+          "normal": {
+            "required": ["id"],
+            "errorMessage" :"i18n:///AGGR000040:MDL000246:login.result.message"
+          }
+        }
+      },
+      "Username": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "用户名"
+          }
+        },
+        "description": "用户名",
+        "x-validators": {
+          "normal": {
+            "required": ["username"],
+            "properties": {
+              "username": {
+                "pattern": "^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\\.[a-zA-Z0-9_-])+",
+                "errorMessage": "i18n:///AGGR000040:MDL000253:username.message"
+              }
+            },
+            "errorMessage": "i18n:///AGGR000040:MDL000253:name.required"
+          }
+        }
+      },
+      "Password": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "密码"
+          }
+        },
+        "x-validators": {
+          "normal": {
+            "required": ["password"],
+            "properties": {
+              "password":{
+                "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[^]{8,16}$",
+                "errorMessage": "i18n:///AGGR000040:MDL000253:password.message"
+              }
+            },
+            "errorMessage": "i18n:///AGGR000040:MDL000253:password.required"
+          }
+        }
+      },
+      "AuthCode": {
+        "type": "object",
+        "properties": {
+          "authCode": {
+            "type": "string",
+            "description": "验证码"
+          },
+          "identity": {
+            "type": "string",
+            "description": "标识"
+          },
+          "imageString": {
+            "type": "string",
+            "description": "图片字符串"
+          }
+        },
+        "description": "验证码",
+        "x-validators": {
+          "normal": {
+            "required": ["authCode"],
+            "properties": {
+              "authCode": {
+                "pattern": "^[a-zA-Z0-9]{4}$",
+                "errorMessage": "i18n:///AGGR000040:MDL000253:authCode.message"
+              }
+            },
+            "errorMessage": "i18n:///AGGR000040:MDL000253:authCode.required"
+          }
+        }
+      },
+      "Permissions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "x-validators": {
+          "normal": {
+            "minItems": 0,
+            "errorMessage" :"i18n:///AGGR000040:MDL000246:login.result.message"
+          }
+        }
+      },
+      "Salt": {
+        "type": "object",
+        "properties": {
+          "salt": {
+            "type": "string",
+            "description": "盐值"
+          }
+        }
+      },
+      "Authentication": {
+        "type": "object",
+        "properties": {
+          "token":{
+            "type": "string",
+            "description": "TOKEN"
+          }
+        },
+        "x-validators": {
+          "normal": {
+            "required": ["token"],
+            "errorMessage":"i18n:///AGGR000040:MDL000246:login.result.message"
+          }
+        }
+      },
+      "AccountRole": {
+        "type": "object",
+        "properties": {
+          "roleId": {
+            "type": "integer",
+            "description": "角色ID"
+          }
+        }
+      },
+      "VerifyPassword": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "需校验的密码"
+          }
+        }
+      },
+      "DecertificationResult": {
+        "type": "object",
+        "properties": {
+          "decertificationResult": {
+            "type": "boolean",
+            "description": "认证撤销结果"
+          }
+        }
+      },
+      "LoginInfo": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "$ref": "#/components/schemas/Username"
+          },
+          "password": {
+            "$ref": "#/components/schemas/Password"
+          },
+          "authCode": {
+            "$ref": "#/components/schemas/AuthCode"
+          },
+          "identity": {
+            "$ref": "#/components/schemas/AuthCode"
+          }
+        },
+        "x-validators": {
+          "normal": {
+            "required": ["username", "password", "authCode"],
+            "properties": {
+              "username": {
+                "$ref": "#/components/schemas/Username/x-validators/normal"
+              },
+              "password": {
+                "$ref": "#/components/schemas/Password/x-validators/normal"
+              },
+              "authCode": {
+                "$ref": "#/components/schemas/AuthCode/x-validators/normal"
+              }
+            }
+          }
+        }
+      },
+      "LoginResult": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoginResultData"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "x-validators": {
+          "normal": {
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/LoginResultData/x-validators/normal"
+              }
+            }
+          }
+        }
+      },
+      "LoginResultData": {
+        "type": "object",
+        "properties": {
+          "authentication": {
+            "type": "object",
+            "$ref": "#/components/schemas/Authentication",
+            "description": "认证信息"
+          },
+          "id":{
+            "type": "object",
+            "$ref": "#/components/schemas/SystemAccountId",
+            "description": "标识"
+          },
+          "permissions": {
+            "type": "object",
+            "$ref": "#/components/schemas/Permissions",
+            "description": "权限列表"
+          }
+        },
+        "x-validators": {
+          "normal": {
+            "required": ["authentication", "id", "permissions"],
+            "properties": {
+              "authentication": {
+                "$ref": "#/components/schemas/Authentication/x-validators/normal"
+              },
+              "id": {
+                "$ref": "#/components/schemas/SystemAccountId/x-validators/normal"
+              },
+              "permissions": {
+                "$ref": "#/components/schemas/Permissions/x-validators/normal"
+              }
+            },
+            "errorMessage": "i18n:///AGGR000040:MDL000246:login.result.message"
+          }
+        }
+      },
+      "RoleDetails": {
+        "type": "array",
+        "description": "角色详情列表",
+        "items": {
+          "type": "object",
+          "description": "角色详情",
+          "properties": {
+            "rolePermissions": {
+              "type": "array",
+              "description": "角色权限列表",
+              "items": {
+                "type": "object",
+                "description": "角色权限",
+                "properties": {
+                  "permissionId": {
+                    "type": "integer",
+                    "description": "权限ID"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "PermissionDetails": {
+        "type": "array",
+        "description": "权限详情列表",
+        "items": {
+          "type": "object",
+          "description": "权限详情",
+          "properties": {
+            "permissionExpression": {
+              "type": "object",
+              "description": "权限表达式",
+              "properties": {
+                "permissionExpression": {
+                  "type": "string",
+                  "description": "权限表达式"
+                }
+              }
+            }
+          }
+        }
+      },
+      "AuthCodeResult": {
+        "type": "object",
+        "properties": {
+          "decertificationResult": {
+            "type": "boolean",
+            "description": "验证码对比结果"
+          }
+        }
+      }
+    }
+  }
+}

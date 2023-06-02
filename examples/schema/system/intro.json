@@ -1,0 +1,30 @@
+{
+  "ownerDomain": "design",
+  "contextName": "system",
+  "clientend": "colibri-distributor-workbench",
+  "basePackages": "com.ouxxa.colibri.design.system",
+  "version": "0.0.1",
+  "global": {
+    "npmRepoUrl": "",
+    "integration": {
+      "proxyServerUrl": "http://10.0.0.102:7890",
+      "proxyRepoUrl": "https://repo.it.ouxxa.com/repository/maven-hub/",
+      "registry": "registry.integration.it.colibrierp.com.br",
+      "gitopsRepo": "github.com/colibri-tech/_gitops"
+    },
+    "production": {
+      "proxyServerUrl": "http://x.x.x.x:7890",
+      "proxyRepoUrl": "https://repo.production.it.ouxxa.com/repository/maven-hub/",
+      "registry": "registry.production.it.colibrierp.com.br",
+      "gitopsRepo": "github.com/colibri-tech/_gitops"
+    }
+  },
+  "gateway": {
+    "entry": "colibri-erp-it/colibri-gateway",
+    "fqdn": "colibrierp.com.br",
+    "properties": {
+      "loginUrl": "/api/security/security/authc",
+      "serverTokenPointer": "/auth_token"
+    }
+  }
+}

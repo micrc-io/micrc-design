@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "system-account-login",
+    "version": "0.0.3"
+  },
+  "servers": [
+    {
+      "url": "/api/examples/examples",
+      "x-host": "colibri-erp.examples.examples"
+    }
+  ],
+  "externalDocs": {
+    "url": ""
+  },
+  "security": [],
+  "tags": [{}]
+}

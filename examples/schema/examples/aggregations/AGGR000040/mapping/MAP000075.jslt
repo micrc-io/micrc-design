@@ -1,0 +1,4 @@
+{
+    "salt": .systemAccount.salt,
+    "password": .password
+}

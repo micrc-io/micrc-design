@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-system-account-0.0.1
+      author: hyosunghan
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                tableName: system_account
+      changes:
+        - createTable:
+            tableName: system_account
+            remarks: system account
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT(11)
+                  remarks: id of system_account
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: system-account-pk
+              - column:
+                  name: username
+                  type: varchar(255)
+                  remarks: username
+              - column:
+                  name: password
+                  type: varchar(255)
+                  remarks: password
+              - column:
+                  name: salt
+                  type: varchar(255)
+                  remarks: salt
+              - column:
+                  name: account_type
+                  type: varchar(255)
+                  remarks: account type
+              - column:
+                  name: account_roles
+                  type: json
+                  remarks: account roles
+              - column:
+                  name: token
+                  type: varchar(255)
+                  remarks: token
+              - column:
+                  name: version
+                  type: INT(11)
+                  remarks: version

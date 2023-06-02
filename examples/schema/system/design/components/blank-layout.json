@@ -1,0 +1,43 @@
+{
+  "intro": {
+    "version": "0.0.8",
+    "state": "designing"
+  },
+  "comment": [
+    "空布局组件"
+  ],
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "doc": {
+    "title": "空布局",
+    "labels": [
+      "空布局"
+    ],
+    "prototype": "https://mastergo.com/file/88108507811036?page_id=546%3A11796"
+  },
+  "props": {
+    "content?": "any"
+  },
+  "defaultProps": {
+    "content": ""
+  },
+  "stories": {
+    "components": {},
+    "atoms": {},
+    "examples": {}
+  },
+  "components": {},
+  "atoms": {},
+  "localState": {},
+  "assembly": {
+    "assemblies": [
+      {
+        "name": "",
+        "children": "{props?.content}",
+        "props": {}
+      }
+    ]
+  }
+}

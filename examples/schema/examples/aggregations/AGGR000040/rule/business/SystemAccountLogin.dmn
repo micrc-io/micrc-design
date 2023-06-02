@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://erp.colibrierp.com.br/security/authentication-authorization" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_0883CD43-5172-4CA2-89B1-DB4696B4F01E" name="SystemAccountLogin" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://erp.colibrierp.com.br/security/authentication-authorization">
+  <dmn:extensionElements/>
+  <dmn:decisionService id="_454765B1-AF86-42E2-8994-514AC22A8E61" name="before">
+    <dmn:extensionElements/>
+    <dmn:variable id="_343B1CC2-FE1C-4396-989F-E78E765F30A0" name="before" typeRef="context"/>
+    <dmn:outputDecision href="#_83A39EA3-5D56-45C4-86B8-69CF7EF15535"/>
+    <dmn:encapsulatedDecision href="#_9C71420C-B203-4135-8192-945ED88AE919"/>
+    <dmn:inputData href="#_64778078-D31A-47D2-98B2-38ECD3A46CD5"/>
+  </dmn:decisionService>
+  <dmn:decisionService id="_CBD3CBED-9411-45C6-B051-E4A0DD8B163B" name="after">
+    <dmn:extensionElements/>
+    <dmn:variable id="_6DBA2FD0-60B6-4E22-BDDC-864AD0033ABF" name="after" typeRef="context"/>
+    <dmn:outputDecision href="#_F9BA2893-3FA6-4398-A833-814AE3F7F133"/>
+    <dmn:encapsulatedDecision href="#_3745FBE6-F855-44E6-B685-5E03ED6FB8EE"/>
+    <dmn:inputData href="#_4D23CB99-C20E-4E8B-A9AE-6321D7427A50"/>
+  </dmn:decisionService>
+  <dmn:decisionService id="_ADF0DFD8-F259-415B-9801-BCEA36898693" name="logic">
+    <dmn:extensionElements/>
+    <dmn:variable id="_0E66C6DD-C1AF-4248-81DF-F411AD3AF74A" name="logic" typeRef="context"/>
+    <dmn:outputDecision href="#_B0889A13-4EE4-4821-80DC-07DA719A422A"/>
+    <dmn:encapsulatedDecision href="#_D102F40D-2B5F-47DD-AAC7-F4439F000437"/>
+    <dmn:encapsulatedDecision href="#_02ABE856-F3B8-4425-A9BF-FEC93343631D"/>
+    <dmn:encapsulatedDecision href="#_F0555EC4-322B-401C-81E2-C92A7973D3A4"/>
+    <dmn:encapsulatedDecision href="#_17A7A30E-6E6B-4F76-8C48-F10A03C5E011"/>
+    <dmn:encapsulatedDecision href="#_C3A48225-02E0-4EF4-A5B3-EB334B7F9FE3"/>
+    <dmn:inputData href="#_4CCCD5A4-68A9-4119-BBDA-D9B5D1CCDAE4"/>
+    <dmn:inputData href="#_F128D890-620E-4947-8183-71572F92D6FB"/>
+    <dmn:inputData href="#_2D4D4213-59AA-4076-BBD3-B25DB7DA91EB"/>
+  </dmn:decisionService>
+  <dmn:decision id="_83A39EA3-5D56-45C4-86B8-69CF7EF15535" name="beforeResult">
+    <dmn:extensionElements/>
+    <dmn:variable id="_00FC8295-A6FD-4A28-B515-BBD910371425" name="beforeResult" typeRef="boolean"/>
+    <dmn:informationRequirement id="_B08DEEDB-5246-4824-BCCA-FC7BAA82474C">
+      <dmn:requiredDecision href="#_9C71420C-B203-4135-8192-945ED88AE919"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_260DB078-7E19-4819-BD4F-304FE94B49D2" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_A8F4CD86-2539-4AE7-9CA2-E2D2468CF9BA">
+        <dmn:inputExpression id="_75B8C08E-16FE-4912-9625-F7765C6FD03F" typeRef="boolean">
+          <dmn:text>source check</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_2DE8D09D-50DE-4AAC-8A50-C81B52B6F826" name="checkResult" typeRef="boolean"/>
+      <dmn:output id="_AC4C5704-A4D4-4093-BE74-D41410B898B3" name="errorCode" typeRef="string"/>
+      <dmn:output id="_F6F71402-E85B-43AB-9E2C-8CDD854A8C37" name="errorMessage" typeRef="string"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_A9F37F84-7492-40CF-9D36-01A00510CB7F">
+        <dmn:inputEntry id="_002B2622-7D0B-4537-B901-EB4C8CDC109F">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_C7D4B0A6-BAEF-4DD8-AC28-09C142E8169F">
+          <dmn:text>true</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_0D37C006-4C13-4CE2-83F6-425056122F22">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_0EF687EE-DAE7-47FE-9540-0E254E107846">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="_F9BA2893-3FA6-4398-A833-814AE3F7F133" name="afterResult">
+    <dmn:extensionElements/>
+    <dmn:variable id="_24AB4274-4B1B-4A6D-A4C7-1331C1D6EB2B" name="afterResult" typeRef="boolean"/>
+    <dmn:informationRequirement id="_4D083E2F-A162-4A5B-ACFD-C5C6D0501A31">
+      <dmn:requiredDecision href="#_3745FBE6-F855-44E6-B685-5E03ED6FB8EE"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_09F529B5-335E-4A08-B774-A10F66ED0A66" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_187E17E1-B625-460D-B202-E0F0255E3582">
+        <dmn:inputExpression id="_F30B44B9-6BD2-4721-B151-88E872FCE49F" typeRef="boolean">
+          <dmn:text>target check</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_469EED17-E508-4457-82CA-FD0B5B7A55EA" name="checkResult" typeRef="boolean"/>
+      <dmn:output id="_81135999-C878-485A-81F4-C0413C37520F" name="errorCode" typeRef="string"/>
+      <dmn:output id="_D5E21FA6-4063-417D-BF3B-7CBEC4C8229D" name="errorMessage" typeRef="string"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_31E2B9D1-C226-4888-B58F-774255582DBC">
+        <dmn:inputEntry id="_7B6D4CAB-A9D2-4936-B696-56CE80799454">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_B7C4641B-E14B-4125-844F-A0509372DF7F">
+          <dmn:text>true</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_8EA83DE7-0957-4C4A-8711-F107DCC9C0F0">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_4CEB14C4-11C5-48D8-9C6D-94A74DCA7392">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_DCA6A386-A33B-4603-BF58-E8817E2F78D8">
+        <dmn:inputEntry id="_ADF5BFAD-CB2A-418B-89D3-8BFDFCB0CF3E">
+          <dmn:text>false</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_453677B3-CC92-45A1-B606-79280266B6D7">
+          <dmn:text>false</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_3D7898B5-32C9-438E-8241-297364964F73">
+          <dmn:text>"SECURITY-AA-SystemAccount-D3-002"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_21DF8C73-6845-4A7C-B791-C5A66FD05F88">
+          <dmn:text>"sign token exception"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:inputData id="_4D23CB99-C20E-4E8B-A9AE-6321D7427A50" name="target">
+    <dmn:extensionElements/>
+    <dmn:variable id="_998BECD7-8067-4FB6-A3C0-30786E00A6D6" name="target" typeRef="context"/>
+  </dmn:inputData>
+  <dmn:decision id="_3745FBE6-F855-44E6-B685-5E03ED6FB8EE" name="target check">
+    <dmn:extensionElements/>
+    <dmn:variable id="_A45DBBFD-C977-4B0D-B7DB-962B8F3D922D" name="target check" typeRef="context"/>
+    <dmn:informationRequirement id="_F9B90FCC-0335-4B89-B46D-46202E80FEC7">
+      <dmn:requiredInput href="#_4D23CB99-C20E-4E8B-A9AE-6321D7427A50"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_DFB944EA-1169-4921-83CD-C63EC2DEF754">
+      <dmn:text>get value(target, "authentication") != null</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_B0889A13-4EE4-4821-80DC-07DA719A422A" name="logicResult">
+    <dmn:extensionElements/>
+    <dmn:variable id="_D0BB5F33-99FC-4491-8483-BDDDC0D656FC" name="logicResult" typeRef="context"/>
+    <dmn:informationRequirement id="_BA04D97C-7F89-40ED-AEE7-C88ED8596F8F">
+      <dmn:requiredDecision href="#_02ABE856-F3B8-4425-A9BF-FEC93343631D"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_5A7A67AF-F12D-4892-9374-0AB57ACB7CEF">
+      <dmn:requiredDecision href="#_D102F40D-2B5F-47DD-AAC7-F4439F000437"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_2246511E-EFBF-4FFE-9A8E-2F5FD1035F3E">
+      <dmn:requiredDecision href="#_C3A48225-02E0-4EF4-A5B3-EB334B7F9FE3"/>
+    </dmn:informationRequirement>
+    <dmn:relation id="_2681180C-2B92-49D0-B542-CE9B6D035C7A">
+      <dmn:column id="_6C4EB520-7848-4F4E-9C9F-9A0912FD6BF0" name="event" typeRef="context"/>
+      <dmn:column id="_0E45C489-2407-4161-A897-34F75C057C94" name="error" typeRef="context"/>
+      <dmn:column id="_8A605CE0-8807-4CD5-B001-5D2A695C54CB" name="authentication" typeRef="context"/>
+      <dmn:row id="_5D814AB2-DAC0-4389-8FB6-20DA54C694D6">
+        <dmn:literalExpression id="_50CF2A0D-5479-48DF-A0DA-6394B1266A46">
+          <dmn:text>event</dmn:text>
+        </dmn:literalExpression>
+        <dmn:literalExpression id="_D9A10C8B-63FC-458C-8246-D0395D90581F">
+          <dmn:text>error</dmn:text>
+        </dmn:literalExpression>
+        <dmn:literalExpression id="_7B182119-8C39-4619-929C-3E5A097D3F7E">
+          <dmn:text>authenticationResult</dmn:text>
+        </dmn:literalExpression>
+      </dmn:row>
+    </dmn:relation>
+  </dmn:decision>
+  <dmn:decision id="_D102F40D-2B5F-47DD-AAC7-F4439F000437" name="event">
+    <dmn:extensionElements/>
+    <dmn:variable id="_FF39E74D-F704-4E47-A229-336F6B43C577" name="event" typeRef="context"/>
+    <dmn:informationRequirement id="_151B94E1-25EF-422B-8AFA-99137291A10D">
+      <dmn:requiredDecision href="#_17A7A30E-6E6B-4F76-8C48-F10A03C5E011"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_B1ACA1EF-7719-4311-8223-966EF94568D7" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_BEEF75E9-7E55-4337-B15A-6931EFC83E04">
+        <dmn:inputExpression id="_41DA4325-60CF-44FD-87F9-ED54E4F66D37" typeRef="boolean">
+          <dmn:text>match</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_A19EED7F-F1E0-4975-9CDB-86062D1231FA" name="eventName" typeRef="string"/>
+      <dmn:output id="_7582ACFA-0643-4287-899F-5997C22071EF" name="eventBatchData" typeRef="context"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_AE1B67A8-6FFD-49AA-A7E5-1A9C5C12D953">
+        <dmn:inputEntry id="_D74C8995-1979-4595-A5C3-B18DE057EFF3">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_91A84EAE-D3E4-4C53-AB51-70C1D8F8F93D">
+          <dmn:text>"SystemAccountLoginEvent"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_90B9512C-EAEA-40D8-BFA1-021EE42D9230">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_8A5969DB-BD5C-4C74-803F-D1F6C7BD3618">
+        <dmn:inputEntry id="_30EAEE35-48F3-46CF-BEEC-8E42AD661B36">
+          <dmn:text>false</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_9C606B26-9CF9-481D-9A06-2D6D2E013D11">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_7DF6E098-5277-4A7C-9CDC-AB7AF98101E5">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="_02ABE856-F3B8-4425-A9BF-FEC93343631D" name="error">
+    <dmn:extensionElements/>
+    <dmn:variable id="_04329E04-67FF-462D-9B5D-C49185436E31" name="error" typeRef="context"/>
+    <dmn:informationRequirement id="_D82320E1-1AFC-49D0-9B5E-9EBAD51A88D3">
+      <dmn:requiredDecision href="#_17A7A30E-6E6B-4F76-8C48-F10A03C5E011"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_87F1FC13-59D4-415E-B07B-E9493236B4C6" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_0B20AC12-CE40-4A73-A2D2-628721255047">
+        <dmn:inputExpression id="_950851EB-D6F7-42C6-B79B-CE89565C8108" typeRef="boolean">
+          <dmn:text>match</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_15F2D6D8-62C4-4E2A-B0F1-ACA180A7B9F3" name="errorCode" typeRef="string"/>
+      <dmn:output id="_BCF22A24-5456-4DE1-93DC-492F87F60606" name="errorMessage" typeRef="string"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_BAB57816-1F10-485C-823F-8989A77E8AE0">
+        <dmn:inputEntry id="_EB18AB4A-E339-4715-A954-E5F57D56D7A7">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_D2BF73B4-050D-45A1-ACB9-265BF82C4CB0">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_C8B5E7B3-EE7A-448F-8432-E329273C32B2">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_D0666055-C703-432B-B30B-7479B2730A46">
+        <dmn:inputEntry id="_E3A899EA-B1AB-4FE3-B8F8-354C8D4D8CCD">
+          <dmn:text>false</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_CAE0863B-2636-4540-80F7-CF46F6E2CC5C">
+          <dmn:text>"SECURITY-AA-SystemAccount-D3-001"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_A8D820DD-C235-43A6-90A6-0C0044DFF0E3">
+          <dmn:text>"username or password invalid"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:inputData id="_2D4D4213-59AA-4076-BBD3-B25DB7DA91EB" name="systemAccount">
+    <dmn:extensionElements/>
+    <dmn:variable id="_00617733-6EA5-4756-A7A9-E7EA86764A72" name="systemAccount" typeRef="context"/>
+  </dmn:inputData>
+  <dmn:decision id="_9C71420C-B203-4135-8192-945ED88AE919" name="source check">
+    <dmn:extensionElements/>
+    <dmn:variable id="_E23B6BD4-C0D9-47B6-8229-B737C7582954" name="source check" typeRef="boolean"/>
+    <dmn:informationRequirement id="_D4702C72-5F60-4F84-AC0E-3ED3B0CA8E73">
+      <dmn:requiredInput href="#_64778078-D31A-47D2-98B2-38ECD3A46CD5"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_6838F652-5CC3-4608-B077-C644353CEDAE">
+      <dmn:text>true</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:inputData id="_4CCCD5A4-68A9-4119-BBDA-D9B5D1CCDAE4" name="authentication">
+    <dmn:extensionElements/>
+    <dmn:variable id="_B04A317C-9141-426A-9B2F-2C3FC61329FF" name="authentication" typeRef="context"/>
+  </dmn:inputData>
+  <dmn:inputData id="_64778078-D31A-47D2-98B2-38ECD3A46CD5" name="source">
+    <dmn:extensionElements/>
+    <dmn:variable id="_C2176DE7-CBC9-4461-A84E-ECE16AAEFA7D" name="source" typeRef="context"/>
+  </dmn:inputData>
+  <dmn:inputData id="_F128D890-620E-4947-8183-71572F92D6FB" name="password">
+    <dmn:extensionElements/>
+    <dmn:variable id="_BAF2EBA4-2B4A-4F4E-8894-B560F49CBA05" name="password"/>
+  </dmn:inputData>
+  <dmn:decision id="_F0555EC4-322B-401C-81E2-C92A7973D3A4" name="get password">
+    <dmn:extensionElements/>
+    <dmn:variable id="_BB9E5DBC-D362-497D-82E9-B2C6EC877D40" name="get password" typeRef="context"/>
+    <dmn:informationRequirement id="_CF9C5E7E-F55F-4377-ACAD-2567AFF6D6A6">
+      <dmn:requiredInput href="#_2D4D4213-59AA-4076-BBD3-B25DB7DA91EB"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_CC10D142-6F47-4455-BC11-ED3CE19F8F97">
+      <dmn:text>if systemAccount = null then {} else get value(systemAccount, "password")</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_17A7A30E-6E6B-4F76-8C48-F10A03C5E011" name="match">
+    <dmn:extensionElements/>
+    <dmn:variable id="_4330CB8C-C95F-495F-B73F-F3EAA0CDFB49" name="match" typeRef="boolean"/>
+    <dmn:informationRequirement id="_7911EA24-5608-4259-B81B-E19306F623EA">
+      <dmn:requiredDecision href="#_F0555EC4-322B-401C-81E2-C92A7973D3A4"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_55C60AB2-2073-4C55-B271-36F081D828C9">
+      <dmn:requiredInput href="#_F128D890-620E-4947-8183-71572F92D6FB"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_9098B1F8-A10B-470E-94BC-38F327D06134">
+      <dmn:requiredInput href="#_2D4D4213-59AA-4076-BBD3-B25DB7DA91EB"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_9B62CA4D-8B73-452C-935B-C3B379A54D29">
+      <dmn:text>systemAccount != null and get value(password, "password") = get value(get password, "password")</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_C3A48225-02E0-4EF4-A5B3-EB334B7F9FE3" name="authenticationResult">
+    <dmn:extensionElements/>
+    <dmn:variable id="_EBCFCE73-F090-4266-8D28-86D2B10722E5" name="authenticationResult" typeRef="context"/>
+    <dmn:informationRequirement id="_4DEEEC4B-7023-4C34-B3AE-E8974E1D7A2C">
+      <dmn:requiredInput href="#_4CCCD5A4-68A9-4119-BBDA-D9B5D1CCDAE4"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_370602A6-CADD-4F2D-90AC-350DC5DFC101">
+      <dmn:requiredDecision href="#_17A7A30E-6E6B-4F76-8C48-F10A03C5E011"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_E782876F-B674-4945-88F6-37F1A0BED139" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_25559473-D087-4D60-9EF9-516CA4948F29">
+        <dmn:inputExpression id="_367E50E6-6B67-40FA-B1F5-793B2BEB7509" typeRef="boolean">
+          <dmn:text>match</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_DAA683B8-3664-4242-90FA-6AA6393CE540"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_AC298D99-3CB8-40B5-AB49-ED2BEDC029B7">
+        <dmn:inputEntry id="_02D57043-BC50-47E5-B672-05A9ECA4029C">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_81B5F57F-D2A8-49DC-8A12-7976096DE844">
+          <dmn:text>authentication</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_074256AE-F03C-40E9-B99B-248230721A26">
+        <dmn:inputEntry id="_9E7770D5-27CA-4647-9F8E-F877AE9E9BBE">
+          <dmn:text>false</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_AAC09A97-9317-4997-824D-248E7259D102">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_22909A11-183D-4C34-9803-0B78644F136B" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_260DB078-7E19-4819-BD4F-304FE94B49D2">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_09F529B5-335E-4A08-B774-A10F66ED0A66">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_DFB944EA-1169-4921-83CD-C63EC2DEF754">
+            <kie:width>300</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_2681180C-2B92-49D0-B542-CE9B6D035C7A">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_50CF2A0D-5479-48DF-A0DA-6394B1266A46"/>
+          <kie:ComponentWidths dmnElementRef="_D9A10C8B-63FC-458C-8246-D0395D90581F"/>
+          <kie:ComponentWidths dmnElementRef="_7B182119-8C39-4619-929C-3E5A097D3F7E"/>
+          <kie:ComponentWidths dmnElementRef="_B1ACA1EF-7719-4311-8223-966EF94568D7">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_87F1FC13-59D4-415E-B07B-E9493236B4C6">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_6838F652-5CC3-4608-B077-C644353CEDAE">
+            <kie:width>300</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_CC10D142-6F47-4455-BC11-ED3CE19F8F97">
+            <kie:width>300</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_9B62CA4D-8B73-452C-935B-C3B379A54D29">
+            <kie:width>300</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_E782876F-B674-4945-88F6-37F1A0BED139">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>131</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape xmlns:p0="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_454765B1-AF86-42E2-8994-514AC22A8E61" dmnElementRef="p0:_454765B1-AF86-42E2-8994-514AC22A8E61" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="215" y="249" width="196" height="189"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="215" y="349"/>
+          <di:waypoint x="411" y="349"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p1="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_CBD3CBED-9411-45C6-B051-E4A0DD8B163B" dmnElementRef="p1:_CBD3CBED-9411-45C6-B051-E4A0DD8B163B" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="842" y="249" width="196" height="189"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="842" y="349"/>
+          <di:waypoint x="1038" y="349"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p2="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_ADF0DFD8-F259-415B-9801-BCEA36898693" dmnElementRef="p2:_ADF0DFD8-F259-415B-9801-BCEA36898693" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="437.5" y="248.5" width="378" height="382"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="437.5" y="348.5"/>
+          <di:waypoint x="815.5" y="348.5"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p3="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_83A39EA3-5D56-45C4-86B8-69CF7EF15535" dmnElementRef="p3:_83A39EA3-5D56-45C4-86B8-69CF7EF15535" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="264.37273511647965" y="286" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p4="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_F9BA2893-3FA6-4398-A833-814AE3F7F133" dmnElementRef="p4:_F9BA2893-3FA6-4398-A833-814AE3F7F133" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="891.3727351164796" y="286" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p5="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_4D23CB99-C20E-4E8B-A9AE-6321D7427A50" dmnElementRef="p5:_4D23CB99-C20E-4E8B-A9AE-6321D7427A50" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="890" y="459" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p6="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_3745FBE6-F855-44E6-B685-5E03ED6FB8EE" dmnElementRef="p6:_3745FBE6-F855-44E6-B685-5E03ED6FB8EE" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="892" y="365" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p7="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_B0889A13-4EE4-4821-80DC-07DA719A422A" dmnElementRef="p7:_B0889A13-4EE4-4821-80DC-07DA719A422A" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="575" y="286" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p8="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_D102F40D-2B5F-47DD-AAC7-F4439F000437" dmnElementRef="p8:_D102F40D-2B5F-47DD-AAC7-F4439F000437" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="456" y="365" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p9="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_02ABE856-F3B8-4425-A9BF-FEC93343631D" dmnElementRef="p9:_02ABE856-F3B8-4425-A9BF-FEC93343631D" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="573" y="365" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p10="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_2D4D4213-59AA-4076-BBD3-B25DB7DA91EB" dmnElementRef="p10:_2D4D4213-59AA-4076-BBD3-B25DB7DA91EB" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="568" y="658" width="105" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p11="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_9C71420C-B203-4135-8192-945ED88AE919" dmnElementRef="p11:_9C71420C-B203-4135-8192-945ED88AE919" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="264" y="365" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p12="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_4CCCD5A4-68A9-4119-BBDA-D9B5D1CCDAE4" dmnElementRef="p12:_4CCCD5A4-68A9-4119-BBDA-D9B5D1CCDAE4" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="690" y="658" width="104" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p13="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_64778078-D31A-47D2-98B2-38ECD3A46CD5" dmnElementRef="p13:_64778078-D31A-47D2-98B2-38ECD3A46CD5" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="264" y="459" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p14="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_F128D890-620E-4947-8183-71572F92D6FB" dmnElementRef="p14:_F128D890-620E-4947-8183-71572F92D6FB" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="374.29906542056074" y="658" width="95" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p15="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_F0555EC4-322B-401C-81E2-C92A7973D3A4" dmnElementRef="p15:_F0555EC4-322B-401C-81E2-C92A7973D3A4" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="607" y="494" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p16="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_17A7A30E-6E6B-4F76-8C48-F10A03C5E011" dmnElementRef="p16:_17A7A30E-6E6B-4F76-8C48-F10A03C5E011" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="477" y="494" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape xmlns:p17="https://erp.colibrierp.com.br/order/ordermanager" id="dmnshape-drg-_C3A48225-02E0-4EF4-A5B3-EB334B7F9FE3" dmnElementRef="p17:_C3A48225-02E0-4EF4-A5B3-EB334B7F9FE3" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="691" y="365" width="101" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge xmlns:p18="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_B08DEEDB-5246-4824-BCCA-FC7BAA82474C" dmnElementRef="p18:_B08DEEDB-5246-4824-BCCA-FC7BAA82474C">
+        <di:waypoint x="314" y="390"/>
+        <di:waypoint x="314.37273511647965" y="311"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p19="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_4D083E2F-A162-4A5B-ACFD-C5C6D0501A31" dmnElementRef="p19:_4D083E2F-A162-4A5B-ACFD-C5C6D0501A31">
+        <di:waypoint x="942" y="390"/>
+        <di:waypoint x="941.3727351164796" y="311"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p20="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_F9B90FCC-0335-4B89-B46D-46202E80FEC7" dmnElementRef="p20:_F9B90FCC-0335-4B89-B46D-46202E80FEC7">
+        <di:waypoint x="940" y="484"/>
+        <di:waypoint x="942" y="390"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p21="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_BA04D97C-7F89-40ED-AEE7-C88ED8596F8F" dmnElementRef="p21:_BA04D97C-7F89-40ED-AEE7-C88ED8596F8F">
+        <di:waypoint x="623" y="390"/>
+        <di:waypoint x="625" y="311"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p22="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_5A7A67AF-F12D-4892-9374-0AB57ACB7CEF" dmnElementRef="p22:_5A7A67AF-F12D-4892-9374-0AB57ACB7CEF">
+        <di:waypoint x="506" y="390"/>
+        <di:waypoint x="625" y="311"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p23="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_2246511E-EFBF-4FFE-9A8E-2F5FD1035F3E" dmnElementRef="p23:_2246511E-EFBF-4FFE-9A8E-2F5FD1035F3E">
+        <di:waypoint x="741.5" y="390"/>
+        <di:waypoint x="625" y="311"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p24="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_151B94E1-25EF-422B-8AFA-99137291A10D" dmnElementRef="p24:_151B94E1-25EF-422B-8AFA-99137291A10D">
+        <di:waypoint x="527" y="519"/>
+        <di:waypoint x="506" y="390"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p25="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_D82320E1-1AFC-49D0-9B5E-9EBAD51A88D3" dmnElementRef="p25:_D82320E1-1AFC-49D0-9B5E-9EBAD51A88D3">
+        <di:waypoint x="527" y="519"/>
+        <di:waypoint x="623" y="390"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p26="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_D4702C72-5F60-4F84-AC0E-3ED3B0CA8E73" dmnElementRef="p26:_D4702C72-5F60-4F84-AC0E-3ED3B0CA8E73">
+        <di:waypoint x="314" y="484"/>
+        <di:waypoint x="314" y="390"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p27="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_CF9C5E7E-F55F-4377-ACAD-2567AFF6D6A6" dmnElementRef="p27:_CF9C5E7E-F55F-4377-ACAD-2567AFF6D6A6">
+        <di:waypoint x="620.5" y="683"/>
+        <di:waypoint x="657" y="519"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p28="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_7911EA24-5608-4259-B81B-E19306F623EA-AUTO-TARGET" dmnElementRef="p28:_7911EA24-5608-4259-B81B-E19306F623EA">
+        <di:waypoint x="657" y="519"/>
+        <di:waypoint x="527" y="544"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p29="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_55C60AB2-2073-4C55-B271-36F081D828C9" dmnElementRef="p29:_55C60AB2-2073-4C55-B271-36F081D828C9">
+        <di:waypoint x="421.79906542056074" y="683"/>
+        <di:waypoint x="527" y="519"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p30="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_9098B1F8-A10B-470E-94BC-38F327D06134" dmnElementRef="p30:_9098B1F8-A10B-470E-94BC-38F327D06134">
+        <di:waypoint x="620.5" y="683"/>
+        <di:waypoint x="527" y="519"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p31="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_4DEEEC4B-7023-4C34-B3AE-E8974E1D7A2C" dmnElementRef="p31:_4DEEEC4B-7023-4C34-B3AE-E8974E1D7A2C">
+        <di:waypoint x="742" y="683"/>
+        <di:waypoint x="741.5" y="390"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge xmlns:p32="https://erp.colibrierp.com.br/order/ordermanager" id="dmnedge-drg-_370602A6-CADD-4F2D-90AC-350DC5DFC101" dmnElementRef="p32:_370602A6-CADD-4F2D-90AC-350DC5DFC101">
+        <di:waypoint x="527" y="519"/>
+        <di:waypoint x="741.5" y="390"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

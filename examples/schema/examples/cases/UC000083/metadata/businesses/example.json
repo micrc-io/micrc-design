@@ -1,0 +1,100 @@
+{
+  "aggregation": "Aggregation",
+  "application": {
+    "businesses": [
+      {
+        "logic": "TestLogic1",
+        "events": [
+          {
+            "event": "Event",
+            "topic": "Topic",
+            "mappings": [
+              {
+                "receiver": "test-context",
+                "service": "TestLogic1",
+                "mappingFile": "mappingFile"
+              }
+            ]
+          },
+          {
+            "event": "Event",
+            "topic": "Topic",
+            "mappings": [
+              {
+                "receiver": "test-context",
+                "service": "TestLogic2",
+                "mappingFile": "mappingFile"
+              },
+              {
+                "receiver": "test-context",
+                "service": "TestLogic3",
+                "mappingFile": "mappingFile"
+              }
+            ]
+          }
+        ],
+        "permission": "test:permission",
+        "custom": "",
+        "command": {
+          "logicType": "DMN",
+          "logicPath": "logicPath",
+          "entity": "Entity",
+          "logicParams": [
+            {
+              "name": "name",
+              "mappingFile": "mappingFile"
+            }
+          ],
+          "logicResults": [
+            {
+              "path": "path",
+              "mappingFile": "mappingFile"
+            }
+          ],
+          "idPath": "idPath",
+          "autoCreate": false,
+          "repositoryOrder": "3",
+          "models": [
+            {
+              "model": "Model1",
+              "protocol": "protocol",
+              "requestMappingFile": "requestMappingFile",
+              "responseMappingFile": "responseMappingFile",
+              "concept": "m1",
+              "order": "1"
+            }, {
+              "model": "Model3",
+              "protocol": "protocol",
+              "requestMappingFile": "requestMappingFile",
+              "responseMappingFile": "responseMappingFile",
+              "concept": "m3",
+              "order": "2",
+              "batchFlag": true
+            },{
+              "model": "Model2",
+              "concept": "m2",
+              "batchEvent": true
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "infrastructure": {
+    "businesses": [
+      {
+        "logic": "logic",
+        "protocol": "protocol",
+        "custom": ""
+      }
+    ],
+    "messageListeners": [
+      {
+        "event": "event",
+        "service": "service",
+        "topic": "topic",
+        "custom": "custom"
+      }
+    ]
+  }
+}

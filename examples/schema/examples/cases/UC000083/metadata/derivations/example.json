@@ -1,0 +1,52 @@
+{
+  "aggregation": "Aggregation",
+  "application": {
+    "derivations": [
+      {
+        "logic": "logic",
+        "queries": [
+          {
+            "entity": "Entity",
+            "paramMappingFiles": [
+              "paramMappingFile"
+            ],
+            "concept": "concept",
+            "method": "method",
+            "order": "order"
+          }
+        ],
+        "generalTechnologies": [
+          {
+            "paramMappingFile": "paramMappingFile",
+            "contentPath": "contentPath",
+            "filePath": "filePath",
+            "concept": "concept",
+            "order": "order"
+          }
+        ],
+        "specialTechnologies": [
+          {
+            "paramMappingFile": "paramMappingFile",
+            "contentPath": "contentPath",
+            "filePath": "filePath",
+            "type": "type",
+            "concept": "concept",
+            "order": "order"
+          }
+        ],
+        "assembler": "assembler",
+        "permission": "permission",
+        "custom": "custom"
+      }
+    ]
+  },
+  "infrastructure": {
+    "derivations": [
+      {
+        "logic": "logic",
+        "protocol": "protocol",
+        "custom": "custom"
+      }
+    ]
+  }
+}

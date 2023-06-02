@@ -1,0 +1,64 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "比较验证码协议",
+    "version": "1.0.0"
+  },
+  "components": {
+  },
+  "servers": [
+    {
+      "x-host": "colibri-erp.security.security",
+      "url": "/security/security/aggr000040"
+    }
+  ],
+  "paths": {
+    "/dl000031": {
+      "post": {
+        "operationId": "dl000031",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthCode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/AuthCodeResult"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "code": "200",
+                      "data": {
+                        "authCodeResult": true
+                      },
+                      "message": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

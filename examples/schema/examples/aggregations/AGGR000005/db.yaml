@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-security-menu-0.0.1
+      author: xwyang
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                tableName: security_menu
+            - tableExists:
+                tableName: security_menu_content
+      changes:
+        - createTable:
+            tableName: security_menu
+            remarks: security menu
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT(11)
+                  remarks: id of security_menu
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: menu-pk
+              - column:
+                  name: menu_code
+                  type: varchar(255)
+                  remarks: menu code
+              - column:
+                  name: uri
+                  type: varchar(255)
+                  remarks: uri
+              - column:
+                  name: parent_code
+                  type: varchar(255)
+                  remarks: parent code
+              - column:
+                  name: menu_type
+                  type: varchar(255)
+                  remarks: menu type
+              - column:
+                  name: sort
+                  type: INT(11)
+                  remarks: sort
+              - column:
+                  name: authority
+                  type: JSON
+                  remarks: authority
+              - column:
+                  name: del_flag
+                  type: INT(11)
+                  remarks: del flag
+              - column:
+                  name: version
+                  type: INT(11)
+                  remarks: version
+
+        - createTable:
+            tableName: security_menu_content
+            remarks: security menu content
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT(11)
+                  remarks: id of menu content
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: ability-pk
+              - column:
+                  name: language_type
+                  type: varchar(255)
+                  remarks: language type
+              - column:
+                  name: content
+                  type: JSON
+                  remarks: content
+              - column:
+                  name: menu_id
+                  type: BIGINT(11)
+                  remarks: menu code
+              - column:
+                  name: version
+                  type: INT(11)
+                  remarks: version

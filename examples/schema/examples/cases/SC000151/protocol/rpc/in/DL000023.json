@@ -1,0 +1,58 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "根据权限表达式列表查权限列表协议",
+    "version": "1.0.0"
+  },
+  "components": {
+  },
+  "servers": [
+    {
+      "x-host": "colibri-erp.security.security",
+      "url": "/security/security/aggr000042"
+    }
+  ],
+  "paths": {
+    "/dl000023": {
+      "post": {
+        "operationId": "dl000023",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "permissionExpressions": {
+                    "type": "array"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

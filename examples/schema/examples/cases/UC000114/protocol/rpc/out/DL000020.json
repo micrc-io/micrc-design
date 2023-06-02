@@ -1,0 +1,79 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "撤销认证协议",
+    "version": "1.0.0"
+  },
+  "components": {
+  },
+  "servers": [
+    {
+      "x-host": "colibri-erp.security.security",
+      "url": "/security/security/aggr000040"
+    }
+  ],
+  "paths": {
+    "/dl000020": {
+      "post": {
+        "operationId": "dl000020",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "username"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/DecertificationResult"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "mock": {
+                    "value": {
+                      "code": "200",
+                      "data": {
+                        "decertificationResult": true
+                      }
+                    }
+                  },
+                  "default": {
+                    "value": {
+                      "code": "200",
+                      "data": {
+                        "decertificationResult": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

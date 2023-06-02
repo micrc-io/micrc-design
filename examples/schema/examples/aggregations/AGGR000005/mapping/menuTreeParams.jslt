@@ -1,0 +1,5 @@
+{
+    "parentCode": .parentCode,
+    "permissions": .permissions,
+    "list": .list
+}

@@ -1,0 +1,64 @@
+{
+  "AGGR000040": {
+    "MDL000253": {
+      "name.required": {
+        "key": "name.required",
+        "desc": "/AGGR000040/MDL000253",
+        "defaults": {
+          "zh_CN": "用户名不能为空",
+          "en_US": "The user name cannot be empty"
+        }
+      },
+      "password.required": {
+        "key": "password.required",
+        "desc": "/AGGR000040/MDL000253",
+        "defaults": {
+          "zh_CN": "密码不能为空",
+          "en_US": "The password cannot be empty"
+        }
+      },
+      "authCode.required": {
+        "key": "authCode.required",
+        "desc": "/AGGR000040/MDL000253",
+        "defaults": {
+          "zh_CN": "验证码不能为空",
+          "en_US": "The verification code cannot be empty"
+        }
+      },
+      "username.message": {
+        "key": "username.message",
+        "desc": "/AGGR000040/MDL000253",
+        "defaults": {
+          "zh_CN": "请输入正确的邮箱",
+          "en_US": "Please enter the correct email address"
+        }
+      },
+      "password.message": {
+        "key": "password.message",
+        "desc": "/AGGR000040/MDL000253",
+        "defaults": {
+          "zh_CN": "至少8-16个字符,至少1个大写字母,1个小写字母和1个数字",
+          "en_US": "At least 8-16 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number"
+        }
+      },
+      "authCode.message": {
+        "key": "authCode.message",
+        "desc": "/AGGR000040/MDL000253",
+        "defaults": {
+          "zh_CN": "验证码必须是四位",
+          "en_US": "The verification code must be four digits"
+        }
+      }
+    },
+    "MDL000246": {
+      "login.result.message": {
+        "key": "login.result.message",
+        "desc": "/AGGR000040/MDL000246",
+        "defaults": {
+          "zh_CN": "登录失败,请联系管理员",
+          "en_US": "Login failed. Please contact the administrator"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "aggregation": "Aggregation",
+  "application": {
+    "presentations": [
+      {
+        "logic": "TestLogic2",
+        "queries": [
+          {
+            "entity": "Entity",
+            "paramMappingFiles": [
+              "paramMappingFile"
+            ],
+            "concept": "concept",
+            "method": "method",
+            "order": "2"
+          }
+        ],
+        "integrations": [
+          {
+            "protocol": "protocol",
+            "requestMappingFile": "requestMappingFile",
+            "responseMappingFile": "responseMappingFile",
+            "concept": "concept",
+            "order": "1"
+          }
+        ],
+        "assembler": "assembler",
+        "permission": "permission",
+        "custom": ""
+      }
+    ]
+  },
+  "infrastructure": {
+    "presentations": [
+      {
+        "logic": "logic",
+        "protocol": "protocol",
+        "custom": "custom"
+      }
+    ]
+  }
+}

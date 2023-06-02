@@ -1,0 +1,237 @@
+{
+  "intro": {
+    "version": "0.0.7",
+    "state": "designing",
+    "loginPageUri":"/security/authc",
+    "favicon": "https://s2.loli.net/2023/03/28/E6JclDPZFwopO5X.png",
+    "languages": [
+      {
+        "code": "zh_CN",
+        "name": "简体中文"
+      },
+      {
+        "code": "en-US",
+        "name": "English"
+      }
+    ]
+  },
+  "doc": {
+    "title": "用于经销商管理电商平台",
+    "labels": ["流程化工作线"],
+    "showcase": "",
+    "desc": "colibrierp深入洞察经销商电商平台管理和在线销售流程,提供商品供应链、市场标签、物流运输、订单管理和在线销售等自动化场景解决方案"
+  },
+  "integration": {},
+  "entry": {
+    "modules": {},
+    "components": {
+      "AuthcGenericLayout": {
+        "package": "@colibri-tech/design.system.web.components.authc-generic-layout",
+        "version": "0.0.2"
+      },
+      "AdminGenericLayout": {
+        "package": "@colibri-tech/design.system.web.components.admin-generic-layout",
+        "version": "0.0.3"
+      }
+    },
+    "layouts": {
+      "AdminGenericLayout": {
+        "uris": ["/operation/operation/welcome","/"],
+        "props": {
+          "page": {
+            "_val": "props.children"
+          }
+        }
+      },
+      "AuthcGenericLayout": {
+        "uris": ["/security/authc"],
+        "props": {
+          "login": {
+            "_val": "props.children"
+          }
+        }
+      }
+    }
+  },
+  "pages": {
+    "/security/authc": {
+      "comment": ["系统账号登录"],
+      "permissions": {
+        "anonymous": []
+      },
+      "i18n": {
+        "login.btn": {
+          "key": "login.btn",
+          "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+          "defaults": {
+            "zh_CN": "登录",
+            "en_US": "login"
+          }
+        },
+        "username.label":{
+          "key": "username.label",
+          "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+          "defaults": {
+            "zh_CN": "用户名",
+            "en_US": "username"
+          }
+        },
+        "username.placeholder":{
+          "key": "username.placeholder",
+          "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+          "defaults": {
+            "zh_CN": "请输入用户名",
+            "en_US": "Please enter the user name"
+          }
+        },
+        "password.label":{
+          "key": "password.label",
+          "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+          "defaults": {
+            "zh_CN": "密码",
+            "en_US": "password"
+          }
+        },
+        "password.placeholder":{
+          "key": "password.placeholder",
+          "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+          "defaults": {
+            "zh_CN": "请输入密码",
+            "en_US": "Please enter the pass word"
+          }
+        },
+        "authcode.label":{
+          "key": "authcode.label",
+          "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+          "defaults": {
+            "zh_CN": "验证码",
+            "en_US": "Verification code"
+          }
+        },
+        "authcode.placeholder":{
+          "key": "authcode.placeholder",
+          "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+          "defaults": {
+            "zh_CN": "请输入验证码",
+            "en_US": "Please enter the verification code"
+          }
+        }
+      },
+      "modules": {
+        "SystemAccountLogin": {
+          "package": "@colibri-tech/security.security.web.modules.system-account-login",
+          "version": "0.0.5",
+          "i18n": {
+            "login.btn": {
+              "key": "login.btn",
+              "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+              "defaults": {
+                "zh_CN": "登录",
+                "en_US": "login"
+              }
+            },
+            "username.label":{
+              "key": "username.label",
+              "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+              "defaults": {
+                "zh_CN": "用户名",
+                "en_US": "username"
+              }
+            },
+            "username.placeholder":{
+              "key": "username.placeholder",
+              "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+              "defaults": {
+                "zh_CN": "请输入用户名",
+                "en_US": "Please enter the user name"
+              }
+            },
+            "password.label":{
+              "key": "password.label",
+              "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+              "defaults": {
+                "zh_CN": "密码",
+                "en_US": "password"
+              }
+            },
+            "password.placeholder":{
+              "key": "password.placeholder",
+              "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+              "defaults": {
+                "zh_CN": "请输入密码",
+                "en_US": "Please enter the pass word"
+              }
+            },
+            "authcode.label":{
+              "key": "authcode.label",
+              "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+              "defaults": {
+                "zh_CN": "验证码",
+                "en_US": "Verification code"
+              }
+            },
+            "authcode.placeholder":{
+              "key": "authcode.placeholder",
+              "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+              "defaults": {
+                "zh_CN": "请输入验证码",
+                "en_US": "Please enter the verification code"
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "BlankLayout": {
+          "package": "@colibri-tech/design.system.web.components.blank-layout",
+          "version": "0.0.8"
+        }
+      },
+      "assembly": {
+        "layout": "BlankLayout",
+        "props": {
+          "content": {
+            "assemblies": [
+              {
+                "name": "SystemAccountLogin",
+                "children": null,
+                "props": {
+                  "router": {
+                    "_val": "props.router"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "/": {
+      "comment": ["欢迎页面"],
+      "permissions": {
+        "distributor": []
+      },
+      "i18n": {},
+      "modules": {},
+      "components": {},
+      "assembly": {
+        "layout": "",
+        "props": {}
+      }
+    },
+    "/operation/operation/welcome": {
+      "comment": ["运营工作台"],
+      "permissions": {
+        "distributor": []
+      },
+      "i18n": {},
+      "modules": {},
+      "components": {},
+      "assembly": {
+        "layout": "",
+        "props": {}
+      }
+    }
+  }
+}
+

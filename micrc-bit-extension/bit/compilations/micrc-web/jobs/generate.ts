@@ -240,7 +240,7 @@ export const generate = async () => {
         fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
         break;
       }
-      case TYPES.CLIENTENDS:
+      case TYPES.CLIENTENDS: {
         metaData.intro.context = {
           ownerDomain: contextMetaData.ownerDomain,
           clientend: contextMetaData.clientend,
@@ -255,7 +255,13 @@ export const generate = async () => {
           contextMetaData,
           path.join(bitBasePath, `${scope}/${contextName}/web/clientends/${metaFile.replace('.json', '')}/app`),
         );
+        // 把i18ns.json 放在模块/meta下
+        const i18nsPath = path.join(schemaLocation, 'i18ns.json');
+        const i18nsMetaData = JSON.parse(fs.readFileSync(i18nsPath, { encoding: 'utf8' }));
+        const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'app', 'meta', 'i18ns.json');
+        fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
         break;
+      }
       default:
         log.error(chalk.red('un-excepted type of component'));
         break;

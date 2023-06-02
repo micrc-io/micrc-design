@@ -1,0 +1,43 @@
+{
+  "login.btn": {
+    "key": "login.btn",
+    "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+    "defaults": { "zh_CN": "登录", "en_US": "login" }
+  },
+  "username.label": {
+    "key": "username.label",
+    "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+    "defaults": { "zh_CN": "用户名", "en_US": "username" }
+  },
+  "username.placeholder": {
+    "key": "username.placeholder",
+    "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+    "defaults": {
+      "zh_CN": "请输入用户名",
+      "en_US": "Please enter the user name"
+    }
+  },
+  "password.label": {
+    "key": "password.label",
+    "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+    "defaults": { "zh_CN": "密码", "en_US": "password" }
+  },
+  "password.placeholder": {
+    "key": "password.placeholder",
+    "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+    "defaults": { "zh_CN": "请输入密码", "en_US": "Please enter the pass word" }
+  },
+  "authcode.label": {
+    "key": "authcode.label",
+    "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+    "defaults": { "zh_CN": "验证码", "en_US": "Verification code" }
+  },
+  "authcode.placeholder": {
+    "key": "authcode.placeholder",
+    "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+    "defaults": {
+      "zh_CN": "请输入验证码",
+      "en_US": "Please enter the verification code"
+    }
+  }
+}

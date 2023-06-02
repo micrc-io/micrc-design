@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-permission-0.0.1
+      author: hyosunghan
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                tableName: permission
+      changes:
+        - createTable:
+            tableName: permission
+            remarks: permission
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT(11)
+                  remarks: id of permission
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: permission-pk
+              - column:
+                  name: permission_expression
+                  type: varchar(255)
+                  remarks: permission expression
+              - column:
+                  name: version
+                  type: INT(11)
+                  remarks: version

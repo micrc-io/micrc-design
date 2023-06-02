@@ -1,0 +1,73 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "生成验证码协议",
+    "version": "1.0.0"
+  },
+  "components": {
+  },
+  "servers": [
+    {
+      "x-host": "colibri-erp.security.security",
+      "url": "/security/security/aggr000040"
+    }
+  ],
+  "paths": {
+    "/dl000030": {
+      "post": {
+        "operationId": "dl000030",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+
+              },
+              "examples": {
+                "default": {
+                  "value": {
+
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/AuthCode"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "code": "200",
+                      "data": {
+                        "authCode": "QWE4",
+                        "identity": "123-345-567-asd-134",
+                        "imageString": "data:image:asdsadsad"
+                      },
+                      "message": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "permissionIds": flatten([for (.roleDetails)
+                                  [for (.rolePermissions)
+                                       {"id": .permissionId}
+                                  ]
+                             ])
+}

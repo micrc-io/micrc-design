@@ -1,0 +1,60 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "权限schema",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "Permission": {
+        "type": "object",
+        "properties": {
+          "identity": {
+            "type": "object",
+            "$ref": "#/components/schemas/PermissionId",
+            "description": "标识"
+          },
+          "permissionExpression": {
+            "type": "object",
+            "$ref": "#/components/schemas/PermissionExpression",
+            "description": "权限表达式"
+          }
+        },
+        "x-validators": null
+      },
+      "PermissionId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "标识"
+          }
+        },
+        "description": "权限标识Id",
+        "x-validators": null
+      },
+      "PermissionExpression": {
+        "type": "object",
+        "properties": {
+          "permissionExpression":{
+            "type": "string",
+            "description": "权限表达式"
+          }
+        }
+      }
+    }
+  }
+}

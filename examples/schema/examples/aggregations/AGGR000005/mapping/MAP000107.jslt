@@ -1,0 +1,5 @@
+{
+    "roleIds": [
+        for (.sysAccount.accountRoles) {"id" : .roleId}
+    ]
+}

@@ -1,0 +1,90 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "系统账号登录协议",
+    "version": "1.0.0"
+  },
+  "components": {
+  },
+  "servers": [
+    {
+      "x-host": "colibri-erp.security.security",
+      "url": "/security/security/aggr000040"
+    }
+  ],
+  "paths": {
+    "/bslg000046": {
+      "post": {
+        "operationId": "bslg000046",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "default": {
+                  "value": {
+                    "username": {
+                      "username": ""
+                    },
+                    "password": {
+                      "password": ""
+                    },
+                    "authCode": {
+                      "authCode": ""
+                    },
+                    "identity": {
+                      "identity": ""
+                    }
+                  }
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/LoginInfo"
+              },
+              "x-validator": {
+                "$ref": "#/components/schemas/LoginInfo/x-validators/normal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "mock": {
+                    "value":{
+                      "code": "200",
+                      "message": "",
+                      "data": {
+                        "authentication":{
+                          "token": "djgfydsgfy44356s5d6s7fd7svds7vt"
+                        },
+                        "id":{
+                          "id": 894365368
+                        },
+                        "permissions":["*:*"]
+                      }
+                    }
+                  },
+                  "default": {
+                    "value": {
+                      "code": "",
+                      "message": "",
+                      "data": {}
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResult"
+                },
+                "x-validator": {
+                  "$ref": "#/components/schemas/LoginResult/x-validators/normal"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

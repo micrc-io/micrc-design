@@ -1,0 +1,31 @@
+{
+  "domain": {
+    "repositories": [
+      {
+        "entity": "entity",
+        "identity": "identity",
+        "methods": [
+          {
+            "name": "name",
+            "conditions": [
+              "condition"
+            ],
+            "result": "result"
+          }
+        ]
+      }
+    ],
+    "valobjs": [
+      {
+        "name": "name",
+        "schema": "schema"
+      }
+    ],
+    "entities": [
+      {
+        "name": "name",
+        "schema": "schema"
+      }
+    ]
+  }
+}

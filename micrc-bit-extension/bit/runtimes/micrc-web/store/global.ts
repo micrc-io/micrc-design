@@ -4,33 +4,39 @@
  * i18n语言包，tracker埋点配置，token，integration
  */
 import { create } from 'zustand';
-import { subscribeWithSelector } from 'zustand/middleware';
+import { subscribeWithSelector, persist } from 'zustand/middleware';
 import mergeDeep from 'lodash.merge';
 
 import type { I18nPointer, IntegrationTopic } from './index';
 
-export const useGlobalStore = create(subscribeWithSelector((set) => ({
-  subject: {
-    id: null,
-    permissions: [],
-  },
-  workbench: '',
-  i18n: null,
-  tracker: null,
-  integration: null,
-  currentKey: '',
-  error: {
-    config: {
-      custom: false,
-      message: '',
-      description: '',
+export const useGlobalStore = create(
+  persist(
+    subscribeWithSelector((set) => ({
+      subject: {
+        id: null,
+        permissions: [],
+      },
+      workbench: '',
+      i18n: null,
+      tracker: null,
+      integration: null,
+      currentKey: '',
+      error: {
+        config: {
+          custom: false,
+          message: '',
+          description: '',
+        },
+        message: '',
+        description: '',
+      },
+      set,
+    })),
+    {
+      name: 'micrc-storage',
     },
-    message: '',
-    description: '',
-  },
-  set,
-})));
-
+  ),
+);
 const translateI18n = (
   i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>>,
 ) => {

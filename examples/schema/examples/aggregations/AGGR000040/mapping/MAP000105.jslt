@@ -1,0 +1,6 @@
+{
+    "authCode": {
+        "identity": .identity.identity,
+        "authCode": .authCode.authCode
+    }
+}

@@ -1,0 +1,317 @@
+{
+  "intro": {
+    "version": "0.0.3",
+    "state": "complete",
+    "context": {
+      "ownerDomain": "examples",
+      "contextName": "examples",
+      "namespace": "colibri-erp",
+      "clientend": "colibri-distributor-workbench"
+    },
+    "modelFilePath": "./aggregations/AGGR000040/model.json"
+  },
+  "entry": {
+    "mount": {
+      "name": "mount",
+      "actions": [
+        "updateAuthCodeAction()",
+        "updateAuthCodeKeyAction()"
+      ]
+    },
+    "unmount": {
+      "name": "unmount",
+      "actions": []
+    }
+  },
+  "i18n": {
+    "login.btn": {
+      "key": "login.btn",
+      "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+      "defaults": {
+        "zh_CN": "登录",
+        "en_US": "login"
+      }
+    },
+    "username.label": {
+      "key": "username.label",
+      "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+      "defaults": {
+        "zh_CN": "用户名",
+        "en_US": "username"
+      }
+    },
+    "username.placeholder": {
+      "key": "username.placeholder",
+      "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+      "defaults": {
+        "zh_CN": "请输入用户名",
+        "en_US": "Please enter the user name"
+      }
+    },
+    "password.label": {
+      "key": "password.label",
+      "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+      "defaults": {
+        "zh_CN": "密码",
+        "en_US": "password"
+      }
+    },
+    "password.placeholder": {
+      "key": "password.placeholder",
+      "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+      "defaults": {
+        "zh_CN": "请输入密码",
+        "en_US": "Please enter the pass word"
+      }
+    },
+    "authcode.label": {
+      "key": "authcode.label",
+      "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+      "defaults": {
+        "zh_CN": "验证码",
+        "en_US": "Verification code"
+      }
+    },
+    "authcode.placeholder": {
+      "key": "authcode.placeholder",
+      "desc": "/security/authc/colibri-tech.security/security/web/modules/system-account-login",
+      "defaults": {
+        "zh_CN": "请输入验证码",
+        "en_US": "Please enter the verification code"
+      }
+    }
+  },
+  "integration": {
+    "produce": {},
+    "consume": {}
+  },
+  "comment": [
+    "登陆认证模块"
+  ],
+  "doc": {
+    "title": "登陆认证",
+    "labels": [
+      "表单登陆认证"
+    ],
+    "desc": "用户可以通过输入用户名密码登陆，认证成功后进入系统",
+    "prototype": "https://mastergo.com/file/89078800606691?page_id=M&layer_id=48%3A2794"
+  },
+  "types": {
+    "definitions": {},
+    "imports": {}
+  },
+  "components": {
+    "FormAuthc": {
+      "version": "0.0.4",
+      "packages": "@colibri-tech/design.system.web.components.form-authc"
+    },
+    "BlankLayout": {
+      "version": "0.0.8",
+      "packages": "@colibri-tech/design.system.web.components.blank-layout"
+    }
+  },
+  "localState": {
+    "userName": {
+      "value": {
+        "label": "bind('i18n:///username.label')",
+        "placeholder": "bind('i18n:///username.placeholder')"
+      }
+    },
+    "passWord": {
+      "value": {
+        "label": "bind('i18n:///password.label')",
+        "placeholder": "bind('i18n:///password.placeholder')"
+      }
+    },
+    "authCode": {
+      "value": {
+        "label": "bind('i18n:///authcode.label')",
+        "placeholder": "bind('i18n:///authcode.placeholder')"
+      }
+    },
+    "btnName": {
+      "value": "bind('i18n:///login.btn')"
+    }
+  },
+  "remoteState": {
+    "aggregations": "AGGR000040",
+    "operationIds": [
+      "BSLG000046",
+      "INVE000019"
+    ],
+    "casesId": "UC000083",
+    "rpc": {
+      "protocols": [
+        "./cases/UC000083/protocol/api/BSLG000046.json",
+        "./cases/UC000083/protocol/api/INVE000019.json"
+      ],
+      "url": "/api/security",
+      "host": "http://localhost:8080"
+    }
+  },
+  "actions": {
+    "changeUserNameAction": {
+      "op": "replace",
+      "path": "module:///bslg000046/param/username/username"
+    },
+    "validateUserNameAction": {
+      "op": "verify",
+      "path": "module:///bslg000046",
+      "value": null
+    },
+    "changePassWordAction": {
+      "op": "replace",
+      "path": "module:///bslg000046/param/password/password"
+    },
+    "validatePassWordAction": {
+      "op": "verify",
+      "path": "module:///bslg000046",
+      "value": null
+    },
+    "changeAuthCodeAction": {
+      "op": "replace",
+      "path": "module:///bslg000046/param/authCode/authCode"
+    },
+    "validateAuthCodeAction": {
+      "op": "verify",
+      "path": "module:///bslg000046",
+      "value": null
+    },
+    "updateAuthCodeAction": {
+      "op": "perform",
+      "path": "module:///inve000019",
+      "value": null
+    },
+    "submitAction": {
+      "op": "perform",
+      "path": "module:///bslg000046",
+      "value": null
+    },
+    "routerAction": {
+      "op": "integrate",
+      "path": "/route",
+      "value": "/"
+    },
+    "updatePermissionsAction": {
+      "op": "replace",
+      "path": "global:///subject/permissions",
+      "value": "module:///bslg000046/result/data/permissions"
+    },
+    "updateIdAction": {
+      "op": "replace",
+      "path": "global:///subject/id",
+      "value": "module:///bslg000046/result/data/id/id"
+    },
+    "updateAuthCodeKeyAction": {
+      "op": "replace",
+      "path": "module:///bslg000046/param/identity/identity",
+      "value": "module:///inve000019/result/data/identity"
+    }
+  },
+  "assembly": {
+    "layout": "BlankLayout",
+    "props": {
+      "content": {
+        "assemblies": [
+          {
+            "name": "FormAuthc",
+            "children": null,
+            "props": {
+              "loading": "bind('module:///bslg000046/pending')",
+              "btnName": "bind('states@btnName:///value')",
+              "userName": "bind('states@userName:///value')",
+              "passWord": "bind('states@passWord:///value')",
+              "authCode": "bind('states@authCode:///value')",
+              "userNameMsg": "bind('invalid:///bslg000046/invalid/err/username/username/pattern/msg')",
+              "passWordMsg": "bind('invalid:///bslg000046/invalid/err/password/password/pattern/msg')",
+              "authCodeMsg": "bind('invalid:///bslg000046/invalid/err/authCode/authCode/pattern/msg')",
+              "userNameStatus": "bind('invalid:///bslg000046/invalid/err/username/username/pattern/status')",
+              "passWordStatus": "bind('invalid:///bslg000046/invalid/err/password/password/pattern/status')",
+              "authCodeStatus": "bind('invalid:///bslg000046/invalid/err/authCode/authCode/pattern/status')",
+              "authCodeImg": "bind('module:///inve000019/result/data/imageString')",
+              "changeUserName": {
+                "params": [
+                  "value"
+                ],
+                "actions": [
+                  {
+                    "action": "changeUserNameAction",
+                    "inputPath": "/value"
+                  },
+                  {
+                    "action": "validateUserNameAction",
+                    "inputPath": ""
+                  }
+                ]
+              },
+              "changePassWord": {
+                "params": [
+                  "value"
+                ],
+                "actions": [
+                  {
+                    "action": "changePassWordAction",
+                    "inputPath": "/value"
+                  },
+                  {
+                    "action": "validatePassWordAction",
+                    "inputPath": ""
+                  }
+                ]
+              },
+              "changeAuthCode": {
+                "params": [
+                  "value"
+                ],
+                "actions": [
+                  {
+                    "action": "changeAuthCodeAction",
+                    "inputPath": "/value"
+                  },
+                  {
+                    "action": "validateAuthCodeAction",
+                    "inputPath": ""
+                  }
+                ]
+              },
+              "changeAuthCodeImg": {
+                "params": [],
+                "actions": [
+                  {
+                    "action": "updateAuthCodeAction",
+                    "inputPath": ""
+                  },
+                  {
+                    "action": "updateAuthCodeKeyAction",
+                    "inputPath": ""
+                  }
+                ]
+              },
+              "submit": {
+                "params": [],
+                "actions": [
+                  {
+                    "action": "submitAction",
+                    "inputPath": ""
+                  },
+                  {
+                    "action": "updatePermissionsAction",
+                    "inputPath": ""
+                  },
+                  {
+                    "action": "updateIdAction",
+                    "inputPath": ""
+                  },
+                  {
+                    "action": "routerAction",
+                    "inputPath": ""
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

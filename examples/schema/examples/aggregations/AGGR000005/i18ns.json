@@ -1,0 +1,44 @@
+{
+  "AGGR000005": {
+    "MDL000259": {
+      "params.required": {
+        "key": "params.required",
+        "desc": "/AGGR000005/MDL000259",
+        "defaults": {
+          "zh_CN": "用户ID和端口不能为空",
+          "en_US": "The user ID and port cannot be empty"
+        }
+      }
+    },
+    "MDL000260": {
+      "params.required": {
+        "key": "params.required",
+        "desc": "/AGGR000005/MDL000260",
+        "defaults": {
+          "zh_CN": "用户ID、上级编码和端口不能为空",
+          "en_US": "The user ID, upper-level code, and port cannot be empty"
+        }
+      }
+    },
+    "MDL000210": {
+      "result.required": {
+        "key": "result.required",
+        "desc": "/AGGR000005/MDL000210",
+        "defaults": {
+          "zh_CN": "返回结果不能为空",
+          "en_US": "The return result cannot be empty"
+        }
+      }
+    },
+    "MDL000211": {
+      "result.required": {
+        "key": "result.required",
+        "desc": "/AGGR000005/MDL000211",
+        "defaults": {
+          "zh_CN": "返回结果不能为空",
+          "en_US": "The return result cannot be empty"
+        }
+      }
+    }
+  }
+}
