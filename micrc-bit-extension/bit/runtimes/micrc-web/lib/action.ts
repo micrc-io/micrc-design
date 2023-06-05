@@ -109,9 +109,12 @@ const handleRoute = (router: any, uri: any) => {
 };
 
 const handleIntegrate = (
-  _ctx: any, state: any, topicName: string, router: any, id: string,
+  _ctx: any, state: any, topicName: string, router: any, id: string, fix: any,
 ) => {
-  let pageUri = router?.pathname || '#';
+  let pageUri = '#';
+  if (!fix) {
+    pageUri = (router?.pathname || '#');
+  }
   if (!id) { // 模块独立启动, 集成模拟器的使用
     const arr = topicName.split(':');
     // eslint-disable-next-line no-param-reassign, prefer-destructuring
@@ -170,7 +173,7 @@ export const globalAction = (
       if (path.startsWith('/route')) {
         handleRoute(router, action.value || input);
       } else {
-        handleIntegrate(action.value || input, state, path.replace('/', ''), router, id);
+        handleIntegrate(action.value || input, state, path.replace('/', ''), router, id, fix);
       }
       break;
     default:
