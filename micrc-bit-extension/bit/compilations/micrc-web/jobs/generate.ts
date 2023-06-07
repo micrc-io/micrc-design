@@ -48,7 +48,8 @@ const generateAtom = async (metaData: any, componentPath: string) => {
   }
 };
 
-const generateComponent = async (metaData: any, componentPath: string) => {
+const generateComponent = async (metaData: any, componentPath: string, account: string,
+  scope: string) => {
   try {
     await execCmd(
       'bit', ['remove', '-s', '-f', componentPath], bitBasePath,
@@ -63,6 +64,16 @@ const generateComponent = async (metaData: any, componentPath: string) => {
     const msg = `component: ${componentPath} of type: components - create error: ${e}`;
     log.error(chalk.red(msg));
     throw new Error(msg);
+  }
+
+  try {
+    await execCmd(
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@^0.0.25', '--peer'], bitBasePath,
+    );
+    await execCmd('bit', ['install'], bitBasePath);
+  } catch (e) {
+    log.error(chalk.red(e));
+    throw new Error(e);
   }
 
   try {
@@ -97,7 +108,8 @@ const generateComponent = async (metaData: any, componentPath: string) => {
   }
 };
 
-const generateModule = async (metaData: any, componentPath: string) => {
+const generateModule = async (metaData: any, componentPath: string, account: string,
+  scope: string) => {
   try {
     await execCmd(
       'bit', ['remove', '-s', '-f', componentPath], bitBasePath,
@@ -112,6 +124,16 @@ const generateModule = async (metaData: any, componentPath: string) => {
     const msg = `component: ${componentPath} of type: modules - create error: ${e}`;
     log.error(chalk.red(msg));
     throw new Error(msg);
+  }
+
+  try {
+    await execCmd(
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@^0.0.25', '--peer'], bitBasePath,
+    );
+    await execCmd('bit', ['install'], bitBasePath);
+  } catch (e) {
+    log.error(chalk.red(e));
+    throw new Error(e);
   }
 
   try {
@@ -214,6 +236,8 @@ export const generate = async () => {
         await generateComponent(
           metaData,
           `${contextName}/web/components/${metaFile.replace('.json', '')}`,
+          account,
+          scope,
         );
         break;
       case TYPES.MODULES: {
@@ -232,6 +256,8 @@ export const generate = async () => {
         await generateModule(
           metaData,
           `${contextName}/web/modules/${metaFile.replace('.json', '')}`,
+          account,
+          scope,
         );
         // 把服务端i18ns.json 放在模块/meta下的
         const i18nsPath = path.join(schemaLocation, 'aggregations', metaData.remoteState.aggregations, 'i18ns.json');

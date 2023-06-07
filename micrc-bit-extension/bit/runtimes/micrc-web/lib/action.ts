@@ -35,7 +35,7 @@ const getValueByPointer = (
   propStore: any,
   router: any = null,
   id: string = '',
-  fix: string = null,
+  fix: any = null,
 ) => {
   const [scope, path] = pointer.split('://'); // scope:integrate@switchPage
   if (!scope || !path) {
@@ -69,7 +69,7 @@ const handleValue = (
   inputs: any, inputPath: string,
   router: any = null,
   id: string = '',
-  fix: string = null,
+  fix: any = null,
 ) => {
   const { value } = action;
   // 存在输入参数，优先取值
@@ -154,7 +154,7 @@ const handleIntegrate = (
 };
 
 export const globalAction = (
-  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix:string = null,
+  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
 ) => globalStore((state: any) => (inputs: any, inputPath: string) => {
   const input = handleValue(
     action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
@@ -182,7 +182,7 @@ export const globalAction = (
 });
 
 export const moduleAction = (
-  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: string = null,
+  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
 ) => moduleStore((state: any) => async (inputs: any, inputPath: string) => {
   const input = handleValue(
     action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
