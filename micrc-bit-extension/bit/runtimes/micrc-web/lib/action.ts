@@ -35,7 +35,7 @@ const getValueByPointer = (
   propStore: any,
   router: any = null,
   id: string = '',
-  fix: string = null,
+  fix: any = null,
 ) => {
   const [scope, path] = pointer.split('://'); // scope:integrate@switchPage
   if (!scope || !path) {
@@ -69,7 +69,7 @@ const handleValue = (
   inputs: any, inputPath: string,
   router: any = null,
   id: string = '',
-  fix: string = null,
+  fix: any = null,
 ) => {
   const { value } = action;
   // 存在输入参数，优先取值
@@ -109,9 +109,12 @@ const handleRoute = (router: any, uri: any) => {
 };
 
 const handleIntegrate = (
-  _ctx: any, state: any, topicName: string, router: any, id: string,
+  _ctx: any, state: any, topicName: string, router: any, id: string, fix: any,
 ) => {
-  let pageUri = router?.pathname || '#';
+  let pageUri = '#';
+  if (!fix) {
+    pageUri = (router?.pathname || '#');
+  }
   if (!id) { // 模块独立启动, 集成模拟器的使用
     const arr = topicName.split(':');
     // eslint-disable-next-line no-param-reassign, prefer-destructuring
@@ -151,7 +154,7 @@ const handleIntegrate = (
 };
 
 export const globalAction = (
-  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix:string = null,
+  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
 ) => globalStore((state: any) => (inputs: any, inputPath: string) => {
   const input = handleValue(
     action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
@@ -170,7 +173,7 @@ export const globalAction = (
       if (path.startsWith('/route')) {
         handleRoute(router, action.value || input);
       } else {
-        handleIntegrate(action.value || input, state, path.replace('/', ''), router, id);
+        handleIntegrate(action.value || input, state, path.replace('/', ''), router, id, fix);
       }
       break;
     default:
@@ -179,7 +182,7 @@ export const globalAction = (
 });
 
 export const moduleAction = (
-  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: string = null,
+  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
 ) => moduleStore((state: any) => async (inputs: any, inputPath: string) => {
   const input = handleValue(
     action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
