@@ -1,15 +1,15 @@
 // 插件发出的消息
-export enum PluginMessage {
-
+export enum PluginEvent {
+  LOAD,
 }
 
 // UI发出的消息
-export enum UIMessage {
-  HELLO = 'Hello!',
+export enum UIEvent {
+  DEMO,
 }
 
 type MessageType = {
-  type: UIMessage | PluginMessage,
+  event: UIEvent | PluginEvent,
   data?: any;
 };
 
