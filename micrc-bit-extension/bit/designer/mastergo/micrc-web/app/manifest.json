@@ -1,0 +1,6 @@
+{
+  "name": "micrc-web",
+  "id": 96371365187914,
+  "main": "dist/main.js",
+  "ui": "dist/index.html"
+}

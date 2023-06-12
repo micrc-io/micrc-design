@@ -140,13 +140,6 @@
     },
     "{_examples/app/modules/**}": {
       "micrc.bit/envs/micrc-app": {}
-    },
-    "{*}": {
-      "teambit.pkg/pkg": {
-        "packageJson": {
-          "publishConfig": {}
-        }
-      }
     }
   },
   "teambit.generator/generator": {

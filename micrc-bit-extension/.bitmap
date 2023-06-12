@@ -27,6 +27,12 @@
         "mainFile": "index.ts",
         "rootDir": "bit/compilations/micrc-web"
     },
+    "designer/mastergo/micrc-web": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bit/designer/mastergo/micrc-web"
+    },
     "envs/bit-micrc-msw": {
         "scope": "micrc.bit",
         "version": "0.0.1",
