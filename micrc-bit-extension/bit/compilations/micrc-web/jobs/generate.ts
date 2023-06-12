@@ -68,12 +68,13 @@ const generateComponent = async (metaData: any, componentPath: string, account: 
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@^0.0.25', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.25', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
-    log.error(chalk.red(e));
-    throw new Error(e);
+    const msg = `component: ${componentPath} of type: components - runtimes handle error: ${e}`;
+    log.error(chalk.red(msg));
+    throw new Error(msg);
   }
 
   try {
@@ -108,8 +109,11 @@ const generateComponent = async (metaData: any, componentPath: string, account: 
   }
 };
 
-const generateModule = async (metaData: any, componentPath: string, account: string,
-  scope: string) => {
+const generateModule = async (
+  metaData: any, componentPath: string, account: string,
+  scope: string, schemaLocation: string, contextName: string,
+  componentType:string, metaFile: string,
+) => {
   try {
     await execCmd(
       'bit', ['remove', '-s', '-f', componentPath], bitBasePath,
@@ -127,13 +131,17 @@ const generateModule = async (metaData: any, componentPath: string, account: str
   }
 
   try {
-    await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@^0.0.25', '--peer'], bitBasePath,
-    );
-    await execCmd('bit', ['install'], bitBasePath);
+    if (metaData.remoteState.aggregations) {
+      // 把服务端i18ns.json 放在模块/meta下的
+      const i18nsPath = path.join(schemaLocation, 'aggregations', metaData.remoteState.aggregations, 'i18ns.json');
+      const i18nsMetaData = JSON.parse(fs.readFileSync(i18nsPath, { encoding: 'utf8' }));
+      const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'meta', 'i18ns.json');
+      fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
+    }
   } catch (e) {
-    log.error(chalk.red(e));
-    throw new Error(e);
+    const msg = `component: ${componentPath} of type: modules - i18ns.json error: ${e}`;
+    log.error(chalk.red(msg));
+    throw new Error(msg);
   }
 
   try {
@@ -150,6 +158,16 @@ const generateModule = async (metaData: any, componentPath: string, account: str
     throw new Error(msg);
   }
 
+  try {
+    await execCmd(
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.25', '--peer'], bitBasePath,
+    );
+    await execCmd('bit', ['install'], bitBasePath);
+  } catch (e) {
+    const msg = `component: ${componentPath} of type: modules - runtimes handle error: ${e}`;
+    log.error(chalk.red(msg));
+    throw new Error(msg);
+  }
   const { intro: { state, version } } = metaData;
   if (state === 'tagging') {
     try {
@@ -168,7 +186,10 @@ const generateModule = async (metaData: any, componentPath: string, account: str
 };
 
 const generateClientend = async (
-  metaData: any, componentPath: string, contextMetaData: any, componentAbsPath: string,
+  metaData: any, componentPath: string,
+  contextMetaData: any, componentAbsPath: string, account: string,
+  scope: string, schemaLocation: string, contextName: string,
+  componentType:string, metaFile: string,
 ) => {
   try {
     await execCmd(
@@ -181,6 +202,29 @@ const generateClientend = async (
     );
   } catch (e) {
     const msg = `component: ${componentPath} of type: clientends - create error: ${e}`;
+    log.error(chalk.red(msg));
+    throw new Error(msg);
+  }
+
+  try {
+    // 把i18ns.json 放在模块/meta下
+    const i18nsPath = path.join(schemaLocation, 'i18ns.json');
+    const i18nsMetaData = JSON.parse(fs.readFileSync(i18nsPath, { encoding: 'utf8' }));
+    const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'app', 'meta', 'i18ns.json');
+    fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
+  } catch (e) {
+    const msg = `component: ${componentPath} of type: clientends - i18ns.json error: ${e}`;
+    log.error(chalk.red(msg));
+    throw new Error(msg);
+  }
+
+  try {
+    await execCmd(
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.25', '--peer'], bitBasePath,
+    );
+    await execCmd('bit', ['install'], bitBasePath);
+  } catch (e) {
+    const msg = `component: ${componentPath} of type: clientends - runtimes handle error: ${e}`;
     log.error(chalk.red(msg));
     throw new Error(msg);
   }
@@ -247,10 +291,14 @@ export const generate = async () => {
           namespace: contextMetaData.namespace,
           clientend: contextMetaData.clientend,
         };
-        metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model.json`;
-        metaData.remoteState.operationIds.map((item) => {
-          metaData.remoteState.rpc.protocols.push(`./cases/${metaData.remoteState.casesId}/protocol/api/${item}.json`);
-        });
+        if (metaData.remoteState.aggregations) {
+          metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model.json`;
+        }
+        if (metaData.remoteState.operationIds && metaData.remoteState.casesId) {
+          metaData.remoteState.operationIds.map((item) => {
+            metaData.remoteState.rpc.protocols.push(`./cases/${metaData.remoteState.casesId}/protocol/api/${item}.json`);
+          });
+        }
         fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), { encoding: 'utf8' });
         // eslint-disable-next-line no-await-in-loop
         await generateModule(
@@ -258,12 +306,11 @@ export const generate = async () => {
           `${contextName}/web/modules/${metaFile.replace('.json', '')}`,
           account,
           scope,
+          schemaLocation,
+          contextName,
+          componentType,
+          metaFile,
         );
-        // 把服务端i18ns.json 放在模块/meta下的
-        const i18nsPath = path.join(schemaLocation, 'aggregations', metaData.remoteState.aggregations, 'i18ns.json');
-        const i18nsMetaData = JSON.parse(fs.readFileSync(i18nsPath, { encoding: 'utf8' }));
-        const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'meta', 'i18ns.json');
-        fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
         break;
       }
       case TYPES.CLIENTENDS: {
@@ -280,12 +327,13 @@ export const generate = async () => {
           `${contextName}/web/clientends/${metaFile.replace('.json', '')}`,
           contextMetaData,
           path.join(bitBasePath, `${scope}/${contextName}/web/clientends/${metaFile.replace('.json', '')}/app`),
+          account,
+          scope,
+          schemaLocation,
+          contextName,
+          componentType,
+          metaFile,
         );
-        // 把i18ns.json 放在模块/meta下
-        const i18nsPath = path.join(schemaLocation, 'i18ns.json');
-        const i18nsMetaData = JSON.parse(fs.readFileSync(i18nsPath, { encoding: 'utf8' }));
-        const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'app', 'meta', 'i18ns.json');
-        fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
         break;
       }
       default:

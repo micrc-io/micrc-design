@@ -15,17 +15,25 @@ log.setLevel('INFO');
 const SCHEMA_LOCATION = ['.cache', 'micrc', 'schema'];
 
 export const repo = async () => {
+  const contextIntro = JSON.parse(
+    fs.readFileSync(path.join(nodeModulesBasePath, ...SCHEMA_LOCATION, 'intro.json'), { encoding: 'utf8' }),
+  );
   try {
-    const contextIntro = JSON.parse(
-      fs.readFileSync(path.join(nodeModulesBasePath, ...SCHEMA_LOCATION, 'intro.json'), { encoding: 'utf8' }),
+    await execCmd(
+      'bit', ['remote', 'add', `https://${contextIntro?.ownerDomain}.${contextIntro?.global?.bitHubBaseUrl}`], bitBasePath,
     );
+  } catch (e) {
+    log.error(chalk.red(`bit remote add error: ${e}`));
+  }
+
+  try {
     const repoUrl = contextIntro?.global?.npmRepoUrl || '';
     const publishConfig: any = {};
     const newConfig = workspaceConfig;
     if (repoUrl) {
       publishConfig.registry = repoUrl;
     }
-    newConfig['teambit.workspace/variants']['{*}'] = {
+    newConfig['teambit.workspace/variants']['*'] = {
       'teambit.pkg/pkg': {
         packageJson: {
           publishConfig,

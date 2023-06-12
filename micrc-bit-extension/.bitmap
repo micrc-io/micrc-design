@@ -23,7 +23,7 @@
     },
     "compilations/micrc-web": {
         "scope": "micrc.bit",
-        "version": "0.0.27",
+        "version": "0.0.36",
         "mainFile": "index.ts",
         "rootDir": "bit/compilations/micrc-web"
     },
@@ -65,7 +65,7 @@
     },
     "generators/micrc-web": {
         "scope": "micrc.bit",
-        "version": "0.1.48",
+        "version": "0.1.49",
         "mainFile": "index.ts",
         "rootDir": "bit/generators/micrc-web"
     },

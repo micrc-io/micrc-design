@@ -110,35 +110,29 @@ export const initGlobalStore = (
   integration: Record<string, IntegrationTopic> | null,
   currentKey?: string | '',
 ) => {
-  const state: any = useGlobalStore.getState();
-  if (!state.i18n && i18n && i18ns) {
-    const languages = translateI18n(i18n);
-    mergeDeep(languages, translateI18n(i18ns));
-    useGlobalStore.setState({
-      i18n: {
-        locale: locale || 'en_US',
-        languages,
-      },
-    });
-  }
-  if (!state.tracker && tracker) {
-    useGlobalStore.setState({
-      tracker,
-    });
-  }
-  if (!state.integration && integration) {
-    useGlobalStore.setState({
-      integration,
-    });
-  }
-  if (!state.currentKey && currentKey) {
-    useGlobalStore.setState({
-      currentKey,
-    });
-  }
-  if (!state.workbench && workbench) {
-    useGlobalStore.setState({
-      workbench,
-    });
-  }
+  // const state: any = useGlobalStore.getState();
+  const languages = translateI18n(i18n);
+  mergeDeep(languages, translateI18n(i18ns));
+  useGlobalStore.setState({
+    i18n: {
+      locale: locale || 'en_US',
+      languages,
+    },
+  });
+
+  useGlobalStore.setState({
+    tracker,
+  });
+
+  useGlobalStore.setState({
+    integration,
+  });
+
+  useGlobalStore.setState({
+    currentKey,
+  });
+
+  useGlobalStore.setState({
+    workbench,
+  });
 };

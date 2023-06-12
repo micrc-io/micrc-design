@@ -99,7 +99,9 @@ const handleRoute = (router: any, uri: any) => {
   if (!uri) {
     throw Error(`Illegal router path: ${uri}`);
   }
-  const { redirectUri } = router.query;
+  if (!router) return;
+
+  const { redirectUri } = router?.query;
   if (redirectUri) {
     window.location.replace(redirectUri);
   } else {
@@ -196,19 +198,32 @@ export const moduleAction = (
       try {
         await invoke(state, newAction);
       } catch (e) {
-        const { config, message, description } = globalStore.getState().error;
-        if (!config.custom) {
-          notification.error({
-            message: 'Oops! System Error. ',
-            description: '',
+        // token 过期  403
+        if (e.code === '403') {
+          notification.warning({
+            message: e.message,
           });
-        } else {
+          // 清除 subject/id
           globalStore.setState({
-            error: {
-              message,
-              description,
+            subject: {
+              id: null,
             },
           });
+        } else {
+          const { config, message, description } = globalStore.getState().error;
+          if (!config.custom) {
+            notification.error({
+              message: 'Oops! System Error. ',
+              description: '',
+            });
+          } else {
+            globalStore.setState({
+              error: {
+                message,
+                description,
+              },
+            });
+          }
         }
       }
       break;

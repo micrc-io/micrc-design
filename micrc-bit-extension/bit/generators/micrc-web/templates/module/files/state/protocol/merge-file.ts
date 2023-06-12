@@ -12,7 +12,7 @@ export function stateProtocolMergeFile(data: ModuleContextData) {
   },
   "servers": [
     {
-      "url": "/api/${data.intro.context.ownerDomain}/${data.intro.context.contextName}",
+      "url": "/api/${data.intro.context.ownerDomain}/${data.intro.context.contextName}/${data.remoteState.aggregations.toLowerCase()}",
       "x-host": "${data.intro.context.namespace}.${data.intro.context.ownerDomain}.${data.intro.context.contextName}"
     }
   ],
