@@ -10,6 +10,7 @@ import './App.css';
 type MicrcWebDesignerProps = {
   type: string | null,
   stage: string | null,
+  example: string | null,
   intro: object | null,
   props: object | null,
   defaultProps: object | null,
@@ -17,10 +18,10 @@ type MicrcWebDesignerProps = {
 };
 
 const MicrcWebDesigner = ({
-  type, stage, intro, props, defaultProps, states,
+  type, stage, example, intro, props, defaultProps, states,
 }: MicrcWebDesignerProps) => {
   console.log('props: ', {
-    type, stage, intro, props, defaultProps, states,
+    type, stage, example, intro, props, defaultProps, states,
   });
   return (
     <div>
@@ -31,6 +32,10 @@ const MicrcWebDesigner = ({
       <p>
         处理阶段:
         <code>{JSON.stringify(stage, null, 2)}</code>
+      </p>
+      <p>
+        选中example:
+        <code>{JSON.stringify(example, null, 2)}</code>
       </p>
       <p>
         组件intro:
@@ -56,6 +61,7 @@ export const App = () => {
   const [state, setState] = useState<MicrcWebDesignerProps>({
     type: null,
     stage: null,
+    example: null,
     intro: null,
     props: null,
     defaultProps: null,
@@ -71,6 +77,7 @@ export const App = () => {
             ...state,
             type: data.type,
             stage: data.stage,
+            example: data.example,
             intro: data.intro,
             props: data.props,
             defaultProps: data.defaultProps,
