@@ -123,7 +123,7 @@ const mergeResult = merge([
   },
   {{/each}}
   {
-    oas: schema,
+    oas: omitDeep(schema, 'x-model-type'),
   },
 ]);
 

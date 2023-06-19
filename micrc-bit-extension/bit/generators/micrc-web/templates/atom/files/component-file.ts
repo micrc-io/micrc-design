@@ -95,10 +95,9 @@ type {{@key}} = {
 {{!-- 定义组件本体 --}}
 export function {{context.namePascalCase}}(props: {{context.namePascalCase}}Props) {
   {{!-- 定义内部状态 --}}
-  {{#each localState}}
-  const {{@key}} = useState({{{json this}}});
-  {{/each}}
+  {{{localState}}}
 
+  {{!-- 定义内部逻辑 --}}
   {{{innerLogic}}}
 
   return(

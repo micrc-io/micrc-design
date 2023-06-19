@@ -60,6 +60,8 @@ export const apis = (get, set) => {
         if (isResultValid) {
           if (res.data.code === '200') {
             patches([{ op: 'replace', path: \`/\${it}/result\`, value: res.data }]);
+          } else if (res.data.code === '403'){
+            reject(res.data);
           } else {
             patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: res.data.message }]);
           }

@@ -24,7 +24,7 @@ export const I18NHighlight = (
   if (!target) {
     return null;
   }
-  const mergeProps = { ...target.props.children.props };
+  const mergeProps = { ...target.props };
   const highlight = pointerText.key === currentKey;
   if (textPropType === 'Node' && highlight) {
     // todo 优化节点类型的反馈方式
@@ -33,10 +33,8 @@ export const I18NHighlight = (
   if (textPropType === 'string' && highlight) {
     // todo 优化字符串类型的反馈方式
     mergeProps[textPropName] = `i18n:{ ${pointerText.str} }`;
-    mergeProps.style.border = '1px solid red';
-    mergeProps.style.borderRadius = '6px';
   }
-  return React.cloneElement(target.props.children, mergeProps);
+  return React.cloneElement(target, mergeProps);
 };
 
 // i18n 隐藏元素代理组件
@@ -56,8 +54,8 @@ export const I18NVisibleProxy = (
   if (!target) {
     return null;
   }
-  const mergeProps = { ...target.props.children.props };
-  mergeProps[visiblePropName] = target.props.children.props[visiblePropName]
+  const mergeProps = { ...target.props };
+  mergeProps[visiblePropName] = target.props[visiblePropName]
   || pointers.includes(currentKey);
-  return React.cloneElement(target.props.children, mergeProps);
+  return React.cloneElement(target, mergeProps);
 };

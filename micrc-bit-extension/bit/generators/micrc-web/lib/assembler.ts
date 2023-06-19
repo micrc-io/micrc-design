@@ -22,7 +22,10 @@ const actionsPropTmpl = `
         {{/each}}
       },
       {{/if}}
-      '{{{this.inputPath}}}'
+      '{{{this.inputPath}}}',
+      {{#if this.path}}
+      '{{{this.path}}}'
+      {{/if}}
     );
     {{/each}}
   };

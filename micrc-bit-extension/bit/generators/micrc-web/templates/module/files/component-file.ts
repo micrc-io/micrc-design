@@ -108,6 +108,10 @@ export function {{context.namePascalCase}}({ router , fix }: {{context.namePasca
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { bind, action, subscribe } =store;
 
+  {{!-- 定义模块id，传给需要i18n的组件 --}}
+  const id = useState({ value: '{{{context.componentId}}}' });
+  store.appendState({ id });
+
   {{!-- 定义actions, 受限于hooks规则 --}}
   {{#each actions}}
   const {{@key}} = action({{{json this}}})
