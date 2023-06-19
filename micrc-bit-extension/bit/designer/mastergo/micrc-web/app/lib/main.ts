@@ -2,18 +2,20 @@
  * api 主文件
  */
 import { UIEvent, PluginEvent, sendMsgToUI } from '@messages/sender';
+import mergeDeep from 'lodash.merge';
+import pick from 'lodash.pick';
 
 mg.showUI(
   __html__,
   {
     visible: false,
-    width: 260,
+    width: 240,
     height: mg.viewport.bound.height,
   },
 );
 
 mg.ui.moveTo(
-  mg.ui.viewport.x + 12,
+  mg.ui.viewport.x - mg.viewport.bound.width + 240 + 12,
   mg.ui.viewport.y - 12,
 );
 
@@ -25,25 +27,120 @@ const type = names[2];
 const targetComponentSetName = mg.document.currentPage.name.replaceAll('/', '-');
 const [category, name, version] = targetComponentSetName.split('-');
 
-const adaptData = (componentSet: ComponentSetNode): object => {
-  let retVal = {};
-  const stringValue = componentSet.getPluginData(`${type}-targetComponentSetName`);
-  if (stringValue) {
-    retVal = JSON.parse(stringValue);
+const adaptProps = (data: any, id: string, prop: ComponentPropertyValue) => {
+  if (data.props[id]) {
+    mergeDeep(data.props[id], prop);
+  } else {
+    // eslint-disable-next-line no-param-reassign
+    data.props[id] = {
+      ...prop,
+      key: '',
+      dataType: '',
+    };
   }
-  const componentProps = componentSet.componentPropertyValues;
-  // todo 状态属性至少有一个且名为example, 不存在添加, 默认值为default;存在, 默认值必须是default
-  // todo 可以存在一个children属性且类型必须是INSTANCE_SWAP, 若存在但类型为其他则自动修改
-  // todo 任何类型的所有属性不能重名, 若重名保留第一个
-  const props = {};
+};
+
+const adaptPropDefaultValues = (
+  data: any, id: string, prop: ComponentPropertyValue, components: ComponentNode[],
+) => {
+  const componentDefaultProps: VariantProperty[] = components[0].variantProperties || [];
+  const value = componentDefaultProps.find((defaultProp) => `VARIANT-${defaultProp.property}` === id)?.value || '';
+  if (data.defaultProps[id]) {
+    mergeDeep(
+      data.defaultProps[id],
+      {
+        ...prop,
+        value,
+      },
+    );
+  } else {
+    // eslint-disable-next-line no-param-reassign
+    data.defaultProps[id] = {
+      ...prop,
+      key: '',
+      dataType: '',
+      dataValue: '',
+      value,
+    };
+  }
+};
+
+const adaptPropExampleValues = (
+  data: any, id: string, prop: ComponentPropertyValue, components: ComponentNode[],
+) => {
+  components.filter((_it, idx) => idx !== 0).forEach((comp: ComponentNode) => {
+    if (!data.examples[comp.name]) {
+      // eslint-disable-next-line no-param-reassign
+      data.examples[comp.name] = {
+        name: '',
+        propValues: {},
+      };
+    }
+    const exampleValue = comp.variantProperties?.find((example) => `VARIANT-${example.property}` === id)?.value || '';
+    if (data.examples[comp.name].propValues[id]) {
+      mergeDeep(
+        data.examples[comp.name].propValues[id],
+        {
+          ...prop,
+          exampleValue,
+        },
+      );
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      data.examples[comp.name].propValues[id] = {
+        ...prop,
+        key: '',
+        dataType: '',
+        dataValue: '',
+        exampleValue,
+      };
+    }
+  });
+};
+
+const adaptData = (componentSet: ComponentSetNode): object => {
+  let data: any = {};
+  const stringValue = componentSet.getPluginData(`${type}-${targetComponentSetName}`);
+  if (stringValue) {
+    data = JSON.parse(stringValue);
+  }
+
+  if (!data.props) {
+    data.props = {};
+  }
+  if (!data.defaultProps) {
+    data.defaultProps = {};
+  }
+  if (!data.examples) {
+    data.examples = {};
+  }
+  const pickProps: string[] = [];
+  componentSet.componentPropertyValues.forEach((prop) => {
+    const id = `${prop.type}-${prop.name}`;
+    pickProps.push(id);
+    adaptProps(data, id, prop);
+    /* @ts-ignore */
+    adaptPropDefaultValues(data, id, prop, componentSet.children);
+    /* @ts-ignore */
+    adaptPropExampleValues(data, id, prop, componentSet.children);
+  });
+  // clear prop removed
+  data.props = pick(data.props, pickProps);
+  data.defaultProps = pick(data.defaultProps, pickProps);
+  /* @ts-ignore */
+  componentSet.children.filter((_it, idx) => idx !== 0).forEach((comp: ComponentNode) => {
+    data.examples[comp.name].propValues = pick(data.examples[comp.name].propValues, pickProps);
+  });
+
+  console.log('adapted data: ', data);
   return {
-    id: {
+    intro: {
       category,
       name,
       version,
+      status: data.intro?.status || 'designing',
     },
-    ...retVal,
-    props,
+    ...data,
   };
 };
 
@@ -62,6 +159,7 @@ mg.on('selectionchange', (selections: string[]) => {
         ...data,
         type,
         stage: 'define',
+        example: node.children[0].name,
       },
     });
     return;
@@ -69,18 +167,30 @@ mg.on('selectionchange', (selections: string[]) => {
   if (node?.type === 'COMPONENT') {
     const { parent } = node;
     if (parent?.type === 'COMPONENT_SET' && parent?.name === targetComponentSetName) {
+      const data = adaptData(parent);
       mg.ui.show();
+      sendMsgToUI({
+        event: PluginEvent.LOAD,
+        data: {
+          ...data,
+          type,
+          stage: 'define',
+          example: node.name,
+        },
+      });
+      console.log(node.children)
       return;
     }
   }
   if (node?.type === 'INSTANCE') {
     const { parent } = node;
     if (parent?.type === 'COMPONENT' && parent.parent?.type === 'COMPONENT_SET') {
+      
       mg.ui.show();
       return;
     }
   }
-  mg.ui.hide(); // 其他节点选中, 隐藏UI
+  mg.ui.hide(); // 其他非关注节点选中, 隐藏UI避免影响用户操作
 });
 
 mg.ui.onmessage = (msg: { event: UIEvent, data: any }) => {
