@@ -16,7 +16,7 @@ export const I18NHighlight = (
     target: ReactElement,
     textPropName: string,
     textPropType: 'Node' | 'string',
-    pointerText: { key: string, str: string },
+    pointerText: { key: string, str: string, id: string },
     currentKey: string,
   },
 // eslint-disable-next-line consistent-return

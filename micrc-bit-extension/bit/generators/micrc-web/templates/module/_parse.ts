@@ -208,13 +208,13 @@ const reactImports = (meta: ModuleMeta): Record<string, ImportContent> => {
   const retVal: Record<string, ImportContent> = {
     react: {
       default: 'React',
-      types: [],
+      types: ['useState'],
     },
   };
   // 根据local state定义，确定是否导入useState
-  if (meta.localState && Object.keys(meta.localState).length > 0) {
-    retVal.react.types.push('useState');
-  }
+  // if (meta.localState && Object.keys(meta.localState).length > 0) {
+  //   retVal.react.types.push('useState');
+  // }
   // 根据entry, consume 的定义, 确定是否导入useEffect
   if ((meta.entry && meta.entry.mount && meta.entry.mount.actions.length > 0)
       || (Object.keys(meta.integration.consume).length > 0)) {

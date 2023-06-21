@@ -130,12 +130,14 @@ const generateModule = async (
   }
 
   try {
+    const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'meta', 'i18ns.json');
     if (metaData.remoteState.aggregations) {
       // 把服务端i18ns.json 放在模块/meta下的
       const i18nsPath = path.join(schemaLocation, 'aggregations', metaData.remoteState.aggregations, 'i18ns.json');
       const i18nsMetaData = JSON.parse(fs.readFileSync(i18nsPath, { encoding: 'utf8' }));
-      const metaPath = path.join(bitBasePath, scope, contextName, 'web', componentType, metaFile.replace('.json', ''), 'meta', 'i18ns.json');
       fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), { encoding: 'utf8' });
+    } else {
+      fs.writeFileSync(metaPath, JSON.stringify({}, null, 2), { encoding: 'utf8' });
     }
   } catch (e) {
     const msg = `component: ${componentPath} of type: modules - i18ns.json error: ${e}`;
