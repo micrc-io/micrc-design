@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * i18n 支撑组件
  */
@@ -25,10 +24,18 @@ export const I18NHighlight = (
     return null;
   }
   const mergeProps = { ...target.props };
-  const highlight = pointerText.key === currentKey;
+  const highlight = `${pointerText.id}/${pointerText.key}` === currentKey;
   if (textPropType === 'Node' && highlight) {
+    const targetPropName = {};
+    if (mergeProps[textPropName] && mergeProps[textPropName].props) {
+      Object.keys(mergeProps[textPropName].props).forEach((item) => {
+        if (item.startsWith('on') || item === 'className') {
+          targetPropName[item] = mergeProps[textPropName].props[item];
+        }
+      });
+    }
     // todo 优化节点类型的反馈方式
-    mergeProps[textPropName] = <span style={{ color: 'red', fontSize: '18px' }}>{pointerText.str}</span>;
+    mergeProps[textPropName] = <span {...targetPropName} style={{ color: 'red', fontSize: '18px' }}>{pointerText.str}</span>;
   }
   if (textPropType === 'string' && highlight) {
     // todo 优化字符串类型的反馈方式
@@ -44,11 +51,13 @@ export const I18NVisibleProxy = (
     visiblePropName = '',
     pointers = [],
     currentKey = '',
+    id = '',
   }: {
     target: ReactElement,
     visiblePropName: string,
     pointers: Array<string>,
     currentKey: string,
+    id: string
   },
 ) => {
   if (!target) {
@@ -56,6 +65,6 @@ export const I18NVisibleProxy = (
   }
   const mergeProps = { ...target.props };
   mergeProps[visiblePropName] = target.props[visiblePropName]
-  || pointers.includes(currentKey);
+    || pointers.map((it) => `${id}/${it}`).includes(currentKey);
   return React.cloneElement(target, mergeProps);
 };

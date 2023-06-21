@@ -57,10 +57,23 @@ const getValueByPointer = (
     return patcher(moduleStore.getState()).path(path);
   }
 
+  if (scope === StoreScope[StoreScope.router]) {
+    // return patcher(router).path(path);
+    if (path.includes('@')) {
+      const [prop, defaultValue] = path.split('@');
+      try {
+        return patcher(router).path(prop); // router[prop];
+      } catch (e) {
+        return defaultValue;
+      }
+    }
+    return patcher(router).path(path);
+  }
+
   if (scope === StoreScope[StoreScope.props]) {
     return patcher(propStore).path(path);
   }
-  throw Error('unexpected scope. "integrate, global, module, states, props" allowed');
+  throw Error('unexpected scope. "integrate, global, module, states, router, props" allowed');
 };
 
 const handleValue = (
@@ -83,6 +96,24 @@ const handleValue = (
     );
   }
   return value;
+};
+
+const handlePath = (
+  action: PatchOperation,
+  globalStore: any, moduleStore: any, stateStore: any, propStore: any,
+  inputs: any, inputPath: string,
+  path: string,
+  router: any = null,
+  id: string = '',
+  fix: any = null,
+) => {
+  // 没有输入参数，那么检查action中的value是否是个pointer. states@xxx:///xxx
+  if (typeof path === 'string' && path.includes('://')) {
+    return getValueByPointer(
+      path, globalStore, moduleStore, stateStore, propStore, router, id, fix,
+    );
+  }
+  return path;
 };
 
 // 判断window存在，并且是default和local环境 , 再次刷新页面
@@ -157,13 +188,18 @@ const handleIntegrate = (
 
 export const globalAction = (
   action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
-) => globalStore((state: any) => (inputs: any, inputPath: string) => {
+) => globalStore((state: any) => (inputs: any, inputPath: string, _path: string) => {
   const input = handleValue(
     action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
   );
+
+  const newPath = handlePath(
+    action, globalStore, moduleStore, null, null, inputs, inputPath, _path, router, id, fix,
+  );
+
   const newAction: PatchOperation = {
     ...action,
-    path,
+    path: _path ? newPath : path,
   };
   switch (action.op) {
     case PatchOperationType[PatchOperationType.add]:

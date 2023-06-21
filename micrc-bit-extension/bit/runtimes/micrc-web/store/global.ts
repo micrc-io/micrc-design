@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 /**
  * global store
  * i18n语言包，tracker埋点配置，token，integration

@@ -2,8 +2,6 @@
  * operation lib.
  * update state, invoke api, validate, integrate
  */
-import pick from 'lodash.pick';
-import omit from 'lodash.omit';
 import patcher from './json-patch';
 
 /**
@@ -59,13 +57,14 @@ export const validate = (state: any, input: any, patch: any) => {
     patch.path.replace('/', '/_validators/'),
   )(param);
   if (valid) {
+    _patcher.patches([{ op: 'replace', path: `${patch.path}/invalid/err`, value: {} }]);
     return;
   }
   // 是否指定验证的属性，如果指定，则仅修改指定属性的错误
   if (patch.value) {
     // note: 不清理错误对象，保留上次校验产生的其他属性的错误信息
     // 清除指定属性原校验结果，获取指定属性新校验结果，合并创建完整错误信息
-    errors = Object.assign(omit(errors, [patch.value]), pick(newErrors, [patch.value]));
+    patcher().apply(errors, [{ op: 'replace', path: patch.value, value: patcher(newErrors).path(patch.value) }]);
   } else {
     errors = newErrors;
   }

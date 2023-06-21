@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * i18n工具库和支持组件
  */
@@ -87,7 +85,7 @@ export const i18nHightLight = (obj: any) => {
     return retVal;
   }
   if (typeof target === 'string') {
-    const highlight = pointerText.key === currentKey;
+    const highlight = `${pointerText.id}/${pointerText.key}` === currentKey;
     return highlight ? `i18n:{ ${pointerText.str} }` : pointerText.str;
   }
 };
