@@ -6,11 +6,12 @@ import parser from '../_parser';
 
 export async function workspaceConfig(context: WorkspaceContext) {
   parser(context);
+  const defaultScope:any = context.defaultScope;
   const configParsed = await getWorkspaceConfigTemplateParsed();
   // 工作空间名称，default scope
   configParsed['teambit.workspace/workspace'].name = context.name;
   // 如果类型是components或者atoms,clientends，那么default scope应该必须是design
-  configParsed['teambit.workspace/workspace'].defaultScope = context.name.split('-')[2] === 'components' || context.name.split('-')[2] === 'atoms' || context.name.split('-')[2] === 'clientends' ? `${context.defaultScope.split('.')[0]}.design` : context.defaultScope;
+  configParsed['teambit.workspace/workspace'].defaultScope = context.name.split('-')[2] === 'components' || context.name.split('-')[2] === 'atoms' || context.name.split('-')[2] === 'clientends' ? `${defaultScope.split('.')[0]}.design` : defaultScope;
   // scope ui中展示的logo
   configParsed['teambit.workspace/workspace'].icon = 'https://bitsrc.imgix.net/eb3c4405de109d8186592f28c446b8bdd0814001.jpeg?fit=scale&w=91&h=85';
 
@@ -130,7 +131,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
 
   configParsed['teambit.workspace/variants'] = {
     '{**/web/**}': {
-      'micrc.bit/envs/micrc-web@1.0.3': {},
+      'micrc.bit/envs/micrc-web@1.0.6': {},
     },
     '{mini/**}': {
       'micrc.bit/envs/micrc-mini@0.0.2': {},

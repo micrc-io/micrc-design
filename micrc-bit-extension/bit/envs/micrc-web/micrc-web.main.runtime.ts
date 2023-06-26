@@ -82,8 +82,12 @@ export class MicrcWebMain {
        * Uncomment types to include version 17.0.3 of the types package
        */
       react.overrideDependencies({
+        peerDependencies: {
+          "react": ">= 18.2.0",
+          "react-dom": ">= 18.2.0"
+        },
         devDependencies: {
-          // '@types/react': '17.0.3'
+          '@types/react': '18.2.14'
         },
       }),
     ]);
