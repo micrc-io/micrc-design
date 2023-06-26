@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * i18n 支撑组件
  */
@@ -26,10 +27,10 @@ export const I18NHighlight = (
   const mergeProps = { ...target.props };
   const highlight = `${pointerText.id}/${pointerText.key}` === currentKey;
   if (textPropType === 'Node' && highlight) {
-    const targetPropName = {};
+    let targetPropName = {};
     if (mergeProps[textPropName] && mergeProps[textPropName].props) {
-      Object.keys(mergeProps[textPropName].props).forEach((item) => {
-        if (item.startsWith('on') || item === 'className') {
+      Object.keys(mergeProps[textPropName].props).forEach((item)=> {
+        if (item.startsWith('on') || item=== 'className') {
           targetPropName[item] = mergeProps[textPropName].props[item];
         }
       });
@@ -51,7 +52,7 @@ export const I18NVisibleProxy = (
     visiblePropName = '',
     pointers = [],
     currentKey = '',
-    id = '',
+    id = ''
   }: {
     target: ReactElement,
     visiblePropName: string,

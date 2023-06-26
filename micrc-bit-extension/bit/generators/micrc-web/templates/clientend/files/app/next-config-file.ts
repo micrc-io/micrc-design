@@ -21,7 +21,7 @@ const nextConfig = {
   experimental: {
     outputStandalone: true,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   poweredByHeader: false,
   webpack: (

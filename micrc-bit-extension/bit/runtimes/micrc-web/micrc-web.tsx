@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * micrc runtime: bind and action
  */
@@ -85,7 +86,7 @@ export const remoteStore = (
       }
       if (fullScope === StoreScope[StoreScope.i18n]) {
         return useGlobalStore(
-          (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath)),
+          (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath, fix)),
         );
       }
       // bind(`router:///pathname@${bind('module:///inve000010/result/data/0/key@""')}`

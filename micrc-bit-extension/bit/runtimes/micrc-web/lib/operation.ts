@@ -3,6 +3,7 @@
  * update state, invoke api, validate, integrate
  */
 import patcher from './json-patch';
+import mergeDeep from 'lodash.merge';
 
 /**
  * 更新状态

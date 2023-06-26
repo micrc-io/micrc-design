@@ -19,7 +19,7 @@ const tmpl = `{
   "dependencies": {
     "@mdx-js/loader": "2.1.2",
     "@mdx-js/react": "2.1.2",
-    "@micrc/bit.runtimes.micrc-web": "0.0.32",
+    "@micrc/bit.runtimes.micrc-web": "0.0.38",
     {{#each dependencies}}
     "{{@key}}": "{{this}}",
     {{/each}}
@@ -31,8 +31,8 @@ const tmpl = `{
     "next": "12.1.6",
     "next-compose-plugins": "2.2.1",
     "next-transpile-modules": "9.0.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-draggable": "4.4.5"
   },
   "devDependencies": {

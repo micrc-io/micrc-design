@@ -68,7 +68,7 @@ const generateComponent = async (metaData: any, componentPath: string, account: 
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.33', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.38', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -161,7 +161,7 @@ const generateModule = async (
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.33', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.38', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -221,7 +221,7 @@ const generateClientend = async (
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.33', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.38', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {

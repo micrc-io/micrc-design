@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * i18n工具库和支持组件
  */
@@ -8,12 +10,16 @@ import { useGlobalStore } from '../store/global';
 import patcher from '../lib/json-patch';
 
 // 处理i18n取值path
-export const keyPath = (state: any, router: any, id: string, bindingPath: string) => {
+export const keyPath = (state: any, router: any, id: string, bindingPath: string, fix:any) => {
   if (!router) {
     return `/i18n/languages/${state.i18n.locale}${bindingPath.replace('i18n://', '')}`;
   }
   // 客户端--i18n:///username.label
-  const pagePath = (router.pathname || '#').replace(/\//g, '~1');
+  let pagePath = '#';
+  if (!fix) {
+    pagePath = (router.pathname || '#').replace(/\//g, '~1');
+  }
+  // const pagePath = (router.pathname || '#').replace(/\//g, '~1');
   const modulePath = (id || '#').replace(/\//g, '~1');
   return `/i18n/languages/${state.i18n.locale}/${pagePath}/${modulePath}${bindingPath.replace('i18n://', '')}`;
 };
@@ -80,7 +86,7 @@ export const i18nHightLight = (obj: any) => {
     // eslint-disable-next-line array-callback-return
     retVal.forEach((item: any) => {
       // eslint-disable-next-line no-param-reassign
-      item[textPropName] = item.key === currentKey ? `i18n:{ ${item[textPropName]} }` : item[textPropName];
+      item[textPropName] = item.i18n === currentKey ? `i18n:{ ${item[textPropName]} }` : item[textPropName];
     });
     return retVal;
   }

@@ -193,13 +193,11 @@ export const globalAction = (
     action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
   );
 
-  const newPath = handlePath(
-    action, globalStore, moduleStore, null, null, inputs, inputPath, _path, router, id, fix,
-  );
+  const newPath = handlePath(action, globalStore, moduleStore, null, null, inputs, inputPath, _path, router, id, fix,);
 
   const newAction: PatchOperation = {
     ...action,
-    path: _path ? newPath : path,
+    path: _path? newPath : path ,
   };
   switch (action.op) {
     case PatchOperationType[PatchOperationType.add]:

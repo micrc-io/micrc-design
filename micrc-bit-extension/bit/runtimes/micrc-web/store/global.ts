@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /**
  * global store
  * i18n语言包，tracker埋点配置，token，integration
@@ -14,6 +15,7 @@ export const useGlobalStore = create(
       subject: {
         id: null,
         permissions: [],
+        username: '',
       },
       workbench: '',
       i18n: null,
@@ -88,6 +90,7 @@ export const initModuleGlobalStore = (
     subject: {
       id: null,
       permissions: permissions || [],
+      username: '',
     },
     workbench,
     i18n: {
