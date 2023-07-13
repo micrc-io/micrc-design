@@ -106,102 +106,106 @@ type ModuleDoc = {
 // 元数据定义
 type ModuleMeta = {
   intro: {
-    version: string,
-    state: string,
-    modelFilePath: string,
+    version: string;
+    state: string;
+    modelFilePath: string;
     context: {
-      ownerDomain: string,
-      contextName: string,
-      namespace: string,
-      clientend: string,
-    },
-  },
-  permissions: Record<string, Array<string>>,
-  i18n: Record<string, I18nPointerMeta>,
-  integration: IntegrationMeta,
-  comment: Array<string>,
-  doc: ModuleDoc,
+      ownerDomain: string;
+      contextName: string;
+      namespace: string;
+      clientend: string;
+    };
+  };
+  permissions: Record<string, Array<string>>;
+  i18n: Record<string, I18nPointerMeta>;
+  integration: IntegrationMeta;
+  comment: Array<string>;
+  doc: ModuleDoc;
   types?: {
-    definitions?: Record<string, TypeDefinition>,
-    imports?: Record<string, { default: boolean, packages: string }>
-  },
-  components: Record<string, { version: string, packages: string }>,
-  localState?: Record<string, any>,
+    definitions?: Record<string, TypeDefinition>;
+    imports?: Record<string, { default: boolean; packages: string }>;
+  };
+  components: Record<string, { version: string; packages: string }>;
+  localState?: Record<string, any>;
+  binds?: Record<string, any>;
   remoteState: {
-    aggregations: string,
-    operationIds: Array<string>,
+    aggregations: string;
+    operationIds: Array<string>;
     rpc: {
-      protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
-    },
+      protocols: Array<string>; // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
+    };
     ws: {
-      protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
-      url: string, // 监听url前缀
-      host: string, // 监听host
-    }
-  },
-  actions?: Record<string, { op: string, path: string, value: any }>,
+      protocols: Array<string>; // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
+      url: string; // 监听url前缀
+      host: string; // 监听host
+    };
+  };
+  actions?: Record<string, { op: string; path: string; value: any }>;
   entry: {
     mount: {
-      actions: Array<string>,
-    },
+      actions: Array<string>;
+    };
     unmount: {
-      actions: Array<string>,
-    },
-  }, // 组件入口, useEffect
-  images: Record<string, string>,
-  assembly: ModuleAssembly,
+      actions: Array<string>;
+    };
+  }; // 组件入口, useEffect
+  images: Record<string, string>;
+  assembly: ModuleAssembly;
 };
 
 export type ModuleContextData = {
-  intro: { // 自省信息
-    version: string, // 组件版本, 同时作为协议版本, 用于合并协议文件
-    state: string, // 组件状态(设计, 发布, 完成)
-    modelFilePath: string, // 聚合模型元数据文件路径(相对于上下文目录)
-    sourceDir: string, // 组件源代码目录
-    metaBasePath: string, // 元数据根目录, schema下的上下文目录
-    context:{
-      ownerDomain: string,
-      contextName: string,
-      namespace: string,
-      clientend: string,
-    },
-  },
-  permissions: Array<string>, // 模块权限组
-  i18n: Record<string, I18nPointerMeta>, // 国际化点位
-  integration: IntegrationDataContext, // 行为集成
-  typeDefinitions?: Record<string, TypeDefinition>, // 类型定义，以定义的类型名为key
-  context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息
-  comment: Array<string>, // 组件注释
-  doc: ModuleDoc,
-  props: Record<string, string>, // 模块props, 仅有router, integration两个固定prop
-  defaultProps: Record<string, any>, // props默认值
-  reactImports: Record<string, ImportContent>, // react库导入
-  typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
-  componentImports: Record<string, string>, // 组件导入，以导入名为key, 模块只能使用通用组件, 不必描述default导入
-  localState?: Record<string, any>, // 组件本地状态，以名称为key，初始值为值
-  remoteState?: { // 远程状态, 调用api
-    aggregations: string,
-    operationIds: Array<string>,
+  intro: {
+    // 自省信息
+    version: string; // 组件版本, 同时作为协议版本, 用于合并协议文件
+    state: string; // 组件状态(设计, 发布, 完成)
+    modelFilePath: string; // 聚合模型元数据文件路径(相对于上下文目录)
+    sourceDir: string; // 组件源代码目录
+    metaBasePath: string; // 元数据根目录, schema下的上下文目录
+    context: {
+      ownerDomain: string;
+      contextName: string;
+      namespace: string;
+      clientend: string;
+    };
+  };
+  permissions: Array<string>; // 模块权限组
+  i18n: Record<string, I18nPointerMeta>; // 国际化点位
+  integration: IntegrationDataContext; // 行为集成
+  typeDefinitions?: Record<string, TypeDefinition>; // 类型定义，以定义的类型名为key
+  context: ComponentContext; // 组件上下文，包括id，scope，namespace，name信息
+  comment: Array<string>; // 组件注释
+  doc: ModuleDoc;
+  props: Record<string, string>; // 模块props, 仅有router, integration两个固定prop
+  defaultProps: Record<string, any>; // props默认值
+  reactImports: Record<string, ImportContent>; // react库导入
+  typeImports?: Record<string, ImportContent>; // 类型导入，以导入包为key
+  componentImports: Record<string, string>; // 组件导入，以导入名为key, 模块只能使用通用组件, 不必描述default导入
+  localState?: Record<string, any>; // 组件本地状态，以名称为key，初始值为值
+  binds?: Record<string, any>; // 预先定义特殊的bind （如：在table columns的render函数中）, 受限于hooks规则
+  remoteState?: {
+    // 远程状态, 调用api
+    aggregations: string;
+    operationIds: Array<string>;
     rpc: {
-      protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
-    },
+      protocols: Array<string>; // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
+    };
     ws: {
-      protocols: Array<string>, // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
-      url: string, // 监听url前缀
-      host: string, // 监听host
-    }
-  }
-  actions?: Record<string, { op: string, path: string, value: any }>, // 预先定义所有的action, 受限于hooks规则
+      protocols: Array<string>; // 协议文件路径(相对于上下文目录), 用于查找并copy协议文件
+      url: string; // 监听url前缀
+      host: string; // 监听host
+    };
+  };
+  actions?: Record<string, { op: string; path: string; value: any }>; // 预先定义所有的action, 受限于hooks规则
   entry: {
     mount: {
-      actions: Array<string>,
-    },
+      actions: Array<string>;
+    };
     unmount: {
-      actions: Array<string>,
-    },
-  },
-  images: Array<{ name: string, filename: string, link: string }>, // 图片导入名, 文件名, 文件链接
-  assembly: ModuleAssembly, // 组件装配结构，以导入的组件名为key
+      actions: Array<string>;
+    };
+  };
+  images: Array<{ name: string; filename: string; link: string }>; // 图片导入名, 文件名, 文件链接
+  assembly: ModuleAssembly; // 组件装配结构，以导入的组件名为key
 };
 
 const reactImports = (meta: ModuleMeta): Record<string, ImportContent> => {
@@ -373,7 +377,10 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
   const data: ModuleContextData = {
     intro,
     context,
-    permissions: Object.values(meta.permissions || {}).reduce((pre, cur) => pre.concat(cur), []),
+    permissions: Object.values(meta.permissions || {}).reduce(
+      (pre, cur) => pre.concat(cur),
+      []
+    ),
     i18n: meta.i18n,
     comment: meta.comment,
     reactImports: reactImports(meta),
@@ -383,6 +390,7 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     typeImports: typeImports(meta),
     componentImports: componentImports(meta),
     localState: meta.localState || {},
+    binds: meta.binds || {},
     remoteState: meta.remoteState,
     actions: meta.actions || {},
     entry: meta.entry || {

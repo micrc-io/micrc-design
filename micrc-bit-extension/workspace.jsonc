@@ -44,6 +44,7 @@
         "handlebars": "4.7.7",
         "json-schema-deref-sync": "0.14.0",
         "lodash.clonedeep": "4.5.0",
+        "lodash.isequal": "^4.5.0",
         "lodash.merge": "4.6.2",
         "lodash.omit": "4.5.0",
         "lodash.pick": "4.4.0",

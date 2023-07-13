@@ -39,7 +39,10 @@ export const useGlobalStore = create(
   ),
 );
 const translateI18n = (
-  i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>>,
+  i18n: Record<
+  string,
+  Record<string, I18nPointer | Record<string, I18nPointer>>
+  >,
 ) => {
   const languages = {};
   Object.keys(i18n).forEach((pageUri) => {
@@ -68,7 +71,10 @@ export const initModuleGlobalStore = (
   locale: string,
   workbench: string,
   i18n: Record<string, I18nPointer>,
-  i18ns: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
+  i18ns: Record<
+  string,
+  Record<string, I18nPointer | Record<string, I18nPointer>>
+  > | null,
   tracker: any,
   integration: Record<string, IntegrationTopic>,
   currentKey?: string | '',
@@ -106,8 +112,14 @@ export const initModuleGlobalStore = (
 export const initGlobalStore = (
   locale: string | null,
   workbench: string,
-  i18n: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
-  i18ns: Record<string, Record<string, I18nPointer | Record<string, I18nPointer>>> | null,
+  i18n: Record<
+  string,
+  Record<string, I18nPointer | Record<string, I18nPointer>>
+  > | null,
+  i18ns: Record<
+  string,
+  Record<string, I18nPointer | Record<string, I18nPointer>>
+  > | null,
   tracker: any | null,
   integration: Record<string, IntegrationTopic> | null,
   currentKey?: string | '',

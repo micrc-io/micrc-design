@@ -68,7 +68,7 @@ const generateComponent = async (metaData: any, componentPath: string, account: 
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.38', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.40', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -161,7 +161,7 @@ const generateModule = async (
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.38', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.40', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -221,7 +221,7 @@ const generateClientend = async (
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.38', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.40', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -296,6 +296,7 @@ export const generate = async () => {
           metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model.json`;
         }
         if (metaData.remoteState.operationIds && metaData.remoteState.casesId) {
+          metaData.remoteState.rpc.protocols = [];
           metaData.remoteState.operationIds.map((item) => {
             metaData.remoteState.rpc.protocols.push(`./cases/${metaData.remoteState.casesId}/protocol/api/${item}.json`);
           });
@@ -317,7 +318,6 @@ export const generate = async () => {
       case TYPES.CLIENTENDS: {
         metaData.intro.context = {
           ownerDomain: contextMetaData.ownerDomain,
-          clientend: contextMetaData.clientend,
           global: contextMetaData.global,
           gateway: contextMetaData.gateway,
         };

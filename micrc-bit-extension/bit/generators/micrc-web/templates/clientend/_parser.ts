@@ -9,6 +9,8 @@ import { ComponentContext } from '@teambit/generator';
 type ClientendIntro = {
   version: string,
   state: string,
+  clientend: string,
+  domainName: string,
   loginPageUri: string,
   fix: any,
   favicon: string,
@@ -20,7 +22,6 @@ type ClientendIntro = {
   appId: string,
   context: {
     ownerDomain: string,
-    clientend: string,
     global: {
       integration: {
         proxyServerUrl: string,
@@ -107,11 +108,12 @@ type ClientendMeta = {
     state: string,
     loginPageUri: string,
     fix: any,
+    clientend: string,
+    domainName: string,
     favicon: string,
     languages: Array<{ code: string, name: string }>,
     context: {
       ownerDomain: string,
-      clientend: string,
       global: {
         integration: {
           proxyServerUrl: string,

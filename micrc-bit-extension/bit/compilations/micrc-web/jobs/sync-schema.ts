@@ -33,11 +33,60 @@ export const checkout = async () => {
   try {
     // 从服务器拉取最新内容
     await execCmd('git', ['fetch'], gitBasePath);
+    // 获取schema目录当前上下文/design文件夹
+    await execCmd(
+      'git',
+      [
+        'restore',
+        '--source',
+        `${repo}/${SCHEMA_BRANCH}`,
+        `schema/${contextName}/design`,
+      ],
+      gitBasePath,
+    );
+    // 获取schema目录当前上下文/system文件夹
+    await execCmd(
+      'git',
+      [
+        'restore',
+        '--source',
+        `${repo}/${SCHEMA_BRANCH}`,
+        'schema/system',
+      ],
+      gitBasePath,
+    );
     // 合并schema分支下, schema目录当前上下文/intro.json和aggregations目录下的最新内容到当前分支的
-    await execCmd('git', ['restore', '--source', `${repo}/${SCHEMA_BRANCH}`, `schema/${contextName}/intro.json`], gitBasePath);
-    await execCmd('git', ['restore', '--source', `${repo}/${SCHEMA_BRANCH}`, `schema/${contextName}/aggregations`], gitBasePath);
+    await execCmd(
+      'git',
+      [
+        'restore',
+        '--source',
+        `${repo}/${SCHEMA_BRANCH}`,
+        `schema/${contextName}/intro.json`,
+      ],
+      gitBasePath,
+    );
+    await execCmd(
+      'git',
+      [
+        'restore',
+        '--source',
+        `${repo}/${SCHEMA_BRANCH}`,
+        `schema/${contextName}/aggregations`,
+      ],
+      gitBasePath,
+    );
     // 拉取当前用例的协议文件
-    await execCmd('git', ['restore', '--source', `${repo}/${SCHEMA_BRANCH}`, `schema/${contextName}/cases/${branch}`], gitBasePath);
+    await execCmd(
+      'git',
+      [
+        'restore',
+        '--source',
+        `${repo}/${SCHEMA_BRANCH}`,
+        `schema/${contextName}/cases/${branch}`,
+      ],
+      gitBasePath,
+    );
     // 添加合并的文件
     await execCmd('git', ['add', `schema/${contextName}`], gitBasePath);
     log.info(chalk.green('schema merged successfully.'));

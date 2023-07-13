@@ -123,6 +123,11 @@ export function {{context.namePascalCase}}({ router , fix }: {{context.namePasca
   store.appendState({ {{@key}} })
   {{/each}}
 
+  {{!-- 定义binds, 受限于hooks规则,如（在table columns的render中） --}}
+  {{#each binds}}
+  const {{@key}} = bind({{{json this}}});
+  {{/each}}
+
   {{!-- 定义组件入口 --}}
   {{#if entry.mount.actions}}
   useEffect(() => {

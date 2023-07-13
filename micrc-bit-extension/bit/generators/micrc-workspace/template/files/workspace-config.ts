@@ -131,7 +131,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
 
   configParsed['teambit.workspace/variants'] = {
     '{**/web/**}': {
-      'micrc.bit/envs/micrc-web@1.0.6': {},
+      'micrc.bit/envs/micrc-web@1.0.7': {},
     },
     '{mini/**}': {
       'micrc.bit/envs/micrc-mini@0.0.2': {},

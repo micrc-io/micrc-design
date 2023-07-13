@@ -11,7 +11,7 @@ metadata:
   name: ${data.context.name}-gateway
 spec:
   hosts:
-  - "dev.${data.intro.context.gateway.fqdn}"
+  - "dev.${data.intro.domainName}.${data.intro.context.gateway.fqdn}"
   gateways:
   - ${data.intro.context.gateway.entry}
   http:

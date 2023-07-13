@@ -2,6 +2,7 @@
 /**
  * micrc runtime: bind and action
  */
+import isEqual from 'lodash.isequal';
 import { useGlobalStore } from './store/global';
 
 import patcher from './lib/json-patch';
@@ -54,7 +55,7 @@ export const remoteStore = (
       (curr, prev) => {
         listener(curr, prev);
       },
-      { fireImmediately: false },
+      { fireImmediately: false, equalityFn: isEqual },
     ),
     appendState: (stateObj : object) => {
       Object.keys(stateObj).forEach((it) => {
@@ -69,7 +70,7 @@ export const remoteStore = (
         throw Error('binding path must format of [global|module|states|i18n|integrate]://[json pointer]');
       }
       if (fullScope === StoreScope[StoreScope.global]) {
-        return useGlobalStore((state: any) => patcher(state).path(path));
+        return useGlobalStore((state: any) => patcher(state).path(path), isEqual);
       }
       if (fullScope === StoreScope[StoreScope.module]) {
         return module((state: any) => {
@@ -82,11 +83,21 @@ export const remoteStore = (
             }
           }
           return replaceKey(patcher(state).path(path));
-        });
+        }, isEqual);
       }
       if (fullScope === StoreScope[StoreScope.i18n]) {
         return useGlobalStore(
-          (state: any) => patcher(state).path(keyPath(state, router, id, bindingPath, fix)),
+          (state: any) => {
+            if (!patcher(state).path(keyPath(state, router, id, bindingPath, fix))) {
+              if (!patcher(state).path(keyPath(state, router, id, bindingPath, fix, 'en_US'))) {
+                // 取不到值，返回key
+                return bindingPath.replace('i18n:///', '');
+              }
+              return patcher(state).path(keyPath(state, router, id, bindingPath, fix, 'en_US'));
+            }
+            return patcher(state).path(keyPath(state, router, id, bindingPath, fix));
+          },
+          isEqual,
         );
       }
       // bind(`router:///pathname@${bind('module:///inve000010/result/data/0/key@""')}`
@@ -110,11 +121,12 @@ export const remoteStore = (
           } catch (e) {
             return null;
           }
-        });
+        }, isEqual);
       }
       if (fullScope === StoreScope[StoreScope.integrate]) {
         return useGlobalStore(
           (state: any) => patcher(state).path(integratePath(router, id, bindingPath, fix)),
+          isEqual,
         );
       }
       const [scope, subScope] = fullScope.split('@');
@@ -124,6 +136,7 @@ export const remoteStore = (
       if (scope === StoreScope[StoreScope.integrate]) {
         return useGlobalStore(
           (state: any) => patcher(state).path(integratePath(router, id, bindingPath, fix)),
+          isEqual,
         );
       }
       if (scope === StoreScope[StoreScope.states]) {

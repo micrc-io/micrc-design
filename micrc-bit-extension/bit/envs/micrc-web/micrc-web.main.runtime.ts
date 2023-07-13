@@ -87,7 +87,8 @@ export class MicrcWebMain {
           "react-dom": ">= 18.2.0"
         },
         devDependencies: {
-          '@types/react': '18.2.14'
+          '@types/react': '18.2.14',
+          "@types/react-dom": "18.2.6",
         },
       }),
     ]);

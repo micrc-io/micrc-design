@@ -15,6 +15,7 @@ import { storiesFile } from './files/stories-file';
 import { testFile } from './files/test-file';
 import { docsFile } from './files/docs-file';
 import { compositionFile } from './files/composition-file';
+import { cssFile } from './files/css-file';
 
 export const atomTemplate: ComponentTemplate = {
   name: 'micrc-web-atom',
@@ -61,6 +62,11 @@ export const atomTemplate: ComponentTemplate = {
       {
         relativePath: `${context.name}.docs.mdx`,
         content: docsFile(data),
+      },
+      // css file
+      {
+        relativePath: `${context.name}.module.scss`,
+        content: cssFile(data),
       },
     ];
   },

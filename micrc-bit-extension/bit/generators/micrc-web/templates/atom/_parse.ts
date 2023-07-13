@@ -35,51 +35,53 @@ type ComponentDoc = {
 // 元数据定义
 type AtomMeta = {
   intro: {
-    version: string,
-    state: string, // 组件状态
-  },
-  comment: Array<string>, // 注释
-  reactImports: Record<string, ImportContent>, // react库导入, 包括useState, useEffect等
-  typeImports?: Record<string, ImportContent>, // 类型导入, 按元数据规范生成, 不直接用代码
-  componentImports?: Record<string, ImportContent> // 组件/库导入, 只能导入已经支持的
-  typeDefinitions?: Record<string, TypeDefinition> // 类型定义
-  props: Record<string, string>, // props定义
-  defaultProps: Record<string, any>, // 组件默认props
+    version: string;
+    state: string; // 组件状态
+  };
+  comment: Array<string>; // 注释
+  reactImports: Record<string, ImportContent>; // react库导入, 包括useState, useEffect等
+  typeImports?: Record<string, ImportContent>; // 类型导入, 按元数据规范生成, 不直接用代码
+  componentImports?: Record<string, ImportContent>; // 组件/库导入, 只能导入已经支持的
+  typeDefinitions?: Record<string, TypeDefinition>; // 类型定义
+  props: Record<string, string>; // props定义
+  defaultProps: Record<string, any>; // 组件默认props
   stories: {
-    componentImports: Record<string, ImportContent>,
-    atomImports: Record<string, string>, // 原子组件导入, 以导入名为key, 包名为值
-    examples: Record<string, { desc: string, props: Record<string, any> }>,
-  },
-  doc: ComponentDoc, // 组件文档
-  localState?: Record<string, any>, // 状态定义
-  assembly: { assemblies: Array<Assembly> }, // 装配逻辑
-  outerLogic?: string, // 组件外的逻辑代码, 可以使用yaml多行文本转json得到
-  innerLogic?: string, // 组件内的逻辑代码
+    componentImports: Record<string, ImportContent>;
+    atomImports: Record<string, string>; // 原子组件导入, 以导入名为key, 包名为值
+    examples: Record<string, { desc: string; props: Record<string, any> }>;
+  };
+  doc: ComponentDoc; // 组件文档
+  css?: string;
+  localState?: Record<string, any>; // 状态定义
+  assembly: { assemblies: Array<Assembly> }; // 装配逻辑
+  outerLogic?: string; // 组件外的逻辑代码, 可以使用yaml多行文本转json得到
+  innerLogic?: string; // 组件内的逻辑代码
 };
 
 export type AtomContextData = {
   intro: {
-    version: string,
-    state: string,
-    metaBasePath: string,
-  },
-  context: ComponentContext, // 组件上下文，包括id，scope，namespace，name信息
-  comment: Array<string>, // 组件注释
-  reactImports: Record<string, ImportContent>, // react库导入
-  typeImports?: Record<string, ImportContent>, // 类型导入，以导入包为key
-  componentImports?: Record<string, ImportContent>, // 组件导入，以导入包为key
-  typeDefinitions?: Record<string, TypeDefinition>, // 类型定义, 直接使用代码
-  props: Record<string, string>, // 组件props定义, 直接使用代码
-  defaultProps: Record<string, any>, // 组件默认props
+    version: string;
+    state: string;
+    metaBasePath: string;
+  };
+  context: ComponentContext; // 组件上下文，包括id，scope，namespace，name信息
+  comment: Array<string>; // 组件注释
+  reactImports: Record<string, ImportContent>; // react库导入
+  typeImports?: Record<string, ImportContent>; // 类型导入，以导入包为key
+  componentImports?: Record<string, ImportContent>; // 组件导入，以导入包为key
+  typeDefinitions?: Record<string, TypeDefinition>; // 类型定义, 直接使用代码
+  props: Record<string, string>; // 组件props定义, 直接使用代码
+  defaultProps: Record<string, any>; // 组件默认props
   stories: {
-    componentImports: Record<string, ImportContent>,
-    examples: Record<string, { desc: string, props: Record<string, any> }>,
-  },
-  doc: ComponentDoc, // 组件文档
-  localState?: Record<string, any>, // 组件内部state, 直接使用代码
-  assembly: { assemblies: Array<Assembly> }, // 装配逻辑
-  outerLogic?: string, // 组件外的逻辑代码, 可以使用yaml多行文本转json得到
-  innerLogic?: string, // 组件内的逻辑代码
+    componentImports: Record<string, ImportContent>;
+    examples: Record<string, { desc: string; props: Record<string, any> }>;
+  };
+  doc: ComponentDoc; // 组件文档
+  css: string; // 组件样式表
+  localState?: Record<string, any>; // 组件内部state, 直接使用代码
+  assembly: { assemblies: Array<Assembly> }; // 装配逻辑
+  outerLogic?: string; // 组件外的逻辑代码, 可以使用yaml多行文本转json得到
+  innerLogic?: string; // 组件内的逻辑代码
 };
 
 export const parse = (meta: AtomMeta, context: ComponentContext): AtomContextData => {
@@ -97,6 +99,7 @@ export const parse = (meta: AtomMeta, context: ComponentContext): AtomContextDat
     defaultProps: meta.defaultProps,
     stories: meta.stories,
     doc: meta.doc,
+    css: meta.css || '',
     componentImports: meta.componentImports,
     localState: meta.localState,
     assembly: meta.assembly,

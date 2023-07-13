@@ -1,7 +1,7 @@
 /**
  * Authorized组件, 用于模块鉴权
  */
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 import { Result } from 'antd';
 
@@ -22,8 +22,15 @@ const UnAuthorized = () => (
 );
 
 export const Authorized = ({ permissions, children, display }: AuthorizedProps) => {
-  const authorized = hasPermission(permissions);
-  const instead = display ? <UnAuthorized /> : null;
+  const [authorized, setAuthorized] = useState(false);
+  const [mount, setMount] = useState(false);
+
+  useEffect(() => {
+    setAuthorized(hasPermission(permissions));
+    setMount(true);
+  }, []);
+
+  const instead = display && mount ? <UnAuthorized /> : null;
   return authorized ? <>{children}</> : instead;
 };
 

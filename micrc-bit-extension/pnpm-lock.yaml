@@ -56,6 +56,7 @@ importers:
       handlebars: 4.7.7
       json-schema-deref-sync: 0.14.0
       lodash.clonedeep: 4.5.0
+      lodash.isequal: ^4.5.0
       lodash.merge: 4.6.2
       lodash.omit: 4.5.0
       lodash.pick: 4.4.0
@@ -135,6 +136,7 @@ importers:
       handlebars: registry.npmmirror.com/handlebars/4.7.7
       json-schema-deref-sync: registry.npmmirror.com/json-schema-deref-sync/0.14.0
       lodash.clonedeep: registry.npmmirror.com/lodash.clonedeep/4.5.0
+      lodash.isequal: registry.npmmirror.com/lodash.isequal/4.5.0
       lodash.merge: registry.npmmirror.com/lodash.merge/4.6.2
       lodash.omit: registry.npmmirror.com/lodash.omit/4.5.0
       lodash.pick: registry.npmmirror.com/lodash.pick/4.4.0
@@ -15759,6 +15761,12 @@ packages:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz}
     name: lodash.debounce
     version: 4.0.8
+    dev: false
+
+  registry.npmmirror.com/lodash.isequal/4.5.0:
+    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz}
+    name: lodash.isequal
+    version: 4.5.0
     dev: false
 
   registry.npmmirror.com/lodash.merge/4.6.2:

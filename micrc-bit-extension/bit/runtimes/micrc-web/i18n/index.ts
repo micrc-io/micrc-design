@@ -10,9 +10,9 @@ import { useGlobalStore } from '../store/global';
 import patcher from '../lib/json-patch';
 
 // 处理i18n取值path
-export const keyPath = (state: any, router: any, id: string, bindingPath: string, fix:any) => {
+export const keyPath = (state: any, router: any, id: string, bindingPath: string, fix:any, defaultType?: string ) => {
   if (!router) {
-    return `/i18n/languages/${state.i18n.locale}${bindingPath.replace('i18n://', '')}`;
+    return `/i18n/languages/${defaultType || state.i18n.locale}${bindingPath.replace('i18n://', '')}`;
   }
   // 客户端--i18n:///username.label
   let pagePath = '#';
@@ -21,7 +21,7 @@ export const keyPath = (state: any, router: any, id: string, bindingPath: string
   }
   // const pagePath = (router.pathname || '#').replace(/\//g, '~1');
   const modulePath = (id || '#').replace(/\//g, '~1');
-  return `/i18n/languages/${state.i18n.locale}/${pagePath}/${modulePath}${bindingPath.replace('i18n://', '')}`;
+  return `/i18n/languages/${defaultType || state.i18n.locale}/${pagePath}/${modulePath}${bindingPath.replace('i18n://', '')}`;
 };
 
 // 处理远程状态中有i18n点位

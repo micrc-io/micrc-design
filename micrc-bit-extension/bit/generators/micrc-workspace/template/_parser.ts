@@ -3,7 +3,7 @@
  */
 import { WorkspaceContext } from '@teambit/generator';
 
-const TYPES = ['atoms', 'components', 'modules', 'clientends'];
+const TYPES = ['atoms', 'components', 'modules', 'clientends', 'extension'];
 
 export default (context: WorkspaceContext) => {
   const { name, defaultScope } = context;

@@ -39,10 +39,7 @@ const permissions: Record<string, Array<string>> = permission;
 
 const env = process.env.NEXT_PUBLIC_APP_ENV || process.env.APP_ENV;
 let locale = 'en_US';
-if (env && (env === 'default' || env === 'local')) {
-  locale = 'zh_CN'; // todo 获取开发机系统语言
-}
-initGlobalStore(locale, '{{intro.context.clientend}}', i18n, i18ns, tracker, integration);
+initGlobalStore(locale, '{{intro.clientend}}', i18n, i18ns, tracker, integration);
 
 const layouts: Record<string, {uris: Array<string>; layout: (props: any) => ReactNode }> = {
   {{#each entry.layouts}}
