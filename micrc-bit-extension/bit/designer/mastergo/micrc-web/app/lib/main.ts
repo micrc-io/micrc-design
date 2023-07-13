@@ -8,14 +8,14 @@ import pick from 'lodash.pick';
 mg.showUI(
   __html__,
   {
-    visible: false,
+    visible: true,
     width: 240,
     height: mg.viewport.bound.height,
   },
 );
 
 mg.ui.moveTo(
-  mg.ui.viewport.x - mg.viewport.bound.width + 240 + 12,
+  mg.ui.viewport.x - (mg.viewport.bound.width * mg.viewport.zoom) + 240 + 12,
   mg.ui.viewport.y - 12,
 );
 
