@@ -40,5 +40,13 @@ a {
   border-inline-end: none;
 }
 
+.select .ant-skeleton-paragraph{
+  margin: 0;
+}
+.select .ant-skeleton-paragraph li{
+  width: 150px !important;
+  height: 36px !important;
+}
+
 `;
 }
