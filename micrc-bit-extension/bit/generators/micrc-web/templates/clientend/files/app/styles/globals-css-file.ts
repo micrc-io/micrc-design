@@ -47,6 +47,9 @@ a {
   width: 150px !important;
   height: 36px !important;
 }
+.ant-menu-item-group-title{
+  text-align: left;
+}
 
 `;
 }

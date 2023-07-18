@@ -379,7 +379,7 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     context,
     permissions: Object.values(meta.permissions || {}).reduce(
       (pre, cur) => pre.concat(cur),
-      []
+      [],
     ),
     i18n: meta.i18n,
     comment: meta.comment,
