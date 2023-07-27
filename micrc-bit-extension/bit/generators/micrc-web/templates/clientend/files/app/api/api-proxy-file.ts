@@ -33,14 +33,15 @@ const proxy = createProxyMiddleware({
     if (!req.headers['x-host']) return NO_HOST_400; // 如果没有x-host头指定服务端地址, 则转发到400报错
     const hostSuffix = '.svc.cluster.local';
     const [namespace, ownerDomain, context] = req.headers['x-host'].split('.');
-    return \`http://\${context}-service.\${namespace}-\${ownerDomain}-\${process.env.APP_ENV}\${hostSuffix} \`;
+    return \`http://\${context}-service.\${namespace}-\${ownerDomain}-\${process.env.APP_ENV}\${hostSuffix}\`;
   },
   onProxyReq: (proxyReq: ClientRequest, req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const authToken = cookies.get(TOKEN_COOKIE_KEY);
     req.headers.cookie = '';
     if (authToken) {
-      req.headers.Authorization = \`Bearer \${authToken}\`
+      proxyReq.setHeader('Authorization', authToken);
+      // req.headers.Authorization = \`Bearer \${authToken}\`
     }
   },
   onProxyRes: (proxyRes: IncomingMessage, req: Request, res: Response) => {

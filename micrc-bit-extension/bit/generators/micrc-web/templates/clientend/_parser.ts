@@ -7,43 +7,48 @@ import fs from 'fs';
 import { ComponentContext } from '@teambit/generator';
 
 type ClientendIntro = {
-  version: string,
-  state: string,
-  clientend: string,
-  domainName: string,
-  loginPageUri: string,
-  fix: any,
-  favicon: string,
-  metaBasePath: string,
-  relativePath: string,
-  sourceDir: string,
-  account: string,
-  accountPackageReg: string,
-  appId: string,
+  version: string;
+  state: string;
+  clientend: {
+    client: {
+      distributor: string;
+      operator: string;
+    };
+  };
+  domainName: string;
+  loginPageUri: string;
+  fix: any;
+  favicon: string;
+  metaBasePath: string;
+  relativePath: string;
+  sourceDir: string;
+  account: string;
+  accountPackageReg: string;
+  appId: string;
   context: {
-    ownerDomain: string,
+    ownerDomain: string;
     global: {
       integration: {
-        proxyServerUrl: string,
-        registry: string,
-        gitopsRepo: string,
-      },
+        proxyServerUrl: string;
+        registry: string;
+        gitopsRepo: string;
+      };
       production: {
-        proxyServerUrl: string,
-        registry: string,
-        gitopsRepo: string,
-      },
-    },
+        proxyServerUrl: string;
+        registry: string;
+        gitopsRepo: string;
+      };
+    };
     gateway: {
-      entry: string,
-      fqdn: string,
-      rule: {},
+      entry: string;
+      fqdn: string;
+      rule: {};
       properties: {
-        loginUrl: string,
-        serverTokenPointer: string
-      },
-    }
-  },
+        loginUrl: string;
+        serverTokenPointer: string;
+      };
+    };
+  };
 };
 
 type Assembly = {
@@ -108,7 +113,12 @@ type ClientendMeta = {
     state: string,
     loginPageUri: string,
     fix: any,
-    clientend: string,
+    clientend: {
+      client:{
+        distributor:string,
+        operator:string
+      }
+    },
     domainName: string,
     favicon: string,
     languages: Array<{ code: string, name: string }>,

@@ -68,7 +68,7 @@ const generateComponent = async (metaData: any, componentPath: string, account: 
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.44', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.47', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -161,7 +161,18 @@ const generateModule = async (
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.44', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.47', '--peer'], bitBasePath,
+    );
+    await execCmd(
+      'bit',
+      [
+        'deps',
+        'set',
+        `${account}.${scope}/${componentPath}`,
+        'json-bigint',
+        '--peer',
+      ],
+      bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -221,7 +232,7 @@ const generateClientend = async (
 
   try {
     await execCmd(
-      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.44', '--peer'], bitBasePath,
+      'bit', ['deps', 'set', `${account}.${scope}/${componentPath}`, '@micrc/bit.runtimes.micrc-web@>= 0.0.47', '--peer'], bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -292,6 +303,7 @@ export const generate = async () => {
           namespace: contextMetaData.namespace,
           clientend: contextMetaData.clientend,
         };
+        metaData.intro.modelFilePath = '';
         if (metaData.remoteState.aggregations) {
           metaData.intro.modelFilePath = `./aggregations/${metaData.remoteState.aggregations}/model.json`;
         }

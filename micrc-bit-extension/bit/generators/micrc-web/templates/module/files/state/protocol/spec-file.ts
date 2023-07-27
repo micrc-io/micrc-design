@@ -69,6 +69,13 @@ const ajv = new Ajv({
 });
 ajvFormats(ajv);
 ajvErrors(ajv);
+ajv.addKeyword({
+  keyword: 'datatype',
+  validate: (schema, data) => {
+    return schema == 'bigint' && schema !== null ? true : false;
+  },
+  errors: false,
+});
 
 const validator = (ajvValidate: ValidateFunction) => (
   data: any,
@@ -113,6 +120,20 @@ const validator = (ajvValidate: ValidateFunction) => (
   return [valid, errObj, ajvValidate];
 };
 
+const recursion= (data)=> {
+  if (typeof data === 'object') {
+    Object.keys(data).forEach((key) => {
+      if (data[key].type === 'integer' && data[key].format === "int64"){
+        (data[key]['datatype'] = 'bigint');
+        delete data[key].type;
+        delete data[key].format;
+      }
+      recursion(data[key]);
+    });
+  }
+  return data;
+}
+
 const mergeResult = merge([
   {
     oas: common as any,
@@ -146,12 +167,12 @@ Object.keys(spec.paths).forEach((path: string) => {
     const requestMediaType = Object.keys(requestContent)[0];
     const request: MediaTypeObject = requestContent[requestMediaType];
     const requestValidator = ajv.compile(
-      mergeDeep(omitDeep(request.schema, 'x-validators'), request['x-validator'] || {}),
+      recursion(mergeDeep(omitDeep(request.schema, 'x-validators'),request['x-validator'] || {})),
     );
     const responseMediaType = Object.keys(responseContent)[0];
     const response: MediaTypeObject = responseContent[responseMediaType];
     const responseValidator = ajv.compile(
-      mergeDeep(omitDeep(response.schema, 'x-validators'), response['x-validator'] || {}),
+      recursion(mergeDeep(omitDeep(response.schema, 'x-validators'), response['x-validator'] || {})),
     );
     impl[operation.operationId] = {
       host: spec.servers[0]['x-host'],
