@@ -65,6 +65,12 @@ import {{this.default}} from '{{@key}}';
 {{/if}}
 {{/each}}
 
+{{!-- 导入内部组件（将三方组件包一层i18n） --}}
+{{#each insideComponentsImports}}
+{{!-- import type { {{@key}}Props } from '{{this}}'; 暂不需要 --}}
+import { {{@key}} } from '{{{this}}}';
+{{/each}}
+
 {{!-- 导入atom组件 --}}
 {{#each atomImports}}
 {{!-- import type { {{@key}}Props } from '{{this}}'; 暂不需要 --}}
@@ -152,15 +158,12 @@ export function componentFile(data: ComponentContextData) {
   HandleBars.registerHelper('assembler', (context) => assembler(context));
   HandleBars.registerHelper('json', (context) => jsonObject(context));
 
-  return prettier.format(
-    HandleBars.compile(tmpl)(data),
-    {
-      parser: 'typescript',
-      semi: true,
-      singleQuote: true,
-      bracketSameLine: false,
-      singleAttributePerLine: true,
-      trailingComma: 'all',
-    },
-  );
+  return prettier.format(HandleBars.compile(tmpl)(data), {
+    parser: 'typescript',
+    semi: true,
+    singleQuote: true,
+    bracketSameLine: false,
+    singleAttributePerLine: true,
+    trailingComma: 'all',
+  });
 }

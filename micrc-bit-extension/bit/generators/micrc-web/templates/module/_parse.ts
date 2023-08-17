@@ -56,14 +56,16 @@ type Producer = {
 
 // 行为集成的绑定方/消费方
 type Consumer = {
-  pageUri: string, // 页面uri
-  moduleId: string, // 模块id
-  schema: string, // 一段带表达式的json对象字符串, 用于动态映射, 如: let obj; eval('obj = schema')
-  state: object, // 由schema映射转换产生的数据, 用于消费方绑定
-  listener: { // 集成发生的时候，消费方要执行的函数
-    name: string, // 函数名
-    actions: Array<string>
-  }
+  pageUri: string; // 页面uri
+  moduleId: string; // 模块id
+  schema: string; // 一段带表达式的json对象字符串, 用于动态映射, 如: let obj; eval('obj = schema')
+  state: object; // 由schema映射转换产生的数据, 用于消费方绑定
+  listener: {
+    // 集成发生的时候，消费方要执行的函数
+    name: string; // 函数名
+    actions: Array<string>;
+  };
+  isRouter: boolean; // 集成发生 是否为路由跳转页面，另一种是通过windows打开页面
 };
 
 // 行为集成主题, 所有行为集成基于全局唯一的topic, 可以有一个生产方和一到多个消费方

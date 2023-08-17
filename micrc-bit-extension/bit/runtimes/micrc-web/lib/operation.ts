@@ -13,7 +13,7 @@ import mergeDeep from 'lodash.merge';
  * @param patch json patch对象/数组
  */
 export const update = (state: any, input: any, patch: any) => {
-  if (input || input === '') {
+  if (input || input === '' || input === 0) {
     // eslint-disable-next-line no-param-reassign
     (patch[0] || patch).value = input;
   }

@@ -11,10 +11,11 @@ type Producer = {
 
 // 行为集成的绑定方/消费方
 type Consumer = {
-  pageUri: string, // 页面uri
-  moduleId: string, // 模块id
-  schema: string, // 一段带表达式的json对象字符串, 用于动态映射, 如: let obj; eval('obj = schema')
-  state: object, // 由schema映射转换产生的数据, 用于消费方绑定
+  pageUri: string; // 页面uri
+  moduleId: string; // 模块id
+  schema: string; // 一段带表达式的json对象字符串, 用于动态映射, 如: let obj; eval('obj = schema')
+  state: object; // 由schema映射转换产生的数据, 用于消费方绑定
+  isRouter: boolean; // 集成发生 是否为路由跳转页面，另一种是通过windows打开页面
 };
 
 export type IntegrationTopic = {

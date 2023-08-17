@@ -21,6 +21,9 @@ export const useGlobalStore = create(
       i18n: null,
       tracker: null,
       integration: null,
+      integratedTag: {
+        isInit: true,
+      },
       currentKey: '',
       error: {
         config: {
@@ -124,23 +127,24 @@ export const initGlobalStore = (
   integration: Record<string, IntegrationTopic> | null,
   currentKey?: string | '',
 ) => {
-  // const state: any = useGlobalStore.getState();
+  const state: any = useGlobalStore.getState();
   const languages = translateI18n(i18n);
   mergeDeep(languages, translateI18n(i18ns));
   useGlobalStore.setState({
     i18n: {
-      locale: locale || 'en_US',
+      locale:
+        state && state.i18n && state.i18n.locale ? state.i18n.locale : locale,
       languages,
     },
   });
-
   useGlobalStore.setState({
     tracker,
   });
-
-  useGlobalStore.setState({
-    integration,
-  });
+  if (state && state.integratedTag && state.integratedTag.isInit) {
+    useGlobalStore.setState({
+      integration,
+    });
+  }
 
   useGlobalStore.setState({
     currentKey,

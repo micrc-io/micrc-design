@@ -83,12 +83,12 @@ export class MicrcWebMain {
        */
       react.overrideDependencies({
         peerDependencies: {
-          "react": ">= 18.2.0",
-          "react-dom": ">= 18.2.0"
+          react: '>= 18.2.0',
+          'react-dom': '>= 18.2.0',
         },
         devDependencies: {
           '@types/react': '18.2.14',
-          "@types/react-dom": "18.2.6",
+          '@types/react-dom': '18.2.6',
         },
       }),
     ]);

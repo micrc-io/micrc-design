@@ -91,9 +91,22 @@ const handleValue = (
   }
   // 没有输入参数，那么检查action中的value是否是个pointer. states@xxx:///xxx
   if (typeof value === 'string' && value.includes('://')) {
-    return getValueByPointer(
+    const newValue = getValueByPointer(
       value, globalStore, moduleStore, stateStore, propStore, router, id, fix,
     );
+    if (typeof newValue === 'string' && newValue.includes('://')) {
+      return getValueByPointer(
+        newValue,
+        globalStore,
+        moduleStore,
+        stateStore,
+        propStore,
+        router,
+        id,
+        fix
+      );
+    }
+    return newValue;
   }
   return value;
 };
@@ -144,6 +157,11 @@ const handleRoute = (router: any, uri: any) => {
 const handleIntegrate = (
   _ctx: any, state: any, topicName: string, router: any, id: string, fix: any,
 ) => {
+  update(state, null, {
+    op: 'replace',
+    path: '/integratedTag/isInit',
+    value: true,
+  });
   let pageUri = '#';
   if (!fix) {
     pageUri = (router?.pathname || '#');
@@ -180,8 +198,18 @@ const handleIntegrate = (
   if (Object.keys(topic.consumers).length === 1) {
     const consumer: any = Object.values(topic.consumers)[0];
     if (consumer.pageUri !== pageUri) {
-      router?.push(consumer.pageUri);
-      refreshPage();
+      // 不用初始化 integrate
+      update(state, null, {
+        op: 'replace',
+        path: '/integratedTag/isInit',
+        value: false,
+      });
+      // 是否为路由跳转，另一种情况是打开windows窗口
+      if (consumer.isRouter) {
+        router?.push(consumer.pageUri);
+        refreshPage();
+      }
+
     }
   }
 };
@@ -219,72 +247,128 @@ export const globalAction = (
 });
 
 export const moduleAction = (
-  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
-) => moduleStore((state: any) => async (inputs: any, inputPath: string) => {
-  const input = handleValue(
-    action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
-  );
-  const newAction: PatchOperation = {
-    ...action,
-    path,
-  };
-  switch (action.op) {
-    case PatchOperationType[PatchOperationType.perform]:
-      try {
-        await invoke(state, newAction);
-      } catch (e) {
-        // token 过期  403
-        if (e.code === '403') {
-          notification.warning({
-            message: e.message,
-          });
-          // 清除 subject/id
-          globalStore.setState({
-            subject: {
-              id: null,
-            },
-          });
-        } else {
-          const { config, message, description } = globalStore.getState().error;
-          if (!config.custom) {
-            notification.error({
-              message: 'Oops! System Error. ',
-              description: '',
-            });
-          } else {
-            globalStore.setState({
-              error: {
-                message,
-                description,
-              },
-            });
+  action: PatchOperation,
+  path: string,
+  globalStore: any,
+  moduleStore: any,
+  router: any = null,
+  id: string = '',
+  fix: any = null,
+  stateStore:any
+) =>
+  moduleStore(
+    (state: any) => async (inputs: any, inputPath: string, _path: string) => {
+      const input = handleValue(
+        action,
+        globalStore,
+        moduleStore,
+        stateStore,
+        null,
+        inputs,
+        inputPath,
+        router,
+        id,
+        fix
+      );
+      const newPath = handlePath(
+        action,
+        globalStore,
+        moduleStore,
+        stateStore,
+        null,
+        inputs,
+        inputPath,
+        _path,
+        router,
+        id,
+        fix
+      );
+      const newAction: PatchOperation = {
+        ...action,
+        path: _path ? newPath : path,
+      };
+      switch (action.op) {
+        case PatchOperationType[PatchOperationType.perform]:
+          try {
+            await invoke(state, newAction);
+          } catch (e) {
+            // token 过期  403
+            if (e.code === '403') {
+              notification.warning({
+                message: e.message,
+              });
+              // 清除 subject/id
+              globalStore.setState({
+                subject: {
+                  id: null,
+                  permissions: [],
+                },
+              });
+            } else {
+              const { config, message, description } =
+                globalStore.getState().error;
+              if (!config.custom) {
+                notification.error({
+                  message: 'Oops! System Error. ',
+                  description: '',
+                });
+              } else {
+                globalStore.setState({
+                  error: {
+                    message,
+                    description,
+                  },
+                });
+              }
+            }
           }
-        }
+          break;
+        case PatchOperationType[PatchOperationType.verify]:
+          validate(state, input, newAction);
+          break;
+        case PatchOperationType[PatchOperationType.add]:
+        case PatchOperationType[PatchOperationType.replace]:
+        case PatchOperationType[PatchOperationType.remove]:
+          update(state, input, newAction);
+          break;
+        default:
+          throw Error(
+            'un-excepted operation for store of module. "add, replace, remove, perform, verify" allowed'
+          );
       }
-      break;
-    case PatchOperationType[PatchOperationType.verify]:
-      validate(state, input, newAction);
-      break;
-    case PatchOperationType[PatchOperationType.add]:
-    case PatchOperationType[PatchOperationType.replace]:
-    case PatchOperationType[PatchOperationType.remove]:
-      update(state, input, newAction);
-      break;
-    default:
-      throw Error('un-excepted operation for store of module. "add, replace, remove, perform, verify" allowed');
-  }
-});
+    }
+  );
 
 export const statesAction = (
-  action: PatchOperation, path: string,
-  states: Record<string, any>, stateName: string, stateStore: any,
-  inputs: any, inputPath: string,
+  action: PatchOperation,
+  path: string,
+  states: Record<string, any>,
+  stateName: string,
+  stateStore: any,
+  inputs: any,
+  inputPath: string,
+  globalStore:  any,
+  moduleStore:  any,
+  router: any = null,
+  id: string = '',
+  fix: any = null
 ) => {
   if (!Object.keys(states).includes(stateName)) {
     throw Error('un-excepted state named: "subScope"');
   }
   const [state, setState] = states[stateName];
-  const value = handleValue(action, null, null, stateStore, null, inputs, inputPath);
+  const value = handleValue(
+    action,
+    globalStore,
+    moduleStore,
+    stateStore,
+    null,
+    inputs,
+    inputPath,
+    router,
+    id,
+    fix
+  );
   const newAction: PatchOperation = {
     ...action,
     path,
@@ -297,7 +381,9 @@ export const statesAction = (
       setState(patcher().apply(state, [newAction]));
       break;
     default:
-      throw Error('un-excepted operation for store of states. "add, replace, remove" allowed');
+      throw Error(
+        'un-excepted operation for store of states. "add, replace, remove" allowed'
+      );
   }
 };
 

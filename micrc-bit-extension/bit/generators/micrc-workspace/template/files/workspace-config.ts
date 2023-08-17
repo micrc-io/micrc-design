@@ -6,7 +6,7 @@ import parser from '../_parser';
 
 export async function workspaceConfig(context: WorkspaceContext) {
   parser(context);
-  const defaultScope:any = context.defaultScope;
+  const { defaultScope } = context;
   const configParsed = await getWorkspaceConfigTemplateParsed();
   // 工作空间名称，default scope
   configParsed['teambit.workspace/workspace'].name = context.name;

@@ -38,6 +38,7 @@ export const apis = (get, set) => {
     const proto = protocols[it];
     _apis[it] = () => new Promise((resolve, reject) => {
       loadingState(it, true);
+      patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: {} }]);
       const param = getValueByPointer(get(), \`/\${it}/param\`);
       const [isParamValid, paramValidError] = proto.invalid.validate(param);
       if (!isParamValid) {

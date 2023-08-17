@@ -10,7 +10,7 @@ import { useGlobalStore } from '../store/global';
 import patcher from '../lib/json-patch';
 
 // 处理i18n取值path
-export const keyPath = (state: any, router: any, id: string, bindingPath: string, fix:any, defaultType?: string ) => {
+export const keyPath = (state: any, router: any, id: string, bindingPath: string, fix:any, defaultType?: string) => {
   if (!router) {
     return `/i18n/languages/${defaultType || state.i18n.locale}${bindingPath.replace('i18n://', '')}`;
   }
@@ -34,7 +34,16 @@ export const replaceKey = (obj: any) => {
       const keys = obj.replace('i18n:///', '').split(':');
       if (keys.length === 3) {
         const [aggregation, model, key] = keys;
-        return patchers.path(`/i18n/languages/${state.i18n.locale}/${aggregation}/${model}/${key}`);
+        // 如果当前语种内容不存在，先获取英文内容，若英文不存在，显示点位信息。
+        if (!patchers.path(`/i18n/languages/${state.i18n.locale}/${aggregation}/${model}/${key}`)) {
+          if (!patchers.path(`/i18n/languages/en_US/${aggregation}/${model}/${key}`)) {
+            return obj.replace('i18n:///', '');
+          }
+          return patchers.path(`/i18n/languages/en_US/${aggregation}/${model}/${key}`);
+        }
+        return patchers.path(
+          `/i18n/languages/${state.i18n.locale}/${aggregation}/${model}/${key}`,
+        );
       }
     }
     return obj;
@@ -86,7 +95,7 @@ export const i18nHightLight = (obj: any) => {
     // eslint-disable-next-line array-callback-return
     retVal.forEach((item: any) => {
       // eslint-disable-next-line no-param-reassign
-      item[textPropName] = item.i18n === currentKey ? `i18n:{ ${item[textPropName]} }` : item[textPropName];
+      item[textPropName] = (item.i18n || item.key) === currentKey ? `i18n:{ ${item[textPropName]} }` : item[textPropName];
     });
     return retVal;
   }

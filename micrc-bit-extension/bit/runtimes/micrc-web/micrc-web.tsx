@@ -37,14 +37,15 @@ export const remoteStore = (
     stateStore[it] = states[it][0];
   });
   const execStatesAction = (
-    action: PatchOperation, path: string, fullScope: string, inputs: any, inputPath: any,
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    action: PatchOperation, path: string, fullScope: string, inputs: any, inputPath: any, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
   ) => {
     if (!fullScope.includes('@')) {
       throw Error('states scope must format of "states@stateName"');
     }
     const [scope, subScope] = fullScope.split('@');
     if (scope === StoreScope[StoreScope.states]) {
-      statesAction(action, path, states, subScope, stateStore, inputs, inputPath);
+      statesAction(action, path, states, subScope, stateStore, inputs, inputPath, globalStore, moduleStore, router, id, fix);
     } else {
       throw Error('un-excepted scope. "global, module, states" allowed');
     }
@@ -158,10 +159,10 @@ export const remoteStore = (
         return globalAction(action, path, useGlobalStore, module, router, id);
       }
       if (fullScope === StoreScope[StoreScope.module]) {
-        return moduleAction(action, path, useGlobalStore, module, router, id, fix);
+        return moduleAction(action, path, useGlobalStore, module, router, id, fix, stateStore);
       }
       return (inputs: object, inputPath: string) =>
-        execStatesAction(action, path, fullScope, inputs, inputPath);
+        execStatesAction(action, path, fullScope, inputs, inputPath, useGlobalStore, module, router, id, fix);
     },
   };
 };
@@ -189,6 +190,11 @@ export const localStore = (stores: LocalStore) => {
         stateName, stateStore,
         inputs,
         inputPath,
+        null,
+        null,
+        null,
+        '',
+        null,
       );
     } else {
       throw Error('un-excepted scope. "props, states" allowed');

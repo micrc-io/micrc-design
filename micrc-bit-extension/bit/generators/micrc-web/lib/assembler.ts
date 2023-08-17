@@ -34,6 +34,35 @@ const actionsPropTmpl = `
 }
 `;
 
+const valActionsPropTmpl = `
+(
+  {{#each params}}
+  {{{this}}}: any,
+  {{/each}}
+) => {
+  const actions = async () => {
+    {{#each actions}}
+    await {{{this.action}}}(
+      {{#if this.expr}}
+      {{{ json this.expr }}},
+      {{else}}
+      {
+        {{#each ../params}}
+        {{{this}}},
+        {{/each}}
+      },
+      {{/if}}
+      '{{{this.inputPath}}}',
+      {{#if this.path}}
+      '{{{this.path}}}'
+      {{/if}}
+    );
+    {{/each}}
+  };
+  actions()
+}
+`;
+
 const actionsTmpl = `
 const {{{name}}} = async () => {
   {{#each actions}}
@@ -145,26 +174,41 @@ const handleSpecObj = (obj: any): string => {
   if (obj === null) {
     return 'null';
   }
+  if (obj.params && obj.actions) {
+    return HandleBars.compile(valActionsPropTmpl)(obj);
+  }
   // 判断图片类型
   if (checkImgObj(obj)) {
     return obj.imageName;
   }
-  if (checkCompObj(obj)) { // 组件对象
+  if (checkCompObj(obj)) {
+    // 组件对象
     return assembler(obj.assemblies);
   }
-  if (checkFuncCompObj(obj)) { // 函数组件对象 (param) => <组件 {...param} />
-    return `(${obj.params.join(', ')}) => (<${obj.layout} ${propsAssembler(obj.props)} />)`;
+  if (checkFuncCompObj(obj)) {
+    // 函数组件对象 (param) => <组件 {...param} />
+    return `(${obj.params.join(', ')}) => (<${obj.layout} ${propsAssembler(
+      obj.props,
+    )} />)`;
   }
-  if (checkFuncAssemblyObj(obj)) { // 函数组件对象 (param) => <组件 {...param} />
-    return `(${obj.params.join(', ')}) => ${assembler(obj.assembly.assemblies)}`;
+  if (checkFuncAssemblyObj(obj)) {
+    // 函数组件对象 (param) => <组件 {...param} />
+    return `(${obj.params.join(', ')}) => ${assembler(
+      obj.assembly.assemblies,
+    )}`;
   }
 
   if (checkFuncActionsObj(obj)) {
     return HandleBars.compile(actionsTmpl)(obj);
   }
-  if (checkFuncDebugObj(obj)) { // 函数对象, 用于调试函数 (param) => console.log(`params: ${param}`);
-    const log = obj.params.map((it: string) => `\`${it}: \${${it}}\``).join(', ');
-    const alert = obj.params.map((it: string) => `\`${it}: \${JSON.stringify(${it})}\``).join(', ');
+  if (checkFuncDebugObj(obj)) {
+    // 函数对象, 用于调试函数 (param) => console.log(`params: ${param}`);
+    const log = obj.params
+      .map((it: string) => `\`${it}: \${${it}}\``)
+      .join(', ');
+    const alert = obj.params
+      .map((it: string) => `\`${it}: \${JSON.stringify(${it})}\``)
+      .join(', ');
     if (obj.alert) {
       return `(${obj.params.join(', ')}) => alert(${alert})`;
     }
@@ -204,7 +248,9 @@ export const jsonObject = (obj: any): string => {
     if (result) {
       return result;
     }
+
     let retVal = '{';
+
     Object.keys(obj).forEach((it) => {
       retVal += `${it}: `;
       retVal += jsonObject(obj[it]);

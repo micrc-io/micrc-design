@@ -29,14 +29,14 @@ export const I18NHighlight = (
   if (textPropType === 'Node' && highlight) {
     const targetPropName = {};
     if (mergeProps[textPropName] && mergeProps[textPropName].props) {
-      Object.keys(mergeProps[textPropName].props).forEach((item:any) => {
+      Object.keys(mergeProps[textPropName].props).forEach((item) => {
         if (item.startsWith('on') || item === 'className') {
           targetPropName[item] = mergeProps[textPropName].props[item];
         }
       });
     }
     // todo 优化节点类型的反馈方式
-    mergeProps[textPropName] = <span {...targetPropName} style={{ color: 'red', fontSize: '18px' }}>{pointerText.str}</span>;
+    mergeProps[textPropName] = <span key={currentKey} {...targetPropName} style={{ color: 'red', fontSize: '18px' }}>{pointerText.str}</span>;
   }
   if (textPropType === 'string' && highlight) {
     // todo 优化字符串类型的反馈方式

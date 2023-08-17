@@ -5,8 +5,8 @@ import type { ClientendContextData } from '../../../../_parser';
 
 export function valuesFile(data: ClientendContextData) {
   return `
-loginUrl: "/api/security/security/authc"
-serverTokenPointer: "/auth_token"
+loginUrl: "${data.intro.context.gateway.properties.loginUrl}"
+serverTokenPointer: "${data.intro.context.gateway.properties.serverTokenPointer}"
 
 replicaCount: 1
 

@@ -51,5 +51,15 @@ a {
   text-align: left;
 }
 
+.ant-modal-root .ant-modal-wrap {
+  top: 40px;
+}
+.ant-modal-root .\\/security\\/authc{
+  top: 0px;
+}
+.authc-generic-layout_language__HFYHa{
+  z-index: 9999999;
+}
+
 `;
 }
