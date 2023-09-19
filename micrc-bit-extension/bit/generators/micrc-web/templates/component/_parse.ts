@@ -265,7 +265,7 @@ export const parse = (
     props: meta.props,
     defaultProps: meta.defaultProps,
     componentImports: typeOrComponentImports(meta, 'components'),
-    insideComponentsImports: insideComponentsImports(meta.insideComponents),
+    insideComponentsImports: insideComponentsImports(meta.insideComponents || {}),
     atomImports: atomsImports(meta.atoms),
     localState: meta.localState || {},
     css: meta.css || '',

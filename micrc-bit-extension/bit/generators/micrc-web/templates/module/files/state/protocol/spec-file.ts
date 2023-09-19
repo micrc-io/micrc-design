@@ -41,7 +41,9 @@ declare type Invalid = {
 
 declare type Error = {
   validate: (any: any) => [boolean, object, ValidateFunction];
-  err: object
+  err: object,
+  result: boolean,
+  abnormal: boolean,
 };
 
 declare type ProtocolImpl = {
@@ -72,7 +74,7 @@ ajvErrors(ajv);
 ajv.addKeyword({
   keyword: 'datatype',
   validate: (schema, data) => {
-    return schema == 'bigint' && schema !== null ? true : false;
+    return schema == 'bigint' && (typeof data === 'bigint'  || data === -1)? true : false;
   },
   errors: false,
 });
@@ -140,11 +142,11 @@ const mergeResult = merge([
   },
   {{#each remoteState.rpc.protocols}}
   {
-    oas: {{{protocolName this}}},
+    oas: omitDeep({{{protocolName this }}}, 'x-model-type', 'x-data-type', 'x-one-many', 'x-many-one', 'x-query-rules', 'x-metadata', 'x-aggreguration') ,
   },
   {{/each}}
   {
-    oas: omitDeep(schema, 'x-model-type'),
+    oas: omitDeep(schema, 'x-model-type', 'x-data-type', 'x-one-many', 'x-many-one', 'x-query-rules', 'x-metadata', 'x-aggreguration'),
   },
 ]);
 
@@ -189,6 +191,8 @@ Object.keys(spec.paths).forEach((path: string) => {
       error: {
         validate: validator(responseValidator),
         err: {},
+        result: false,
+        abnormal: false
       },
     };
     mock.push({

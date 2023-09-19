@@ -136,6 +136,7 @@ export function {{context.namePascalCase}}({ router , fix }: {{context.namePasca
     {{#if entry.unmount.actions}}
     return () => {
       {{{json entry.unmount}}}
+      {{{entry.unmount.name}}}()
     };
     {{/if}}
   }, []);

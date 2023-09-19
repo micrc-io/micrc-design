@@ -61,10 +61,14 @@ export const apis = (get, set) => {
         if (isResultValid) {
           if (res.data.code === '200') {
             patches([{ op: 'replace', path: \`/\${it}/result\`, value: res.data }]);
+            patches([{ op: 'replace', path: \`/\${it}/error/result\`, value: true }]);
+            patches([{ op: 'replace', path: \`/\${it}/error/abnormal\`, value: false }]);
           } else if (res.data.code === '403'){
             reject(res.data);
           } else {
             patches([{ op: 'replace', path: \`/\${it}/error/err\`, value: res.data.message }]);
+            patches([{ op: 'replace', path: \`/\${it}/error/result\`, value: false }]);
+            patches([{ op: 'replace', path: \`/\${it}/error/abnormal\`, value: true }]);
           }
           loadingState(it, false);
           resolve(res);

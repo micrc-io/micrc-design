@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable array-callback-return */
 /**
  * 生成组件
@@ -100,7 +101,7 @@ const generateComponent = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.54',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.62',
         '--peer',
       ],
       bitBasePath,
@@ -271,7 +272,7 @@ const generateModule = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.54',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.62',
         '--peer',
       ],
       bitBasePath,
@@ -386,7 +387,7 @@ const generateClientend = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.54',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.62',
         '--peer',
       ],
       bitBasePath,
@@ -470,7 +471,7 @@ export const generate = async () => {
         );
         break;
       case TYPES.COMPONENTS:
-        // eslint-disable-next-line no-await-in-loop
+        if (!metaData.insideComponents) metaData.insideComponents = {};
         await generateComponent(
           metaData,
           `${contextName}/web/components/${metaFile.replace('.json', '')}`,

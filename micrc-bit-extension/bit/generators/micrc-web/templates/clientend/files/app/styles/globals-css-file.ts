@@ -60,6 +60,32 @@ a {
 .authc-generic-layout_language__HFYHa{
   z-index: 9999999;
 }
+.ant-badge .ant-typography{
+  margin: 0;
+}
+.ant-tabs-tab-active .ant-typography {
+  color: #1677ff;
+}
+.ant-tabs-nav-list .ant-typography{
+  margin: 0;
+}
+.ant-layout-sider .ant-tabs-content-holder{
+  display: none;
+}
+.ant-layout-sider .ant-tabs-nav-list{
+  width: 150px;
+}
+.ant-layout-sider .ant-tabs-nav-list .ant-tabs-tab {
+  padding: 10px;
+}
+.ant-layout-sider .ant-tabs-left .ant-tabs-nav-wrap{
+  white-space: normal;
+}
+.ant-tabs-left .ant-tabs-tab-btn {
+  width: 150px;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
 
 `;
 }

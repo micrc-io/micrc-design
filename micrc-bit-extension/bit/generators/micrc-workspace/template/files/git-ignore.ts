@@ -1,9 +1,9 @@
 // git .gitignore
 export function gitIgnore() {
   return `# Bit
-.bit
 !/.bit/scope.json
 /public/bit
+.bit
 
 # Logs
 logs

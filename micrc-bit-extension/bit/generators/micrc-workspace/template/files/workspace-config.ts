@@ -6,7 +6,7 @@ import parser from '../_parser';
 
 export async function workspaceConfig(context: WorkspaceContext) {
   parser(context);
-  const { defaultScope } = context;
+  const { defaultScope = '' } = context;
   const configParsed = await getWorkspaceConfigTemplateParsed();
   // 工作空间名称，default scope
   configParsed['teambit.workspace/workspace'].name = context.name;
@@ -73,7 +73,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
         'lodash.omit': '4.5.0',
         'lodash.pick': '4.4.0',
         loglevel: '1.8.1',
-        msw: '1.1.0',
+        msw: '1.3.1',
         'omit-deep-lodash': '1.1.7',
         'openapi-client-axios': '7.1.3',
         'openapi-merge': '1.3.2',
@@ -117,6 +117,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
         react: '18.2.0',
         'react-dom': '18.2.0',
         'react-native': '0.71.3',
+        'json-bigint': '1.0.0',
       },
     },
     packageManagerArgs: [],
@@ -131,7 +132,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
 
   configParsed['teambit.workspace/variants'] = {
     '{**/web/**}': {
-      'micrc.bit/envs/micrc-web@1.0.7': {},
+      'micrc.bit/envs/micrc-web@1.0.9': {},
     },
     '{mini/**}': {
       'micrc.bit/envs/micrc-mini@0.0.2': {},

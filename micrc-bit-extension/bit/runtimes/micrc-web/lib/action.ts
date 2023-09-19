@@ -225,7 +225,7 @@ export const globalAction = (
 
   const newAction: PatchOperation = {
     ...action,
-    path: _path? newPath : path ,
+    path: _path ? newPath : path,
   };
   switch (action.op) {
     case PatchOperationType[PatchOperationType.add]:

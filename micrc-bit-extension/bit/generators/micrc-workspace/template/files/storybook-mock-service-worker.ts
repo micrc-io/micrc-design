@@ -4,7 +4,7 @@ export function storybookMockServiceWorker() {
 /* tslint:disable */
 
 /**
- * Mock Service Worker (1.1.0).
+ * Mock Service Worker (1.3.1).
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  * - Please do NOT serve this file on production.
