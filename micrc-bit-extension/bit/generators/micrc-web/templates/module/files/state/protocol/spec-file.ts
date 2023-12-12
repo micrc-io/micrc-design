@@ -74,7 +74,13 @@ ajvErrors(ajv);
 ajv.addKeyword({
   keyword: 'datatype',
   validate: (schema, data) => {
-    return schema == 'bigint' && (typeof data === 'bigint'  || data === -1)? true : false;
+    return schema == 'bigint' &&
+      (typeof data === 'bigint' ||
+        data === -1 ||
+        data.toString().length === 13 ||
+        data.toString().length === 10)
+      ? true
+      : false;
   },
   errors: false,
 });
@@ -146,7 +152,7 @@ const mergeResult = merge([
   },
   {{/each}}
   {
-    oas: omitDeep(schema, 'x-model-type', 'x-data-type', 'x-one-many', 'x-many-one', 'x-query-rules', 'x-metadata', 'x-aggreguration'),
+    oas: omitDeep(schema, 'enum', 'x-model-type', 'x-data-type', 'x-one-many', 'x-many-one', 'x-query-rules', 'x-metadata', 'x-aggreguration'),
   },
 ]);
 

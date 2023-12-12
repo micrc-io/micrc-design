@@ -1,10 +1,25 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /**
+ * 全局替换JSON.parse，JSON.stringify ，以防止精度丢失问题
+ */
+import JSONBigIntConfig from 'json-bigint';
+const JSONBigInt = JSONBigIntConfig({
+  strict: true,
+  useNativeBigInt: true,
+});
+
+JSON.parse = JSONBigInt.parse;
+JSON.stringify = JSONBigInt.stringify;
+/**
  * global store
  * i18n语言包，tracker埋点配置，token，integration
  */
 import { create } from 'zustand';
-import { subscribeWithSelector, persist } from 'zustand/middleware';
+import {
+  subscribeWithSelector,
+  persist,
+  createJSONStorage,
+} from 'zustand/middleware';
 import mergeDeep from 'lodash.merge';
 
 import type { I18nPointer, IntegrationTopic } from './index';
@@ -38,14 +53,15 @@ export const useGlobalStore = create(
     })),
     {
       name: 'micrc-storage',
-    },
-  ),
+      storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+    }
+  )
 );
 const translateI18n = (
   i18n: Record<
-  string,
-  Record<string, I18nPointer | Record<string, I18nPointer>>
-  >,
+    string,
+    Record<string, I18nPointer | Record<string, I18nPointer>>
+  >
 ) => {
   const languages = {};
   Object.keys(i18n).forEach((pageUri) => {
@@ -75,12 +91,12 @@ export const initModuleGlobalStore = (
   workbench: string,
   i18n: Record<string, I18nPointer>,
   i18ns: Record<
-  string,
-  Record<string, I18nPointer | Record<string, I18nPointer>>
+    string,
+    Record<string, I18nPointer | Record<string, I18nPointer>>
   > | null,
   tracker: any,
   integration: Record<string, IntegrationTopic>,
-  currentKey?: string | '',
+  currentKey?: string | ''
 ) => {
   const languages = {};
   // 客户端模块点位
@@ -116,30 +132,35 @@ export const initGlobalStore = (
   locale: string | null,
   workbench: string,
   i18n: Record<
-  string,
-  Record<string, I18nPointer | Record<string, I18nPointer>>
+    string,
+    Record<string, I18nPointer | Record<string, I18nPointer>>
   > | null,
   i18ns: Record<
-  string,
-  Record<string, I18nPointer | Record<string, I18nPointer>>
+    string,
+    Record<string, I18nPointer | Record<string, I18nPointer>>
   > | null,
   tracker: any | null,
   integration: Record<string, IntegrationTopic> | null,
-  currentKey?: string | '',
+  currentKey?: string | ''
 ) => {
   const state: any = useGlobalStore.getState();
   const languages = translateI18n(i18n);
   mergeDeep(languages, translateI18n(i18ns));
-  useGlobalStore.setState({
-    i18n: {
-      locale:
-        state && state.i18n && state.i18n.locale ? state.i18n.locale : locale,
-      languages,
-    },
-  });
+
+  if (state && state.integratedTag && state.integratedTag.isInit) {
+    useGlobalStore.setState({
+      i18n: {
+        locale:
+          state && state.i18n && state.i18n.locale ? state.i18n.locale : locale,
+        languages,
+      },
+    });
+  }
+
   useGlobalStore.setState({
     tracker,
   });
+
   if (state && state.integratedTag && state.integratedTag.isInit) {
     useGlobalStore.setState({
       integration,

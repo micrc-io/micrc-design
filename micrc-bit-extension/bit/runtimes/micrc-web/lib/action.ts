@@ -9,7 +9,14 @@ import { integratePath } from '../store';
 import { invoke, update, validate } from './operation';
 
 export enum StoreScope {
-  global, module, states, props, i18n, integrate, invalid, router,
+  global,
+  module,
+  states,
+  props,
+  i18n,
+  integrate,
+  invalid,
+  router,
 }
 
 export enum PatchOperationType {
@@ -22,9 +29,9 @@ export enum PatchOperationType {
 }
 
 export type PatchOperation = {
-  op: string,
-  path: string,
-  value?: any,
+  op: string;
+  path: string;
+  value?: any;
 };
 
 const getValueByPointer = (
@@ -35,16 +42,19 @@ const getValueByPointer = (
   propStore: any,
   router: any = null,
   id: string = '',
-  fix: any = null,
+  fix: any = null
 ) => {
   const [scope, path] = pointer.split('://'); // scope:integrate@switchPage
   if (!scope || !path) {
     throw Error('value is path must format of [scope]://[json pointer]');
   }
-  if (scope.includes('@')) { // bind('integrate@switchPage:///url')
+  if (scope.includes('@')) {
+    // bind('integrate@switchPage:///url')
     const [fullScope, fullPath] = scope.split('@');
     if (fullScope === StoreScope[StoreScope.integrate]) {
-      return patcher(globalStore.getState()).path(integratePath(router, id, pointer, fix));
+      return patcher(globalStore.getState()).path(
+        integratePath(router, id, pointer, fix)
+      );
     }
     if (fullScope === StoreScope[StoreScope.states]) {
       return patcher(stateStore).path(`/${fullPath}${path}`);
@@ -73,57 +83,196 @@ const getValueByPointer = (
   if (scope === StoreScope[StoreScope.props]) {
     return patcher(propStore).path(path);
   }
-  throw Error('unexpected scope. "integrate, global, module, states, router, props" allowed');
+  throw Error(
+    'unexpected scope. "integrate, global, module, states, router, props" allowed'
+  );
 };
 
 const handleValue = (
   action: PatchOperation,
-  globalStore: any, moduleStore: any, stateStore: any, propStore: any,
-  inputs: any, inputPath: string,
+  globalStore: any,
+  moduleStore: any,
+  stateStore: any,
+  propStore: any,
+  inputs: any,
+  inputPath: string,
   router: any = null,
   id: string = '',
-  fix: any = null,
+  fix: any = null
 ) => {
   const { value } = action;
   // 存在输入参数，优先取值
   if (inputPath) {
     return patcher(inputs).path(inputPath);
   }
-  // 没有输入参数，那么检查action中的value是否是个pointer. states@xxx:///xxx
-  if (typeof value === 'string' && value.includes('://')) {
-    const newValue = getValueByPointer(
-      value, globalStore, moduleStore, stateStore, propStore, router, id, fix,
-    );
-    if (typeof newValue === 'string' && newValue.includes('://')) {
-      return getValueByPointer(
-        newValue,
-        globalStore,
-        moduleStore,
-        stateStore,
-        propStore,
-        router,
-        id,
-        fix
-      );
+  // 如果value是一个对象，并且对象中的值包含是个pointer. states@xxx:///xxx
+  if (typeof value === 'object') {
+    for (let key in value) {
+      if (
+        typeof value[key] === 'string' &&
+        value[key].includes('://') &&
+        !value[key].startsWith('i18n')
+      ) {
+        if (!value[key].includes('@@')) {
+          value[key] = getValueByPointer(
+            value[key],
+            globalStore,
+            moduleStore,
+            stateStore,
+            propStore,
+            router,
+            id,
+            fix
+          );
+        } else {
+          let [pointer, defaultValue] = value[key].split('@@');
+          value[key] = getValueByPointer(
+            pointer,
+            globalStore,
+            moduleStore,
+            stateStore,
+            propStore,
+            router,
+            id,
+            fix
+          );
+          try {
+            if (!value[key]) {
+              value[key] = getValueByPointer(
+                defaultValue,
+                globalStore,
+                moduleStore,
+                stateStore,
+                propStore,
+                router,
+                id,
+                fix
+              );
+            } else {
+              value[key] = getValueByPointer(
+                pointer,
+                globalStore,
+                moduleStore,
+                stateStore,
+                propStore,
+                router,
+                id,
+                fix
+              );
+            }
+          } catch (e) {
+            value[key] = getValueByPointer(
+              defaultValue,
+              globalStore,
+              moduleStore,
+              stateStore,
+              propStore,
+              router,
+              id,
+              fix
+            );
+          }
+        }
+      }
     }
-    return newValue;
+    return value;
+  }
+  if (
+    typeof value === 'string' &&
+    value.includes('://') &&
+    !value.startsWith('i18n')
+  ) {
+    // value: integrate@channelPreview:///storeId@@module:///inve000052/result/data/0/key
+    // 判断# 是否存在默认值，先去拿通过path取值，取不到用默认值
+    // 有默认值，先取默认值，try 尝试取值，取不到
+    if (value.includes('@@')) {
+      const [pointer, defaultValue] = value.split('@@');
+      try {
+        if (
+          !getValueByPointer(
+            pointer,
+            globalStore,
+            moduleStore,
+            stateStore,
+            propStore,
+            router,
+            id,
+            fix
+          )
+        ){
+          return getValueByPointer(
+            defaultValue,
+            globalStore,
+            moduleStore,
+            stateStore,
+            propStore,
+            router,
+            id,
+            fix
+          );
+        }
+          return getValueByPointer(
+            pointer,
+            globalStore,
+            moduleStore,
+            stateStore,
+            propStore,
+            router,
+            id,
+            fix
+          );
+      } catch (e) {
+        return getValueByPointer(
+          defaultValue,
+          globalStore,
+          moduleStore,
+          stateStore,
+          propStore,
+          router,
+          id,
+          fix
+        );
+      }
+    }
+
+    return getValueByPointer(
+      value,
+      globalStore,
+      moduleStore,
+      stateStore,
+      propStore,
+      router,
+      id,
+      fix
+    );
   }
   return value;
 };
 
 const handlePath = (
   action: PatchOperation,
-  globalStore: any, moduleStore: any, stateStore: any, propStore: any,
-  inputs: any, inputPath: string,
+  globalStore: any,
+  moduleStore: any,
+  stateStore: any,
+  propStore: any,
+  inputs: any,
+  inputPath: string,
   path: string,
   router: any = null,
   id: string = '',
-  fix: any = null,
+  fix: any = null
 ) => {
   // 没有输入参数，那么检查action中的value是否是个pointer. states@xxx:///xxx
   if (typeof path === 'string' && path.includes('://')) {
     return getValueByPointer(
-      path, globalStore, moduleStore, stateStore, propStore, router, id, fix,
+      path,
+      globalStore,
+      moduleStore,
+      stateStore,
+      propStore,
+      router,
+      id,
+      fix
     );
   }
   return path;
@@ -155,7 +304,12 @@ const handleRoute = (router: any, uri: any) => {
 };
 
 const handleIntegrate = (
-  _ctx: any, state: any, topicName: string, router: any, id: string, fix: any,
+  _ctx: any,
+  state: any,
+  topicName: string,
+  router: any,
+  id: string,
+  fix: any
 ) => {
   update(state, null, {
     op: 'replace',
@@ -164,9 +318,10 @@ const handleIntegrate = (
   });
   let pageUri = '#';
   if (!fix) {
-    pageUri = (router?.pathname || '#');
+    pageUri = router?.pathname || '#';
   }
-  if (!id) { // 模块独立启动, 集成模拟器的使用
+  if (!id) {
+    // 模块独立启动, 集成模拟器的使用
     const arr = topicName.split(':');
     // eslint-disable-next-line no-param-reassign, prefer-destructuring
     topicName = arr[0];
@@ -181,17 +336,26 @@ const handleIntegrate = (
   }
   // 校验生产方信息
   if (topic.producer.pageUri !== pageUri || topic.producer.moduleId !== id) {
-    throw Error(`Illegal producer: ${JSON.stringify({ pageUri, moduleId: id })}`);
+    throw Error(
+      `Illegal producer: ${JSON.stringify({ pageUri, moduleId: id })}`
+    );
   }
   // 更新消费方状态
   Object.keys(topic.consumers).forEach((consumerId) => {
     const consumer = topic.consumers[consumerId];
     // eslint-disable-next-line @typescript-eslint/no-implied-eval
     const consumerState = new Function(`return ${consumer.schema}`).call(_ctx);
+    //添时间戳，使每次集成的都可以触发
+    let randomNumberObj: any = { timestamp: new Date().getTime() };
     update(state, null, {
       op: 'replace',
-      path: `/integration/${topicName}/consumers/${consumerId.replace(/\//g, '~1')}/state`,
-      value: consumerState,
+      path: `/integration/${topicName}/consumers/${consumerId.replace(
+        /\//g,
+        '~1'
+      )}/state`,
+      value: consumer.alwaysIntegrate
+        ? { ...consumerState, ...randomNumberObj }
+        : consumerState,
     });
   });
   // 如果消费方只有一个并且不是同一个页面, 且router存在, 进行跳转
@@ -209,42 +373,85 @@ const handleIntegrate = (
         router?.push(consumer.pageUri);
         refreshPage();
       }
-
     }
   }
 };
 
 export const globalAction = (
-  action: PatchOperation, path: string, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
-) => globalStore((state: any) => (inputs: any, inputPath: string, _path: string) => {
-  const input = handleValue(
-    action, globalStore, moduleStore, null, null, inputs, inputPath, router, id, fix,
-  );
+  action: PatchOperation,
+  path: string,
+  globalStore: any,
+  moduleStore: any,
+  router: any = null,
+  id: string = '',
+  fix: any = null
+) =>
+  globalStore(
+    (state: any) => (inputs: any, inputPath: string, _path: string) => {
+      const input = handleValue(
+        action,
+        globalStore,
+        moduleStore,
+        null,
+        null,
+        inputs,
+        inputPath,
+        router,
+        id,
+        fix
+      );
 
-  const newPath = handlePath(action, globalStore, moduleStore, null, null, inputs, inputPath, _path, router, id, fix,);
+      const newPath = handlePath(
+        action,
+        globalStore,
+        moduleStore,
+        null,
+        null,
+        inputs,
+        inputPath,
+        _path,
+        router,
+        id,
+        fix
+      );
 
-  const newAction: PatchOperation = {
-    ...action,
-    path: _path ? newPath : path,
-  };
-  switch (action.op) {
-    case PatchOperationType[PatchOperationType.add]:
-    case PatchOperationType[PatchOperationType.replace]:
-    case PatchOperationType[PatchOperationType.remove]:
-      update(state, input, newAction);
-      break;
-    case PatchOperationType[PatchOperationType.integrate]:
-      if (path.startsWith('/route')) {
-        handleRoute(router, action.value && action.value.includes('://') ? input : action.value || input);
-        // handleRoute(router, action.value || input);
-      } else {
-        handleIntegrate(action.value || input, state, path.replace('/', ''), router, id, fix);
+      const newAction: PatchOperation = {
+        ...action,
+        path: _path ? newPath : path,
+      };
+      switch (action.op) {
+        case PatchOperationType[PatchOperationType.add]:
+        case PatchOperationType[PatchOperationType.replace]:
+        case PatchOperationType[PatchOperationType.remove]:
+          update(state, input, newAction);
+          break;
+        case PatchOperationType[PatchOperationType.integrate]:
+          if (path.startsWith('/route')) {
+            handleRoute(
+              router,
+              action.value && action.value.includes('://')
+                ? input
+                : action.value || input
+            );
+            // handleRoute(router, action.value || input);
+          } else {
+            handleIntegrate(
+              action.value || input,
+              state,
+              path.replace('/', ''),
+              router,
+              id,
+              fix
+            );
+          }
+          break;
+        default:
+          throw Error(
+            'un-excepted operation for store of global. "add, replace, remove, integrate" allowed'
+          );
       }
-      break;
-    default:
-      throw Error('un-excepted operation for store of global. "add, replace, remove, integrate" allowed');
-  }
-});
+    }
+  );
 
 export const moduleAction = (
   action: PatchOperation,
@@ -254,7 +461,7 @@ export const moduleAction = (
   router: any = null,
   id: string = '',
   fix: any = null,
-  stateStore:any
+  stateStore: any
 ) =>
   moduleStore(
     (state: any) => async (inputs: any, inputPath: string, _path: string) => {
@@ -304,6 +511,7 @@ export const moduleAction = (
                   permissions: [],
                 },
               });
+              window.location.reload();
             } else {
               const { config, message, description } =
                 globalStore.getState().error;
@@ -347,8 +555,8 @@ export const statesAction = (
   stateStore: any,
   inputs: any,
   inputPath: string,
-  globalStore:  any,
-  moduleStore:  any,
+  globalStore: any,
+  moduleStore: any,
   router: any = null,
   id: string = '',
   fix: any = null
@@ -388,7 +596,11 @@ export const statesAction = (
 };
 
 export const propsAction = async (
-  action: PatchOperation, path: string, props: any, inputs: any, inputPath: string,
+  action: PatchOperation,
+  path: string,
+  props: any,
+  inputs: any,
+  inputPath: string
 ) => {
   if (action.op !== PatchOperationType[PatchOperationType.perform]) {
     throw Error('un-excepted operation for store of states. "perform" allowed');

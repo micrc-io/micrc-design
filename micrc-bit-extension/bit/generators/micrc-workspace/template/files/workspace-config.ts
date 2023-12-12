@@ -50,7 +50,6 @@ export async function workspaceConfig(context: WorkspaceContext) {
         ajv: '8.12.0',
         'ajv-errors': '3.0.0',
         'ajv-formats': '2.1.1',
-        antd: '5.3.0',
         axios: '1.3.4',
         'babel-loader': '9.1.2',
         'babel-plugin-transform-taroapi': '3.6.2',
@@ -87,7 +86,6 @@ export async function workspaceConfig(context: WorkspaceContext) {
         'prettier-package-json': '2.8.0',
         'react-draggable': '4.4.5',
         'react-iframe': '1.8.5',
-        'react-new-improved-window': '0.2.9',
         'resolve-url-loader': '5.0.0',
         sass: '1.58.3',
         'sass-loader': '13.2.0',
@@ -118,6 +116,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
         'react-dom': '18.2.0',
         'react-native': '0.71.3',
         'json-bigint': '1.0.0',
+        antd: '5.11.2',
       },
     },
     packageManagerArgs: [],
@@ -132,7 +131,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
 
   configParsed['teambit.workspace/variants'] = {
     '{**/web/**}': {
-      'micrc.bit/envs/micrc-web@1.0.9': {},
+      'micrc.bit/envs/micrc-web@1.0.10': {},
     },
     '{mini/**}': {
       'micrc.bit/envs/micrc-mini@0.0.2': {},

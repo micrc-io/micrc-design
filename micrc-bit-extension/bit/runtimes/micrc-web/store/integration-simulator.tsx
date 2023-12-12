@@ -3,7 +3,7 @@
  */
 import React, { useState } from 'react';
 
-import { Button, FloatButton, Modal } from 'antd';
+import { Button, FloatButton, Modal, Image } from 'antd';
 
 import { remoteStore } from '../micrc-web';
 import type { IntegrationTopic } from './index';
@@ -25,13 +25,15 @@ export const IntegrationSimulator = (
   if (!integration || (!integration.consume && !integration.produce)) {
     return null;
   }
+  // 添时间戳随机数，使每次集成的都可以触发
+  const randomNumberObj: any = { timestamp: new Date().getTime() };
   // 自身为消费方, 模拟生产方
   // eslint-disable-next-line no-restricted-syntax
   for (const topic of Object.values(integration.consume)) {
     const send = action({
       op: 'integrate',
       path: `/${topic.name}:${topic.producer.pageUri}:${topic.producer.moduleId}`,
-      value: topic.producer.exampleState,
+      value: { ...topic.producer.exampleState, ...randomNumberObj },
     });
     produceSimulator.push(
       <Button key={topic.name} onClick={() => send()}>
@@ -55,7 +57,7 @@ export const IntegrationSimulator = (
           <span>{`${consumer.pageUri}:${consumer.moduleId}`}</span>
           <pre>
             <code>
-              { JSON.stringify(receive, null, 2) }
+              {JSON.stringify(receive, null, 2)}
             </code>
           </pre>
         </div>,
@@ -65,14 +67,19 @@ export const IntegrationSimulator = (
   return (
     <>
       <FloatButton onClick={() => setOpen(true)} />
-      <Modal open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}>
+      <Modal
+        closeIcon={<Image src="https://design-image.bithub.integration.it.colibrierp.com.br/i/2023/09/06/h4i4jc.png" preview={false} />}
+        open={open}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+      >
         <div>
           <div>生产模拟</div>
-          { consumeSimulator }
+          {consumeSimulator}
         </div>
         <div>
           <div>消费模拟</div>
-          { produceSimulator }
+          {produceSimulator}
         </div>
       </Modal>
     </>

@@ -51,6 +51,7 @@ type ComponentMeta = {
   defaultProps: Record<string, any>;
   stories: {
     components: Record<string, { default: boolean; packages: string }>;
+    insideComponents: Record<string, { version: string; packages: string }>;
     atoms: Record<string, { version: string; packages: string }>;
     examples: Record<string, { desc: string; props: Record<string, any> }>;
   };
@@ -87,6 +88,7 @@ export type ComponentContextData = {
     componentImports: Record<string, ImportContent>;
     atomImports: Record<string, string>; // 原子组件导入, 以导入名为key, 包名为值
     examples: Record<string, { desc: string; props: Record<string, any> }>;
+    insideComponentsImports: Record<string, string>; // 内部组件导入（将三方组件包一层i18n）, 以导入名为key, 包名为值
   };
   doc: ComponentDoc; // 组件文档
   componentImports: Record<string, ImportContent>; // 组件导入，以导入包为key
@@ -212,6 +214,9 @@ const handleStories = (meta: ComponentMeta) => {
       },
       ...meta.stories.examples,
     },
+    insideComponentsImports: insideComponentsImports(
+      meta.stories.insideComponents || {}
+    ),
   };
 };
 

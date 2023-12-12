@@ -94,7 +94,7 @@ type {{@key}} = {
 {{/each}}
 
 {{!-- 定义组件本体 --}}
-export function {{context.namePascalCase}}({ router , fix }: {{context.namePascalCase}}Props) {
+export function {{context.namePascalCase}}({ router , fix, callback }: {{context.namePascalCase}}Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const store = remoteStore(
     {
@@ -148,7 +148,7 @@ export function {{context.namePascalCase}}({ router , fix }: {{context.namePasca
     {{#each integration.simulation.consume}}
     {{#each this.consumers}}
     {{{json this.listener}}}
-    const {{../this.name}}Unsubscribe = subscribe('{{../this.name}}', {{this.listener.name}});
+    const {{../this.name}}Unsubscribe = subscribe('{{../this.name}}', {{this.listener.name}}, callback);
     {{/each}}
     {{/each}}
     return () => {

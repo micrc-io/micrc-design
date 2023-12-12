@@ -2,7 +2,7 @@
 /**
  * micrc runtime: bind and action
  */
-import isEqual from 'lodash.isequal';
+import isEquals from 'lodash.isequal';
 import { useGlobalStore } from './store/global';
 
 import patcher from './lib/json-patch';
@@ -37,26 +37,36 @@ export const remoteStore = (
     stateStore[it] = states[it][0];
   });
   const execStatesAction = (
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    action: PatchOperation, path: string, fullScope: string, inputs: any, inputPath: any, globalStore: any, moduleStore: any, router: any = null, id: string = '', fix: any = null,
+    action: PatchOperation,
+    path: string,
+    fullScope: string,
+    inputs: any,
+    inputPath: any,
+    globalStore: any,
+    moduleStore: any,
+    routers: any = null,
+    ids: string = '',
+    fixs: any = null,
   ) => {
     if (!fullScope.includes('@')) {
       throw Error('states scope must format of "states@stateName"');
     }
     const [scope, subScope] = fullScope.split('@');
     if (scope === StoreScope[StoreScope.states]) {
-      statesAction(action, path, states, subScope, stateStore, inputs, inputPath, globalStore, moduleStore, router, id, fix);
+      statesAction(action, path, states, subScope, stateStore, inputs, inputPath, globalStore, moduleStore, routers, ids, fixs);
     } else {
       throw Error('un-excepted scope. "global, module, states" allowed');
     }
   };
+
   return {
-    subscribe: (topic: string, listener: (curr, prev) => any) => useGlobalStore.subscribe(
+    subscribe: (topic: string, listener: (curr, prev) => any, callback?:any) => useGlobalStore.subscribe(
       (state: any) => patcher(state).path(integratePath(router, id, `integrate@${topic}:///`, fix)),
       (curr, prev) => {
         listener(curr, prev);
+        callback?.cb(callback?.key);
       },
-      { fireImmediately: false, equalityFn: isEqual },
+      { fireImmediately: false, equalityFn: isEquals },
     ),
     appendState: (stateObj : object) => {
       Object.keys(stateObj).forEach((it) => {
@@ -71,7 +81,7 @@ export const remoteStore = (
         throw Error('binding path must format of [global|module|states|i18n|integrate]://[json pointer]');
       }
       if (fullScope === StoreScope[StoreScope.global]) {
-        return useGlobalStore((state: any) => patcher(state).path(path), isEqual);
+        return useGlobalStore((state: any) => patcher(state).path(path), isEquals);
       }
       if (fullScope === StoreScope[StoreScope.module]) {
         return module((state: any) => {
@@ -84,7 +94,7 @@ export const remoteStore = (
             }
           }
           return replaceKey(patcher(state).path(path));
-        }, isEqual);
+        }, isEquals);
       }
       if (fullScope === StoreScope[StoreScope.i18n]) {
         return useGlobalStore(
@@ -98,7 +108,7 @@ export const remoteStore = (
             }
             return patcher(state).path(keyPath(state, router, id, bindingPath, fix));
           },
-          isEqual,
+          isEquals,
         );
       }
       // bind(`router:///pathname@${bind('module:///inve000010/result/data/0/key@""')}`
@@ -122,12 +132,12 @@ export const remoteStore = (
           } catch (e) {
             return null;
           }
-        }, isEqual);
+        }, isEquals);
       }
       if (fullScope === StoreScope[StoreScope.integrate]) {
         return useGlobalStore(
           (state: any) => patcher(state).path(integratePath(router, id, bindingPath, fix)),
-          isEqual,
+          isEquals,
         );
       }
       const [scope, subScope] = fullScope.split('@');
@@ -137,7 +147,7 @@ export const remoteStore = (
       if (scope === StoreScope[StoreScope.integrate]) {
         return useGlobalStore(
           (state: any) => patcher(state).path(integratePath(router, id, bindingPath, fix)),
-          isEqual,
+          isEquals,
         );
       }
       if (scope === StoreScope[StoreScope.states]) {

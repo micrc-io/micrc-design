@@ -381,14 +381,14 @@ export const parse = (meta: ModuleMeta, context: ComponentContext): ModuleContex
     context,
     permissions: Object.values(meta.permissions || {}).reduce(
       (pre, cur) => pre.concat(cur),
-      [],
+      []
     ),
     i18n: meta.i18n,
     comment: meta.comment,
     reactImports: reactImports(meta),
     typeDefinitions: meta?.types?.definitions || {},
-    props: { router: 'any', fix: 'any' },
-    defaultProps: { router: null, fix: null },
+    props: { router: 'any', fix: 'any', callback: 'any' },
+    defaultProps: { router: null, fix: null, callback: null },
     typeImports: typeImports(meta),
     componentImports: componentImports(meta),
     localState: meta.localState || {},

@@ -85,6 +85,7 @@ export class MicrcWebMain {
         peerDependencies: {
           react: '>= 18.2.0',
           'react-dom': '>= 18.2.0',
+          antd: '>= 5.8.0',
         },
         devDependencies: {
           '@types/react': '18.2.14',

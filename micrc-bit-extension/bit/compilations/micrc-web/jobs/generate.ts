@@ -39,6 +39,44 @@ const generateAtom = async (metaData: any, componentPath: string) => {
     throw new Error(msg);
   }
 
+  try {
+    const { insideComponents } = metaData;
+    const deps: string[] = Object.values(insideComponents).map(
+      (it: any) => `${it.packages}@${it.version}`,
+    );
+    if (deps) {
+      await execCmd(
+        'bit',
+        ['deps', 'set', componentPath, ...deps],
+        bitBasePath,
+      );
+      await execCmd('bit', ['install'], bitBasePath);
+    }
+  } catch (e) {
+    const msg = `component: ${componentPath} of type: insideComponents - dependencies handle error: ${e}`;
+    log.error(chalk.red(msg));
+    throw new Error(msg);
+  }
+
+  try {
+    const { insideComponents } = metaData.stories;
+    const deps: string[] = Object.values(insideComponents).map(
+      (it: any) => `${it.packages}@${it.version}`,
+    );
+    if (deps) {
+      await execCmd(
+        'bit',
+        ['deps', 'set', componentPath, ...deps],
+        bitBasePath,
+      );
+      await execCmd('bit', ['install'], bitBasePath);
+    }
+  } catch (e) {
+    const msg = `component: ${componentPath} of type: insideComponents - dependencies handle error: ${e}`;
+    log.error(chalk.red(msg));
+    throw new Error(msg);
+  }
+
   const {
     intro: { state, version },
   } = metaData;
@@ -101,7 +139,7 @@ const generateComponent = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.62',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.68',
         '--peer',
       ],
       bitBasePath,
@@ -134,6 +172,25 @@ const generateComponent = async (
 
   try {
     const { insideComponents } = metaData;
+    const deps: string[] = Object.values(insideComponents).map(
+      (it: any) => `${it.packages}@${it.version}`,
+    );
+    if (deps) {
+      await execCmd(
+        'bit',
+        ['deps', 'set', componentPath, ...deps],
+        bitBasePath,
+      );
+      await execCmd('bit', ['install'], bitBasePath);
+    }
+  } catch (e) {
+    const msg = `component: ${componentPath} of type: insideComponents - dependencies handle error: ${e}`;
+    log.error(chalk.red(msg));
+    throw new Error(msg);
+  }
+
+  try {
+    const { insideComponents } = metaData.stories;
     const deps: string[] = Object.values(insideComponents).map(
       (it: any) => `${it.packages}@${it.version}`,
     );
@@ -272,7 +329,7 @@ const generateModule = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.62',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.68',
         '--peer',
       ],
       bitBasePath,
@@ -387,7 +444,7 @@ const generateClientend = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.62',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.68',
         '--peer',
       ],
       bitBasePath,
@@ -450,6 +507,7 @@ export const generate = async () => {
   );
   // eslint-disable-next-line no-restricted-syntax
   for (const metaFile of metaFiles) {
+    if (!metaFile.endsWith('.json')) return;
     const metaFilePath = path.join(
       schemaLocation,
       contextSubName,
@@ -464,6 +522,8 @@ export const generate = async () => {
     );
     switch (componentType) {
       case TYPES.ATOMS:
+        if (!metaData.insideComponents) metaData.insideComponents = {};
+        if (!metaData.stories.insideComponents) metaData.stories.insideComponents = {};
         // eslint-disable-next-line no-await-in-loop
         await generateAtom(
           metaData,
@@ -472,6 +532,7 @@ export const generate = async () => {
         break;
       case TYPES.COMPONENTS:
         if (!metaData.insideComponents) metaData.insideComponents = {};
+        if (!metaData.stories.insideComponents) metaData.stories.insideComponents = {};
         await generateComponent(
           metaData,
           `${contextName}/web/components/${metaFile.replace('.json', '')}`,

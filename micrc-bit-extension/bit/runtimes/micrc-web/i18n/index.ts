@@ -89,13 +89,16 @@ export const templateValue = (dataContext: any, tmpl: any) => {
 // eslint-disable-next-line consistent-return
 export const i18nHightLight = (obj: any) => {
   const { textPropName, pointerText, currentKey, target } = obj;
-  // table   Select --- 处理数组
+  if (!target) return null;
   if (Array.isArray(target)) {
+    // table   Select --- 处理数组
     const retVal = cloneDeep(target);
     // eslint-disable-next-line array-callback-return
     retVal.forEach((item: any) => {
       // eslint-disable-next-line no-param-reassign
-      item[textPropName] = (item.i18n || item.key) === currentKey ? `i18n:{ ${item[textPropName]} }` : item[textPropName];
+      item[textPropName] = (item.i18n || item.key) === currentKey
+        ? `i18n:{ ${item[textPropName]} }`
+        : item[textPropName];
     });
     return retVal;
   }

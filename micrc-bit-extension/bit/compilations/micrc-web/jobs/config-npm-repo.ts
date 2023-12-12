@@ -16,14 +16,28 @@ const SCHEMA_LOCATION = ['.cache', 'micrc', 'schema'];
 
 export const repo = async () => {
   const contextIntro = JSON.parse(
-    fs.readFileSync(path.join(nodeModulesBasePath, ...SCHEMA_LOCATION, 'intro.json'), { encoding: 'utf8' }),
+    fs.readFileSync(
+      path.join(nodeModulesBasePath, ...SCHEMA_LOCATION, 'intro.json'),
+      { encoding: 'utf8' },
+    ),
   );
-  try {
-    await execCmd(
-      'bit', ['remote', 'add', `https://${contextIntro?.ownerDomain}.${contextIntro?.global?.bitHubBaseUrl}`], bitBasePath,
-    );
-  } catch (e) {
-    log.error(chalk.red(`bit remote add error: ${e}`));
+  const { remoteScopes } = contextIntro?.global;
+  // eslint-disable-next-line no-restricted-syntax
+  for (const item of remoteScopes) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      await execCmd(
+        'bit',
+        [
+          'remote',
+          'add',
+          `https://${item}.${contextIntro?.global?.bitHubBaseUrl}`,
+        ],
+        bitBasePath,
+      );
+    } catch (e) {
+      log.error(chalk.red(`bit remote add error: ${e}`));
+    }
   }
 
   try {
@@ -40,11 +54,9 @@ export const repo = async () => {
         },
       },
     };
-    fs.writeFileSync(
-      workspaceConfigPath,
-      JSON.stringify(newConfig, null, 2),
-      { encoding: 'utf8' },
-    );
+    fs.writeFileSync(workspaceConfigPath, JSON.stringify(newConfig, null, 2), {
+      encoding: 'utf8',
+    });
     await execCmd('bit', ['link'], bitBasePath);
     await execCmd('bit', ['status'], bitBasePath);
   } catch (e) {

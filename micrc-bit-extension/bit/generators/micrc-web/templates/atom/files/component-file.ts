@@ -63,6 +63,12 @@ import {{this.default}} from '{{@key}}';
 {{/if}}
 {{/each}}
 
+{{!-- 导入内部组件（将三方组件包一层i18n） --}}
+{{#each insideComponentsImports}}
+{{!-- import type { {{@key}}Props } from '{{this}}'; 暂不需要 --}}
+import { {{@key}} } from '{{{this}}}';
+{{/each}}
+
 {{!-- 导入样式文件 --}}
 import styles from './{{context.name}}.module.scss';
 
