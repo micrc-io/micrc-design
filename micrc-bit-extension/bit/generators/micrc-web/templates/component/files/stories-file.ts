@@ -10,9 +10,6 @@ import { ComponentContextData } from '../_parse';
 
 const tmpl = `/* eslint-disable no-alert */
 /* eslint-disable no-console */
-/**
- * {{context.name}} stories
- */
 import React from 'react';
 
 import locale from 'antd/locale/zh_CN'; // todo 根据开发机系统语言动态化
