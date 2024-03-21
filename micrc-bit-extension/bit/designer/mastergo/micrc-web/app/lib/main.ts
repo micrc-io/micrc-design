@@ -24,8 +24,12 @@ if (names.length !== 3) {
   throw Error('name of design file must be format of [domain]-design-[type:atoms|components|modules|clientends]');
 }
 const type = names[2];
-const targetComponentSetName = mg.document.currentPage.name.replaceAll('/', '-');
-const [category, name, version] = targetComponentSetName.split('-');
+// const targetComponentSetName = mg.document.currentPage.name.replaceAll('/', '-');
+const list = mg.document.currentPage.name.split('/');
+const targetComponentSetName = `${list[1]}@${list[2]}`;
+
+const category = list[0];
+const [name, version] = targetComponentSetName.split('@');
 
 const adaptProps = (data: any, id: string, prop: ComponentPropertyValue) => {
   if (data.props[id]) {
@@ -150,6 +154,20 @@ mg.on('selectionchange', (selections: string[]) => {
     return;
   }
   const node = mg.getNodeById(selections[0]);
+  // targetComponentSetName = 'form-date-picker';
+  // eslint-disable-next-line no-console
+  console.log(targetComponentSetName, 'node-------', node);
+  // eslint-disable-next-line max-len
+  const filterProperties = (data:any) => data.map((item: { name: any; children: string | any[]; id: any; type: any; }) => ({
+    name: item.name,
+    children:
+      item.children && item.children.length > 0
+        ? filterProperties(item.children)
+        : undefined,
+    id: item.id,
+    type: item.type,
+  }));
+
   if (node?.type === 'COMPONENT_SET' && node.name === targetComponentSetName) {
     const data = adaptData(node);
     mg.ui.show();
@@ -178,14 +196,15 @@ mg.on('selectionchange', (selections: string[]) => {
           example: node.name,
         },
       });
-      console.log(node.children)
+      const test_data = filterProperties(node.children);
+
+      console.log('COMPONENT----', node.children, test_data);
       return;
     }
   }
   if (node?.type === 'INSTANCE') {
     const { parent } = node;
     if (parent?.type === 'COMPONENT' && parent.parent?.type === 'COMPONENT_SET') {
-      
       mg.ui.show();
       return;
     }

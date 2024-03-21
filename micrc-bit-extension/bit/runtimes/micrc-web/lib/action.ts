@@ -42,7 +42,7 @@ const getValueByPointer = (
   propStore: any,
   router: any = null,
   id: string = '',
-  fix: any = null
+  fix: any = null,
 ) => {
   const [scope, path] = pointer.split('://'); // scope:integrate@switchPage
   if (!scope || !path) {
@@ -53,7 +53,7 @@ const getValueByPointer = (
     const [fullScope, fullPath] = scope.split('@');
     if (fullScope === StoreScope[StoreScope.integrate]) {
       return patcher(globalStore.getState()).path(
-        integratePath(router, id, pointer, fix)
+        integratePath(router, id, pointer, fix),
       );
     }
     if (fullScope === StoreScope[StoreScope.states]) {
@@ -84,7 +84,7 @@ const getValueByPointer = (
     return patcher(propStore).path(path);
   }
   throw Error(
-    'unexpected scope. "integrate, global, module, states, router, props" allowed'
+    'unexpected scope. "integrate, global, module, states, router, props" allowed',
   );
 };
 
@@ -98,7 +98,7 @@ const handleValue = (
   inputPath: string,
   router: any = null,
   id: string = '',
-  fix: any = null
+  fix: any = null,
 ) => {
   const { value } = action;
   // 存在输入参数，优先取值
@@ -107,12 +107,9 @@ const handleValue = (
   }
   // 如果value是一个对象，并且对象中的值包含是个pointer. states@xxx:///xxx
   if (typeof value === 'object') {
-    for (let key in value) {
-      if (
-        typeof value[key] === 'string' &&
-        value[key].includes('://') &&
-        !value[key].startsWith('i18n')
-      ) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in value) {
+      if (typeof value[key] === 'string' && value[key].includes('://') && !value[key].startsWith('i18n')) {
         if (!value[key].includes('@@')) {
           value[key] = getValueByPointer(
             value[key],
@@ -122,10 +119,10 @@ const handleValue = (
             propStore,
             router,
             id,
-            fix
+            fix,
           );
         } else {
-          let [pointer, defaultValue] = value[key].split('@@');
+          const [pointer, defaultValue] = value[key].split('@@');
           value[key] = getValueByPointer(
             pointer,
             globalStore,
@@ -134,7 +131,7 @@ const handleValue = (
             propStore,
             router,
             id,
-            fix
+            fix,
           );
           try {
             if (!value[key]) {
@@ -146,7 +143,7 @@ const handleValue = (
                 propStore,
                 router,
                 id,
-                fix
+                fix,
               );
             } else {
               value[key] = getValueByPointer(
@@ -157,7 +154,7 @@ const handleValue = (
                 propStore,
                 router,
                 id,
-                fix
+                fix,
               );
             }
           } catch (e) {
@@ -169,7 +166,7 @@ const handleValue = (
               propStore,
               router,
               id,
-              fix
+              fix,
             );
           }
         }
@@ -178,9 +175,7 @@ const handleValue = (
     return value;
   }
   if (
-    typeof value === 'string' &&
-    value.includes('://') &&
-    !value.startsWith('i18n')
+    typeof value === 'string' && value.includes('://') && !value.startsWith('i18n')
   ) {
     // value: integrate@channelPreview:///storeId@@module:///inve000052/result/data/0/key
     // 判断# 是否存在默认值，先去拿通过path取值，取不到用默认值
@@ -197,9 +192,9 @@ const handleValue = (
             propStore,
             router,
             id,
-            fix
+            fix,
           )
-        ){
+        ) {
           return getValueByPointer(
             defaultValue,
             globalStore,
@@ -208,19 +203,19 @@ const handleValue = (
             propStore,
             router,
             id,
-            fix
+            fix,
           );
         }
-          return getValueByPointer(
-            pointer,
-            globalStore,
-            moduleStore,
-            stateStore,
-            propStore,
-            router,
-            id,
-            fix
-          );
+        return getValueByPointer(
+          pointer,
+          globalStore,
+          moduleStore,
+          stateStore,
+          propStore,
+          router,
+          id,
+          fix,
+        );
       } catch (e) {
         return getValueByPointer(
           defaultValue,
@@ -230,7 +225,7 @@ const handleValue = (
           propStore,
           router,
           id,
-          fix
+          fix,
         );
       }
     }
@@ -243,7 +238,7 @@ const handleValue = (
       propStore,
       router,
       id,
-      fix
+      fix,
     );
   }
   return value;
@@ -260,7 +255,7 @@ const handlePath = (
   path: string,
   router: any = null,
   id: string = '',
-  fix: any = null
+  fix: any = null,
 ) => {
   // 没有输入参数，那么检查action中的value是否是个pointer. states@xxx:///xxx
   if (typeof path === 'string' && path.includes('://')) {
@@ -272,7 +267,7 @@ const handlePath = (
       propStore,
       router,
       id,
-      fix
+      fix,
     );
   }
   return path;
@@ -309,7 +304,7 @@ const handleIntegrate = (
   topicName: string,
   router: any,
   id: string,
-  fix: any
+  fix: any,
 ) => {
   update(state, null, {
     op: 'replace',
@@ -337,7 +332,7 @@ const handleIntegrate = (
   // 校验生产方信息
   if (topic.producer.pageUri !== pageUri || topic.producer.moduleId !== id) {
     throw Error(
-      `Illegal producer: ${JSON.stringify({ pageUri, moduleId: id })}`
+      `Illegal producer: ${JSON.stringify({ pageUri, moduleId: id })}`,
     );
   }
   // 更新消费方状态
@@ -345,13 +340,13 @@ const handleIntegrate = (
     const consumer = topic.consumers[consumerId];
     // eslint-disable-next-line @typescript-eslint/no-implied-eval
     const consumerState = new Function(`return ${consumer.schema}`).call(_ctx);
-    //添时间戳，使每次集成的都可以触发
-    let randomNumberObj: any = { timestamp: new Date().getTime() };
+    // 添时间戳，使每次集成的都可以触发
+    const randomNumberObj: any = { timestamp: new Date().getTime() };
     update(state, null, {
       op: 'replace',
       path: `/integration/${topicName}/consumers/${consumerId.replace(
         /\//g,
-        '~1'
+        '~1',
       )}/state`,
       value: consumer.alwaysIntegrate
         ? { ...consumerState, ...randomNumberObj }
@@ -384,7 +379,7 @@ export const globalAction = (
   moduleStore: any,
   router: any = null,
   id: string = '',
-  fix: any = null
+  fix: any = null,
 ) =>
   globalStore(
     (state: any) => (inputs: any, inputPath: string, _path: string) => {
@@ -398,7 +393,7 @@ export const globalAction = (
         inputPath,
         router,
         id,
-        fix
+        fix,
       );
 
       const newPath = handlePath(
@@ -412,7 +407,7 @@ export const globalAction = (
         _path,
         router,
         id,
-        fix
+        fix,
       );
 
       const newAction: PatchOperation = {
@@ -431,7 +426,7 @@ export const globalAction = (
               router,
               action.value && action.value.includes('://')
                 ? input
-                : action.value || input
+                : action.value || input,
             );
             // handleRoute(router, action.value || input);
           } else {
@@ -441,16 +436,16 @@ export const globalAction = (
               path.replace('/', ''),
               router,
               id,
-              fix
+              fix,
             );
           }
           break;
         default:
           throw Error(
-            'un-excepted operation for store of global. "add, replace, remove, integrate" allowed'
+            'un-excepted operation for store of global. "add, replace, remove, integrate" allowed',
           );
       }
-    }
+    },
   );
 
 export const moduleAction = (
@@ -461,7 +456,7 @@ export const moduleAction = (
   router: any = null,
   id: string = '',
   fix: any = null,
-  stateStore: any
+  stateStore: any,
 ) =>
   moduleStore(
     (state: any) => async (inputs: any, inputPath: string, _path: string) => {
@@ -475,7 +470,7 @@ export const moduleAction = (
         inputPath,
         router,
         id,
-        fix
+        fix,
       );
       const newPath = handlePath(
         action,
@@ -488,7 +483,7 @@ export const moduleAction = (
         _path,
         router,
         id,
-        fix
+        fix,
       );
       const newAction: PatchOperation = {
         ...action,
@@ -513,8 +508,7 @@ export const moduleAction = (
               });
               window.location.reload();
             } else {
-              const { config, message, description } =
-                globalStore.getState().error;
+              const { config, message, description } = globalStore.getState().error;
               if (!config.custom) {
                 notification.error({
                   message: 'Oops! System Error. ',
@@ -541,10 +535,10 @@ export const moduleAction = (
           break;
         default:
           throw Error(
-            'un-excepted operation for store of module. "add, replace, remove, perform, verify" allowed'
+            'un-excepted operation for store of module. "add, replace, remove, perform, verify" allowed',
           );
       }
-    }
+    },
   );
 
 export const statesAction = (
@@ -559,7 +553,7 @@ export const statesAction = (
   moduleStore: any,
   router: any = null,
   id: string = '',
-  fix: any = null
+  fix: any = null,
 ) => {
   if (!Object.keys(states).includes(stateName)) {
     throw Error('un-excepted state named: "subScope"');
@@ -575,7 +569,7 @@ export const statesAction = (
     inputPath,
     router,
     id,
-    fix
+    fix,
   );
   const newAction: PatchOperation = {
     ...action,
@@ -590,7 +584,7 @@ export const statesAction = (
       break;
     default:
       throw Error(
-        'un-excepted operation for store of states. "add, replace, remove" allowed'
+        'un-excepted operation for store of states. "add, replace, remove" allowed',
       );
   }
 };
@@ -600,12 +594,12 @@ export const propsAction = async (
   path: string,
   props: any,
   inputs: any,
-  inputPath: string
+  inputPath: string,
 ) => {
   if (action.op !== PatchOperationType[PatchOperationType.perform]) {
     throw Error('un-excepted operation for store of states. "perform" allowed');
   }
   const func = patcher(props).path(path);
   const value = handleValue(action, null, null, null, props, inputs, inputPath);
-  await func(value);
+  await func?.(value);
 };

@@ -55,7 +55,6 @@ export async function workspaceConfig(context: WorkspaceContext) {
         'babel-plugin-transform-taroapi': '3.6.2',
         chalk: '4.1.2',
         'copy-webpack-plugin': '9.1.0',
-        'core-js': '3.29.1',
         'css-loader': '6.7.3',
         eslint: '8.35.0',
         'eslint-import-resolver-node': '0.3.7',
@@ -116,7 +115,6 @@ export async function workspaceConfig(context: WorkspaceContext) {
         'react-dom': '18.2.0',
         'react-native': '0.71.3',
         'json-bigint': '1.0.0',
-        antd: '5.11.2',
       },
     },
     packageManagerArgs: [],
@@ -131,7 +129,7 @@ export async function workspaceConfig(context: WorkspaceContext) {
 
   configParsed['teambit.workspace/variants'] = {
     '{**/web/**}': {
-      'micrc.bit/envs/micrc-web@1.0.10': {},
+      'micrc.bit/envs/micrc-web@1.0.13': {},
     },
     '{mini/**}': {
       'micrc.bit/envs/micrc-mini@0.0.2': {},
