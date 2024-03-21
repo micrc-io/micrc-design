@@ -35,7 +35,7 @@
     },
     "envs/bit-micrc-msw": {
         "scope": "micrc.bit",
-        "version": "0.0.3",
+        "version": "0.0.5",
         "mainFile": "index.ts",
         "rootDir": "bit/envs/bit-micrc-msw"
     },
@@ -53,7 +53,7 @@
     },
     "envs/micrc-web": {
         "scope": "micrc.bit",
-        "version": "1.0.10",
+        "version": "1.0.13",
         "mainFile": "index.ts",
         "rootDir": "bit/envs/micrc-web"
     },
@@ -77,7 +77,7 @@
     },
     "generators/micrc-workspace": {
         "scope": "micrc.bit",
-        "version": "0.0.20",
+        "version": "0.0.23",
         "mainFile": "index.ts",
         "rootDir": "bit/generators/micrc-workspace"
     },
@@ -95,7 +95,7 @@
     },
     "runtimes/micrc-web": {
         "scope": "micrc.bit",
-        "version": "0.0.70",
+        "version": "0.0.75",
         "mainFile": "index.ts",
         "rootDir": "bit/runtimes/micrc-web"
     },

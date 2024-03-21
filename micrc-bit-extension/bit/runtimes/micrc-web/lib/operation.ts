@@ -3,7 +3,6 @@
  * update state, invoke api, validate, integrate
  */
 import patcher from './json-patch';
-import mergeDeep from 'lodash.merge';
 
 /**
  * 更新状态
@@ -49,25 +48,44 @@ export const validate = (state: any, input: any, patch: any) => {
     if (!patch.value) {
       throw new Error('value must be exists if validate with change in action');
     }
-    param = _patcher.apply(
-      param,
-      [{ op: 'replace', path: `/${patch.value}`, value: input }],
-    );
+    param = _patcher.apply(param, [
+      { op: 'replace', path: `/${patch.value}`, value: input },
+    ]);
   }
   const [valid, newErrors] = _patcher.path(
     patch.path.replace('/', '/_validators/'),
   )(param);
   if (valid) {
-    _patcher.patches([{ op: 'replace', path: `${patch.path}/invalid/err`, value: {} }]);
+    _patcher.patches([
+      { op: 'replace', path: `${patch.path}/invalid/err`, value: {} },
+    ]);
     return;
   }
   // 是否指定验证的属性，如果指定，则仅修改指定属性的错误
   if (patch.value) {
-    // note: 不清理错误对象，保留上次校验产生的其他属性的错误信息
-    // 清除指定属性原校验结果，获取指定属性新校验结果，合并创建完整错误信息
-    patcher().apply(errors, [{ op: 'replace', path: patch.value, value: patcher(newErrors).path(patch.value) }]);
+    try {
+      // note: 不清理错误对象，保留上次校验产生的其他属性的错误信息
+      // 清除指定属性原校验结果，获取指定属性新校验结果，合并创建完整错误信息
+      patcher().apply(errors, [
+        {
+          op: 'replace',
+          path: `/${patch.value}`,
+          value: patcher(newErrors).path(`/${patch.value}`),
+        },
+      ]);
+    } catch (e) {
+      patcher().apply(errors, [
+        {
+          op: 'replace',
+          path: `/${patch.value}`,
+          value: undefined,
+        },
+      ]);
+    }
   } else {
     errors = newErrors;
   }
-  _patcher.patches([{ op: 'replace', path: `${patch.path}/invalid/err`, value: errors }]);
+  _patcher.patches([
+    { op: 'replace', path: `${patch.path}/invalid/err`, value: errors },
+  ]);
 };
