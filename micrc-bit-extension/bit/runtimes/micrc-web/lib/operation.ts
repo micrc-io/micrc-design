@@ -12,7 +12,7 @@ import patcher from './json-patch';
  * @param patch json patch对象/数组
  */
 export const update = (state: any, input: any, patch: any) => {
-  if (input || input === '' || input === 0) {
+  if (input || input === '' || input === 0 || input === false) {
     // eslint-disable-next-line no-param-reassign
     (patch[0] || patch).value = input;
   }
@@ -44,7 +44,7 @@ export const validate = (state: any, input: any, patch: any) => {
   let errors = _patcher.path(`${patch.path}/invalid/err`); // 用于合并json.value指定的校验结果
   // 如果存在参数input，那么认为状态修改和校验一起进行，这时的state还没有被更新，需要手动同步
   // 同时，value值必须存在且为input的相对于param的path
-  if (input) {
+  if (input || input === '' || input === false) {
     if (!patch.value) {
       throw new Error('value must be exists if validate with change in action');
     }
@@ -74,6 +74,7 @@ export const validate = (state: any, input: any, patch: any) => {
         },
       ]);
     } catch (e) {
+      if (Object.keys(errors).length === 0) return;
       patcher().apply(errors, [
         {
           op: 'replace',

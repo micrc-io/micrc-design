@@ -141,7 +141,7 @@ const generateComponent = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.75',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.78',
         '--peer',
       ],
       bitBasePath,
@@ -332,7 +332,7 @@ const generateModule = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.75',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.78',
         '--peer',
       ],
       bitBasePath
@@ -447,7 +447,7 @@ const generateClientend = async (
         'deps',
         'set',
         `${account}.${scope}/${componentPath}`,
-        '@micrc/bit.runtimes.micrc-web@>= 0.0.75',
+        '@micrc/bit.runtimes.micrc-web@>= 0.0.78',
         '--peer',
       ],
       bitBasePath,
@@ -577,14 +577,14 @@ export const generate = async () => {
         break;
       }
       case TYPES.CLIENTENDS: {
-        metaData.intro.context = {
-          ownerDomain: contextMetaData.ownerDomain,
-          global: contextMetaData.global,
-          gateway: contextMetaData.gateway,
-        };
-        fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), {
-          encoding: 'utf8',
-        });
+        // metaData.intro.context = {
+        //   ownerDomain: contextMetaData.ownerDomain,
+        //   global: contextMetaData.global,
+        //   gateway: contextMetaData.gateway,
+        // };
+        // fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), {
+        //   encoding: 'utf8',
+        // });
         // eslint-disable-next-line no-await-in-loop
         await generateClientend(
           metaData,

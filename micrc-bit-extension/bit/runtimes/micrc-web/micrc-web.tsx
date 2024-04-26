@@ -55,7 +55,7 @@ export const remoteStore = (
     if (scope === StoreScope[StoreScope.states]) {
       statesAction(action, path, states, subScope, stateStore, inputs, inputPath, globalStore, moduleStore, routers, ids, fixs);
     } else {
-      throw Error('un-excepted scope. "global, module, states" allowed');
+      throw Error('un-excepted scope.     "global, module, states" allowed');
     }
   };
 
