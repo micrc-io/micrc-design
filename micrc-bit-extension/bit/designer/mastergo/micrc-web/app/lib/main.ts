@@ -149,12 +149,12 @@ const adaptData = (componentSet: ComponentSetNode): object => {
 };
 
 mg.on('selectionchange', (selections: string[]) => {
-  if (selections.length !== 1) {
-    mg.ui.hide();
-    return;
-  }
+  console.log('selections---', selections);
+  // if (selections.length !== 1) {
+  //   mg.ui.hide();
+  //   return;
+  // }
   const node = mg.getNodeById(selections[0]);
-  // targetComponentSetName = 'form-date-picker';
   // eslint-disable-next-line no-console
   console.log(targetComponentSetName, 'node-------', node);
   // eslint-disable-next-line max-len
@@ -196,8 +196,10 @@ mg.on('selectionchange', (selections: string[]) => {
           example: node.name,
         },
       });
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       const test_data = filterProperties(node.children);
 
+      // eslint-disable-next-line no-console
       console.log('COMPONENT----', node.children, test_data);
       return;
     }

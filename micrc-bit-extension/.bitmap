@@ -95,7 +95,7 @@
     },
     "runtimes/micrc-web": {
         "scope": "micrc.bit",
-        "version": "0.0.75",
+        "version": "0.0.82",
         "mainFile": "index.ts",
         "rootDir": "bit/runtimes/micrc-web"
     },
