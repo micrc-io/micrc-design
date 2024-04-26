@@ -17,7 +17,7 @@ export function appProductionCIFile(data: ClientendContextData) {
     string(name: 'commit', defaultValue: '', description: 'git commit num')
     choice(
       name: 'profile',
-      choices: ['no-deploy', 'alpha', 'beta', 'prod'],
+      choices: ['no-deploy', 'alpha', 'beta', 'ga'],
       description: 'deploy profile'
     )
   }
@@ -80,7 +80,7 @@ export function appProductionCIFile(data: ClientendContextData) {
             sh "mkdir -p ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}"
             sh "/bin/cp ./${data.intro.relativePath}/${data.context.name}-gateway-manifest.yaml ../gitops/profiles/$PROFILE/${data.intro.context.ownerDomain}/${data.context.name}-gateway-manifest.yaml"
             dir("../gitops"){
-              sh "git config --global user.email 'developer@ouxxa.com'"
+              sh "git config --global user.email 'operator@ouxxa.com'"
               sh "git config --global user.name 'jenkins'"
               sh "git add ."
               sh "git diff-index --quiet HEAD || git commit -m \\"jenkins ci - version: $TAG, profile: $PROFILE\\""

@@ -38,6 +38,7 @@ const proxy = createProxyMiddleware({
   onProxyReq: (proxyReq: ClientRequest, req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const authToken = cookies.get(TOKEN_COOKIE_KEY);
+    const profile = cookies.get('profile');
     req.headers.cookie = '';
     if (authToken) {
       proxyReq.setHeader('Authorization', authToken);
@@ -56,14 +57,25 @@ const proxy = createProxyMiddleware({
         try {
           const respBody = JSON.parse(apiResponseBody);
           const authToken = getValueByPointer(respBody, SERVER_TOKEN_POINTER || '');
+          const profile = getValueByPointer(respBody, '/profile' || '');
           const cookies = new Cookies(req, res);
           cookies.set(TOKEN_COOKIE_KEY, authToken, {
+            httpOnly: true,
+            sameSite: 'lax'
+          });
+          cookies.set('profile', profile, {
             httpOnly: true,
             sameSite: 'lax'
           });
           applyPatch(
             respBody,
             [{op: 'replace', path: SERVER_TOKEN_POINTER, value: ''}],
+            false,
+            true,
+          );
+          applyPatch(
+            respBody,
+            [{op: 'replace', path: '/profile', value: ''}],
             false,
             true,
           );
