@@ -9,6 +9,7 @@ import { ComponentContext } from '@teambit/generator';
 type ClientendIntro = {
   version: string;
   state: string;
+  publish: 'alpha' | 'beta' | 'ga';
   clientend: {
     client: {
       distributor: string;

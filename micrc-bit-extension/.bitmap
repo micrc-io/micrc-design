@@ -71,7 +71,7 @@
     },
     "generators/micrc-web": {
         "scope": "micrc.bit",
-        "version": "0.1.106",
+        "version": "0.1.109",
         "mainFile": "index.ts",
         "rootDir": "bit/generators/micrc-web"
     },
@@ -98,18 +98,6 @@
         "version": "0.0.82",
         "mainFile": "index.ts",
         "rootDir": "bit/runtimes/micrc-web"
-    },
-    "stores/web/modules/logout-store": {
-        "scope": "colibri-tech.accounts",
-        "version": "0.0.1",
-        "mainFile": "index.ts",
-        "rootDir": "accounts/stores/web/modules/logout-store"
-    },
-    "system/web/components/text": {
-        "scope": "colibri-tech.design",
-        "version": "0.0.5",
-        "mainFile": "index.ts",
-        "rootDir": "design/system/web/components/text"
     },
     "$schema-version": "15.0.0"
 }
