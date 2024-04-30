@@ -5,7 +5,7 @@ import type { ClientendContextData } from '../../../../_parser';
 
 export function gaTrafficManagerFile(data: ClientendContextData) {
   // 默认发布alpha 环境
-  const publish = data.intro.publish || 'alpha';
+  const publish = data.intro.context.gateway.properties.profile || 'alpha';
   const nameSpaceSuffix = v => '.'+data.intro.domainName+'-'+v+'.svc.cluster.local';
   let suffix = nameSpaceSuffix(publish);
 

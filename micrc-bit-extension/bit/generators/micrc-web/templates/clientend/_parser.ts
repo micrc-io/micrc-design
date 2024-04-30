@@ -47,6 +47,7 @@ type ClientendIntro = {
       properties: {
         loginUrl: string;
         serverTokenPointer: string;
+        profile: string;
       };
     };
   };
