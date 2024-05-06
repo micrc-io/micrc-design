@@ -4,7 +4,7 @@
 import type { ClientendContextData } from '../../../../_parser';
 
 export function betaFile(data: ClientendContextData) {
-    return `apiVersion: kustomize.config.k8s.io/v1beta1
+  return `apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 generatorOptions:
@@ -18,7 +18,6 @@ secretGenerator:
 
 resources:
   - ../base
-  - ./traffic-manager.yaml
 
 patches:
   - patch: |-
@@ -40,11 +39,5 @@ patches:
         value: beta
     target:
       kind: Deployment
-  - patch: |-
-      - op: add
-        path: /metadata/labels/colibrierp.com.br\\/profile
-        value: beta
-    target:
-      kind: Deployment      
 `;
 }

@@ -75,7 +75,10 @@ import styles from './{{context.name}}.module.scss';
 {{!-- props类型定义 --}}
 export type {{context.namePascalCase}}Props = {
   {{#each props}}
-  {{@key}}: {{{this}}},
+  /**
+   * {{this.description}}
+   */
+  {{@key}}: {{{this.type}}},
   {{/each}}
 };
 

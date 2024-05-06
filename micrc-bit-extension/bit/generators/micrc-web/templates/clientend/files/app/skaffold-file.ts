@@ -66,7 +66,7 @@ profiles:
           - manifests/k8s/kustomize/alpha
         buildArgs:
           - --enable-helm
-          - --load-restrictor=LoadRestrictionsNone         
+          - --load-restrictor=LoadRestrictionsNone
   - name: beta
     manifests:
       kustomize:
@@ -74,7 +74,7 @@ profiles:
           - manifests/k8s/kustomize/beta
         buildArgs:
           - --enable-helm
-          - --load-restrictor=LoadRestrictionsNone          
+          - --load-restrictor=LoadRestrictionsNone
   - name: ga
     manifests:
       kustomize:
@@ -82,6 +82,6 @@ profiles:
           - manifests/k8s/kustomize/ga
         buildArgs:
           - --enable-helm
-          - --load-restrictor=LoadRestrictionsNone                                      
+          - --load-restrictor=LoadRestrictionsNone
 `;
 }

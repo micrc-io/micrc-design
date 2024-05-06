@@ -98,7 +98,10 @@ const {{this.name}} = {{this.name}}Source.src || {{this.name}}Source;
 {{!-- props类型定义 --}}
 export type {{context.namePascalCase}}Props = {
   {{#each props}}
-  {{@key}}: {{{this}}},
+  /**
+   * {{this.description}}
+   */
+  {{@key}}: {{{this.type}}},
   {{/each}}
 };
 

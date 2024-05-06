@@ -47,7 +47,7 @@ type ComponentMeta = {
     definitions?: Record<string, TypeDefinition>;
     imports?: Record<string, { default: boolean; packages: string }>;
   };
-  props: Record<string, string>;
+  props: Record<string, { type: string; description: string }>;
   defaultProps: Record<string, any>;
   stories: {
     components: Record<string, { default: boolean; packages: string }>;
@@ -82,7 +82,7 @@ export type ComponentContextData = {
   reactImports: Record<string, ImportContent>; // react库导入
   typeDefinitions?: Record<string, TypeDefinition>; // 类型定义，以定义的类型名为key
   typeImports?: Record<string, ImportContent>; // 类型导入，以导入包为key
-  props: Record<string, string>; // 组件props类型定义
+  props: Record<string, { type: string; description: string }>; // 组件props类型定义
   defaultProps: Record<string, any>; // 组件默认props
   stories: {
     componentImports: Record<string, ImportContent>;
@@ -215,7 +215,7 @@ const handleStories = (meta: ComponentMeta) => {
       ...meta.stories.examples,
     },
     insideComponentsImports: insideComponentsImports(
-      meta.stories.insideComponents || {}
+      meta.stories.insideComponents || {},
     ),
   };
 };

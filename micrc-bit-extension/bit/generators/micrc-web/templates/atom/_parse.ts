@@ -44,7 +44,7 @@ type AtomMeta = {
   componentImports?: Record<string, ImportContent>; // 组件/库导入, 只能导入已经支持的
   insideComponents: Record<string, { version: string; packages: string }>;
   typeDefinitions?: Record<string, TypeDefinition>; // 类型定义
-  props: Record<string, string>; // props定义
+  props: Record<string, { type: string; description: string }>; // props定义
   defaultProps: Record<string, any>; // 组件默认props
   stories: {
     componentImports: Record<string, ImportContent>;
@@ -72,8 +72,8 @@ export type AtomContextData = {
   typeImports?: Record<string, ImportContent>; // 类型导入，以导入包为key
   componentImports?: Record<string, ImportContent>; // 组件导入，以导入包为key
   insideComponentsImports: Record<string, string>; // 内部组件导入（将三方组件包一层i18n）, 以导入名为key, 包名为值
-  typeDefinitions?: Record<string, TypeDefinition>; // 类型定义, 直接使用代码
-  props: Record<string, string>; // 组件props定义, 直接使用代码
+  typeDefinitions?: Record<string, TypeDefinition>; // 类型定义
+  props: Record<string, { type: string; description: string }>; // 组件props定义
   defaultProps: Record<string, any>; // 组件默认props
   stories: {
     componentImports: Record<string, ImportContent>;
@@ -89,7 +89,7 @@ export type AtomContextData = {
 };
 
 const insideComponentsImports = (
-  insideComponents: Record<string, { version: string; packages: string }>
+  insideComponents: Record<string, { version: string; packages: string }>,
 ): Record<string, string> => {
   const retVal: Record<string, string> = {};
   Object.keys(insideComponents).forEach((name) => {
@@ -97,7 +97,6 @@ const insideComponentsImports = (
   });
   return retVal;
 };
-
 
 export const parse = (meta: AtomMeta, context: ComponentContext): AtomContextData => {
   const data: AtomContextData = {
@@ -116,14 +115,14 @@ export const parse = (meta: AtomMeta, context: ComponentContext): AtomContextDat
       componentImports: meta.stories.componentImports,
       examples: meta.stories.examples,
       insideComponentsImports: insideComponentsImports(
-        meta.stories.insideComponents || {}
+        meta.stories.insideComponents || {},
       ),
     },
     doc: meta.doc,
     css: meta.css || '',
     componentImports: meta.componentImports,
     insideComponentsImports: insideComponentsImports(
-      meta.insideComponents || {}
+      meta.insideComponents || {},
     ),
     localState: meta.localState,
     assembly: meta.assembly,

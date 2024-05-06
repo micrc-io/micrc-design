@@ -47,7 +47,7 @@ export function appIntegrationCIFile(data: ClientendContextData) {
               sh "echo $NPM_TOKEN >> ~/.npmrc"
               sh "echo @micrc:registry=https://node.bit.cloud >> ~/.npmrc"
               sh "npm i"
-              sh "export TAG=$TAG && export PROXY_SERVER_URL=${data.intro.context.global.integration.proxyServerUrl}  && export DOCKER_BUILDKIT=1 && COMPOSE_DOCKER_CLI_BUILD=1 && skaffold build -p $PROFILE --default-repo=$DOCKER_REGISTRY"
+              sh "export TAG=$TAG && export PROXY_SERVER_URL=${data.intro.context.global.integration.proxyServerUrl} && export DOCKER_BUILDKIT=1 && export COMPOSE_DOCKER_CLI_BUILD=1 && skaffold build -p $PROFILE --default-repo=$DOCKER_REGISTRY"
               sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
               sh "docker push $DOCKER_REGISTRY/${data.context.name}-gateway:$TAG"
             }

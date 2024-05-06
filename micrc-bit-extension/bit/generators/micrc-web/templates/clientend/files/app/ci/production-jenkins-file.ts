@@ -38,7 +38,7 @@ export function appProductionCIFile(data: ClientendContextData) {
       steps {
         container('micrc') {
           sh "git checkout $COMMIT"
-          dir("${data.context.name}/app") {
+          dir("${data.intro.relativePath}") {
             withCredentials([
               usernamePassword(credentialsId: "$NPM_CREDENTIAL", usernameVariable: 'NPM_REGISTRY', passwordVariable: 'NPM_TOKEN'),
               usernamePassword(credentialsId: "$REGISTRY_CREDENTIAL", passwordVariable: 'REGISTRY_PASSWORD', usernameVariable: 'REGISTRY_USERNAME')
@@ -47,9 +47,11 @@ export function appProductionCIFile(data: ClientendContextData) {
               sh "echo $NPM_TOKEN >> ~/.npmrc"
               sh "echo @micrc:registry=https://node.bit.cloud >> ~/.npmrc"
               sh "npm i"
-              sh "export TAG=$TAG && export PROXY_SERVER_URL=${data.intro.context.global.production.proxyServerUrl}  && export DOCKER_BUILDKIT=1 && COMPOSE_DOCKER_CLI_BUILD=1 && skaffold build -p $PROFILE --default-repo=$DOCKER_REGISTRY"
+              sh "export TAG=$TAG && export PROXY_SERVER_URL=${data.intro.context.global.production.proxyServerUrl} && export DOCKER_BUILDKIT=1 && export COMPOSE_DOCKER_CLI_BUILD=1 && skaffold build -p $PROFILE --default-repo=$DOCKER_REGISTRY"
               sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
-              sh "docker push $DOCKER_REGISTRY/${data.context.name}-gateway:$TAG"
+              sh "docker push $DOCKER_REGISTRY/${
+                data.context.name
+              }-gateway:$TAG"
             }
           }
         }
@@ -67,7 +69,9 @@ export function appProductionCIFile(data: ClientendContextData) {
             sh "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $DOCKER_REGISTRY"
             dir("${data.intro.relativePath}") {
               sh "/bin/cp ~/.docker/config.json ./manifests/k8s/kustomize/docker-config.json"
-              sh "export TAG=$TAG && skaffold render -p $PROFILE --digest-source=tag --default-repo=$DOCKER_REGISTRY > ${data.context.name}-gateway-manifest.yaml"
+              sh "export TAG=$TAG && skaffold render -p $PROFILE --digest-source=tag --default-repo=$DOCKER_REGISTRY > ${
+                data.context.name
+              }-gateway-manifest.yaml"
             }
           }
           lock("micrc-gitops") {

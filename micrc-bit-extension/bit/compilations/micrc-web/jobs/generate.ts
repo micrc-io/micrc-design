@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable array-callback-return */
 /**
@@ -251,7 +252,6 @@ const generateModule = async (
   componentType: string,
   metaFile: string,
 ) => {
-
   try {
     await execCmd('bit', ['remove', '-s', '-f', componentPath], bitBasePath);
   } catch (e) {
@@ -262,7 +262,7 @@ const generateModule = async (
     await execCmd(
       'bit',
       ['create', 'micrc-web-module', componentPath],
-      bitBasePath
+      bitBasePath,
     );
   } catch (e) {
     const msg = `component: ${componentPath} of type: modules - create error: ${e}`;
@@ -279,7 +279,7 @@ const generateModule = async (
       componentType,
       metaFile.replace('.json', ''),
       'meta',
-      'i18ns.json'
+      'i18ns.json',
     );
     if (metaData.remoteState.aggregations) {
       // 把服务端i18ns.json 放在模块/meta下的
@@ -287,10 +287,10 @@ const generateModule = async (
         schemaLocation,
         'aggregations',
         metaData.remoteState.aggregations,
-        'i18ns.json'
+        'i18ns.json',
       );
       const i18nsMetaData = JSON.parse(
-        fs.readFileSync(i18nsPath, { encoding: 'utf8' })
+        fs.readFileSync(i18nsPath, { encoding: 'utf8' }),
       );
       fs.writeFileSync(metaPath, JSON.stringify(i18nsMetaData, null, 2), {
         encoding: 'utf8',
@@ -309,13 +309,13 @@ const generateModule = async (
   try {
     const { components } = metaData;
     const deps: string[] = Object.values(components).map(
-      (it: any) => `${it.packages}@${it.version}`
+      (it: any) => `${it.packages}@${it.version}`,
     );
     if (deps) {
       await execCmd(
         'bit',
         ['deps', 'set', componentPath, ...deps],
-        bitBasePath
+        bitBasePath,
       );
       await execCmd('bit', ['install'], bitBasePath);
     }
@@ -335,7 +335,7 @@ const generateModule = async (
         '@micrc/bit.runtimes.micrc-web@>= 0.0.78',
         '--peer',
       ],
-      bitBasePath
+      bitBasePath,
     );
     await execCmd(
       'bit',
@@ -346,7 +346,7 @@ const generateModule = async (
         'json-bigint',
         '--peer',
       ],
-      bitBasePath
+      bitBasePath,
     );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
@@ -362,7 +362,7 @@ const generateModule = async (
       await execCmd(
         'bit',
         ['checkout', 'head', `${componentPath}`],
-        bitBasePath
+        bitBasePath,
       );
       await execCmd(
         'bit',
@@ -375,7 +375,7 @@ const generateModule = async (
           '--ignore-newest-version',
           componentPath,
         ],
-        bitBasePath
+        bitBasePath,
       );
     } catch (e) {
       const msg = `component: ${componentPath} of type: modules - tagging error: ${e}`;
@@ -510,7 +510,8 @@ export const generate = async () => {
   );
   // eslint-disable-next-line no-restricted-syntax
   for (const metaFile of metaFiles) {
-    if(!metaFile.endsWith('.json')) continue;
+    // eslint-disable-next-line no-continue
+    if (!metaFile.endsWith('.json')) continue;
     const metaFilePath = path.join(
       schemaLocation,
       contextSubName,
@@ -577,14 +578,6 @@ export const generate = async () => {
         break;
       }
       case TYPES.CLIENTENDS: {
-        // metaData.intro.context = {
-        //   ownerDomain: contextMetaData.ownerDomain,
-        //   global: contextMetaData.global,
-        //   gateway: contextMetaData.gateway,
-        // };
-        // fs.writeFileSync(fullMetaFilePath, JSON.stringify(metaData, null, 2), {
-        //   encoding: 'utf8',
-        // });
         // eslint-disable-next-line no-await-in-loop
         await generateClientend(
           metaData,
@@ -633,7 +626,7 @@ const repo = async (metaData) => {
       await execCmd(
         'bit',
         ['remote', 'add', `https://${item}.${metaData?.intro?.bitHubBaseUrl}`],
-        bitBasePath
+        bitBasePath,
       );
     } catch (e) {
       log.error(chalk.red(`bit remote add error: ${e}`));

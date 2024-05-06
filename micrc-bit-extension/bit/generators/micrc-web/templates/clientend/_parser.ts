@@ -9,7 +9,6 @@ import { ComponentContext } from '@teambit/generator';
 type ClientendIntro = {
   version: string;
   state: string;
-  publish: 'alpha' | 'beta' | 'ga';
   clientend: {
     client: {
       distributor: string;
@@ -111,78 +110,91 @@ type IntegrationTopic = {
 // 元数据定义
 type ClientendMeta = {
   intro: {
-    version: string,
-    state: string,
-    loginPageUri: string,
-    fix: any,
+    version: string;
+    state: string;
+    loginPageUri: string;
+    fix: any;
     clientend: {
-      client:{
-        distributor:string,
-        operator:string
-      }
-    },
-    domainName: string,
-    favicon: string,
-    languages: Array<{ code: string, name: string }>,
+      client: {
+        distributor: string;
+        operator: string;
+      };
+    };
+    domainName: string;
+    favicon: string;
+    languages: Array<{ code: string; name: string }>;
     context: {
-      ownerDomain: string,
+      ownerDomain: string;
       global: {
         integration: {
-          proxyServerUrl: string,
-          registry: string,
-          gitopsRepo: string,
-        },
+          proxyServerUrl: string;
+          registry: string;
+          gitopsRepo: string;
+        };
         production: {
-          proxyServerUrl: string,
-          registry: string,
-          gitopsRepo: string,
-        },
-      },
+          proxyServerUrl: string;
+          registry: string;
+          gitopsRepo: string;
+        };
+      };
       gateway: {
-        entry: string,
-        fqdn: string,
-        rule: {},
+        entry: string;
+        fqdn: string;
+        rule: {};
         properties: {
-          loginUrl: string,
-          serverTokenPointer: string
-        },
-      }
-    }
-  },
+          loginUrl: string;
+          serverTokenPointer: string;
+          profile: string;
+        };
+      };
+    };
+  };
   doc: {
-    title: string,
-    labels: Array<string>,
-    showcase: string,
-    desc: string,
-  },
-  integration: Record<string, IntegrationTopic>,
+    title: string;
+    labels: Array<string>;
+    showcase: string;
+    desc: string;
+  };
+  integration: Record<string, IntegrationTopic>;
   entry: {
-    modules: Record<string, {
-      package: string,
-      version: string,
-      i18n: Record<string, I18nPointerMeta>,
+    modules: Record<
+    string,
+    {
+      package: string;
+      version: string;
+      i18n: Record<string, I18nPointerMeta>;
       // todo tracker
-    }>,
-    components: Record<string, { package: string, version: string }>,
-    layouts: Record<string, {
-      uris: Array<string>,
-      props: Record<string, PropType>,
-    }>,
-  },
-  pages: Record<string, {
+    }
+    >;
+    components: Record<string, { package: string; version: string }>;
+    layouts: Record<
+    string,
+    {
+      uris: Array<string>;
+      props: Record<string, PropType>;
+    }
+    >;
+  };
+  pages: Record<
+  string,
+  {
     // todo tracker
-    i18n : Record<string, I18nPointerMeta>,
-    permissions: Record<string, Array<string>>,
-    comment: Array<string>,
-    modules: Record<string, {
-      package: string,
-      version: string,
-      i18n: Record<string, I18nPointerMeta>,
+    i18n: Record<string, I18nPointerMeta>;
+    permissions: Record<string, Array<string>>;
+    comment: Array<string>;
+    modules: Record<
+    string,
+    {
+      package: string;
+      version: string;
+      i18n: Record<string, I18nPointerMeta>;
       // todo tracker
-    }>,
-    components: Record<string, { package: string, version: string }>,
-    assembly: PageAssembly,
-  }>,
+    }
+    >;
+    components: Record<string, { package: string; version: string }>;
+    assembly: PageAssembly;
+  }
+  >;
 };
 
 type SubmissionI18n = {
