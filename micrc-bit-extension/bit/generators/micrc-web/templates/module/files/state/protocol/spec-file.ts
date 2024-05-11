@@ -65,6 +65,11 @@ declare type ProtocolMock = {
   mock: any;
 };
 
+const typeIsBigInt = (data) => {
+  if(typeof data === 'bigint' ||  data === -1 || data.toString().length === 13 ||  data.toString().length === 10) return true;
+  return false
+};
+
 const ajv = new Ajv({
   allErrors: true,
   $data: true,
@@ -74,13 +79,16 @@ ajvErrors(ajv);
 ajv.addKeyword({
   keyword: 'datatype',
   validate: (schema, data) => {
-    return schema == 'bigint' &&
-      (typeof data === 'bigint' ||
-        data === -1 ||
-        data.toString().length === 13 ||
-        data.toString().length === 10)
-      ? true
-      : false;
+    if (schema === 'bigint'){
+      return typeIsBigInt(data)? true:false;
+    }
+    if (
+      Array.isArray(schema) &&
+      schema.includes('null') &&
+      schema.includes('bigint')
+    ) {
+      return data === null || typeIsBigInt(data) ? true : false;
+    }
   },
   errors: false,
 });
@@ -128,19 +136,23 @@ const validator = (ajvValidate: ValidateFunction) => (
   return [valid, errObj, ajvValidate];
 };
 
-const recursion= (data)=> {
+const recursion = (data) => {
   if (typeof data === 'object') {
     Object.keys(data).forEach((key) => {
-      if (data[key].type === 'integer' && data[key].format === "int64"){
-        (data[key]['datatype'] = 'bigint');
+      if (data[key].type === 'integer' && data[key].format === 'int64') {
+        data[key]['datatype'] = 'bigint';
         delete data[key].type;
         delete data[key].format;
+        if (data[key].nullable){
+          data[key]['datatype'] = ['bigint','null'];
+          delete data[key].nullable;
+        }
       }
       recursion(data[key]);
     });
   }
   return data;
-}
+};
 
 const mergeResult = merge([
   {

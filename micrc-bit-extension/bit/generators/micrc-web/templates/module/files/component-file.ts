@@ -129,10 +129,12 @@ export function {{context.namePascalCase}}({ router , fix, callback }: {{context
   {{/each}}
 
   {{!-- 定义组件入口 --}}
-  {{#if entry.mount.actions}}
+  {{#ifOr entry.mount.actions entry.unmount.actions}}
   useEffect(() => {
+    {{#if entry.mount.actions}}
     {{{json entry.mount}}}
     {{{entry.mount.name}}}()
+    {{/if}}
     {{#if entry.unmount.actions}}
     return () => {
       {{{json entry.unmount}}}
@@ -140,7 +142,7 @@ export function {{context.namePascalCase}}({ router , fix, callback }: {{context
     };
     {{/if}}
   }, []);
-  {{/if}}
+  {{/ifOr}}
 
   {{!-- 判断consume 对象是否为空对象 --}}
   {{#if (get_length integration.simulation.consume)}}
@@ -184,6 +186,14 @@ export function componentFile(data: ModuleContextData) {
   HandleBars.registerHelper('propsAssembler', (context) => propsAssembler(context));
   HandleBars.registerHelper('json', (context) => jsonObject(context));
   HandleBars.registerHelper('get_length', (obj) => Object.keys(obj).length);
+  HandleBars.registerHelper(
+    'ifOr', (condition1, condition2, options) => {
+      if (condition1.length > 0 || condition2.length > 0) {
+        return options.fn(this);
+      }
+      return options.inverse(this);
+    },
+  );
   return prettier.format(
     HandleBars.compile(tmpl)(data),
     {

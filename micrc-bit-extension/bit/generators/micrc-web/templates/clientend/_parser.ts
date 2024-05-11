@@ -30,11 +30,13 @@ type ClientendIntro = {
     global: {
       integration: {
         proxyServerUrl: string;
+        proxyRepoUrl: string;
         registry: string;
         gitopsRepo: string;
       };
       production: {
         proxyServerUrl: string;
+        proxyRepoUrl: string;
         registry: string;
         gitopsRepo: string;
       };
@@ -130,11 +132,13 @@ type ClientendMeta = {
           proxyServerUrl: string;
           registry: string;
           gitopsRepo: string;
+          proxyRepoUrl: string;
         };
         production: {
           proxyServerUrl: string;
           registry: string;
           gitopsRepo: string;
+          proxyRepoUrl: string;
         };
       };
       gateway: {
@@ -157,9 +161,7 @@ type ClientendMeta = {
   };
   integration: Record<string, IntegrationTopic>;
   entry: {
-    modules: Record<
-    string,
-    {
+    modules: Record< string, {
       package: string;
       version: string;
       i18n: Record<string, I18nPointerMeta>;

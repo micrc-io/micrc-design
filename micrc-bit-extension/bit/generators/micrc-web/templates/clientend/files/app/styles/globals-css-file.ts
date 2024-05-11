@@ -52,10 +52,10 @@ a {
 .ant-layout>.ant-layout {
   min-height: 600px;
 }
+
 .ant-layout-content .ant-layout>.ant-layout-sider {
   min-height: 0;
 }
-
 
 .select .ant-skeleton-paragraph {
   margin: 0;
@@ -68,10 +68,6 @@ a {
 
 .ant-menu-item-group-title {
   text-align: left;
-}
-
-.ant-modal-root .ant-modal-wrap {
-  top: 40px;
 }
 
 .ant-modal-wrap .react-draggable {
@@ -110,6 +106,35 @@ a {
 
 .ant-tabs-nav-list .ant-typography{
   margin-bottom: 0px;
+}
+
+.sider-layout_tabsContent__Mrxt_ .ant-layout-sider-children .blankContent {
+  height: 100%;
+}
+
+
+:where(.css-dev-only-do-not-override-1w4v3hc).ant-menu-light.ant-menu-root.ant-menu-inline,
+:where(.css-dev-only-do-not-override-1w4v3hc).ant-menu-light>.ant-menu.ant-menu-root.ant-menu-inline,
+:where(.css-dev-only-do-not-override-1w4v3hc).ant-menu-light.ant-menu-root.ant-menu-vertical,
+:where(.css-dev-only-do-not-override-1w4v3hc).ant-menu-light>.ant-menu.ant-menu-root.ant-menu-vertical {
+  border-inline-end: none;
+}
+
+.ant-timeline.ant-timeline-label .ant-timeline-item-label {
+  width: 25%;
+}
+
+.ant-timeline.ant-timeline-label .ant-timeline-item-left .ant-timeline-item-content {
+  inset-inline-start: calc(35% - 4px);
+  width: calc(50% - 12px);
+}
+
+.ant-timeline.ant-timeline-label .ant-timeline-item-tail {
+  inset-inline-start: 30%;
+}
+
+.ant-timeline.ant-timeline-label .ant-timeline-item-head {
+  inset-inline-start: 30%;
 }
 `;
 }
