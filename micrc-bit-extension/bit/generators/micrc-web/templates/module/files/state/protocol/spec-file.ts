@@ -65,11 +65,9 @@ declare type ProtocolMock = {
   mock: any;
 };
 
-const typeIsBigInt = (data) => {
-  if(typeof data === 'bigint' ||  data === -1 || data.toString().length === 13 ||  data.toString().length === 10) return true;
-  return false
+const typeCheck = (data) => {
+  return (typeof data === 'bigint' || typeof data === 'number')? true : false;
 };
-
 const ajv = new Ajv({
   allErrors: true,
   $data: true,
@@ -80,14 +78,14 @@ ajv.addKeyword({
   keyword: 'datatype',
   validate: (schema, data) => {
     if (schema === 'bigint'){
-      return typeIsBigInt(data)? true:false;
+      return typeCheck(data)? true : false;
     }
     if (
       Array.isArray(schema) &&
       schema.includes('null') &&
       schema.includes('bigint')
     ) {
-      return data === null || typeIsBigInt(data) ? true : false;
+      return data === null || typeCheck(data) ? true : false;
     }
   },
   errors: false,

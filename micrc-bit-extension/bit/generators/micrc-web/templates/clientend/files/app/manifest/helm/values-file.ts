@@ -7,6 +7,7 @@ export function valuesFile(data: ClientendContextData) {
   return `
 loginUrl: "${data.intro.context.gateway.properties.loginUrl}"
 serverTokenPointer: "${data.intro.context.gateway.properties.serverTokenPointer}"
+profile: "${data.intro.context.gateway.properties.profile}"
 
 replicaCount: 1
 
@@ -58,9 +59,9 @@ resources: {}
   #   memory: 128Mi
 
 autoscaling:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 100
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 

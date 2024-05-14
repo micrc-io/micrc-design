@@ -32,7 +32,8 @@ const tmpl = `{
     "next-compose-plugins": "2.2.1",
     "next-transpile-modules": "9.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "antd": "5.17.0"
   },
   "devDependencies": {
     "@types/cookies": "0.7.7",

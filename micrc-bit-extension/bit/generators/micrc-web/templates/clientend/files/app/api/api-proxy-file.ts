@@ -19,7 +19,7 @@ const NO_HOST_400 = process.env.PROXY_NO_HOST_400 || 'http://localhost:4004/api/
 const TOKEN_COOKIE_KEY = process.env.TOKEN_COOKIE_KEY || 'auth-token';
 const LOGIN_URI = process.env.LOGIN_URI || '/api/v1/security/authc';
 const SERVER_TOKEN_POINTER = process.env.SERVER_TOKEN_POINTER || '/auth_token';
-const SERVER_PROFILE = process.env.SERVER_PROFILE || '/profile';
+const GRAY = process.env.GRAY || '/profile';
 
 const proxy = createProxyMiddleware({
   changeOrigin: true,
@@ -39,7 +39,6 @@ const proxy = createProxyMiddleware({
   onProxyReq: (proxyReq: ClientRequest, req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const authToken = cookies.get(TOKEN_COOKIE_KEY);
-    const profile = cookies.get('profile');
     req.headers.cookie = '';
     if (authToken) {
       proxyReq.setHeader('Authorization', authToken);
@@ -58,13 +57,13 @@ const proxy = createProxyMiddleware({
         try {
           const respBody = JSON.parse(apiResponseBody);
           const authToken = getValueByPointer(respBody, SERVER_TOKEN_POINTER || '');
-          const profile = getValueByPointer(respBody, SERVER_PROFILE || '');
+          const gray = getValueByPointer(respBody, GRAY || '');
           const cookies = new Cookies(req, res);
           cookies.set(TOKEN_COOKIE_KEY, authToken, {
             httpOnly: true,
             sameSite: 'lax'
           });
-          cookies.set('profile', profile, {
+          cookies.set('profile', gray, {
             httpOnly: true,
             sameSite: 'lax'
           });
@@ -76,7 +75,7 @@ const proxy = createProxyMiddleware({
           );
           applyPatch(
             respBody,
-            [{op: 'replace', path: SERVER_PROFILE, value: ''}],
+            [{op: 'replace', path: GRAY, value: ''}],
             false,
             true,
           );

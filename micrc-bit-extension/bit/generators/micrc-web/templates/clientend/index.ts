@@ -43,6 +43,7 @@ import { appManifests } from './files/app/manifest';
 import { appSkaffoldFile } from './files/app/skaffold-file';
 import { appIntegrationCIFile } from './files/app/ci/integration-jenkins-file';
 import { appProductionCIFile } from './files/app/ci/production-jenkins-file';
+import { appClusterFile } from './files/app/cluster-file';
 
 export const clientendTemplate: ComponentTemplate = {
   name: 'micrc-web-clientend',
@@ -215,6 +216,11 @@ export const clientendTemplate: ComponentTemplate = {
       {
         relativePath: 'app/meta/permission.json',
         content: appMetaPermissionFile(data),
+      },
+      // app clusterFile
+      {
+        relativePath: 'app/cluster.js',
+        content: appClusterFile(),
       },
       ...appManifests(data),
     ];

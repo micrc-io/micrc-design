@@ -187,7 +187,14 @@ export function componentFile(data: ModuleContextData) {
   HandleBars.registerHelper('json', (context) => jsonObject(context));
   HandleBars.registerHelper('get_length', (obj) => Object.keys(obj).length);
   HandleBars.registerHelper(
-    'ifOr', (condition1, condition2, options) => {
+    'ifOr',
+    // eslint-disable-next-line func-names
+    function (
+      this: any,
+      condition1: any[],
+      condition2: any[],
+      options: Handlebars.HelperOptions,
+    ) {
       if (condition1.length > 0 || condition2.length > 0) {
         return options.fn(this);
       }
