@@ -19,6 +19,14 @@ secretGenerator:
 resources:
   - ../base
 
+patchesStrategicMerge:
+- |-
+  apiVersion: autoscaling/v2beta1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: ${data.context.name}-gateway
+  $patch: delete
+
 patches:
   - patch: |-
       - op: add

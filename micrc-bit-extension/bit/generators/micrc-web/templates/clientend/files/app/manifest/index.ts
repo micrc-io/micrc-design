@@ -20,7 +20,7 @@ import { alphaFile } from './kustomize/alpha';
 // import { alphaTrafficManagerFile} from "./kustomize/alpha-traffic-manager-file";
 import { betaFile } from './kustomize/beta';
 // import { betaTrafficManagerFile } from './kustomize/beta-traffic-manager-file';
-import { gaFile } from './kustomize/ga';
+import { releaseFile } from './kustomize/release';
 // import { gaTrafficManagerFile } from './kustomize/ga-traffic-manager-file';
 
 const PATH = ['app', 'manifests', 'k8s'];
@@ -28,42 +28,87 @@ const PATH = ['app', 'manifests', 'k8s'];
 export const appManifests = (data: ClientendContextData) => [
   // k8s/helm/${clientendName}/Chart.yaml
   {
-    relativePath: path.join(...PATH, 'helm', `${data.context.name}-gateway`, 'Chart.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'helm',
+      `${data.context.name}-gateway`,
+      'Chart.yaml',
+    ),
     content: chartFile(data),
   },
   // k8s/helm/${clientendName}/Chart.yaml
   {
-    relativePath: path.join(...PATH, 'helm', `${data.context.name}-gateway`, 'values.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'helm',
+      `${data.context.name}-gateway`,
+      'values.yaml',
+    ),
     content: valuesFile(data),
   },
   // k8s/helm/${clientendName}/.helmignore.yaml
   {
-    relativePath: path.join(...PATH, 'helm', `${data.context.name}-gateway`, 'helmignore.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'helm',
+      `${data.context.name}-gateway`,
+      'helmignore.yaml',
+    ),
     content: helmIgnoreFile(),
   },
   // k8s/helm/${clientendName}/templates/_helper.tpl
   {
-    relativePath: path.join(...PATH, 'helm', `${data.context.name}-gateway`, 'templates', '_helper.tpl'),
+    relativePath: path.join(
+      ...PATH,
+      'helm',
+      `${data.context.name}-gateway`,
+      'templates',
+      '_helper.tpl',
+    ),
     content: helperFile(data),
   },
   // k8s/helm/${clientendName}/templates/service.yaml
   {
-    relativePath: path.join(...PATH, 'helm', `${data.context.name}-gateway`, 'templates', 'service.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'helm',
+      `${data.context.name}-gateway`,
+      'templates',
+      'service.yaml',
+    ),
     content: serviceFile(data),
   },
   // k8s/helm/${clientendName}/templates/serviceaccount.yaml
   {
-    relativePath: path.join(...PATH, 'helm', `${data.context.name}-gateway`, 'templates', 'serviceaccount.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'helm',
+      `${data.context.name}-gateway`,
+      'templates',
+      'serviceaccount.yaml',
+    ),
     content: serviceaccountFile(data),
   },
   // k8s/helm/${clientendName}/templates/hpa.yaml
   {
-    relativePath: path.join(...PATH, 'helm', `${data.context.name}-gateway`, 'templates', 'hpa.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'helm',
+      `${data.context.name}-gateway`,
+      'templates',
+      'hpa.yaml',
+    ),
     content: hpaFile(data),
   },
   // k8s/helm/${clientendName}/templates/deployment.yaml
   {
-    relativePath: path.join(...PATH, 'helm', `${data.context.name}-gateway`, 'templates', 'deployment.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'helm',
+      `${data.context.name}-gateway`,
+      'templates',
+      'deployment.yaml',
+    ),
     content: deploymentFile(data),
   },
   // k8s/kustomize/base/kustomization.yaml
@@ -73,7 +118,12 @@ export const appManifests = (data: ClientendContextData) => [
   },
   // k8s/kustomize/local/kustomization.yaml
   {
-    relativePath: path.join(...PATH, 'kustomize', 'local', 'kustomization.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'kustomize',
+      'local',
+      'kustomization.yaml',
+    ),
     content: localFile(data),
   },
   // k8s/kustomize/dev/kustomization.yaml
@@ -83,12 +133,22 @@ export const appManifests = (data: ClientendContextData) => [
   },
   // k8s/kustomize/dev/traffic-manager.yaml
   {
-    relativePath: path.join(...PATH, 'kustomize', 'dev', 'traffic-manager.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'kustomize',
+      'dev',
+      'traffic-manager.yaml',
+    ),
     content: devTrafficManagerFile(data),
   },
   // k8s/kustomize/alpha/kustomization.yaml
   {
-    relativePath: path.join(...PATH, 'kustomize', 'alpha', 'kustomization.yaml'),
+    relativePath: path.join(
+      ...PATH,
+      'kustomize',
+      'alpha',
+      'kustomization.yaml',
+    ),
     content: alphaFile(data),
   },
   // k8s/kustomize/dev/traffic-manager.yaml
@@ -108,8 +168,13 @@ export const appManifests = (data: ClientendContextData) => [
   // },
   // k8s/kustomize/ga/kustomization.yaml
   {
-    relativePath: path.join(...PATH, 'kustomize', 'ga', 'kustomization.yaml'),
-    content: gaFile(data),
+    relativePath: path.join(
+      ...PATH,
+      'kustomize',
+      'release',
+      'kustomization.yaml',
+    ),
+    content: releaseFile(data),
   },
   // k8s/kustomize/ga/traffic-manager.yaml
   // {

@@ -3,7 +3,7 @@
  */
 import type { ClientendContextData } from '../../../../_parser';
 
-export function gaFile(data: ClientendContextData) {
+export function releaseFile(data: ClientendContextData) {
   return `apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -18,6 +18,15 @@ secretGenerator:
 
 resources:
   - ../base
+
+patchesStrategicMerge:
+- |-
+  apiVersion: autoscaling/v2beta1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: ${data.context.name}-gateway
+  $patch: delete
+
 
 patches:
   - patch: |-
