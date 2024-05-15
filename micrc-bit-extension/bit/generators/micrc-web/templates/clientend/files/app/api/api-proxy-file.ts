@@ -19,7 +19,7 @@ const NO_HOST_400 = process.env.PROXY_NO_HOST_400 || 'http://localhost:4004/api/
 const TOKEN_COOKIE_KEY = process.env.TOKEN_COOKIE_KEY || 'auth-token';
 const LOGIN_URI = process.env.LOGIN_URI || '/api/v1/security/authc';
 const SERVER_TOKEN_POINTER = process.env.SERVER_TOKEN_POINTER || '/auth_token';
-const GRAY = process.env.GRAY || '/profile';
+const GRAY = process.env.GRAY || '/gray';
 
 const proxy = createProxyMiddleware({
   changeOrigin: true,
@@ -63,7 +63,7 @@ const proxy = createProxyMiddleware({
             httpOnly: true,
             sameSite: 'lax'
           });
-          cookies.set('profile', gray, {
+          cookies.set('gray', gray, {
             httpOnly: true,
             sameSite: 'lax'
           });

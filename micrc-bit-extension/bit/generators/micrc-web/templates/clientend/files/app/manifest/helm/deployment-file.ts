@@ -48,6 +48,8 @@ spec:
               value: {{ .Values.loginUrl }}
             - name: SERVER_TOKEN_POINTER
               value: {{ .Values.serverTokenPointer }}
+            - name: GRAY
+              value: { { .Values.gray } }    
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

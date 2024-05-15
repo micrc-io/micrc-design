@@ -47,5 +47,11 @@ patches:
         value: alpha
     target:
       kind: Deployment
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/2/value
+        value: /gray
+    target:
+      kind: Deployment      
 `;
 }

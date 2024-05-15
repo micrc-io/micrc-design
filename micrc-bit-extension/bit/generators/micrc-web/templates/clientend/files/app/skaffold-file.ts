@@ -75,11 +75,11 @@ profiles:
         buildArgs:
           - --enable-helm
           - --load-restrictor=LoadRestrictionsNone
-  - name: ga
+  - name: release
     manifests:
       kustomize:
         paths:
-          - manifests/k8s/kustomize/ga
+          - manifests/k8s/kustomize/release
         buildArgs:
           - --enable-helm
           - --load-restrictor=LoadRestrictionsNone

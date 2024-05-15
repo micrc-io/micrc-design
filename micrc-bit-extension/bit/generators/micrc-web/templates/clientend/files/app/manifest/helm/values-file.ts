@@ -7,7 +7,7 @@ export function valuesFile(data: ClientendContextData) {
   return `
 loginUrl: "${data.intro.context.gateway.properties.loginUrl}"
 serverTokenPointer: "${data.intro.context.gateway.properties.serverTokenPointer}"
-profile: "${data.intro.context.gateway.properties.profile}"
+gray: "${data.intro.context.gateway.properties.gray}"
 
 replicaCount: 1
 

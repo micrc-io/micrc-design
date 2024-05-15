@@ -39,13 +39,13 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/env/0/value
-        value: ga
+        value: release
     target:
       kind: Deployment
   - patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/env/1/value
-        value: ga
+        value: release
     target:
       kind: Deployment
 `;
