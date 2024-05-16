@@ -13,6 +13,6 @@ NEXT_PUBLIC_LOGIN_PAGE_URI=${data.intro.loginPageUri}
 
 LOGIN_URI=${data.intro.context.gateway.properties.loginUrl}
 SERVER_TOKEN_POINTER=${data.intro.context.gateway.properties.serverTokenPointer}
-GRAY=${data.intro.context.gateway.properties.profile}
+GRAY=${data.intro.context.gateway.properties.gray}
 `;
 }
