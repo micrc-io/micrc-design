@@ -9,7 +9,7 @@ loginUrl: "${data.intro.context.gateway.properties.loginUrl}"
 serverTokenPointer: "${data.intro.context.gateway.properties.serverTokenPointer}"
 gray: "${data.intro.context.gateway.properties.gray}"
 
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: ${data.context.name}-gateway

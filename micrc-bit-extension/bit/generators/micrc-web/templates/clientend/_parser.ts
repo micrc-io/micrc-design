@@ -148,7 +148,7 @@ type ClientendMeta = {
         properties: {
           loginUrl: string;
           serverTokenPointer: string;
-          profile: string;
+          gray: string;
         };
       };
     };
