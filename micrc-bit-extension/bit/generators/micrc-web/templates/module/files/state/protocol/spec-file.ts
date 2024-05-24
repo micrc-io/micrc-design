@@ -135,9 +135,9 @@ const validator = (ajvValidate: ValidateFunction) => (
 };
 
 const recursion = (data) => {
-  if (typeof data === 'object') {
+  if (typeof data === 'object' && data) {
     Object.keys(data).forEach((key) => {
-      if (data[key].type === 'integer' && data[key].format === 'int64') {
+      if (data[key]?.type === 'integer' && data[key].format === 'int64') {
         data[key]['datatype'] = 'bigint';
         delete data[key].type;
         delete data[key].format;

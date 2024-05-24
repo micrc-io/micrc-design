@@ -337,17 +337,6 @@ const generateModule = async (
       ],
       bitBasePath,
     );
-    await execCmd(
-      'bit',
-      [
-        'deps',
-        'set',
-        `${account}.${scope}/${componentPath}`,
-        'json-bigint',
-        '--peer',
-      ],
-      bitBasePath,
-    );
     await execCmd('bit', ['install'], bitBasePath);
   } catch (e) {
     const msg = `component: ${componentPath} of type: modules - runtimes handle error: ${e}`;

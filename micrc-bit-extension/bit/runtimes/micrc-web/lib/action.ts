@@ -157,18 +157,7 @@ const handleValue = (
                 fix,
               );
             }
-          } catch (e) {
-            value[key] = getValueByPointer(
-              defaultValue,
-              globalStore,
-              moduleStore,
-              stateStore,
-              propStore,
-              router,
-              id,
-              fix,
-            );
-          }
+          } catch (e) {}
         }
       }
     }
@@ -216,18 +205,7 @@ const handleValue = (
           id,
           fix,
         );
-      } catch (e) {
-        return getValueByPointer(
-          defaultValue,
-          globalStore,
-          moduleStore,
-          stateStore,
-          propStore,
-          router,
-          id,
-          fix,
-        );
-      }
+      } catch (e) {}
     }
 
     return getValueByPointer(

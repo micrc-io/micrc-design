@@ -19,7 +19,7 @@ const tmpl = `{
   "dependencies": {
     "@mdx-js/loader": "2.1.2",
     "@mdx-js/react": "2.1.2",
-    "@micrc/bit.runtimes.micrc-web": "0.0.82",
+    "@micrc/bit.runtimes.micrc-web": "0.0.83",
     {{#each dependencies}}
     "{{@key}}": "{{this}}",
     {{/each}}
@@ -41,6 +41,7 @@ const tmpl = `{
     "@types/node": "18.0.0",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
+    "babel-plugin-transform-remove-console": "6.9.4",
     "eslint": "7.32.0",
     "eslint-config-next": "12.1.6",
     "eslint-config-prettier": "8.5.0",

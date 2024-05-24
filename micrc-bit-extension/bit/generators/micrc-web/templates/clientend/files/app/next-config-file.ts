@@ -33,6 +33,18 @@ const nextConfig = {
       ...config.resolve.fallback,
       fs: false,
     };
+    if (process.env.NODE_ENV === 'production') {
+      config.module.rules.push({
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: ['transform-remove-console'],
+          },
+        },
+      });
+    }
     return config
   },
 }

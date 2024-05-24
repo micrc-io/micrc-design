@@ -5,7 +5,7 @@
 export function appBabelFile() {
   return `{
   "presets": ["next/babel"],
-  "plugins": []
+  "plugins": ["transform-remove-console"]
 }
 `;
 }
