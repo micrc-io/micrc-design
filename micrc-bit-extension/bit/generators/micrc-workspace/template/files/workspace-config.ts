@@ -113,7 +113,8 @@ export async function workspaceConfig(context: WorkspaceContext) {
         '@typescript-eslint/eslint-plugin': '5.54.0',
         react: '18.2.0',
         'react-dom': '18.2.0',
-        'react-native': '0.71.3'
+        'react-native': '0.71.3',
+        'json-bigint': '1.0.0'
       },
     },
     packageManagerArgs: [],
