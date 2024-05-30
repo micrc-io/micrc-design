@@ -1,0 +1,32 @@
+{
+  "name": "micrc-mfc-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "rm -rf .next && NEXT_PRIVATE_LOCAL_WEBPACK=true REMOTES='remote1@http://localhost:4000' next dev",
+    "build": "rm -rf .next && NEXT_PRIVATE_LOCAL_WEBPACK=true REMOTES='remote1@http://localhost:4000' next build",
+    "start": "cp -r ./.next/static ./.next/standalone/.next/static && cp -r ./public ./.next/standalone/public && cp ./bootstrap.js ./.next/standalone/ && NEXT_PRIVATE_LOCAL_WEBPACK=true NODE_ENV=production CPU_NUM=2 REMOTES='remote1@http://localhost:4000' node ./.next/standalone/bootstrap.js",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ant-design/cssinjs": "1.20.0",
+    "antd": "5.17.2",
+    "next": "14.2.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@module-federation/enhanced": "0.1.15",
+    "@module-federation/nextjs-mf": "8.3.14",
+    "@types/node": "20.12.11",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.25",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "8.4.38",
+    "sass": "1.77.2",
+    "tailwindcss": "3.4.1",
+    "typescript": "5.4.5",
+    "webpack": "5.91.0"
+  }
+}

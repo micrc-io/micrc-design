@@ -1,0 +1,6 @@
+{
+  "token": {
+    "colorPrimary": "red"
+  },
+  "algorithm": ["darkAlgorithm", "compactAlgorithm"]
+}
